@@ -1,9 +1,7 @@
 package column
 
-import "go-compose-dev/internal/modifier"
-
 type ColumnOptions struct {
-	Modifier modifier.Modifier
+	Modifier Modifier
 
 	// Spacing controls the distribution of space left after
 	// layout.
@@ -14,7 +12,7 @@ type ColumnOptions struct {
 
 type ColumnOption func(o *ColumnOptions)
 
-func WithModifier(modifier modifier.Modifier) ColumnOption {
+func WithModifier(modifier Modifier) ColumnOption {
 	return func(o *ColumnOptions) {
 		o.Modifier = o.Modifier.Then(modifier)
 	}
