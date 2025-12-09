@@ -12,8 +12,8 @@ func NewLayoutNode(id NodeID, key string, slotStore immap.ImmutableMap[any]) Lay
 	}
 }
 
-func NewNodeCoordinator(node layoutNode) NodeCoordinator {
+func NewNodeCoordinator(node LayoutNode) NodeCoordinator {
 	return &nodeCoordinator{
-		layoutNode: node,
+		LayoutNode: node,
 	}
 }
