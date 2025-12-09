@@ -1,0 +1,27 @@
+package zipper
+
+import (
+	node "go-compose-dev/internal/Node"
+	"go-compose-dev/internal/layoutnode"
+	"go-compose-dev/internal/modifier"
+	"go-compose-dev/internal/state"
+	idApi "go-compose-dev/pkg/compose-identifier/api"
+	idModels "go-compose-dev/pkg/compose-identifier/models"
+)
+
+type LayoutNode = layoutnode.LayoutNode
+type Memo = state.Memo
+type PersistentState = state.PersistentState
+
+type TreeBuilderComposer = layoutnode.TreeBuilderComposer
+
+var EmptyMemo = state.EmptyMemo
+
+type IdentityManager = *idModels.IdentityManager
+
+// compose-identifier.api.Identifier
+type Identifier = idApi.Identifier // Public API of the composer
+type NodePath = node.NodePath
+type Modifier = modifier.Modifier
+type MutableValue = state.MutableValue
+type RootNode = node.TreeNode
