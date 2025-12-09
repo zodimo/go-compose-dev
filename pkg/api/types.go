@@ -12,6 +12,7 @@ import (
 type Identifier = idApi.Identifier
 
 // type Composition = func(Composable) Composable
+type Composable func(Composer) Composer
 
 type MutableValue = state.MutableValue
 
@@ -31,6 +32,8 @@ type Composer interface {
 	layoutnode.TreeBuilderComposer
 
 	state.StatefulComposer
+
+	WithComposable(composable Composable) Composer
 }
 
 // Public Modifier interface
@@ -39,4 +42,4 @@ type Modifier interface {
 	Then(other Modifier) Modifier
 }
 
-type RootNode interface{}
+type LayoutNode = layoutnode.LayoutNode

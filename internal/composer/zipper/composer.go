@@ -1,9 +1,5 @@
 package zipper
 
-import (
-	"go-compose-dev/pkg/api"
-)
-
 // // Tree Builder -> Node operations
 // type Composer interface {
 // 	//Tree Builder operations
@@ -26,9 +22,6 @@ import (
 // 	state.StatefulComposer
 // }
 
-type Composable func(Composer) Composer
-
 type Composer interface {
-	api.Composer
-	WithComposable(composable Composable) Composer
+	ApiComposer
 }

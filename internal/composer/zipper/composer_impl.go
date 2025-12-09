@@ -46,7 +46,7 @@ func (c *composer) EndBlock() TreeBuilderComposer {
 
 // Root climbs the zipper to the top and returns the finished tree.
 // This must be called after all groups are closed.
-func (c *composer) Build() RootNode {
+func (c *composer) Build() LayoutNode {
 	for len(c.path) > 0 {
 		c.up()
 	}
@@ -120,6 +120,6 @@ func (c *composer) State(key string, initial func() any) MutableValue {
 	return c.state.GetState(key, initial)
 }
 
-func (c *composer) WithComposable(composable Composable) Composer {
+func (c *composer) WithComposable(composable Composable) ApiComposer {
 	return composable(c)
 }

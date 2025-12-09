@@ -5,6 +5,7 @@ import (
 	"go-compose-dev/internal/layoutnode"
 	"go-compose-dev/internal/modifier"
 	"go-compose-dev/internal/state"
+	"go-compose-dev/pkg/api"
 	idApi "go-compose-dev/pkg/compose-identifier/api"
 	idModels "go-compose-dev/pkg/compose-identifier/models"
 )
@@ -25,3 +26,6 @@ type NodePath = node.NodePath
 type Modifier = modifier.Modifier
 type MutableValue = state.MutableValue
 type RootNode = node.TreeNode
+
+type Composable = api.Composable
+type ApiComposer = api.Composer
