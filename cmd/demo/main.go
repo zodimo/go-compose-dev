@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-compose-dev/compose"
+	"go-compose-dev/compose/runtime"
 	"go-compose-dev/internal/state"
 	"go-compose-dev/internal/store"
 	"log"
@@ -34,6 +35,7 @@ func Run(window *app.Window) error {
 	var ops op.Ops
 
 	store := store.NewPersistentState(map[string]state.MutableValue{})
+	runtime := runtime.NewRuntime()
 
 	for {
 		switch frameEvent := window.Event().(type) {
@@ -43,7 +45,9 @@ func Run(window *app.Window) error {
 			gtx := app.NewContext(&ops, frameEvent)
 
 			// Do the stuff here
-			_ = compose.NewComposer(store)
+			composer := compose.NewComposer(store)
+			layout := UI(composer)
+			runtime.Run(gtx, layout)
 
 			frameEvent.Frame(gtx.Ops)
 
