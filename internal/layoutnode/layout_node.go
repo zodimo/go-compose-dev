@@ -15,7 +15,7 @@ type LayoutNode interface {
 	IsEmpty() bool
 }
 
-type NodeOrchestrator interface {
+type NodeCoordinator interface {
 	LayoutNode
 	LayoutModifier(attach func(gtx LayoutContext, widget LayoutWidget) LayoutDimensions)
 	DrawModifier(attach func(gtx LayoutContext) DrawOp)
