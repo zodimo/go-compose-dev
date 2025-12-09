@@ -22,7 +22,7 @@ type composer struct {
 }
 
 // Tree Builder operations
-func (c *composer) StartBlock(key string) TreeBuilderComposer {
+func (c *composer) StartBlock(key string) Composer {
 
 	newNode := layoutnode.NewLayoutNode(c.GenerateID(), key, EmptyMemo)
 
@@ -40,7 +40,7 @@ func (c *composer) StartBlock(key string) TreeBuilderComposer {
 	return c
 
 }
-func (c *composer) EndBlock() TreeBuilderComposer {
+func (c *composer) EndBlock() Composer {
 	return c.up()
 }
 
@@ -120,6 +120,6 @@ func (c *composer) State(key string, initial func() any) MutableValue {
 	return c.state.GetState(key, initial)
 }
 
-func (c *composer) WithComposable(composable Composable) ApiComposer {
+func (c *composer) WithComposable(composable Composable) Composer {
 	return composable(c)
 }

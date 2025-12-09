@@ -4,7 +4,7 @@ import (
 	idModels "go-compose-dev/pkg/compose-identifier/models"
 )
 
-func NewComposer(state PersistentState) ApiComposer {
+func NewComposer(state PersistentState) Composer {
 
 	idManager := idModels.GeOrCreateIdentityManager("composer")
 	idManager.ResetKeyCounter()

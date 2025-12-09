@@ -14,8 +14,6 @@ type LayoutNode = layoutnode.LayoutNode
 type Memo = state.Memo
 type PersistentState = state.PersistentState
 
-type TreeBuilderComposer = layoutnode.TreeBuilderComposer
-
 var EmptyMemo = state.EmptyMemo
 
 type IdentityManager = *idModels.IdentityManager
@@ -28,4 +26,4 @@ type MutableValue = state.MutableValue
 type RootNode = node.TreeNode
 
 type Composable = api.Composable
-type ApiComposer = api.Composer
+type Composer = api.Composer

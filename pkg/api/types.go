@@ -29,7 +29,7 @@ type Composer interface {
 	// -- id management
 	GenerateID() Identifier
 
-	layoutnode.TreeBuilderComposer
+	TreeBuilderComposer
 
 	state.StatefulComposer
 
@@ -43,3 +43,9 @@ type Modifier interface {
 }
 
 type LayoutNode = layoutnode.LayoutNode
+
+type TreeBuilderComposer interface {
+	StartBlock(id string) Composer
+	EndBlock() Composer
+	Build() LayoutNode
+}
