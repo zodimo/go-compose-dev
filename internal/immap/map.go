@@ -5,6 +5,10 @@ type ImmutableMap[T any] map[string]T
 // EmptyImmutableMap is the canonical empty map.
 var EmptyImmutableMapAny = ImmutableMap[any]{}
 
+func EmptyImmutableMap[T any]() ImmutableMap[T] {
+	return ImmutableMap[T]{}
+}
+
 // Assoc returns a new map with (k,v) added. The receiver is unchanged.
 func (m ImmutableMap[T]) Assoc(k string, v T) ImmutableMap[T] {
 	out := make(ImmutableMap[T], len(m)+1)
