@@ -1,54 +1,22 @@
-package modifiers
+package padding
 
 import (
 	node "go-compose-dev/internal/Node"
 	"go-compose-dev/internal/layoutnode"
 
-	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/unit"
 )
 
-const PaddingNotSet = -1
-
-const RTL = system.RTL
-
-type Padding struct {
-	Start    int
-	Top      int
-	End      int
-	Bottom   int
-	RtlAware bool // future proofing for RTL support
-}
-
-func DefaultPadding() Padding {
-	return Padding{
-		Start:    PaddingNotSet,
-		Top:      PaddingNotSet,
-		End:      PaddingNotSet,
-		Bottom:   PaddingNotSet,
-		RtlAware: false,
-	}
-}
-
-func ComparePadding(a, b Padding) bool {
+func ComparePadding(a, b PaddingData) bool {
 	return a.Start == b.Start && a.Top == b.Top && a.End == b.End && a.Bottom == b.Bottom && a.RtlAware == b.RtlAware
-}
-
-var _ ChainNode = (*PaddingNode)(nil)
-
-// NodeKind should also implement the interface of the LayoutNode for that phase
-
-type PaddingNode struct {
-	ChainNode
-	padding Padding
 }
 
 var _ Element = (*paddingElement)(nil)
 
 // Hold the behavior
 type paddingElement struct {
-	padding Padding
+	padding PaddingData
 }
 
 // Create creates a new Chain Node instance
@@ -65,7 +33,7 @@ func (pe paddingElement) Create() Node {
 
 				no := n.(layoutnode.LayoutModifierNode)
 				// we can now work with the layoutNode
-				no.AttachLayoutModifier(func(gtx layoutnode.LayoutContext, widget layoutnode.LayoutWidget) layoutnode.LayoutDimensions {
+				no.AttachLayoutModifier(func(gtx layoutnode.LayoutContext, widget layoutnode.LayoutWidget) layoutnode.LayoutWidget {
 
 					// Default is LTR
 					left := unit.Dp(pe.padding.Start)
@@ -79,12 +47,14 @@ func (pe paddingElement) Create() Node {
 						}
 					}
 
-					return layout.Inset{
-						Top:    unit.Dp(pe.padding.Top),
-						Bottom: unit.Dp(pe.padding.Bottom),
-						Left:   left,
-						Right:  right,
-					}.Layout(gtx, widget)
+					return layoutnode.NewLayoutWidget(func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
+						return layout.Inset{
+							Top:    unit.Dp(pe.padding.Top),
+							Bottom: unit.Dp(pe.padding.Bottom),
+							Left:   left,
+							Right:  right,
+						}.Layout(gtx, widget.Layout)
+					})
 				})
 
 			},
@@ -102,16 +72,16 @@ func (pe paddingElement) Update(node Node) {
 
 	pn := node.(PaddingNode)
 
-	if pe.padding.Start != PaddingNotSet {
+	if pe.padding.Start != NotSet {
 		pn.padding.Start = pe.padding.Start
 	}
-	if pe.padding.Top != PaddingNotSet {
+	if pe.padding.Top != NotSet {
 		pn.padding.Top = pe.padding.Top
 	}
-	if pe.padding.End != PaddingNotSet {
+	if pe.padding.End != NotSet {
 		pn.padding.End = pe.padding.End
 	}
-	if pe.padding.Bottom != PaddingNotSet {
+	if pe.padding.Bottom != NotSet {
 		pn.padding.Bottom = pe.padding.Bottom
 	}
 	pn.padding.RtlAware = pe.padding.RtlAware
@@ -125,4 +95,8 @@ func (pe paddingElement) Equals(other Element) bool {
 		return ComparePadding(pe.padding, otherElement.padding)
 	}
 	return false
+}
+
+func (pe paddingElement) Padding() PaddingData {
+	return pe.padding
 }

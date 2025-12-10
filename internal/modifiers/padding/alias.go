@@ -1,7 +1,8 @@
-package modifiers
+package padding
 
 import (
 	node "go-compose-dev/internal/Node"
+	"go-compose-dev/internal/layoutnode"
 	"go-compose-dev/internal/modifier"
 )
 
@@ -15,3 +16,11 @@ type TreeNode = node.TreeNode
 type ChainNode = node.ChainNode
 
 var EmptyModifier = modifier.EmptyModifier
+
+type DrawModifierNode = layoutnode.DrawModifierNode
+type LayoutModifierNode = layoutnode.LayoutModifierNode
+type PointerModifierNode = layoutnode.PointerModifierNode
+
+type LayoutContext = layoutnode.LayoutContext
+type LayoutWidget = layoutnode.LayoutWidget
+type DrawWidget = layoutnode.DrawWidget

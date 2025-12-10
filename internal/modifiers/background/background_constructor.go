@@ -1,4 +1,4 @@
-package modifiers
+package background
 
 import (
 	"go-compose-dev/compose/ui/graphics"
@@ -26,10 +26,10 @@ func Background(color color.Color, options ...BackgroundOption) Modifier {
 	}
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
-			&backgroundElement{
-				background: background{
-					color: color,
-					shape: opt.Shape,
+			&BackgroundElement{
+				background: BackgroundData{
+					Color: color,
+					Shape: opt.Shape,
 				},
 			},
 		),
