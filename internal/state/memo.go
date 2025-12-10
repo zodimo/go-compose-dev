@@ -4,7 +4,10 @@ import (
 	"go-compose-dev/internal/immap"
 )
 
-// Immutable MAP, not related to the Slots in tree/map.go
-var EmptyMemo = immap.EmptyImmutableMapAny
-
 type Memo = immap.ImmutableMap[any]
+
+type MemoTyped[T any] = immap.ImmutableMap[T]
+
+func EmptyMemo[T any]() MemoTyped[T] {
+	return immap.EmptyImmutableMap[T]()
+}
