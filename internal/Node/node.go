@@ -23,6 +23,45 @@ const (
 	NodeKindCompositionLocalConsumer
 )
 
+func (nk NodeKind) String() string {
+	switch nk {
+	case NodeKindAny:
+		return "NodeKindAny"
+	case NodeKindLayout:
+		return "NodeKindLayout"
+	case NodeKindDraw:
+		return "NodeKindDraw"
+	case NodeKindSemantics:
+		return "NodeKindSemantics"
+	case NodeKindPointerInput:
+		return "NodeKindPointerInput"
+	case NodeKindLocals:
+		return "NodeKindLocals"
+	case NodeKindParentData:
+		return "NodeKindParentData"
+	case NodeKindLayoutAware:
+		return "NodeKindLayoutAware"
+	case NodeKindGlobalPositionAware:
+		return "NodeKindGlobalPositionAware"
+	case NodeKindIntermediateMeasure:
+		return "NodeKindIntermediateMeasure"
+	case NodeKindFocusTarget:
+		return "NodeKindFocusTarget"
+	case NodeKindFocusProperties:
+		return "NodeKindFocusProperties"
+	case NodeKindFocusEvent:
+		return "NodeKindFocusEvent"
+	case NodeKindKeyInput:
+		return "NodeKindKeyInput"
+	case NodeKindRotaryInput:
+		return "NodeKindRotaryInput"
+	case NodeKindCompositionLocalConsumer:
+		return "NodeKindCompositionLocalConsumer"
+	default:
+		return "Unknown NodeKind"
+	}
+}
+
 // Bitset of phases a node cares about.
 type Phases uint8
 
