@@ -1,5 +1,7 @@
 package layoutnode
 
+import "github.com/zodimo/go-maybe"
+
 // The base Node for the Tree
 
 type LayoutNodeWidgetConstructor interface {
@@ -19,9 +21,14 @@ type LayoutNode interface {
 
 	GetWidget() GioLayoutWidget
 
+	GetDrawWidget() DrawWidget
+
 	SetWidgetConstructor(constructor LayoutNodeWidgetConstructor)
 
 	IsEmpty() bool
+
+	SetLayoutResult(LayoutResult)
+	GetLayoutResult() maybe.Maybe[LayoutResult]
 }
 
 type LayoutModifierNode interface {
@@ -31,7 +38,7 @@ type LayoutModifierNode interface {
 
 type DrawModifierNode interface {
 	LayoutNode
-	AttachDrawModifier(attach func(gtx LayoutContext, widget LayoutWidget) LayoutWidget)
+	AttachDrawModifier(attach func() DrawWidget)
 }
 
 type PointerModifierNode interface {
@@ -48,7 +55,7 @@ type NodeCoordinator interface {
 
 	LayoutPhase(gtx LayoutContext)
 	PointerPhase(gtx LayoutContext)
-	DrawPhase(gtx LayoutContext)
+	DrawPhase(gtx LayoutContext) DrawOp
 
 	LayoutSelf(gtx LayoutContext) LayoutDimensions
 

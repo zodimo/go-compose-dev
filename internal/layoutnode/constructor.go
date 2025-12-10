@@ -2,16 +2,19 @@ package layoutnode
 
 import (
 	"go-compose-dev/internal/immap"
+
+	"github.com/zodimo/go-maybe"
 )
 
 func NewLayoutNode(id NodeID, key string, slotStore immap.ImmutableMap[Element]) LayoutNode {
 	return &layoutNode{
-		id:          id,
-		key:         key,
-		children:    []LayoutNode{},
-		modifier:    EmptyModifier,
-		slots:       slotStore,
-		innerWidget: IdentityGioLayoutWidget,
+		id:           id,
+		key:          key,
+		children:     []LayoutNode{},
+		modifier:     EmptyModifier,
+		slots:        slotStore,
+		innerWidget:  IdentityGioLayoutWidget,
+		layoutResult: maybe.None[LayoutResult](),
 	}
 }
 
@@ -21,7 +24,7 @@ func NewNodeCoordinator(node LayoutNode) NodeCoordinator {
 		LayoutNode:       node,
 		layoutCallChain:  NewLayoutWidget(node.GetWidget()),
 		pointerCallChain: NewLayoutWidget(node.GetWidget()),
-		drawCallChain:    NewLayoutWidget(node.GetWidget()),
+		drawCallChain:    node.GetDrawWidget(),
 		elementStore:     EmptyElementStore,
 	}
 }
@@ -39,11 +42,11 @@ func NewLayoutWidget(innerWidget GioLayoutWidget) LayoutWidget {
 	}
 }
 
-// func NewDrawWidget(innerWidget LayoutContextReceiver) DrawWidget {
-// 	return drawWidget{
-// 		innerWidget: innerWidget,
-// 	}
-// }
+func NewDrawWidget(drawFunc DrawFunc) DrawWidget {
+	return drawWidget{
+		drawFunc: drawFunc,
+	}
+}
 
 // func NewPointerWidget(innerWidget LayoutContextReceiver) PointerWidget {
 // 	return pointerWidget{

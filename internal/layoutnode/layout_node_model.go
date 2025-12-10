@@ -2,6 +2,8 @@ package layoutnode
 
 import (
 	"go-compose-dev/internal/immap"
+
+	"github.com/zodimo/go-maybe"
 )
 
 var _ LayoutNode = (*layoutNode)(nil)
@@ -14,6 +16,7 @@ type layoutNode struct {
 	modifier               Modifier
 	innerWidget            GioLayoutWidget
 	innerWidgetConstructor LayoutNodeWidgetConstructor
+	layoutResult           maybe.Maybe[LayoutResult]
 }
 
 // Node
@@ -66,6 +69,21 @@ func (n *layoutNode) GetWidget() GioLayoutWidget {
 
 func (n *layoutNode) SetWidgetConstructor(constructor LayoutNodeWidgetConstructor) {
 	n.innerWidgetConstructor = constructor
+}
+
+func (n *layoutNode) SetLayoutResult(result LayoutResult) {
+	n.layoutResult = maybe.Some(result)
+
+}
+func (n *layoutNode) GetLayoutResult() maybe.Maybe[LayoutResult] {
+	return n.layoutResult
+}
+
+func (n *layoutNode) GetDrawWidget() DrawWidget {
+	return NewDrawWidget(func(gtx LayoutContext, node LayoutNode) DrawOp {
+		layoutResult := node.GetLayoutResult().UnwrapUnsafe()
+		return layoutResult.DrawOp
+	})
 }
 
 //////////////////
