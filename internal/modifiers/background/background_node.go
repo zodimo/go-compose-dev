@@ -5,6 +5,7 @@ import (
 	"go-compose-dev/internal/layoutnode"
 
 	"gioui.org/layout"
+	"gioui.org/op"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 )
@@ -28,26 +29,31 @@ func NewBackGroundNode(background BackgroundData) ChainNode {
 
 				no := n.(layoutnode.DrawModifierNode)
 				// we can now work with the layoutNode
-				no.AttachDrawModifier(func(gtx layoutnode.LayoutContext, widget layoutnode.LayoutWidget) layoutnode.LayoutWidget {
-					return layoutnode.NewLayoutWidget(
-						func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-							return layout.Background{}.Layout(gtx,
-								func(gtx layout.Context) layout.Dimensions {
-									// shape
-									// color
-									defer clip.Rect{Max: gtx.Constraints.Min}.Push(gtx.Ops).Pop()
+				no.AttachDrawModifier(func() layoutnode.DrawWidget {
 
-									paint.Fill(gtx.Ops, ToNRGBA(background.Color))
+					return layoutnode.NewDrawWidget(func(gtx layoutnode.LayoutContext, node layoutnode.LayoutNode) layoutnode.DrawOp {
+						macro := op.Record(gtx.Ops)
+						layoutResult := node.GetLayoutResult().UnwrapUnsafe()
 
-									return layout.Dimensions{Size: gtx.Constraints.Min}
+						layout.Background{}.Layout(gtx,
+							func(gtx layout.Context) layout.Dimensions {
+								// shape
+								// color
+								defer clip.Rect{Max: gtx.Constraints.Min}.Push(gtx.Ops).Pop()
 
-								},
-								func(gtx layout.Context) layout.Dimensions {
-									return widget.Layout(gtx)
-								},
-							)
-						},
-					)
+								paint.Fill(gtx.Ops, ToNRGBA(background.Color))
+
+								return layout.Dimensions{Size: gtx.Constraints.Min}
+
+							},
+							func(gtx layout.Context) layout.Dimensions {
+								layoutResult.DrawOp.Add(gtx.Ops)
+								return layoutResult.Dimensions
+							},
+						)
+
+						return macro.Stop()
+					})
 				})
 
 			},

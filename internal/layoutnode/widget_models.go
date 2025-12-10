@@ -27,21 +27,20 @@ func (lw layoutWidget) Map(mapFun func(LayoutWidget) LayoutWidget) LayoutWidget 
 	return mapFun(lw)
 }
 
+type DrawFunc = func(gtx LayoutContext, node LayoutNode) DrawOp
 type DrawWidget interface {
 	Map(mapFun func(DrawWidget) DrawWidget) DrawWidget
-	Draw(gtx LayoutContext) op.CallOp
+	Draw(gtx LayoutContext, node LayoutNode) DrawOp
 }
 
 var _ DrawWidget = (*drawWidget)(nil)
 
 type drawWidget struct {
-	innerWidget GioLayoutWidget
+	drawFunc DrawFunc
 }
 
-func (dw drawWidget) Draw(gtx LayoutContext) op.CallOp {
-	macro := op.Record(gtx.Ops)
-	dw.innerWidget(gtx)
-	return macro.Stop()
+func (dw drawWidget) Draw(gtx LayoutContext, node LayoutNode) DrawOp {
+	return dw.drawFunc(gtx, node)
 }
 
 // This is how the Modifier chain is applied
