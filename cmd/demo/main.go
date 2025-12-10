@@ -44,11 +44,11 @@ func Run(window *app.Window) error {
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, frameEvent)
 
-			// Do the stuff here
 			composer := compose.NewComposer(store)
-			layout := UI(composer)
-			runtime.Run(gtx, layout)
+			layoutNode := UI(composer)
 
+			callOp := runtime.Run(gtx, layoutNode)
+			callOp.Add(gtx.Ops)
 			frameEvent.Frame(gtx.Ops)
 
 		}
