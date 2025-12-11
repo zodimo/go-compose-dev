@@ -1,0 +1,63 @@
+package border
+
+import (
+	"go-compose-dev/compose/ui/graphics/shape"
+	"go-compose-dev/internal/modifier"
+)
+
+type BorderData struct {
+	Width Dp
+	Shape Shape
+	Color Color
+}
+
+type BorderElement struct {
+	borderData BorderData
+}
+
+func (e *BorderElement) Create() Node {
+	return NewBorderNode(*e)
+}
+
+func (e *BorderElement) Update(node Node) {
+	n := node.(*BorderNode)
+	n.borderData = e.borderData
+}
+
+func (e *BorderElement) Equals(other Element) bool {
+	if otherEle, ok := other.(*BorderElement); ok {
+		return e.borderData.Width == otherEle.borderData.Width &&
+			e.borderData.Shape == otherEle.borderData.Shape &&
+			e.borderData.Color == otherEle.borderData.Color
+	}
+	return false
+}
+
+func Border(width Dp, color Color, shape Shape) Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			&BorderElement{
+				borderData: BorderData{
+					Width: width,
+					Shape: shape,
+					Color: color,
+				},
+			},
+		),
+		modifier.NewInspectorInfo(
+			"border",
+			map[string]any{
+				"width": width,
+				"shape": shape,
+				"color": color,
+			},
+		),
+	)
+}
+
+// Border with defaults usually needs width and color at least?
+// For Shape, default to Rectangle if nil? Or caller handles it.
+// Default to Rectangle if nil.
+func Simple(width Dp, color Color) Modifier {
+	return Border(width, color, shape.ShapeRectangle)
+}

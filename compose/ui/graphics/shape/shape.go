@@ -3,6 +3,7 @@ package shape
 import (
 	"image"
 
+	"gioui.org/f32"
 	"gioui.org/op"
 	"gioui.org/op/clip"
 	"gioui.org/unit"
@@ -13,6 +14,7 @@ import (
 type Outline interface {
 	Push(ops *op.Ops) clip.Stack
 	Op(ops *op.Ops) clip.Op
+	Path(ops *op.Ops) clip.PathSpec
 }
 
 type Shape interface {
@@ -38,6 +40,10 @@ func (r rectOutline) Op(ops *op.Ops) clip.Op {
 	return r.Rect.Op()
 }
 
+func (r rectOutline) Path(ops *op.Ops) clip.PathSpec {
+	return r.Rect.Path()
+}
+
 var ShapeRectangle Shape = rectangleShape{}
 
 // CircleShape
@@ -57,6 +63,12 @@ func (e ellipseOutline) Push(ops *op.Ops) clip.Stack {
 
 func (e ellipseOutline) Op(ops *op.Ops) clip.Op {
 	return e.Ellipse.Op(ops)
+}
+
+// Ellipse.Path takes ops argument? No, Ellipse.Path(ops) returns PathSpec.
+// checking docs/source... Ellipse.Path(ops) -> PathSpec.
+func (e ellipseOutline) Path(ops *op.Ops) clip.PathSpec {
+	return e.Ellipse.Path(ops)
 }
 
 var ShapeCircle Shape = circleShape{}
@@ -90,4 +102,60 @@ func (r rrectOutline) Push(ops *op.Ops) clip.Stack {
 
 func (r rrectOutline) Op(ops *op.Ops) clip.Op {
 	return r.RRect.Op(ops)
+}
+
+func (r rrectOutline) Path(ops *op.Ops) clip.PathSpec {
+	return r.RRect.Path(ops)
+}
+
+// CutCornerShape
+type CutCornerShape struct {
+	Radius unit.Dp
+}
+
+func (c CutCornerShape) CreateOutline(size image.Point, metric unit.Metric) Outline {
+	radius := float32(metric.Dp(c.Radius))
+	if radius <= 0 {
+		return rectOutline{clip.Rect{Max: size}}
+	}
+
+	return &cutCornerOutline{
+		size:   size,
+		radius: radius,
+	}
+}
+
+type cutCornerOutline struct {
+	size   image.Point
+	radius float32
+}
+
+func (c *cutCornerOutline) generatePath(ops *op.Ops) clip.PathSpec {
+	w, h := float32(c.size.X), float32(c.size.Y)
+	r := c.radius
+
+	var p clip.Path
+	p.Begin(ops)
+	p.MoveTo(f32.Pt(r, 0))
+	p.LineTo(f32.Pt(w-r, 0))
+	p.LineTo(f32.Pt(w, r))
+	p.LineTo(f32.Pt(w, h-r))
+	p.LineTo(f32.Pt(w-r, h))
+	p.LineTo(f32.Pt(r, h))
+	p.LineTo(f32.Pt(0, h-r))
+	p.LineTo(f32.Pt(0, r))
+	p.Close()
+	return p.End()
+}
+
+func (c *cutCornerOutline) Push(ops *op.Ops) clip.Stack {
+	return clip.Outline{Path: c.generatePath(ops)}.Op().Push(ops)
+}
+
+func (c *cutCornerOutline) Op(ops *op.Ops) clip.Op {
+	return clip.Outline{Path: c.generatePath(ops)}.Op()
+}
+
+func (c *cutCornerOutline) Path(ops *op.Ops) clip.PathSpec {
+	return c.generatePath(ops)
 }

@@ -3,6 +3,7 @@ package surface
 import (
 	"go-compose-dev/compose/foundation/layout/box"
 	"go-compose-dev/internal/modifiers/background"
+	"go-compose-dev/internal/modifiers/border"
 	"go-compose-dev/internal/modifiers/clip"
 	"go-compose-dev/internal/modifiers/shadow"
 )
@@ -25,7 +26,8 @@ func Surface(
 		surfaceModifier := opts.Modifier.
 			Then(shadow.Simple(opts.ShadowElevation, opts.Shape)).
 			Then(clip.Clip(opts.Shape)).
-			Then(background.Background(opts.Color, func(o *background.BackgroundOptions) { o.Shape = opts.Shape }))
+			Then(background.Background(opts.Color, func(o *background.BackgroundOptions) { o.Shape = opts.Shape })).
+			Then(border.Border(opts.BorderWidth, opts.BorderColor, opts.Shape))
 
 		// Use Box to hold content and apply modifiers
 		return box.Box(content, box.WithModifier(surfaceModifier))(c)

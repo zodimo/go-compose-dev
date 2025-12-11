@@ -13,7 +13,8 @@ type SurfaceOptions struct {
 	ContentColor    color.Color
 	TonalElevation  Dp
 	ShadowElevation Dp
-	Border          Dp
+	BorderWidth     Dp
+	BorderColor     color.Color
 }
 
 type SurfaceOption func(*SurfaceOptions)
@@ -26,7 +27,8 @@ func DefaultSurfaceOptions() SurfaceOptions {
 		ContentColor:    color.NRGBA{A: 255},                         // Black?
 		TonalElevation:  0,
 		ShadowElevation: 0,
-		Border:          0,
+		BorderWidth:     0,
+		BorderColor:     color.NRGBA{A: 0},
 	}
 }
 
@@ -66,8 +68,9 @@ func WithShadowElevation(elevation Dp) SurfaceOption {
 	}
 }
 
-func WithBorder(border Dp) SurfaceOption {
+func WithBorder(width Dp, color color.Color) SurfaceOption {
 	return func(o *SurfaceOptions) {
-		o.Border = border
+		o.BorderWidth = width
+		o.BorderColor = color
 	}
 }
