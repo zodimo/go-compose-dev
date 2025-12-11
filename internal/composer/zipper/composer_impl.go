@@ -24,7 +24,7 @@ type composer struct {
 // Tree Builder operations
 func (c *composer) StartBlock(key string) Composer {
 
-	newNode := layoutnode.NewLayoutNode(c.GenerateID(), key, EmptyElementMemo)
+	newNode := layoutnode.NewLayoutNode(c.GenerateID(), key, EmptyMemo, EmptyMemo, c.state)
 
 	if c.focus == nil {
 		c.focus = newNode
@@ -80,7 +80,7 @@ func (c *composer) up() Composer {
 }
 
 func (c *composer) GenerateID() Identifier {
-	return c.idManager.GenerateKey()
+	return c.idManager.GenerateID()
 }
 func (c *composer) GetID() Identifier {
 	return c.focus.GetID()

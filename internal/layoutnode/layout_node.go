@@ -1,6 +1,8 @@
 package layoutnode
 
-import "github.com/zodimo/go-maybe"
+import (
+	"github.com/zodimo/go-maybe"
+)
 
 // The base Node for the Tree
 
@@ -17,7 +19,10 @@ type LayoutNode interface {
 	Modifier(func(modifier Modifier) Modifier)
 	UnwrapModifier() Modifier
 
-	WithSlotsAssoc(k string, v Element) LayoutNode // this can be better
+	WithSlotsAssoc(k string, v any) LayoutNode // this can be better
+
+	GenerateID() Identifier
+	SupportState
 
 	GetWidget() GioLayoutWidget
 

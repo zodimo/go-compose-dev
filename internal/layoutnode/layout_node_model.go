@@ -1,8 +1,6 @@
 package layoutnode
 
 import (
-	"go-compose-dev/internal/immap"
-
 	"github.com/zodimo/go-maybe"
 )
 
@@ -11,11 +9,14 @@ var _ LayoutNode = (*layoutNode)(nil)
 type layoutNode struct {
 	id                     NodeID
 	key                    string
-	slots                  immap.ImmutableMap[Element] // carry the elements
+	slots                  Slots
+	memo                   Memo
+	state                  PersistentState
 	children               []LayoutNode
 	modifier               Modifier
 	innerWidgetConstructor LayoutNodeWidgetConstructor
 	layoutResult           maybe.Maybe[LayoutResult]
+	idManager              IdentityManager
 }
 
 // Node
@@ -54,9 +55,30 @@ func (ln *layoutNode) WithChildren(children []LayoutNode) LayoutNode {
 	return ln
 }
 
-func (n *layoutNode) WithSlotsAssoc(k string, v Element) LayoutNode {
+func (n *layoutNode) WithSlotsAssoc(k string, v any) LayoutNode {
 	n.slots = n.slots.Assoc(k, v)
 	return n
+}
+
+func (c *layoutNode) GenerateID() Identifier {
+	return c.idManager.GenerateID()
+}
+
+// Remember caches a value for the current composition run.
+// The cache lives in Composer.memo and is discarded on recompose.
+func (c *layoutNode) Remember(key string, calc func() any) any {
+	if v, ok := c.memo.Find(key); ok {
+		return v
+	}
+	v := calc()
+	c.memo = c.memo.Assoc(key, v)
+	return v
+}
+
+// State creates a MutableValue from the persistent state.
+// In a real runtime this would be a Snapshot with observers.
+func (c *layoutNode) State(key string, initial func() any) MutableValue {
+	return c.state.GetState(key, initial)
 }
 
 func (n *layoutNode) GetWidget() GioLayoutWidget {

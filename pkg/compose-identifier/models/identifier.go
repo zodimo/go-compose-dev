@@ -33,7 +33,7 @@ type IdentityManager struct {
 	scope string
 }
 
-func GeOrCreateIdentityManager(scope string) *IdentityManager {
+func GetOrCreateIdentityManager(scope string) *IdentityManager {
 	return &IdentityManager{
 		scope: scope,
 	}

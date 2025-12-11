@@ -5,7 +5,7 @@ import (
 	"go-compose-dev/internal/state"
 )
 
-func Remember[T any](c state.StatefulComposer, key string, calc func() T) (T, error) {
+func Remember[T any](c state.SupportState, key string, calc func() T) (T, error) {
 	anyCalc := func() any { return calc() }
 	anyValue := c.Remember(key, anyCalc)
 
@@ -17,7 +17,7 @@ func Remember[T any](c state.StatefulComposer, key string, calc func() T) (T, er
 	return tValue, nil
 }
 
-func State[T any](c state.StatefulComposer, key string, initial func() T) (TypedMutableValueInterface[T], error) {
+func State[T any](c state.SupportState, key string, initial func() T) (TypedMutableValueInterface[T], error) {
 	mv := c.State(key, func() any { return initial() })
 	anyMv, ok := mv.(*MutableValue)
 	if !ok {

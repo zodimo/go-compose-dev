@@ -32,7 +32,7 @@ type Composer interface {
 	TreeBuilderComposer
 	GioLayoutNodeAwareComposer
 
-	state.StatefulComposer
+	state.SupportState
 
 	WithComposable(composable Composable) Composer
 }
