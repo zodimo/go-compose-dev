@@ -6,11 +6,11 @@ type NodePath struct {
 	ids []NodeID
 }
 
-func (np *NodePath) Unwrap() []NodeID {
+func (np NodePath) Unwrap() []NodeID {
 	return np.ids
 }
 
-func (np *NodePath) String() string {
+func (np NodePath) String() string {
 	var stringIDs = []string{}
 	for _, NodeID := range np.ids {
 		stringIDs = append(stringIDs, NodeID.String())

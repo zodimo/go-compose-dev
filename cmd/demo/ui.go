@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"go-compose-dev/compose"
 	"go-compose-dev/compose/foundation/layout/column"
 	"go-compose-dev/compose/foundation/layout/row"
+	"go-compose-dev/compose/foundation/material/button"
 	"go-compose-dev/compose/foundation/text"
 	"go-compose-dev/internal/modifiers/background"
 	"go-compose-dev/internal/modifiers/padding"
@@ -50,6 +52,9 @@ func UI(c api.Composer) api.LayoutNode {
 				text.WithModifier(padding.PaddingAll(20)),
 				text.WithModifier(background.Background(color.NRGBA{R: 200, G: 0, B: 50, A: 50})),
 			),
+			button.Button(func() {
+				fmt.Println("Button clicked!")
+			}, "click me"),
 		),
 		column.WithModifier(size.FillMax()),
 		column.WithModifier(background.Background(color.NRGBA{R: 200, G: 0, B: 0, A: 50})),
