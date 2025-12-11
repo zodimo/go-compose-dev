@@ -45,6 +45,14 @@ func Padding(start, top, end, bottom int, options ...PaddingOption) Modifier {
 	)
 }
 
-func PaddingAll(value int, options ...PaddingOption) Modifier {
+func All(value int, options ...PaddingOption) Modifier {
 	return Padding(value, value, value, value, options...)
+}
+
+func Horizontal(start, end int, options ...PaddingOption) Modifier {
+	return Padding(start, NotSet, end, NotSet, options...)
+}
+
+func Vertical(top, bottom int, options ...PaddingOption) Modifier {
+	return Padding(NotSet, top, NotSet, bottom, options...)
 }
