@@ -1,7 +1,6 @@
 package clip
 
 import (
-	"fmt"
 	node "go-compose-dev/internal/Node"
 	"go-compose-dev/internal/layoutnode"
 
@@ -58,13 +57,5 @@ func NewClipNode(element ClipElement) ChainNode {
 }
 
 func ClipShape(shape Shape, gtx layout.Context, dimensions layoutnode.LayoutDimensions) clip.Stack {
-	switch shape {
-	case ShapeCircle:
-		return clip.Ellipse{Max: dimensions.Size}.Push(gtx.Ops)
-
-	case ShapeRectangle:
-		return clip.Rect{Max: dimensions.Size}.Push(gtx.Ops)
-	default:
-		panic(fmt.Sprintf("clip unsupported shape: %s", shape))
-	}
+	return shape.CreateOutline(dimensions.Size, gtx.Metric).Push(gtx.Ops)
 }

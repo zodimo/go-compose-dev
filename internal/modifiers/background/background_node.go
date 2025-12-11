@@ -5,7 +5,6 @@ import (
 	"go-compose-dev/internal/layoutnode"
 
 	"gioui.org/layout"
-	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 )
 
@@ -35,7 +34,7 @@ func NewBackGroundNode(background BackgroundData) ChainNode {
 							func(gtx layout.Context) layout.Dimensions {
 								// shape
 								// color
-								defer clip.Rect{Max: gtx.Constraints.Min}.Push(gtx.Ops).Pop()
+								defer background.Shape.CreateOutline(gtx.Constraints.Min, gtx.Metric).Push(gtx.Ops).Pop()
 
 								paint.Fill(gtx.Ops, ToNRGBA(background.Color))
 

@@ -34,6 +34,7 @@ Comparison of official Material 3 components with their implementation status in
 | **Sliders** |  `widget/slider` | 🔴 Todo | |
 | **Snackbars** |  `widget/snackbar` | 🔴 Todo | |
 | **Switch** | 🟢 `widget/toggle` | 🟢 Implemented | |
+| **Surface** | 🟢 `exp` | 🟢 Implemented | Core primitive |
 | **Tabs** |  `widget/tab` | 🔴 Todo | |
 | **Text fields** | 🟢 `widget/input` | 🟢 Implemented | |
 | **Time pickers** | 🔴 Missing | 🔴 Todo | |
