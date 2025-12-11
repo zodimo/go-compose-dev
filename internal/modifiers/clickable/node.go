@@ -28,6 +28,7 @@ func NewClickableNode(element ClickableElement) ChainNode {
 					lno := n.(layoutnode.LayoutNode)
 					key := lno.GenerateID()
 
+					// fmt.Printf("Clickable Key : %s", key)
 					// path := lno.GetPath()
 
 					clickablePath := fmt.Sprintf("%d/clickable", key)
@@ -39,22 +40,12 @@ func NewClickableNode(element ClickableElement) ChainNode {
 				no := n.(layoutnode.PointerInputModifierNode)
 				// we can now work with the layoutNode
 				no.AttachPointerInputModifier(func(widget LayoutWidget) layoutnode.LayoutWidget {
-
 					return layoutnode.NewLayoutWidget(func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 						clickable := element.clickableData.Clickable
 						onClick := element.clickableData.OnClick
 						if clickable.Clicked(gtx) {
 							onClick()
 						}
-						return layoutnode.LayoutDimensions{}
-					})
-				})
-
-				dno := n.(layoutnode.DrawModifierNode)
-
-				dno.AttachDrawModifier(func(widget LayoutWidget) layoutnode.LayoutWidget {
-					return layoutnode.NewLayoutWidget(func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-						clickable := element.clickableData.Clickable
 						return material.Clickable(gtx, clickable, widget.Layout)
 					})
 				})

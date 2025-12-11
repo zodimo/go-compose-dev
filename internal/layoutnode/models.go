@@ -79,7 +79,7 @@ func (nc *nodeCoordinator) AttachDrawModifier(attach func(widget LayoutWidget) L
 
 }
 func (nc *nodeCoordinator) AttachPointerInputModifier(attach func(widget LayoutWidget) LayoutWidget) {
-	nc.pointerCallChain = nc.pointerCallChain.Map(func(in LayoutWidget) LayoutWidget {
+	nc.layoutCallChain = nc.layoutCallChain.Map(func(in LayoutWidget) LayoutWidget {
 		return NewLayoutWidget(func(gtx LayoutContext) LayoutDimensions {
 			return attach(in).Layout(gtx)
 		})
