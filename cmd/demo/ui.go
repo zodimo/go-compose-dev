@@ -40,10 +40,21 @@ func UI(c api.Composer) api.LayoutNode {
 				row.WithModifier(size.Size(500, 300)),
 				row.WithModifier(background.Background(color.NRGBA{R: 0, G: 200, B: 0, A: 200})),
 			),
-			text.Text("hello world"),
+			text.Text("hello world",
+				text.Selectable(),
+				text.WithAlignment(text.Middle),
+				text.WithTextStyleOptions(
+					text.StyleWithColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255}),
+				),
+				text.WithModifier(background.Background(color.NRGBA{R: 100, G: 0, B: 0, A: 150})),
+				text.WithModifier(padding.PaddingAll(20)),
+				text.WithModifier(background.Background(color.NRGBA{R: 200, G: 0, B: 50, A: 50})),
+			),
 		),
 		column.WithModifier(size.FillMax()),
 		column.WithModifier(background.Background(color.NRGBA{R: 200, G: 0, B: 0, A: 50})),
+
+		column.WithAlignment(column.Middle),
 	)(c)
 
 	return c.Build()

@@ -41,59 +41,59 @@ type TextOptions struct {
 
 type TextOption func(*TextOptions)
 
-func TextWithModifier(modifier Modifier) TextOption {
+func WithModifier(modifier Modifier) TextOption {
 	return func(o *TextOptions) {
 		o.Modifier = o.Modifier.Then(modifier)
 	}
 }
 
-func TextWithAlignment(alignment Alignment) TextOption {
+func WithAlignment(alignment Alignment) TextOption {
 	return func(o *TextOptions) {
 		o.Alignment = alignment
 	}
 }
 
-func TextWithMaxLines(maxLines int) TextOption {
+func WithMaxLines(maxLines int) TextOption {
 	return func(o *TextOptions) {
 		o.MaxLines = maxLines
 	}
 }
 
-func TextWithTruncator(truncator string) TextOption {
+func WithTruncator(truncator string) TextOption {
 	return func(o *TextOptions) {
 		o.Truncator = truncator
 	}
 }
 
-func TextWithWrapPolicy(wrapPolicy WrapPolicy) TextOption {
+func WithWrapPolicy(wrapPolicy WrapPolicy) TextOption {
 
 	return func(o *TextOptions) {
 		o.WrapPolicy = wrapPolicy
 	}
 }
 
-func TextWithLineHeight(lineHeightInSP float32) TextOption {
+func WithLineHeight(lineHeightInSP float32) TextOption {
 
 	return func(o *TextOptions) {
 		o.LineHeight = unit.Sp(lineHeightInSP)
 	}
 }
 
-func TextWithLineHeightScale(lineHeightScale float32) TextOption {
+func WithLineHeightScale(lineHeightScale float32) TextOption {
 
 	return func(o *TextOptions) {
 		o.LineHeightScale = lineHeightScale
 	}
 }
 
-func TextWithShaper(shaper *text.Shaper) TextOption {
+func WithShaper(shaper *text.Shaper) TextOption {
 
 	return func(o *TextOptions) {
 		o.Shaper = shaper
 	}
 }
 
-func TextWithTextStyleOptions(textStyleOptions ...TextStyleOption) TextOption {
+func WithTextStyleOptions(textStyleOptions ...TextStyleOption) TextOption {
 	return func(o *TextOptions) {
 		for _, textStyleOption := range textStyleOptions {
 			textStyleOption(o.TextStyleOptions)
@@ -103,7 +103,7 @@ func TextWithTextStyleOptions(textStyleOptions ...TextStyleOption) TextOption {
 
 // TextSelectable sets the text to be selectable.
 // stores *widget.Selectable in runtime memoization
-func TextSelectable() TextOption {
+func Selectable() TextOption {
 	return func(o *TextOptions) {
 		o.Selectable = true
 	}
@@ -122,19 +122,19 @@ type TextStyleOptions struct {
 
 type TextStyleOption func(*TextStyleOptions)
 
-func TextStyleWithFont(font font.Font) TextStyleOption {
+func StyleWithFont(font font.Font) TextStyleOption {
 	return func(o *TextStyleOptions) {
 		o.Font = font
 	}
 }
 
-func TextStyleWithColor(color color.NRGBA) TextStyleOption {
+func StyleWithColor(color color.NRGBA) TextStyleOption {
 	return func(o *TextStyleOptions) {
 		o.Color = color
 	}
 }
 
-func TextStyleWithTextSize(sizeInSP float32) TextStyleOption {
+func StyleWithTextSize(sizeInSP float32) TextStyleOption {
 	return func(o *TextStyleOptions) {
 		o.TextSize = unit.Sp(sizeInSP)
 	}
