@@ -5,6 +5,7 @@ import (
 	"go-compose-dev/compose/runtime"
 	"go-compose-dev/internal/state"
 	"go-compose-dev/internal/store"
+	"go-compose-dev/internal/theme"
 	"log"
 	"os"
 
@@ -37,12 +38,18 @@ func Run(window *app.Window) error {
 	store := store.NewPersistentState(map[string]state.MutableValue{})
 	runtime := runtime.NewRuntime()
 
+	themeManager := theme.GetThemeManager()
+
 	for {
 		switch frameEvent := window.Event().(type) {
 		case app.DestroyEvent:
 			return frameEvent.Err
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, frameEvent)
+
+			// M3 Widget Requirement
+			gtx = themeManager.Material3ThemeInit(gtx)
+
 			composer := compose.NewComposer(store)
 			layoutNode := UI(composer)
 

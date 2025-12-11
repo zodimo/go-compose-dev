@@ -6,6 +6,8 @@ import (
 	"go-compose-dev/compose/foundation/layout/column"
 	"go-compose-dev/compose/foundation/layout/row"
 	"go-compose-dev/compose/foundation/material/button"
+	m3Button "go-compose-dev/compose/foundation/material3/button"
+
 	"go-compose-dev/compose/foundation/text"
 	"go-compose-dev/internal/modifiers/background"
 	"go-compose-dev/internal/modifiers/clickable"
@@ -71,6 +73,18 @@ func UI(c api.Composer) api.LayoutNode {
 				counterCell.Set(counterCell.Get().(int) + 1)
 				fmt.Println("Button clicked!")
 			}, "click me"),
+			m3Button.Text(func() {
+				fmt.Println("M3 Text Button clicked!")
+			}, "Hello M3 Text Button"),
+			m3Button.Outlined(func() {
+				fmt.Println("M3 Outlined Button clicked!")
+			}, "Hello M3 Outlined Button"),
+			m3Button.Filled(func() {
+				fmt.Println("M3 Filled Button clicked!")
+			}, "Hello M3 Filled Button"),
+			m3Button.FilledTonal(func() {
+				fmt.Println("M3 Filled Tonal Button clicked!")
+			}, "Hello M3 FilledTonal Button"),
 		),
 		column.WithModifier(size.FillMax()),
 		column.WithModifier(background.Background(color.NRGBA{R: 200, G: 0, B: 0, A: 50})),
