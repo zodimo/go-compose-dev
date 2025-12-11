@@ -36,7 +36,12 @@ func (nc *nodeCoordinator) Expand() {
 		if inspectable, ok := mod.(InspectableModifier); ok {
 			mod = inspectable.Unwrap()
 		}
-		modifierElement := mod.(ModifierElement)
+
+		modifierElement, ok := mod.(ModifierElement)
+		if !ok {
+			// probably EmptyModifier
+			return nc
+		}
 
 		modifierNode := modifierElement.Create()
 		modifierChainNode := modifierNode.(ChainNode)
