@@ -27,6 +27,9 @@ func (c *composer) StartBlock(key string) Composer {
 	newNode := layoutnode.NewLayoutNode(c.GenerateID(), key, EmptyMemo, EmptyMemo, c.state)
 
 	if c.focus == nil {
+		//The Root Node
+		// How to Make this Requirement Explicit?
+		newNode.ResetIdentifierKeyCounter()
 		c.focus = newNode
 		return c
 	}

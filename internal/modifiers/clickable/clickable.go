@@ -1,11 +1,12 @@
 package clickable
 
 type ClickableData struct {
-	OnClick func()
+	OnClick   func()
+	Clickable *GioClickable
 }
 
 type ClickableElement struct {
-	clickable ClickableData
+	clickableData ClickableData
 }
 
 // Create creates a new Chain Node instance
@@ -22,7 +23,7 @@ func (e ClickableElement) Update(node Node) {
 	}
 
 	n := node.(ClickableNode)
-	n.clickable = e.clickable
+	n.clickableData = e.clickableData
 
 }
 
@@ -32,6 +33,6 @@ func (e ClickableElement) Equals(other Element) bool {
 	return false
 }
 
-func (e ClickableElement) Clickable() ClickableData {
-	return e.clickable
+func (e ClickableElement) ClickableData() ClickableData {
+	return e.clickableData
 }

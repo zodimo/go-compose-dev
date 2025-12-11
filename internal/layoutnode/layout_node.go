@@ -22,6 +22,7 @@ type LayoutNode interface {
 	WithSlotsAssoc(k string, v any) LayoutNode // this can be better
 
 	GenerateID() Identifier
+	ResetIdentifierKeyCounter()
 	SupportState
 
 	GetWidget() GioLayoutWidget

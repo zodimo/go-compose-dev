@@ -5,6 +5,8 @@ import (
 	"go-compose-dev/internal/layoutnode"
 	"go-compose-dev/internal/modifier"
 	"go-compose-dev/internal/modifiers/helpers"
+
+	"gioui.org/widget"
 )
 
 type Modifier = modifier.Modifier
@@ -26,3 +28,5 @@ type LayoutContext = layoutnode.LayoutContext
 type LayoutWidget = layoutnode.LayoutWidget
 
 var ToNRGBA = helpers.ToNRGBA
+
+type GioClickable = widget.Clickable

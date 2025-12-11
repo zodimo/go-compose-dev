@@ -16,6 +16,7 @@ func NewLayoutNode(id NodeID, key string, slotStore immap.ImmutableMap[any], mem
 		memo:         memo,
 		state:        persistentState,
 		layoutResult: maybe.None[LayoutResult](),
+		idManager:    GetScopedIdentityManager("layout_nodes"),
 	}
 }
 

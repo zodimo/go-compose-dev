@@ -1,10 +1,10 @@
 package clickable
 
 import (
+	"fmt"
 	node "go-compose-dev/internal/Node"
 	"go-compose-dev/internal/layoutnode"
 
-	"gioui.org/widget"
 	"gioui.org/widget/material"
 )
 
@@ -23,18 +23,29 @@ func NewClickableNode(element ClickableElement) ChainNode {
 				// how should the tree now be updated when attached
 				// tree nde is the layout tree
 
-				// we need persistent storage
-				// lno := n.(layoutnode.LayoutNode)
+				if element.clickableData.Clickable == nil {
+					// we need persistent storage
+					lno := n.(layoutnode.LayoutNode)
+					key := lno.GenerateID()
 
-				widgetClickable := widget.Clickable{}
+					fmt.Printf("Clickable Key : %s", key)
+					// path := lno.GetPath()
+
+					clickablePath := fmt.Sprintf("%d/clickable", key)
+					clickableValue := lno.State(clickablePath, func() any { return &GioClickable{} })
+					clickable := clickableValue.Get().(*GioClickable)
+					element.clickableData.Clickable = clickable
+				}
 
 				no := n.(layoutnode.PointerInputModifierNode)
 				// we can now work with the layoutNode
 				no.AttachPointerInputModifier(func(widget LayoutWidget) layoutnode.LayoutWidget {
 
 					return layoutnode.NewLayoutWidget(func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-						if widgetClickable.Clicked(gtx) {
-							element.clickable.OnClick()
+						clickable := element.clickableData.Clickable
+						onClick := element.clickableData.OnClick
+						if clickable.Clicked(gtx) {
+							onClick()
 						}
 						return layoutnode.LayoutDimensions{}
 					})
@@ -44,17 +55,18 @@ func NewClickableNode(element ClickableElement) ChainNode {
 
 				dno.AttachDrawModifier(func(widget LayoutWidget) layoutnode.LayoutWidget {
 					return layoutnode.NewLayoutWidget(func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-						return material.Clickable(gtx, &widgetClickable, widget.Layout)
+						clickable := element.clickableData.Clickable
+						return material.Clickable(gtx, clickable, widget.Layout)
 					})
 				})
 
 			},
 		),
-		clickable: element.clickable,
+		clickableData: element.clickableData,
 	}
 }
 
 type ClickableNode struct {
 	ChainNode
-	clickable ClickableData
+	clickableData ClickableData
 }

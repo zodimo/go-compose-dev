@@ -64,6 +64,10 @@ func (c *layoutNode) GenerateID() Identifier {
 	return c.idManager.GenerateID()
 }
 
+func (c *layoutNode) ResetIdentifierKeyCounter() {
+	c.idManager.ResetKeyCounter()
+}
+
 // Remember caches a value for the current composition run.
 // The cache lives in Composer.memo and is discarded on recompose.
 func (c *layoutNode) Remember(key string, calc func() any) any {
