@@ -7,6 +7,7 @@ import (
 	"go-compose-dev/compose/foundation/layout/row"
 	"go-compose-dev/compose/foundation/material/button"
 	m3Button "go-compose-dev/compose/foundation/material3/button"
+	m3Card "go-compose-dev/compose/foundation/material3/card"
 	m3Divider "go-compose-dev/compose/foundation/material3/divider"
 	"go-compose-dev/compose/ui/graphics/shape"
 
@@ -39,6 +40,7 @@ func UI(c api.Composer) api.LayoutNode {
 					// column.WithModifier(size.Size(200, 200, size.SizeRequired())),
 					column.WithModifier(clickable.OnClick(func() {
 						fmt.Println("First Column clicked!!")
+						counterCell.Set(counterCell.Get().(int) + 1)
 					})),
 					column.WithModifier(weight.Weight(1)),
 					column.WithModifier(background.Background(color.NRGBA{R: 0, G: 0, B: 200, A: 200})),
@@ -46,19 +48,20 @@ func UI(c api.Composer) api.LayoutNode {
 					column.WithModifier(background.Background(color.NRGBA{R: 0, G: 100, B: 200, A: 200})),
 				),
 				column.Column(
-					compose.Sequence(),
-					column.WithModifier(weight.Weight(1)),
-					column.WithModifier(background.Background(color.NRGBA{R: 150, G: 0, B: 0, A: 200})),
-				),
-				column.Column(
 					compose.Sequence(
 						button.Button(func() {
 							counterCell.Set(counterCell.Get().(int) + 1)
 							fmt.Println("Button clicked!")
 						}, "click me",
-							button.WithModifier(size.FillMax())),
+						// button.WithModifier(size.FillMax())
+						),
 					),
-					column.WithModifier(size.Size(50, 50)),
+					column.WithModifier(weight.Weight(1)),
+					column.WithModifier(background.Background(color.NRGBA{R: 150, G: 0, B: 0, A: 200})),
+				),
+				column.Column(
+					compose.Sequence(),
+					column.WithModifier(size.Size(100, 50)),
 					column.WithModifier(background.Background(color.NRGBA{R: 100, G: 0, B: 0, A: 200})),
 					column.WithModifier(clickable.OnClick(func() {
 						fmt.Println("Last Column clicked!!")
@@ -97,6 +100,10 @@ func UI(c api.Composer) api.LayoutNode {
 			}, "Hello M3 FilledTonal Button",
 				m3Button.WithModifier(padding.All(20)),
 			),
+			m3Divider.Divider(),
+			m3Card.Filled(m3Card.CardContents(
+				m3Card.Content(text.Text("Filled")),
+			)),
 		),
 		column.WithModifier(size.FillMax()),
 		column.WithModifier(background.Background(color.NRGBA{R: 200, G: 0, B: 0, A: 50})),
