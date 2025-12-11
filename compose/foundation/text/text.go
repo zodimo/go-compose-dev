@@ -2,7 +2,6 @@ package text
 
 import (
 	"fmt"
-	"go-compose-dev/compose/foundation/material"
 	"go-compose-dev/internal/layoutnode"
 	"go-compose-dev/internal/state"
 
@@ -59,7 +58,7 @@ func textWidgetConstructor(options TextOptions, constructorArgs BasicTextConstru
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 
 			// where to find the theme?
-			theme := material.GetTheme()
+			theme := GetThemeManager().MaterialTheme()
 
 			text := constructorArgs.Value
 			textOptions := constructorArgs.Options
