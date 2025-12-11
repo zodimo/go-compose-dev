@@ -23,18 +23,18 @@ Comparison of official Material 3 components with their implementation status in
 | **Dialogs** | 🟢 `widget/dialog` | 🟢 Implemented | |
 | **Divider** | 🟢 `widget/divider` | 🟢 Implemented | |
 | **Lists** | 🔴 Missing | 🔴 Todo | Core `gio.List` exists, but M3 styles missing |
-| **Menus** | � Missing | 🔴 Todo | |
+| **Menus** |  Missing | 🔴 Todo | |
 | **Navigation bar** | 🔴 Missing | 🔴 Todo | Bottom Navigation |
 | **Navigation drawer** | 🔴 Missing | 🔴 Todo | |
 | **Navigation rail** | 🟢 `widget/rail` | 🔴 Todo | |
-| **Progress indicators** | � `widget/indicator` | 🔴 Todo | |
-| **Radio button** | � `widget/radio` | 🔴 Todo | |
-| **Search** | � `widget/search` | 🔴 Todo | |
-| **Side sheets** | � `widget/sheet` | 🔴 Todo | |
-| **Sliders** | � `widget/slider` | 🔴 Todo | |
-| **Snackbars** | � `widget/snackbar` | 🔴 Todo | |
+| **Progress indicators** |  `widget/indicator` | 🔴 Todo | |
+| **Radio button** | 🟢 `widget/radio` | 🟢 Implemented | |
+| **Search** |  `widget/search` | 🔴 Todo | |
+| **Side sheets** |  `widget/sheet` | 🔴 Todo | |
+| **Sliders** |  `widget/slider` | 🔴 Todo | |
+| **Snackbars** |  `widget/snackbar` | 🔴 Todo | |
 | **Switch** | 🟢 `widget/toggle` | 🟢 Implemented | |
-| **Tabs** | � `widget/tab` | 🔴 Todo | |
+| **Tabs** |  `widget/tab` | 🔴 Todo | |
 | **Text fields** | 🟢 `widget/input` | 🟢 Implemented | |
 | **Time pickers** | 🔴 Missing | 🔴 Todo | |
 | **Tooltips** | � `widget/tooltip` | 🔴 Todo | |

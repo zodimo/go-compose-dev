@@ -6,9 +6,11 @@ import (
 	"go-compose-dev/compose/foundation/layout/box"
 	"go-compose-dev/compose/foundation/layout/column"
 	"go-compose-dev/compose/foundation/layout/overlay"
+	"go-compose-dev/compose/foundation/layout/row"
 	"go-compose-dev/compose/foundation/material3/button"
 	"go-compose-dev/compose/foundation/material3/checkbox"
 	"go-compose-dev/compose/foundation/material3/dialog"
+	"go-compose-dev/compose/foundation/material3/radiobutton"
 	mswitch "go-compose-dev/compose/foundation/material3/switch"
 	"go-compose-dev/compose/foundation/material3/textfield"
 
@@ -28,6 +30,7 @@ func UI(c api.Composer) api.LayoutNode {
 	isChecked := c.State("isChecked", func() any { return false })
 	isSwitched := c.State("isSwitched", func() any { return false })
 	textValue := c.State("textValue", func() any { return "" })
+	radioOption := c.State("radioOption", func() any { return 0 })
 
 	// Helper to set state
 	setShowAck := func(v bool) { showAck.Set(v) }
@@ -69,6 +72,26 @@ func UI(c api.Composer) api.LayoutNode {
 					fmt.Println("Switch changed:", b)
 				}),
 			), column.WithModifier(padding.Padding(padding.NotSet, 10, padding.NotSet, padding.NotSet))),
+
+			// Radio Buttons
+			column.Column(compose.Sequence(
+				text.Text(fmt.Sprintf("Radio selection: %d", radioOption.Get())),
+				// Row 1
+				row.Row(compose.Sequence(
+					radiobutton.RadioButton(radioOption.Get().(int) == 0, func() { radioOption.Set(0) }),
+					text.Text("Option 0"),
+				), row.WithAlignment(row.Middle)),
+				// Row 2
+				row.Row(compose.Sequence(
+					radiobutton.RadioButton(radioOption.Get().(int) == 1, func() { radioOption.Set(1) }),
+					text.Text("Option 1"),
+				), row.WithAlignment(row.Middle)),
+				// Row 3 (Disabled)
+				row.Row(compose.Sequence(
+					radiobutton.RadioButton(radioOption.Get().(int) == 2, func() { radioOption.Set(2) }, radiobutton.WithEnabled(false)),
+					text.Text("Option 2 (Disabled)"),
+				), row.WithAlignment(row.Middle)),
+			), column.WithModifier(padding.Vertical(10, 10))),
 
 			// Section: Inputs
 			text.Text("Inputs", text.WithTextStyleOptions(text.StyleWithTextSize(20)), text.WithModifier(padding.Vertical(10, 10))),
