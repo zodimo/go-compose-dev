@@ -1,0 +1,91 @@
+package mswitch
+
+import (
+	"fmt"
+	"go-compose-dev/internal/layoutnode"
+
+	"git.sr.ht/~schnwalter/gio-mw/widget/toggle"
+)
+
+const Material3SwitchNodeID = "Material3Switch"
+const singleSwitchKey = "switch"
+
+// Switch creates a Material3 switch (toggle).
+func Switch(
+	checked bool,
+	onCheckedChange func(bool),
+	options ...SwitchOption,
+) Composable {
+	return func(c Composer) Composer {
+		opts := DefaultSwitchOptions()
+		for _, option := range options {
+			option(&opts)
+		}
+
+		key := c.GenerateID()
+		path := c.GetPath()
+
+		// Fix closure capture for dynamic handlers
+		handlerWrapperState := c.State(fmt.Sprintf("%d/%s/handler_wrapper", key, path), func() any {
+			return &HandlerWrapper{Func: onCheckedChange}
+		})
+		handlerWrapper := handlerWrapperState.Get().(*HandlerWrapper)
+		handlerWrapper.Func = onCheckedChange
+
+		switchStatePath := fmt.Sprintf("%d/%s/switch", key, path)
+		switchValue := c.State(switchStatePath, func() any {
+			var values []string
+			if checked {
+				values = []string{singleSwitchKey}
+			}
+
+			// Create a generic toggle widget for strings
+			t := toggle.NewToggle(
+				[]string{singleSwitchKey},
+				values,
+				func(selected []string) {
+					isChecked := false
+					for _, s := range selected {
+						if s == singleSwitchKey {
+							isChecked = true
+							break
+						}
+					}
+					if handlerWrapper.Func != nil {
+						handlerWrapper.Func(isChecked)
+					}
+				},
+			)
+			return t
+		})
+		t := switchValue.Get().(*toggle.Toggle[string])
+
+		// Sync external state
+		var currentValues []string
+		if checked {
+			currentValues = []string{singleSwitchKey}
+		}
+		t.SetValues(currentValues)
+
+		// Note: We don't need to manually update onChange if we used the wrapper pattern correctly above.
+
+		c.StartBlock(Material3SwitchNodeID)
+		c.Modifier(func(modifier Modifier) Modifier {
+			return modifier.Then(opts.Modifier)
+		})
+		c.SetWidgetConstructor(switchWidgetConstructor(t))
+
+		return c.EndBlock()
+	}
+}
+
+func switchWidgetConstructor(t *toggle.Toggle[string]) layoutnode.LayoutNodeWidgetConstructor {
+	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
+		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
+			labels := map[string]string{
+				singleSwitchKey: "",
+			}
+			return t.Layout(gtx, labels)
+		}
+	})
+}
