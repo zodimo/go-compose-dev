@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"gioui.org/app"
+	"gioui.org/io/system"
 	"gioui.org/op"
 	"gioui.org/unit"
 )
@@ -33,6 +34,8 @@ func main() {
 
 func Run(window *app.Window) error {
 
+	enLocale := system.Locale{Language: "en", Direction: system.LTR}
+
 	var ops op.Ops
 
 	store := store.NewPersistentState(map[string]state.MutableValue{})
@@ -46,6 +49,8 @@ func Run(window *app.Window) error {
 			return frameEvent.Err
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, frameEvent)
+
+			gtx.Locale = enLocale
 
 			// M3 Widget Requirement
 			gtx = themeManager.Material3ThemeInit(gtx)
