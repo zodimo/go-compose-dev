@@ -20,7 +20,7 @@ var EmptyModifier = modifier.EmptyModifier
 
 type DrawModifierNode = layoutnode.DrawModifierNode
 type LayoutModifierNode = layoutnode.LayoutModifierNode
-type PointerModifierNode = layoutnode.PointerModifierNode
+type PointerModifierNode = layoutnode.PointerInputModifierNode
 
 type LayoutContext = layoutnode.LayoutContext
 type LayoutWidget = layoutnode.LayoutWidget

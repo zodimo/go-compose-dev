@@ -43,9 +43,9 @@ type DrawModifierNode interface {
 	AttachDrawModifier(attach func(widget LayoutWidget) LayoutWidget)
 }
 
-type PointerModifierNode interface {
+type PointerInputModifierNode interface {
 	LayoutNode
-	AttachPointerModifier(attach func(widget LayoutWidget) LayoutWidget)
+	AttachPointerInputModifier(attach func(widget LayoutWidget) LayoutWidget)
 }
 
 type ParentDataModifierNode interface {
@@ -58,7 +58,7 @@ type NodeCoordinator interface {
 	LayoutNode
 	DrawModifierNode
 	LayoutModifierNode
-	PointerModifierNode
+	PointerInputModifierNode
 	ParentDataModifierNode
 
 	PointerPhase(gtx LayoutContext)

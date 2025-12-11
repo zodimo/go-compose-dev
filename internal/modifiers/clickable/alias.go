@@ -1,9 +1,10 @@
-package padding
+package clickable
 
 import (
 	node "go-compose-dev/internal/Node"
 	"go-compose-dev/internal/layoutnode"
 	"go-compose-dev/internal/modifier"
+	"go-compose-dev/internal/modifiers/helpers"
 )
 
 type Modifier = modifier.Modifier
@@ -23,3 +24,5 @@ type PointerModifierNode = layoutnode.PointerInputModifierNode
 
 type LayoutContext = layoutnode.LayoutContext
 type LayoutWidget = layoutnode.LayoutWidget
+
+var ToNRGBA = helpers.ToNRGBA
