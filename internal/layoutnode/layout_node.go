@@ -20,6 +20,7 @@ type LayoutNode interface {
 	UnwrapModifier() Modifier
 
 	WithSlotsAssoc(k string, v any) LayoutNode // this can be better
+	FindSlot(k string) maybe.Maybe[any]
 
 	GenerateID() Identifier
 	ResetIdentifierKeyCounter()
