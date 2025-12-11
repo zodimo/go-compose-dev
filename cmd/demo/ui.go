@@ -61,12 +61,12 @@ func UI(c api.Composer) api.LayoutNode {
 				),
 				column.Column(
 					compose.Sequence(),
+					column.WithModifier(clip.Clip(shape.ShapeCircle)),
 					column.WithModifier(size.Size(100, 50)),
 					column.WithModifier(background.Background(color.NRGBA{R: 100, G: 0, B: 0, A: 200})),
 					column.WithModifier(clickable.OnClick(func() {
 						fmt.Println("Last Column clicked!!")
 					})),
-					column.WithModifier(clip.Clip(shape.ShapeCircle)),
 				),
 			),
 				row.WithModifier(size.Size(500, 300)),
