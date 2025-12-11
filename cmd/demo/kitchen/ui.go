@@ -10,6 +10,7 @@ import (
 	"go-compose-dev/compose/foundation/material3/checkbox"
 	"go-compose-dev/compose/foundation/material3/dialog"
 	mswitch "go-compose-dev/compose/foundation/material3/switch"
+	"go-compose-dev/compose/foundation/material3/textfield"
 
 	"go-compose-dev/compose/foundation/text"
 	"go-compose-dev/internal/modifiers/padding"
@@ -24,6 +25,7 @@ func UI(c api.Composer) api.LayoutNode {
 	// State for Toggle/Checkbox
 	isChecked := c.State("isChecked", func() any { return false })
 	isSwitched := c.State("isSwitched", func() any { return false })
+	textValue := c.State("textValue", func() any { return "" })
 
 	// Helper to set state
 	setShowAck := func(v bool) { showAck.Set(v) }
@@ -65,6 +67,20 @@ func UI(c api.Composer) api.LayoutNode {
 					fmt.Println("Switch changed:", b)
 				}),
 			), column.WithModifier(padding.Padding(padding.NotSet, 10, padding.NotSet, padding.NotSet))),
+
+			// Section: Inputs
+			text.Text("Inputs", text.WithTextStyleOptions(text.StyleWithTextSize(20)), text.WithModifier(padding.Vertical(10, 10))),
+
+			column.Column(compose.Sequence(
+				textfield.TextField(
+					textValue.Get().(string),
+					func(s string) {
+						textValue.Set(s)
+					},
+					"Label",
+					textfield.WithSupportingText(fmt.Sprintf("You typed: %s", textValue.Get().(string))),
+				),
+			)),
 		), column.WithModifier(padding.All(20))),
 
 		// Dialog Layer (Overlay)
