@@ -1,0 +1,23 @@
+package divider
+
+import (
+	"go-compose-dev/internal/modifier"
+	"go-compose-dev/internal/state"
+	"go-compose-dev/internal/theme"
+	"go-compose-dev/pkg/api"
+
+	"git.sr.ht/~schnwalter/gio-mw/widget/divider"
+)
+
+type Modifier = modifier.Modifier
+
+var EmptyModifier = modifier.EmptyModifier
+
+type Composable = api.Composable
+type Composer = api.Composer
+
+type ThemeManager = theme.ThemeManager
+
+type MutableValue = state.MutableValue
+
+var M3Divider = divider.Divider
