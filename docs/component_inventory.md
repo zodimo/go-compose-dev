@@ -24,7 +24,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | :--- | :--- | :--- | :--- |
 | **Badges** | 📦 Available | `widget/badge` | |
 | **Progress Indicators** | 📦 Available | `widget/indicator` | Circular and Linear likely supported. |
-| **Snackbar** | 📦 Available | `widget/snackbar` | |
+| **Snackbar** | ✅ Implemented | `widget/snackbar` | |
 | **Tooltips** | 📦 Available | `widget/tooltip` | |
 
 ## Containment
