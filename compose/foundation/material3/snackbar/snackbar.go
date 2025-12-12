@@ -1,8 +1,6 @@
 package snackbar
 
 import (
-	"time"
-
 	"go-compose-dev/compose"
 	"go-compose-dev/internal/layoutnode"
 
@@ -22,11 +20,15 @@ func NewSnackbarHostState() *SnackbarHostState {
 	}
 }
 
-func (s *SnackbarHostState) ShowSnackbar(message string) {
+func (s *SnackbarHostState) ShowSnackbar(message string, options ...SnackbarOption) {
+	opts := DefaultOptions()
+	for _, opt := range options {
+		opt(&opts)
+	}
 	// Simple text snackbar for now
 	snackStyle := snackbar.Plain(message)
 	// Default duration of 4 seconds
-	item := overlay.NewItem(snackStyle.Layout, block.GravityBottomCenter).WithDuration(4 * time.Second)
+	item := overlay.NewItem(snackStyle.Layout, block.GravityBottomCenter).WithDuration(opts.Duration)
 	s.overlay.Show(item)
 }
 
