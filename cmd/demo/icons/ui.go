@@ -5,6 +5,7 @@ import (
 	"go-compose-dev/compose/foundation/icon"
 	"go-compose-dev/compose/foundation/layout/column"
 	"go-compose-dev/compose/foundation/layout/row"
+	"go-compose-dev/compose/foundation/material3/iconbutton"
 	"go-compose-dev/internal/modifiers/scale"
 	"image/color"
 
@@ -14,6 +15,19 @@ import (
 func UI(c api.Composer) api.LayoutNode {
 	var rows []api.Composable
 	chunkSize := 40
+
+	// Demo IconButtons
+	var demoIconButtons []api.Composable
+	if len(List) >= 4 {
+		// Using first 4 icons for the buttons
+		demoIconButtons = append(demoIconButtons,
+			iconbutton.Standard(func() {}, List[0].Data, "Standard"),
+			iconbutton.Filled(func() {}, List[1].Data, "Filled"),
+			iconbutton.FilledTonal(func() {}, List[2].Data, "FilledTonal"),
+			iconbutton.Outlined(func() {}, List[3].Data, "Outlined"),
+		)
+		rows = append(rows, row.Row(compose.Sequence(demoIconButtons...)))
+	}
 
 	colors := []color.NRGBA{
 		{R: 213, G: 0, B: 0, A: 255},    // Red
