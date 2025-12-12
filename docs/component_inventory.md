@@ -14,7 +14,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | :--- | :--- | :--- | :--- |
 | **Button** | ✅ Implemented | `widget/button` | `compose/foundation/material3/button` |
 | **Floating Action Button** | 📦 Available | `widget/button` | Can be derived from Button or typically styled in `gio-mw`. |
-| **Icon Button** | 📦 Available | `widget/button` | Often a variant of Button in `gio-mw`. |
+| **Icon Button** | ✅ Implemented | `widget/button` | `compose/foundation/material3/iconbutton` |
 | **Segmented Button** | ❌ Missing | - | |
 | **Extended FAB** | ❌ Missing | - | |
 
