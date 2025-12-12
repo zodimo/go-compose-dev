@@ -1,0 +1,61 @@
+package navigationrail
+
+import (
+	"go-compose-dev/compose/foundation/layout/column"
+	"go-compose-dev/internal/modifiers/padding"
+	"go-compose-dev/internal/modifiers/size"
+	"go-compose-dev/internal/theme"
+
+	"go-compose-dev/compose/foundation/layout/spacer"
+	"go-compose-dev/compose/foundation/material3/surface"
+)
+
+// NavigationRail represents a side navigation component.
+//
+// Material 3 Specs:
+// - Width: 80dp
+// - Container Layout: Centered horizontally, Top or Center vertically (usually).
+func NavigationRail(
+	modifier Modifier,
+	header Composable,
+	content Composable,
+) Composable {
+	return func(c Composer) Composer {
+		tm := theme.GetThemeManager()
+		m3 := tm.GetMaterial3Theme()
+
+		containerColor := m3.Scheme.Surface.Color.AsNRGBA()
+		contentColor := m3.Scheme.Surface.OnColor.AsNRGBA()
+
+		return surface.Surface(
+			func(c Composer) Composer {
+				return column.Column(
+					func(c Composer) Composer {
+						if header != nil {
+							header(c)
+							spacer.Spacer(8)(c) // Spacing after header
+						}
+
+						// Content (Items)
+						// M3: "Destinations are top-aligned in the rail by default, but can be centered."
+						// For now, let's keep them top-aligned as default.
+						content(c)
+						return c
+					},
+					column.WithAlignment(column.Middle),
+					column.WithModifier(
+						// Add padding at top and bottom if needed
+						padding.Padding(0, 12, 0, 12),
+					),
+				)(c)
+			},
+			surface.WithColor(containerColor),
+			surface.WithContentColor(contentColor),
+			surface.WithModifier(
+				modifier.
+					Then(size.Width(80)).
+					Then(size.FillMaxHeight()),
+			),
+		)(c)
+	}
+}

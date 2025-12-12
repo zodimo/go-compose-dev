@@ -30,6 +30,6 @@ func Surface(
 			Then(border.Border(opts.BorderWidth, opts.BorderColor, opts.Shape))
 
 		// Use Box to hold content and apply modifiers
-		return box.Box(content, box.WithModifier(surfaceModifier))(c)
+		return box.Box(content, box.WithModifier(surfaceModifier), box.WithAlignment(opts.Alignment))(c)
 	}
 }

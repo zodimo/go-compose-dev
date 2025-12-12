@@ -1,6 +1,7 @@
 package surface
 
 import (
+	"go-compose-dev/compose/foundation/layout/box"
 	"go-compose-dev/compose/ui/graphics/shape"
 	"go-compose-dev/internal/modifier"
 	"image/color"
@@ -15,6 +16,7 @@ type SurfaceOptions struct {
 	ShadowElevation Dp
 	BorderWidth     Dp
 	BorderColor     color.Color
+	Alignment       box.Direction // Optional alignment for content inside surface
 }
 
 type SurfaceOption func(*SurfaceOptions)
@@ -29,6 +31,7 @@ func DefaultSurfaceOptions() SurfaceOptions {
 		ShadowElevation: 0,
 		BorderWidth:     0,
 		BorderColor:     color.NRGBA{A: 0},
+		Alignment:       box.NW, // Default to NW to match Box default, or Center? Box defaults to NW.
 	}
 }
 
@@ -72,5 +75,11 @@ func WithBorder(width Dp, color color.Color) SurfaceOption {
 	return func(o *SurfaceOptions) {
 		o.BorderWidth = width
 		o.BorderColor = color
+	}
+}
+
+func WithAlignment(alignment box.Direction) SurfaceOption {
+	return func(o *SurfaceOptions) {
+		o.Alignment = alignment
 	}
 }

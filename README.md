@@ -25,8 +25,8 @@ Comparison of official Material 3 components with their implementation status in
 | **Lists** | 🔴 Missing | 🔴 Todo | Core `gio.List` exists, but M3 styles missing |
 | **Menus** |  Missing | 🔴 Todo | |
 | **Navigation bar** | 🔴 Missing | 🔴 Todo | Bottom Navigation |
-| **Navigation drawer** | 🔴 Missing | 🔴 Todo | |
-| **Navigation rail** | 🟢 `widget/rail` | 🔴 Todo | |
+| **Navigation drawer** | 🔴 Missing | 🟢 Implemented | Modal |
+| **Navigation rail** | 🟢 `widget/rail` | 🟢 Implemented | |
 | **Progress indicators** |  `widget/indicator` | 🔴 Todo | |
 | **Radio button** | 🟢 `widget/radio` | 🟢 Implemented | |
 | **Search** |  `widget/search` | 🔴 Todo | |

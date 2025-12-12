@@ -46,8 +46,8 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | :--- | :--- | :--- | :--- |
 | **App Bars** | ❌ Missing | - | Top/Bottom App Bars. |
 | **Navigation Bar** | ❌ Missing | - | Bottom Navigation. |
-| **Navigation Drawer** | ❌ Missing | - | Modal/Standard drawers. |
-| **Navigation Rail** | 📦 Available | `widget/rail` | |
+| **Navigation Drawer** | ✅ Implemented | - | - [x] Navigation Drawer (Modal) - [x] Navigation Drawer Item |
+| **Navigation Rail** | ✅ Implemented | `widget/rail` | `compose/foundation/material3/navigationrail` (Prototype Implemented) |
 | **Tabs** | 📦 Available | `widget/tab` | |
 
 ## Selection
