@@ -18,7 +18,10 @@ import (
 	"go-compose-dev/compose/foundation/text"
 
 	"go-compose-dev/internal/modifiers/padding"
+	"go-compose-dev/internal/modifiers/size"
 	"go-compose-dev/pkg/api"
+
+	"go-compose-dev/compose/foundation/material3/progress"
 )
 
 func UI(c api.Composer) api.LayoutNode {
@@ -31,6 +34,7 @@ func UI(c api.Composer) api.LayoutNode {
 	isSwitched := c.State("isSwitched", func() any { return false })
 	textValue := c.State("textValue", func() any { return "" })
 	radioOption := c.State("radioOption", func() any { return 0 })
+	progressVal := c.State("progressVal", func() any { return float32(0.5) })
 
 	// Helper to set state
 	setShowAck := func(v bool) { showAck.Set(v) }
@@ -93,7 +97,29 @@ func UI(c api.Composer) api.LayoutNode {
 				), row.WithAlignment(row.Middle)),
 			), column.WithModifier(padding.Vertical(10, 10))),
 
+			// Section: Progress Indicators
+			text.Text("Progress Indicators", text.WithTextStyleOptions(text.StyleWithTextSize(20)), text.WithModifier(padding.Vertical(10, 10))),
+			column.Column(compose.Sequence(
+				row.Row(compose.Sequence(
+					progress.CircularProgressIndicator(progressVal.Get().(float32)),
+					progress.LinearProgressIndicator(progressVal.Get().(float32), progress.WithModifier(size.Width(200)), progress.WithModifier(padding.Horizontal(20, padding.NotSet))),
+				), row.WithAlignment(row.Middle)),
+				row.Row(compose.Sequence(
+					button.Text(func() {
+						p := progressVal.Get().(float32) + 0.1
+						if p > 1 {
+							p = 1
+						}
+						progressVal.Set(p)
+					}, "Add 0.1"),
+					button.Text(func() {
+						progressVal.Set(float32(0))
+					}, "Reset"),
+				)),
+			), column.WithModifier(padding.Vertical(10, 10))),
+
 			// Section: Inputs
+
 			text.Text("Inputs", text.WithTextStyleOptions(text.StyleWithTextSize(20)), text.WithModifier(padding.Vertical(10, 10))),
 
 			// Section: m3text Labels

@@ -23,8 +23,8 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
 | **Badges** | 📦 Available | `widget/badge` | |
-| **Progress Indicators** | 📦 Available | `widget/indicator` | Circular and Linear likely supported. |
-| **Snackbar** | ✅ Implemented | `widget/snackbar` | |
+| **Progress Indicators** | ✅ Implemented | `widget/indicator` | `compose/foundation/material3/progress` |
+| **Snackbar** | ✅ Implemented | `widget/snackbar` | `compose/foundation/material3/snackbar` |
 | **Tooltips** | 📦 Available | `widget/tooltip` | |
 
 ## Containment
