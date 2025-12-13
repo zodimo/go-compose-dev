@@ -16,7 +16,7 @@ To provide a feature-complete, idiomatic Go implementation of Jetpack Compose's 
     - [x] Top App Bar (Small, CenterAligned, Medium, Large)
     - [x] Bottom App Bar
 - [x] **Bottom Navigation**: `NavigationBar` and `NavigationBarItem`.
-- [ ] **Navigation Drawer**: Polish existing implementation and ensure full M3 compliance (standard vs modal).
+- [x] **Navigation Drawer**: Polish existing implementation and ensure full M3 compliance (standard vs modal).
 
 ### Phase 2: Lists & Data Display
 *Focus: Efficiently displaying collections of data.*

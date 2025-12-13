@@ -1,0 +1,43 @@
+package animation
+
+import (
+	"go-compose-dev/internal/animation"
+	"go-compose-dev/internal/modifier"
+)
+
+type AnimatedWidthElement struct {
+	Anim     *animation.VisibilityAnimation
+	MaxWidth int
+}
+
+func (e AnimatedWidthElement) Create() Node {
+	return NewAnimatedWidthNode(e)
+}
+
+func (e AnimatedWidthElement) Update(node Node) {
+	n := node.(*AnimatedWidthNode)
+	n.element = e
+}
+
+func (e AnimatedWidthElement) Equals(other Element) bool {
+	o, ok := other.(AnimatedWidthElement)
+	return ok && o.Anim == e.Anim && o.MaxWidth == e.MaxWidth
+}
+
+func AnimatedWidth(anim *animation.VisibilityAnimation, maxWidth int) Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			AnimatedWidthElement{
+				Anim:     anim,
+				MaxWidth: maxWidth,
+			},
+		),
+		modifier.NewInspectorInfo(
+			"AnimatedWidth",
+			map[string]any{
+				"Anim":     anim,
+				"MaxWidth": maxWidth,
+			},
+		),
+	)
+}
