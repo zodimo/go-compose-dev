@@ -72,6 +72,6 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | **Text** | ✅ Implemented | - | `compose/foundation/material3/text`. Renders text with typography. |
 
 ## Summary
-- **Strong Foundation**: Core inputs (Text, Checkbox, Radio, Switch) and containers (Card, Surface, Dialog) are ready.
-- **Rich Middleware**: `gio-mw` offers a lot of "low hanging fruit" to port: Progress, Slider, Tabs, Snackbar.
-- **Structural Gaps**: `Scaffold` and Navigation components (App Bars, Drawers) are major missing pieces for full app shells.
+- **Strong Foundation**: Core inputs (Text, Checkbox, Radio, Switch), containers (Card, Surface, Dialog, Scaffold), and navigation (App Bars, Navigation Bar, Drawer) are ready.
+- **Rich Middleware**: `gio-mw` offers components to port: Slider, Tabs, Tooltips.
+- **Next Focus**: Extended inputs (Pickers, Sliders) and polish for existing components.

@@ -189,21 +189,27 @@ func badgedBoxWidgetConstructor() layoutnode.LayoutNodeWidgetConstructor {
 			callContent.Add(gtx.Ops)
 
 			// 4. Draw Badge Offset
-			// M3 Spec: Distance from top trailing icon corner to bottom leading badge corner
-			// Small badge: 6x6dp, Large badge: 14x12dp (HxV)
+			// M3 Spec: The offset specifies the distance from the icon's top-trailing
+			// corner to the badge's bottom-leading corner.
+			// Small badge: 6x6dp offset, Large badge: 12x14dp (HxV)
 			var offsetX, offsetY int
 			if dimsBadge.Size.Y <= gtx.Dp(6) {
-				// Small badge
+				// Small badge: offset is 6dp from icon corner
 				offsetX = gtx.Dp(6)
 				offsetY = gtx.Dp(6)
 			} else {
-				// Large badge
+				// Large badge: offset is 12dp horizontal, 14dp vertical
 				offsetX = gtx.Dp(12)
 				offsetY = gtx.Dp(14)
 			}
-			// Position badge: top-end corner of content minus offsets
-			x := dimsContent.Size.X - dimsBadge.Size.X + offsetX
-			y := -offsetY
+
+			// Position badge: the badge's bottom-leading corner should be at
+			// (contentWidth - offsetX, offsetY - badgeHeight) from content origin.
+			// This means:
+			// - Badge left edge is offsetX pixels LEFT of content's right edge
+			// - Badge bottom edge is offsetY pixels DOWN from content's top edge
+			x := dimsContent.Size.X - offsetX
+			y := offsetY - dimsBadge.Size.Y
 
 			stack := op.Offset(image.Pt(x, y)).Push(gtx.Ops)
 			callBadge.Add(gtx.Ops)
