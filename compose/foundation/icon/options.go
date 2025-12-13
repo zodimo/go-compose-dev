@@ -1,15 +1,10 @@
 package icon
 
 import (
-	"go-compose-dev/internal/theme"
 	"image/color"
 
 	"github.com/zodimo/go-maybe"
 )
-
-type ThemeColorSet struct {
-	ThemeColor func(themeColor theme.ThemeColor) color.Color
-}
 
 type IconOptions struct {
 	Modifier   Modifier
@@ -39,7 +34,7 @@ func WithModifier(m Modifier) IconOption {
 	}
 }
 
-func WithThemeColor(reader func(themeColor theme.ThemeColor) color.Color) IconOption {
+func WithThemeColor(reader ColorReader) IconOption {
 	return func(o *IconOptions) {
 		o.ThemeColor = maybe.Some(ThemeColorSet{
 			ThemeColor: reader,

@@ -3,6 +3,7 @@ package icon
 import (
 	"go-compose-dev/internal/color/colorhelper"
 	"go-compose-dev/internal/modifier"
+	"go-compose-dev/internal/theme"
 	"go-compose-dev/pkg/api"
 	"image/color"
 
@@ -22,3 +23,6 @@ type layoutDimensions = layout.Dimensions
 type IconWidget = func(gtx layoutContext, foreground color.Color) layoutDimensions
 
 var ToNRGBA = colorhelper.ToNRGBA
+
+type ThemeColorSet = theme.ThemeColorSet
+type ColorReader = theme.ColorReader
