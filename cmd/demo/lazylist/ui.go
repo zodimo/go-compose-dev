@@ -18,8 +18,6 @@ func UI() api.Composable {
 		return column.Column(
 			func(c api.Composer) api.Composer {
 				lazy.LazyColumn(
-					size.FillMax(),
-					state,
 					func(scope lazy.LazyListScope) {
 						// Header
 						scope.Item(nil, func(c api.Composer) api.Composer {
@@ -35,6 +33,8 @@ func UI() api.Composable {
 							}
 						})
 					},
+					lazy.WithModifier(size.FillMax()),
+					lazy.WithState(state),
 				)(c)
 				return c
 			},
