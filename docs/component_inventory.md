@@ -36,7 +36,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | **Carousel** | ❌ Missing | - | |
 | **Dialogs** | ✅ Implemented | `widget/dialog` | `compose/foundation/material3/dialog` |
 | **Dividers** | ✅ Implemented | `widget/divider` | `compose/foundation/material3/divider` |
-| **Lists** | 🚧 Partial | Core Gio | Core Gio `layout.List` handles lazy lists. Needs Compose wrapper. |
+| **Lists** | ✅ Implemented | Core Gio | Implemented `LazyColumn` and `LazyRow` wrappers (Eager composition, Lazy layout). |
 | **Scaffold** | ❌ Missing | - | High priority for app structure. |
 | **Surface** | ✅ Implemented | - | `compose/foundation/material3/surface`. Fundamental building block. |
 

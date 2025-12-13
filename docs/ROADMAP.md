@@ -22,7 +22,7 @@ To provide a feature-complete, idiomatic Go implementation of Jetpack Compose's 
 *Focus: Efficiently displaying collections of data.*
 
 - [ ] **Lists**: 
-    - [ ] Wrappers for `gio.List` to match Compose `LazyColumn`/`LazyRow` API.
+    - [x] Wrappers for `gio.List` to match Compose `LazyColumn`/`LazyRow` API.
     - [ ] Item spacing and content padding support.
 - [ ] **Grids**: Lazy grids.
 - [ ] **Chips**:

@@ -1,0 +1,70 @@
+package main
+
+import (
+	"image"
+	"image/png"
+	"os"
+	"testing"
+	"time"
+
+	"go-compose-dev/compose"
+	"go-compose-dev/compose/runtime"
+	"go-compose-dev/internal/screenshot"
+	"go-compose-dev/internal/state"
+	"go-compose-dev/internal/store"
+	"go-compose-dev/internal/theme"
+
+	"gioui.org/io/system"
+	"gioui.org/layout"
+	"gioui.org/op"
+	"gioui.org/unit"
+)
+
+// TestScreenshot renders the LazyList UI and saves a screenshot.
+func TestScreenshot(t *testing.T) {
+	// 1. Setup Context
+	var ops op.Ops
+	gtx := layout.Context{
+		Ops: &ops,
+		Metric: unit.Metric{
+			PxPerDp: 1.0,
+			PxPerSp: 1.0,
+		},
+		Constraints: layout.Exact(image.Point{X: 600, Y: 800}),
+		Now:         time.Now(),
+		Locale:      system.Locale{Language: "en", Direction: system.LTR},
+	}
+
+	// 2. Init Dependencies
+	themeManager := theme.GetThemeManager()
+	gtx = themeManager.Material3ThemeInit(gtx)
+
+	store := store.NewPersistentState(map[string]state.MutableValue{})
+	rt := runtime.NewRuntime()
+
+	// 3. Compose UI
+	composer := compose.NewComposer(store)
+	rootComposer := UI()(composer)
+	layoutNode := rootComposer.Build()
+
+	// 4. Run Layout
+	callOp := rt.Run(gtx, layoutNode)
+
+	// 5. Take Screenshot
+	// Note: TakeScreenshot helper might differ, assuming it takes (w, h, op) based on template
+	img := screenshot.TakeScreenshot(600, 800, callOp)
+
+	// 6. Save to Artifacts
+	artifactPath := "/home/jaco/.gemini/antigravity/brain/0d390150-11ed-4f9d-bd18-e4f0856ecd56/lazylist_screenshot.png"
+	f, err := os.Create(artifactPath)
+	if err != nil {
+		t.Fatalf("Failed to create screenshot file: %v", err)
+	}
+	defer f.Close()
+
+	if err := png.Encode(f, img); err != nil {
+		t.Fatalf("Failed to encode screenshot: %v", err)
+	}
+
+	t.Logf("Screenshot saved to %s", artifactPath)
+}
