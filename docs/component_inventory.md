@@ -37,7 +37,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | **Dialogs** | ✅ Implemented | `widget/dialog` | `compose/foundation/material3/dialog` |
 | **Dividers** | ✅ Implemented | `widget/divider` | `compose/foundation/material3/divider` |
 | **Lists** | ✅ Implemented | Core Gio | Implemented `LazyColumn` and `LazyRow` wrappers (Eager composition, Lazy layout). |
-| **Scaffold** | ❌ Missing | - | High priority for app structure. |
+| **Scaffold** | ✅ Implemented | `compose/foundation/material3/scaffold` | High priority for app structure. |
 | **Surface** | ✅ Implemented | - | `compose/foundation/material3/surface`. Fundamental building block. |
 
 ## Navigation
@@ -55,7 +55,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
 | **Checkbox** | ✅ Implemented | `widget/checkbox` | `compose/foundation/material3/checkbox` |
-| **Chips** | ❌ Missing | - | Assist, Filter, Input, Suggestion chips. |
+| **Chips** | ✅ Implemented | `compose/foundation/material3/chip` | Assist, Filter, Input, Suggestion chips. |
 | **Date Picker** | ❌ Missing | - | |
 | **Menus** | ✅ Implemented | `widget/overlay` | `compose/foundation/material3/menu`. Using Card for now (inline). |
 | **Radio Button** | ✅ Implemented | `widget/radio` | `compose/foundation/material3/radiobutton` |
