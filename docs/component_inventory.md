@@ -44,7 +44,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
-| **App Bars** | 🚧 Partial | - | Small Top App Bar implemented. |
+| **App Bars** | ✅ Implemented | - | Top and Bottom App Bars implemented. |
 | **Navigation Bar** | ❌ Missing | - | Bottom Navigation. |
 | **Navigation Drawer** | ✅ Implemented | - | - [x] Navigation Drawer (Modal) - [x] Navigation Drawer Item |
 | **Navigation Rail** | ✅ Implemented | `widget/rail` | `compose/foundation/material3/navigationrail` (Prototype Implemented) |
