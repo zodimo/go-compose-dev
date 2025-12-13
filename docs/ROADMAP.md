@@ -26,7 +26,7 @@ To provide a feature-complete, idiomatic Go implementation of Jetpack Compose's 
     - [ ] Item spacing and content padding support.
 - [ ] **Grids**: Lazy grids.
 - [ ] **Chips**:
-    - [ ] Assist, Filter, Input, and Suggestion chips.
+    - [x] Chips (Assist, Filter, Input, Suggestion) chips.
 - [ ] **Badges**: Integration with navigation items and icons.
 - [ ] **Tooltips**: Plain and rich tooltips for desktop/mouse users.
 

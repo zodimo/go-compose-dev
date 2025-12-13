@@ -18,7 +18,7 @@ Comparison of official Material 3 components with their implementation status in
 | **Cards** | 🟢 `widget/card` | 🟢 Implemented | |
 | **Carousel** | 🔴 Missing | 🔴 Todo | |
 | **Checkbox** | 🟢 `widget/checkbox` | 🟢 Implemented | |
-| **Chips** | 🔴 Missing | 🔴 Todo | |
+| **Chips** | 🔴 Missing | 🟢 Implemented | |
 | **Date pickers** | 🔴 Missing | 🔴 Todo | |
 | **Dialogs** | 🟢 `widget/dialog` | 🟢 Implemented | |
 | **Divider** | 🟢 `widget/divider` | 🟢 Implemented | |
