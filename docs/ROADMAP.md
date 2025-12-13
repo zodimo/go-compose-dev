@@ -33,7 +33,7 @@ To provide a feature-complete, idiomatic Go implementation of Jetpack Compose's 
 ### Phase 3: Extended Inputs
 *Focus: Complex user inputs.*
 
-- [ ] **Sliders**:
+- [x] **Sliders**:
     - [ ] Continuous and Discrete sliders.
     - [ ] Range sliders.
     - [ ] Custom thumb and track support.

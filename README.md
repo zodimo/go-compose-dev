@@ -31,7 +31,7 @@ Comparison of official Material 3 components with their implementation status in
 | **Radio button** | 🟢 `widget/radio` | 🟢 Implemented | |
 | **Search** |  `widget/search` | 🔴 Todo | |
 | **Side sheets** |  `widget/sheet` | 🔴 Todo | |
-| **Sliders** |  `widget/slider` | 🔴 Todo | |
+| **Sliders** | 🟢 `widget/slider` | 🟢 Implemented | |
 | **Snackbars** | 🟢 `widget/snackbar` | 🟢 Implemented | |
 | **Switch** | 🟢 `widget/toggle` | 🟢 Implemented | |
 | **Surface** | 🟢 `exp` | 🟢 Implemented | Core primitive (Shadows, Borders, Shapes) |

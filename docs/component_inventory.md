@@ -59,7 +59,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | **Date Picker** | ❌ Missing | - | |
 | **Menus** | ✅ Implemented | `widget/overlay` | `compose/foundation/material3/menu`. Using Card for now (inline). |
 | **Radio Button** | ✅ Implemented | `widget/radio` | `compose/foundation/material3/radiobutton` |
-| **Sliders** | 📦 Available | `widget/slider` | |
+| **Sliders** | ✅ Implemented | `widget/slider` | `compose/foundation/material3/slider` |
 | **Switch** | ✅ Implemented | `widget/toggle` | `compose/foundation/material3/switch` |
 | **Time Pickers** | ❌ Missing | - | |
 
