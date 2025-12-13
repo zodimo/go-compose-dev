@@ -39,6 +39,9 @@ func Run(window *app.Window) error {
 	var ops op.Ops
 
 	store := store.NewPersistentState(map[string]state.MutableValue{})
+	store.SetOnStateChange(func() {
+		window.Invalidate()
+	})
 	runtime := runtime.NewRuntime()
 
 	themeManager := theme.GetThemeManager()
@@ -61,9 +64,6 @@ func Run(window *app.Window) error {
 			callOp := runtime.Run(gtx, layoutNode)
 			callOp.Add(gtx.Ops)
 			frameEvent.Frame(gtx.Ops)
-
-			// until state changes, invalidate the window
-			window.Invalidate()
 
 		}
 	}
