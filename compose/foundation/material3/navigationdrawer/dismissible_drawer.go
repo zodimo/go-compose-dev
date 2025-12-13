@@ -8,7 +8,6 @@ import (
 	"go-compose-dev/compose/foundation/material3/surface"
 	"go-compose-dev/compose/ui/graphics/shape"
 	"go-compose-dev/internal/animation"
-	"go-compose-dev/internal/modifier"
 	animMod "go-compose-dev/internal/modifiers/animation"
 	"go-compose-dev/internal/modifiers/size"
 	"go-compose-dev/internal/theme"
@@ -62,7 +61,7 @@ func DismissibleNavigationDrawer(
 							surface.WithColor(drawerContainerColor),
 							surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(0)}),
 							surface.WithModifier(
-								modifier.EmptyModifier.
+								EmptyModifier.
 									Then(size.Width(360)). // Inner content fits 360
 									Then(size.FillMaxHeight()),
 							),
@@ -70,7 +69,7 @@ func DismissibleNavigationDrawer(
 					},
 					// The outer box constrains the width based on animation
 					box.WithModifier(
-						modifier.EmptyModifier.
+						EmptyModifier.
 							Then(animMod.AnimatedWidth(anim, 360)).
 							Then(size.FillMaxHeight()),
 						// We might need clipping here if the content shouldn't squash

@@ -5,21 +5,15 @@ import (
 	"go-compose-dev/compose/foundation/material3/surface"
 	"go-compose-dev/compose/ui/graphics/shape"
 	"go-compose-dev/internal/animation"
-	"go-compose-dev/internal/modifier"
 	animMod "go-compose-dev/internal/modifiers/animation"
 	"go-compose-dev/internal/modifiers/clickable"
 	"go-compose-dev/internal/modifiers/size"
 	"go-compose-dev/internal/theme"
-	"go-compose-dev/pkg/api"
 	"time"
 
 	"gioui.org/unit"
 	"git.sr.ht/~schnwalter/gio-mw/token"
 )
-
-type Modifier = modifier.Modifier
-type Composable = api.Composable
-type Composer = api.Composer
 
 // ModalNavigationDrawer implements a navigation drawer that overlays the content.
 // It uses a generic Box layout to stack a scrim and the drawer sheet over the content.
@@ -84,7 +78,7 @@ func ModalNavigationDrawer(
 					box.Box(
 						func(c Composer) Composer { return c },
 						box.WithModifier(
-							modifier.EmptyModifier.
+							EmptyModifier.
 								Then(size.FillMax()).
 								Then(animMod.AnimatedBackground(anim, baseScrim, shape.ShapeRectangle)). // RectangleShape singleton
 								Then(clickable.OnClick(func() {
@@ -101,7 +95,7 @@ func ModalNavigationDrawer(
 						surface.WithColor(drawerContainerColor),
 						surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(16)}),
 						surface.WithModifier(
-							modifier.EmptyModifier.
+							EmptyModifier.
 								Then(animMod.AnimatedWidth(anim, 360)). // Animate width
 								Then(size.FillMaxHeight()),
 						),

@@ -6,27 +6,25 @@ import (
 	"go-compose-dev/compose/foundation/layout/row"
 	"go-compose-dev/compose/foundation/material3/surface"
 	"go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/internal/modifier"
 	"go-compose-dev/internal/modifiers/clickable"
 	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/pkg/api"
 
 	"gioui.org/widget"
 )
 
-const ChipNodeID = "Material3Chip"
+const Material3ChipNodeID = "Material3Chip"
 
 // AssistChip represents a Material 3 Assist Chip.
 // Assist chips represent smart or automated actions that can span multiple apps,
 // such as opening a calendar event from the home screen.
-func AssistChip(onClick func(), label string, options ...ChipOption) api.Composable {
+func AssistChip(onClick func(), label string, options ...ChipOption) Composable {
 	return Chip(onClick, label, options...)
 }
 
 // FilterChip represents a Material 3 Filter Chip.
 // Filter chips use tags or descriptive words to filter content.
 // They can be a good alternative to toggle buttons or checkboxes.
-func FilterChip(onClick func(), label string, options ...ChipOption) api.Composable {
+func FilterChip(onClick func(), label string, options ...ChipOption) Composable {
 	// TODO: Add specific FilterChip defaults (selected state styling)
 	return Chip(onClick, label, options...)
 }
@@ -34,7 +32,7 @@ func FilterChip(onClick func(), label string, options ...ChipOption) api.Composa
 // InputChip represents a Material 3 Input Chip.
 // Input chips represent pieces of information entered by a user, such as an event
 // attendee or filter term.
-func InputChip(onClick func(), label string, options ...ChipOption) api.Composable {
+func InputChip(onClick func(), label string, options ...ChipOption) Composable {
 	// TODO: Add specific InputChip defaults
 	return Chip(onClick, label, options...)
 }
@@ -42,14 +40,14 @@ func InputChip(onClick func(), label string, options ...ChipOption) api.Composab
 // SuggestionChip represents a Material 3 Suggestion Chip.
 // Suggestion chips help narrow down user intent by presenting dynamically generated suggestions,
 // such as possible responses or search filters.
-func SuggestionChip(onClick func(), label string, options ...ChipOption) api.Composable {
+func SuggestionChip(onClick func(), label string, options ...ChipOption) Composable {
 	// TODO: Add specific SuggestionChip defaults
 	return Chip(onClick, label, options...)
 }
 
 // Chip is the internal generic implementation.
-func Chip(onClick func(), label string, options ...ChipOption) api.Composable {
-	return func(c api.Composer) api.Composer {
+func Chip(onClick func(), label string, options ...ChipOption) Composable {
+	return func(c Composer) Composer {
 		opts := DefaultChipOptions()
 		for _, option := range options {
 			if option == nil {
@@ -79,13 +77,13 @@ func Chip(onClick func(), label string, options ...ChipOption) api.Composable {
 		}
 		verticalPadding := 6
 
-		rowModifier := modifier.EmptyModifier.
+		rowModifier := EmptyModifier.
 			Then(padding.Padding(startPadding, verticalPadding, endPadding, verticalPadding))
 
 		// Compose the content
-		content := func(c api.Composer) api.Composer {
+		content := func(c Composer) Composer {
 			return row.Row(
-				func(c api.Composer) api.Composer {
+				func(c Composer) Composer {
 					if opts.LeadingIcon != nil {
 						// Add end padding to icon
 						iconWrapper := box.Box(

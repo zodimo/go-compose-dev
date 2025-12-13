@@ -5,7 +5,6 @@ import (
 	m3Card "go-compose-dev/compose/foundation/material3/card"
 	"go-compose-dev/internal/modifiers/padding"
 	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
 )
 
 // DropdownMenu Composable
@@ -13,9 +12,9 @@ import (
 func DropdownMenu(
 	expanded bool,
 	onDismissRequest func(),
-	content api.Composable,
-) api.Composable {
-	return func(c api.Composer) api.Composer {
+	content Composable,
+) Composable {
+	return func(c Composer) Composer {
 		if !expanded {
 			return c
 		}

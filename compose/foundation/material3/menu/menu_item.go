@@ -5,15 +5,14 @@ import (
 	"go-compose-dev/internal/modifiers/clickable"
 	"go-compose-dev/internal/modifiers/padding"
 	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
 )
 
 // DropdownMenuItem Composable
 func DropdownMenuItem(
 	onClick func(),
-	content api.Composable,
-) api.Composable {
-	return func(c api.Composer) api.Composer {
+	content Composable,
+) Composable {
+	return func(c Composer) Composer {
 		return row.Row(
 			content,
 			row.WithModifier(clickable.OnClick(onClick)),

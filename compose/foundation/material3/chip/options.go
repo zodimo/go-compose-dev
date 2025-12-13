@@ -2,36 +2,30 @@ package chip
 
 import (
 	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/pkg/api"
 	"image/color"
 
 	"gioui.org/unit"
 )
 
 type ChipOptions struct {
-	Modifier     modifier.Modifier
+	Modifier     Modifier
 	Shape        shape.Shape
 	Color        color.NRGBA
 	BorderColor  color.NRGBA
 	BorderWidth  unit.Dp
 	Elevation    unit.Dp
 	Height       unit.Dp
-	LeadingIcon  api.Composable
-	TrailingIcon api.Composable
+	LeadingIcon  Composable
+	TrailingIcon Composable
 	Enabled      bool
 	Selected     bool
 }
 
 type ChipOption func(*ChipOptions)
 
-type Composable = api.Composable
-type Composer = api.Composer
-type Modifier = modifier.Modifier
-
 func DefaultChipOptions() ChipOptions {
 	return ChipOptions{
-		Modifier:    modifier.EmptyModifier,
+		Modifier:    EmptyModifier,
 		Shape:       shape.RoundedCornerShape{Radius: unit.Dp(8)}, // Material 3 small rounding usually
 		Color:       color.NRGBA{R: 0, G: 0, B: 0, A: 0},          // Transparent by default, surface handles it
 		BorderWidth: unit.Dp(1),
@@ -60,13 +54,13 @@ func WithSelected(selected bool) ChipOption {
 	}
 }
 
-func WithLeadingIcon(icon api.Composable) ChipOption {
+func WithLeadingIcon(icon Composable) ChipOption {
 	return func(o *ChipOptions) {
 		o.LeadingIcon = icon
 	}
 }
 
-func WithTrailingIcon(icon api.Composable) ChipOption {
+func WithTrailingIcon(icon Composable) ChipOption {
 	return func(o *ChipOptions) {
 		o.TrailingIcon = icon
 	}

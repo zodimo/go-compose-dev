@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"go-compose-dev/compose/foundation/layout/box"
 	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/internal/modifier"
 	"go-compose-dev/internal/modifiers/clickable"
 	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
 
 	"gioui.org/layout"
 	"gioui.org/unit"
@@ -15,14 +13,16 @@ import (
 	"git.sr.ht/~schnwalter/gio-mw/token"
 )
 
+const Material3FABNodeID = "Material3FAB"
+
 // FloatingActionButton is a Material 3 Floating Action Button.
 // It sits above the content and represents the primary action.
 func FloatingActionButton(
 	onClick func(),
-	content api.Composable,
+	content Composable,
 	options ...FloatingActionButtonOption,
-) api.Composable {
-	return func(c api.Composer) api.Composer {
+) Composable {
+	return func(c Composer) Composer {
 		opts := DefaultFloatingActionButtonOptions()
 		for _, option := range options {
 			if option == nil {
@@ -72,10 +72,10 @@ func SurfaceWithThemeDefaults(
 	fabClickable *widget.Clickable,
 	elevation token.ElevationLevel,
 	opts FloatingActionButtonOptions,
-	fabModifier modifier.Modifier,
-	content api.Composable,
-) api.Composable {
-	return func(c api.Composer) api.Composer {
+	fabModifier Modifier,
+	content Composable,
+) Composable {
+	return func(c Composer) Composer {
 
 		surfaceOpts := []surface.SurfaceOption{
 			surface.WithShadowElevation(ElevationToDp(elevation)),
@@ -113,7 +113,7 @@ func ElevationToDp(level token.ElevationLevel) unit.Dp {
 }
 
 // GetSizeModifier returns the size modifier for the FAB based on the FabSize option.
-func GetSizeModifier(fabSize FabSize) modifier.Modifier {
+func GetSizeModifier(fabSize FabSize) Modifier {
 	switch fabSize {
 	case FabSizeSmall:
 		return size.Size(40, 40)
