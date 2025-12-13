@@ -6,13 +6,13 @@ Comparison of official Material 3 components with their implementation status in
 
 | Material 3 Component | `gio-mw` Availability | `go-compose-dev` Status | Notes |
 | :--- | :--- | :--- | :--- |
-| **App bars: Bottom** | 🔴 Missing | 🔴 Todo | |
-| **App bars: Top** | 🔴 Missing | 🔴 Todo | |
+| **App bars: Bottom** | 🔴 Missing | 🟢 Implemented | |
+| **App bars: Top** | 🔴 Missing | 🟢 Implemented | |
 | **Badge** | 🟢 `widget/badge` | 🔴 Todo | |
 | **Bottom sheets** | 🟢 `widget/sheet` | 🔴 Todo | |
 | **Buttons** | 🟢 `widget/button` | 🟢 Implemented | |
 | **Buttons: Extended FAB** | 🟢 `widget/button` | 🔴 Todo | Likely a variant of Button |
-| **Buttons: FAB** | 🟢 `widget/button` | 🔴 Todo | Likely a variant of Button |
+| **Buttons: FAB** | 🟢 `widget/button` | 🟢 Implemented | |
 | **Buttons: Icon button** | 🟢 `widget/button` | 🟢 Implemented | Likely a variant of Button |
 | **Buttons: Segmented** | 🔴 Missing | 🔴 Todo | |
 | **Cards** | 🟢 `widget/card` | 🟢 Implemented | |
@@ -22,9 +22,9 @@ Comparison of official Material 3 components with their implementation status in
 | **Date pickers** | 🔴 Missing | 🔴 Todo | |
 | **Dialogs** | 🟢 `widget/dialog` | 🟢 Implemented | |
 | **Divider** | 🟢 `widget/divider` | 🟢 Implemented | |
-| **Lists** | 🔴 Missing | 🔴 Todo | Core `gio.List` exists, but M3 styles missing |
+| **Lists** | 🔴 Missing | 🟢 Implemented | Lazy Layouts |
 | **Menus** | 🔴 Missing | 🟢 Implemented | |
-| **Navigation bar** | 🔴 Missing | 🔴 Todo | Bottom Navigation |
+| **Navigation bar** | 🔴 Missing | 🟢 Implemented | |
 | **Navigation drawer** | 🔴 Missing | 🟢 Implemented | Modal |
 | **Navigation rail** | 🟢 `widget/rail` | 🟢 Implemented | |
 | **Progress indicators** | 🟢 `widget/indicator` | 🟢 Implemented | |
