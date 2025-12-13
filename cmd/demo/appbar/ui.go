@@ -66,9 +66,29 @@ func UI() api.Composable {
 					),
 					Spacer(16),
 
-					// 4. Complete TopAppBar (Nav + Actions)
-					appbar.TopAppBar(
-						text.Text("Complete TopAppBar", text.TypestyleTitleLarge),
+					// 4. Center Aligned TopAppBar
+					appbar.CenterAlignedTopAppBar(
+						text.Text("Center Aligned", text.TypestyleTitleLarge),
+						appbar.WithNavigationIcon(
+							iconbutton.Standard(
+								func() {},
+								icons.NavigationMenu, // Using NavigationMenu as placeholder
+								"Menu",
+							),
+						),
+						appbar.WithActions(
+							iconbutton.Standard(
+								func() {},
+								icons.SocialPerson, // Assuming SocialPerson exists or use ActionAccountCircle if available
+								"Profile",
+							),
+						),
+					),
+					Spacer(16),
+
+					// 5. Medium TopAppBar
+					appbar.MediumTopAppBar(
+						text.Text("Medium TopAppBar", text.TypestyleHeadlineSmall),
 						appbar.WithNavigationIcon(
 							iconbutton.Standard(
 								func() {},
@@ -81,13 +101,43 @@ func UI() api.Composable {
 								compose.Sequence(
 									iconbutton.Standard(
 										func() {},
-										icons.ContentContentCopy,
-										"Copy",
+										icons.ActionSearch,
+										"Search",
 									),
 								),
 							),
 						),
 					),
+					Spacer(16),
+
+					// 6. Large TopAppBar
+					appbar.LargeTopAppBar(
+						text.Text("Large TopAppBar", text.TypestyleHeadlineMedium),
+						appbar.WithNavigationIcon(
+							iconbutton.Standard(
+								func() {},
+								icons.NavigationArrowBack,
+								"Back",
+							),
+						),
+						appbar.WithActions(
+							row.Row(
+								compose.Sequence(
+									iconbutton.Standard(
+										func() {},
+										icons.ActionSearch,
+										"Search",
+									),
+									iconbutton.Standard(
+										func() {},
+										icons.NavigationMoreVert,
+										"More",
+									),
+								),
+							),
+						),
+					),
+					Spacer(16),
 				),
 				column.WithModifier(size.FillMax()),
 				column.WithModifier(padding.All(16)), // Add some padding around the column
