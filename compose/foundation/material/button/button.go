@@ -14,6 +14,9 @@ func Button(onClick func(), label string, options ...ButtonOption) Composable {
 	return func(c Composer) Composer {
 		opts := DefaultButtonOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

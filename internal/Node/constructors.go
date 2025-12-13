@@ -29,6 +29,9 @@ func NewChainNode(
 ) ChainNode {
 	opts := &NewChainNodeOptions{}
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(opts)
 	}
 	return &chainNode{

@@ -9,6 +9,9 @@ import (
 func Box(content Composable, options ...BoxOption) Composable {
 	opts := DefaultBoxOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opts)
 	}
 	return func(c Composer) Composer {

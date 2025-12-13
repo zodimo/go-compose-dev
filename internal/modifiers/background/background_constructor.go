@@ -21,6 +21,9 @@ func Background(color color.Color, options ...BackgroundOption) Modifier {
 
 	opt := DefaultBackgroundOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opt)
 	}
 	return modifier.NewInspectableModifier(

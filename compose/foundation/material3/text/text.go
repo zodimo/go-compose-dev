@@ -18,6 +18,9 @@ func Text(value string, style Typestyle, options ...text.TextOption) api.Composa
 		// Resolve options
 		opts := text.DefaultTextOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

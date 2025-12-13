@@ -18,6 +18,9 @@ func Surface(
 	return func(c Composer) Composer {
 		opts := DefaultSurfaceOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

@@ -17,6 +17,9 @@ func Text(value string, options ...TextOption) Composable {
 
 	opts := DefaultTextOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opts)
 	}
 

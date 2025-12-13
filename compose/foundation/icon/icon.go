@@ -13,6 +13,9 @@ import (
 func Icon(iconByte []byte, options ...IconOption) Composable {
 	opts := DefaultIconOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opts)
 	}
 

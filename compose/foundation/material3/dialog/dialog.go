@@ -21,6 +21,9 @@ func AlertDialog(
 	return func(c Composer) Composer {
 		opts := DefaultDialogOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

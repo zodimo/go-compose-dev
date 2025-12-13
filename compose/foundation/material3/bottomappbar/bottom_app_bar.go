@@ -21,6 +21,9 @@ func BottomAppBar(
 	return func(c Composer) Composer {
 		opts := DefaultBottomAppBarOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

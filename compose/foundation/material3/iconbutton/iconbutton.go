@@ -38,6 +38,9 @@ func iconButtonComposable(material3Button *button.Button, onClick func(), icon [
 	return func(c Composer) Composer {
 		opts := DefaultIconButtonOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

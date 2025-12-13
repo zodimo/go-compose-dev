@@ -18,6 +18,9 @@ func DefaultColumnOptions() ColumnOptions {
 func Column(content Composable, options ...ColumnOption) Composable {
 	opts := DefaultColumnOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opts)
 	}
 	return func(c Composer) Composer {

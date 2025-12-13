@@ -26,6 +26,9 @@ func Size(width, height int, options ...SizeOption) Modifier {
 
 	opt := DefaultSizeOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opt)
 	}
 
@@ -204,6 +207,9 @@ func Width(width int, options ...SizeOption) Modifier {
 
 	opt := DefaultSizeOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opt)
 	}
 
@@ -231,6 +237,9 @@ func Height(height int, options ...SizeOption) Modifier {
 
 	opt := DefaultSizeOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opt)
 	}
 

@@ -28,6 +28,9 @@ func Scaffold(content Composable, options ...ScaffoldOption) Composable {
 	return func(c Composer) Composer {
 		opts := DefaultScaffoldOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

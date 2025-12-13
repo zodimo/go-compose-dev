@@ -18,6 +18,9 @@ func DefaultRowOptions() RowOptions {
 func Row(content Composable, options ...RowOption) Composable {
 	opts := DefaultRowOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opts)
 	}
 	return func(c Composer) Composer {

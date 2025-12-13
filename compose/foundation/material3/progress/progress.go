@@ -26,6 +26,9 @@ func indicatorComposable(defaultIndicator *indicator.Indicator, progress float32
 	return func(c Composer) Composer {
 		opts := DefaultIndicatorOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

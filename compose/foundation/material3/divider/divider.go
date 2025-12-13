@@ -11,6 +11,9 @@ func Divider(options ...DividerOption) Composable {
 
 		opts := DefaultDividerOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

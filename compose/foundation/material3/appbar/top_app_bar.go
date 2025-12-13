@@ -93,6 +93,9 @@ func TopAppBar(
 	return func(c Composer) Composer {
 		opts := DefaultTopAppBarOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 
@@ -115,6 +118,9 @@ func CenterAlignedTopAppBar(
 	return func(c Composer) Composer {
 		opts := DefaultTopAppBarOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 
@@ -268,6 +274,9 @@ func MediumTopAppBar(
 	return func(c Composer) Composer {
 		opts := DefaultTopAppBarOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 
@@ -292,6 +301,9 @@ func LargeTopAppBar(
 	return func(c Composer) Composer {
 		opts := DefaultTopAppBarOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

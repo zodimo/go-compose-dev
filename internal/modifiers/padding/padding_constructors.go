@@ -18,6 +18,9 @@ func Padding(start, top, end, bottom int, options ...PaddingOption) Modifier {
 
 	opt := DefaultPaddingOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opt)
 	}
 	return modifier.NewInspectableModifier(

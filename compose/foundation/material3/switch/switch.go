@@ -19,6 +19,9 @@ func Switch(
 	return func(c Composer) Composer {
 		opts := DefaultSwitchOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

@@ -11,6 +11,9 @@ import (
 func Overlay(content Composable, options ...OverlayOption) Composable {
 	opts := DefaultOverlayOptions()
 	for _, option := range options {
+		if option == nil {
+			continue
+		}
 		option(&opts)
 	}
 	return func(c Composer) Composer {

@@ -22,6 +22,9 @@ func Badge(options ...BadgeOption) api.Composable {
 	return func(c api.Composer) api.Composer {
 		opts := DefaultBadgeOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

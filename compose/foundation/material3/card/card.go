@@ -25,6 +25,9 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 	return func(c Composer) Composer {
 		opts := DefaultCardOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

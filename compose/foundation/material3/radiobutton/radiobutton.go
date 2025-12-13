@@ -30,6 +30,9 @@ func RadioButton(
 		// Resolve options
 		opts := DefaultRadioButtonOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

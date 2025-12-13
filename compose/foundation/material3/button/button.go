@@ -33,6 +33,9 @@ func buttonComposable(material3Button *button.Button, onClick func(), label stri
 	return func(c Composer) Composer {
 		opts := DefaultButtonOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

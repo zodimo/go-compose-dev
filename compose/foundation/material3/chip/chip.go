@@ -52,6 +52,9 @@ func Chip(onClick func(), label string, options ...ChipOption) api.Composable {
 	return func(c api.Composer) api.Composer {
 		opts := DefaultChipOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 

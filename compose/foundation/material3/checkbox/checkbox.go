@@ -19,6 +19,9 @@ func Checkbox(
 	return func(c Composer) Composer {
 		opts := DefaultCheckboxOptions()
 		for _, option := range options {
+			if option == nil {
+				continue
+			}
 			option(&opts)
 		}
 
