@@ -5,8 +5,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/compose/ui/window" // Import internal modifier
-	"github.com/zodimo/go-compose/internal/modifiers/padding"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/unit"

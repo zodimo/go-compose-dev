@@ -7,8 +7,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/text"
-	"github.com/zodimo/go-compose/internal/modifiers/background"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/background"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 

@@ -9,8 +9,8 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/animation"
 	"github.com/zodimo/go-compose/internal/modifier"
-	animMod "github.com/zodimo/go-compose/internal/modifiers/animation"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	animMod "github.com/zodimo/go-compose/modifiers/animation"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/unit"

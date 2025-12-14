@@ -8,8 +8,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/iconbutton"
 	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
 	"github.com/zodimo/go-compose/compose/foundation/material3/text"
-	"github.com/zodimo/go-compose/internal/modifiers/padding"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"golang.org/x/exp/shiny/materialdesign/icons"

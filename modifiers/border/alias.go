@@ -7,7 +7,7 @@ import (
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/helpers"
+	"github.com/zodimo/go-compose/modifiers/helpers"
 
 	"gioui.org/unit"
 )

@@ -1,11 +1,10 @@
-package clip
+package weight
 
 import (
-	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/helpers"
+	"github.com/zodimo/go-compose/modifiers/helpers"
 )
 
 type Modifier = modifier.Modifier
@@ -26,9 +25,4 @@ type PointerModifierNode = layoutnode.PointerInputModifierNode
 type LayoutContext = layoutnode.LayoutContext
 type LayoutWidget = layoutnode.LayoutWidget
 
-var ToNRGBA = helpers.ToNRGBA
-
-type Shape = shape.Shape
-
-var ShapeCircle = shape.ShapeCircle
-var ShapeRectangle = shape.ShapeRectangle
+var Clamp = helpers.Clamp

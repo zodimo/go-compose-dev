@@ -2,7 +2,7 @@ package column
 
 import (
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifiers/weight"
+	"github.com/zodimo/go-compose/modifiers/weight"
 
 	"gioui.org/layout"
 )

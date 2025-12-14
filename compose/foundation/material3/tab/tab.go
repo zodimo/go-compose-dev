@@ -7,10 +7,10 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
-	"github.com/zodimo/go-compose/internal/modifiers/background"
-	"github.com/zodimo/go-compose/internal/modifiers/clickable"
-	"github.com/zodimo/go-compose/internal/modifiers/padding"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/background"
+	"github.com/zodimo/go-compose/modifiers/clickable"
+	"github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/size"
 )
 
 // TabRow contains a row of Tabs and displays an indicator underneath the currently selected Tab.

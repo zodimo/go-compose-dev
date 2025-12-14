@@ -1,12 +1,10 @@
-package clickable
+package size
 
 import (
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/helpers"
-
-	"gioui.org/widget"
+	"github.com/zodimo/go-compose/modifiers/helpers"
 )
 
 type Modifier = modifier.Modifier
@@ -27,6 +25,4 @@ type PointerModifierNode = layoutnode.PointerInputModifierNode
 type LayoutContext = layoutnode.LayoutContext
 type LayoutWidget = layoutnode.LayoutWidget
 
-var ToNRGBA = helpers.ToNRGBA
-
-type GioClickable = widget.Clickable
+var Clamp = helpers.Clamp

@@ -17,7 +17,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/material/button"
 	"github.com/zodimo/go-compose/compose/foundation/text"
-	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/runtime"
 	"github.com/zodimo/go-compose/state"

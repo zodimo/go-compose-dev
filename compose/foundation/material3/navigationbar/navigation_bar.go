@@ -3,7 +3,7 @@ package navigationbar
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/size"
 )
 
 // NavigationBar displays a navigation bar at the bottom of the screen.

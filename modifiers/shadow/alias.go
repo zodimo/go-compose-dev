@@ -1,11 +1,15 @@
-package background
+package shadow
 
 import (
+	"image/color"
+
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/helpers"
+	"github.com/zodimo/go-compose/modifiers/helpers"
+
+	"gioui.org/unit"
 )
 
 type Modifier = modifier.Modifier
@@ -17,18 +21,13 @@ type Node = node.Node
 type TreeNode = node.TreeNode
 type ChainNode = node.ChainNode
 
-var EmptyModifier = modifier.EmptyModifier
-
 type DrawModifierNode = layoutnode.DrawModifierNode
-type LayoutModifierNode = layoutnode.LayoutModifierNode
-type PointerModifierNode = layoutnode.PointerInputModifierNode
-
-type LayoutContext = layoutnode.LayoutContext
 type LayoutWidget = layoutnode.LayoutWidget
+type LayoutContext = layoutnode.LayoutContext
+type LayoutDimensions = layoutnode.LayoutDimensions
 
 var ToNRGBA = helpers.ToNRGBA
 
 type Shape = shape.Shape
-
-var ShapeCircle = shape.ShapeCircle
-var ShapeRectangle = shape.ShapeRectangle
+type Dp = unit.Dp
+type Color = color.Color

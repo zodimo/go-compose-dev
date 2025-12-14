@@ -8,7 +8,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/iconbutton"
-	"github.com/zodimo/go-compose/internal/modifiers/scale"
+	"github.com/zodimo/go-compose/modifiers/scale"
 
 	"github.com/zodimo/go-compose/pkg/api"
 )

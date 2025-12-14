@@ -2,7 +2,7 @@ package box
 
 import (
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/box"
+	"github.com/zodimo/go-compose/modifiers/box"
 
 	"github.com/zodimo/go-compose/pkg/api"
 

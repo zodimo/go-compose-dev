@@ -3,10 +3,10 @@ package surface
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/background"
-	"github.com/zodimo/go-compose/internal/modifiers/border"
-	"github.com/zodimo/go-compose/internal/modifiers/clip"
-	"github.com/zodimo/go-compose/internal/modifiers/shadow"
+	"github.com/zodimo/go-compose/modifiers/background"
+	"github.com/zodimo/go-compose/modifiers/border"
+	"github.com/zodimo/go-compose/modifiers/clip"
+	"github.com/zodimo/go-compose/modifiers/shadow"
 )
 
 // Surface is a layout composable that represents a Material surface.

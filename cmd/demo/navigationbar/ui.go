@@ -12,8 +12,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/navigationbar"
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
 	"github.com/zodimo/go-compose/compose/foundation/text"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
-	"github.com/zodimo/go-compose/internal/modifiers/weight"
+	"github.com/zodimo/go-compose/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/weight"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	mdicons "golang.org/x/exp/shiny/materialdesign/icons"

@@ -6,9 +6,9 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
-	padding_modifier "github.com/zodimo/go-compose/internal/modifiers/padding"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
-	"github.com/zodimo/go-compose/internal/modifiers/weight"
+	padding_modifier "github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/weight"
 
 	"gioui.org/layout"
 )

@@ -1,15 +1,12 @@
-package shadow
+package clickable
 
 import (
-	"image/color"
-
-	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/helpers"
+	"github.com/zodimo/go-compose/modifiers/helpers"
 
-	"gioui.org/unit"
+	"gioui.org/widget"
 )
 
 type Modifier = modifier.Modifier
@@ -21,13 +18,15 @@ type Node = node.Node
 type TreeNode = node.TreeNode
 type ChainNode = node.ChainNode
 
+var EmptyModifier = modifier.EmptyModifier
+
 type DrawModifierNode = layoutnode.DrawModifierNode
-type LayoutWidget = layoutnode.LayoutWidget
+type LayoutModifierNode = layoutnode.LayoutModifierNode
+type PointerModifierNode = layoutnode.PointerInputModifierNode
+
 type LayoutContext = layoutnode.LayoutContext
-type LayoutDimensions = layoutnode.LayoutDimensions
+type LayoutWidget = layoutnode.LayoutWidget
 
 var ToNRGBA = helpers.ToNRGBA
 
-type Shape = shape.Shape
-type Dp = unit.Dp
-type Color = color.Color
+type GioClickable = widget.Clickable

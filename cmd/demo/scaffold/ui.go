@@ -11,8 +11,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
 	ftext "github.com/zodimo/go-compose/compose/foundation/text"
-	padding_modifier "github.com/zodimo/go-compose/internal/modifiers/padding"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	padding_modifier "github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 

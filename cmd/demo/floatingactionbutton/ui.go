@@ -9,7 +9,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/floatingactionbutton"
 	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
 	"github.com/zodimo/go-compose/compose/foundation/material3/text"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"

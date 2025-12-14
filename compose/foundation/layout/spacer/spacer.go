@@ -2,7 +2,7 @@ package spacer
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
-	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 

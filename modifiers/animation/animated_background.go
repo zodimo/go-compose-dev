@@ -5,7 +5,7 @@ import (
 
 	"github.com/zodimo/go-compose/internal/animation"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/internal/modifiers/background"
+	"github.com/zodimo/go-compose/modifiers/background"
 )
 
 type AnimatedBackgroundElement struct {
