@@ -8,7 +8,7 @@ import (
 	"gioui.org/widget"
 )
 
-var FallbackColorDescriptor = ThemeManager.ColorRoleDescriptors().BasicColorRoleDescriptors.BasicFg
+var FallbackColorDescriptor = themeManager.ColorRoleDescriptors().BasicColorRoleDescriptors.BasicFg
 
 // icons from golang.org/x/exp/shiny/materialdesign/icons
 func Icon(iconByte []byte, options ...IconOption) Composable {
@@ -44,7 +44,7 @@ func iconWidgetConstructor(options IconOptions, iconByte []byte) layoutnode.Layo
 				colorDescriptor = options.LazyColor.UnwrapUnsafe()()
 			}
 
-			themeColor := ThemeManager.ResolveColorDescriptor(colorDescriptor)
+			themeColor := themeManager.ResolveColorDescriptor(colorDescriptor)
 
 			return iconWidget(gtx, themeColor.AsNRGBA())
 		}

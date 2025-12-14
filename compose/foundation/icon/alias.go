@@ -26,6 +26,6 @@ var ToNRGBA = colorhelper.ToNRGBA
 
 type ColorDescriptor = theme.ThemeColorDescriptor
 
-var ThemeManager = theme.GetThemeManager()
+var themeManager = theme.GetThemeManager()
 
 var specificColor = theme.SpecificColor
