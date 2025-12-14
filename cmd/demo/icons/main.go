@@ -21,7 +21,7 @@ func main() {
 	go func() {
 		w := new(app.Window)
 		w.Option(app.Title("Compose Icons"))
-		w.Option(app.Size(unit.Dp(1024), unit.Dp(768)))
+		w.Option(app.Size(unit.Dp(1250), unit.Dp(800)))
 
 		if err := Run(w); err != nil {
 			log.Fatal(err)

@@ -8,6 +8,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/iconbutton"
+	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/scale"
 
 	"github.com/zodimo/go-compose/pkg/api"
@@ -67,6 +68,7 @@ func UI(c api.Composer) api.LayoutNode {
 			rowItems = append(rowItems, icon.Icon(def.Data,
 				icon.WithColor(col),
 				icon.WithModifier(scale.Scale(scaleFactor)),
+				icon.WithModifier(padding.All(3)),
 			))
 		}
 		rows = append(rows, row.Row(compose.Sequence(rowItems...)))

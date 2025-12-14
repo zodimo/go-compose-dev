@@ -20,7 +20,7 @@ func main() {
 	go func() {
 		w := new(app.Window)
 		w.Option(
-			app.Title("NavigationBar Demo"),
+			app.Title("NavBar Demo"),
 			app.Size(unit.Dp(400), unit.Dp(800)),
 		)
 		if err := Run(w); err != nil {
