@@ -7,24 +7,17 @@ import (
 )
 
 type IconOptions struct {
-	Modifier   Modifier
-	ThemeColor maybe.Maybe[ThemeColorSet]
-	Color      color.Color
+	Modifier Modifier
+	Color    maybe.Maybe[ColorDescriptor]
 }
 
 type IconOption func(*IconOptions)
 
 func DefaultIconOptions() IconOptions {
 	return IconOptions{
-		Modifier:   EmptyModifier,
-		ThemeColor: maybe.None[ThemeColorSet](),
+		Modifier: EmptyModifier,
 		// Default Fallback is black
-		Color: color.NRGBA{
-			R: 0,
-			G: 0,
-			B: 0,
-			A: 255,
-		},
+		Color: maybe.None[ColorDescriptor](),
 	}
 }
 
@@ -34,16 +27,14 @@ func WithModifier(m Modifier) IconOption {
 	}
 }
 
-func WithThemeColor(reader ColorReader) IconOption {
+func WithColor(color color.Color) IconOption {
 	return func(o *IconOptions) {
-		o.ThemeColor = maybe.Some(ThemeColorSet{
-			ThemeColor: reader,
-		})
+		o.Color = maybe.Some(specificColor(color))
 	}
 }
 
-func WithColor(color color.Color) IconOption {
+func WithColorDescriptor(desc ColorDescriptor) IconOption {
 	return func(o *IconOptions) {
-		o.Color = color
+		o.Color = maybe.Some(desc)
 	}
 }

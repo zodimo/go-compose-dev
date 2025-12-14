@@ -2,12 +2,18 @@ package icon
 
 import (
 	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/theme"
 	"image/color"
 
 	"gioui.org/layout"
 	"gioui.org/widget"
 )
+
+var FallbackColorDescriptor = specificColor(color.NRGBA{
+	R: 0,
+	G: 0,
+	B: 0,
+	A: 255,
+})
 
 // icons from golang.org/x/exp/shiny/materialdesign/icons
 func Icon(iconByte []byte, options ...IconOption) Composable {
@@ -35,12 +41,14 @@ func iconWidgetConstructor(options IconOptions, iconByte []byte) layoutnode.Layo
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 			iconWidget := requireIconWidget(iconByte)
 
-			if options.ThemeColor.IsSome() {
-				themeManager := theme.GetThemeManager()
-				return iconWidget(gtx, options.ThemeColor.UnwrapUnsafe().ThemeColor(themeManager.ThemeColorResolver()))
+			colorDescriptor := FallbackColorDescriptor
+			if options.Color.IsSome() {
+				colorDescriptor = options.Color.UnwrapUnsafe()
 			}
 
-			return iconWidget(gtx, options.Color)
+			themeColor := ThemeManager.Color(colorDescriptor)
+
+			return iconWidget(gtx, themeColor.AsNRGBA())
 		}
 	})
 }
@@ -51,6 +59,9 @@ func requireIconWidget(data []byte) IconWidget {
 		panic(err)
 	}
 	return func(gtx layout.Context, foreground color.Color) layout.Dimensions {
+		if nrgba, ok := foreground.(color.NRGBA); ok {
+			return iconWidget.Layout(gtx, nrgba)
+		}
 		return iconWidget.Layout(gtx, ToNRGBA(foreground))
 	}
 }
