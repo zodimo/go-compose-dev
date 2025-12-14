@@ -25,6 +25,11 @@ func (cr *themeColorResolver) Material(reader ThemeBasicColorReaderFunc) ThemeCo
 }
 
 func (cr *themeColorResolver) ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor {
+	resolvedColor := cr.resolveColorDescriptor(colorDesc)
+	return cr.applyUpdates(colorDesc.updates, resolvedColor.AsTokenColor())
+}
+
+func (cr *themeColorResolver) resolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor {
 	if colorDesc.isColor {
 		return ThemeColorFromColor(colorDesc.color)
 	}
@@ -156,4 +161,11 @@ func (cr *themeColorResolver) ResolveColorDescriptor(colorDesc ThemeColorDescrip
 }
 func newThemeColorResolver(tm ThemeManager) ThemeColorResolver {
 	return &themeColorResolver{tm: tm}
+}
+
+func (cr *themeColorResolver) applyUpdates(updates []func(color TokenColor) TokenColor, color TokenColor) ThemeColor {
+	for _, update := range updates {
+		color = update(color)
+	}
+	return ThemeColorFromTokenColor(color)
 }
