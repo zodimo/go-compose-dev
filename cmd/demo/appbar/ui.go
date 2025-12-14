@@ -43,24 +43,20 @@ func UI() api.Composable {
 					appbar.TopAppBar(
 						text.Text("With Actions", text.TypestyleTitleLarge),
 						appbar.WithActions(
-							row.Row(
-								compose.Sequence(
-									iconbutton.Standard(
-										func() {},
-										icons.ActionFavorite,
-										"Favorite",
-									),
-									iconbutton.Standard(
-										func() {},
-										icons.ActionSearch,
-										"Search",
-									),
-									iconbutton.Standard(
-										func() {},
-										icons.NavigationMoreVert,
-										"More",
-									),
-								),
+							iconbutton.Standard(
+								func() {},
+								icons.ActionFavorite,
+								"Favorite",
+							),
+							iconbutton.Standard(
+								func() {},
+								icons.ActionSearch,
+								"Search",
+							),
+							iconbutton.Standard(
+								func() {},
+								icons.NavigationMoreVert,
+								"More",
 							),
 						),
 					),
@@ -97,14 +93,10 @@ func UI() api.Composable {
 							),
 						),
 						appbar.WithActions(
-							row.Row(
-								compose.Sequence(
-									iconbutton.Standard(
-										func() {},
-										icons.ActionSearch,
-										"Search",
-									),
-								),
+							iconbutton.Standard(
+								func() {},
+								icons.ActionSearch,
+								"Search",
 							),
 						),
 					),
@@ -121,19 +113,15 @@ func UI() api.Composable {
 							),
 						),
 						appbar.WithActions(
-							row.Row(
-								compose.Sequence(
-									iconbutton.Standard(
-										func() {},
-										icons.ActionSearch,
-										"Search",
-									),
-									iconbutton.Standard(
-										func() {},
-										icons.NavigationMoreVert,
-										"More",
-									),
-								),
+							iconbutton.Standard(
+								func() {},
+								icons.ActionSearch,
+								"Search",
+							),
+							iconbutton.Standard(
+								func() {},
+								icons.NavigationMoreVert,
+								"More",
 							),
 						),
 					),

@@ -1,10 +1,11 @@
 package appbar
 
 // TopAppBarOptions configuration
+// TopAppBarOptions configuration
 type TopAppBarOptions struct {
 	Modifier       Modifier
 	NavigationIcon Composable
-	Actions        Composable
+	Actions        []Composable
 	Colors         TopAppBarColors
 }
 
@@ -29,7 +30,7 @@ func WithNavigationIcon(icon Composable) TopAppBarOption {
 	}
 }
 
-func WithActions(actions Composable) TopAppBarOption {
+func WithActions(actions ...Composable) TopAppBarOption {
 	return func(o *TopAppBarOptions) {
 		o.Actions = actions
 	}

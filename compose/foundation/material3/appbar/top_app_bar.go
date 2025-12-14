@@ -3,6 +3,7 @@ package appbar
 import (
 	"image/color"
 
+	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
@@ -20,11 +21,12 @@ func SingleRowTopAppBar(
 	modifier Modifier,
 	title Composable,
 	navigationIcon Composable,
-	actions Composable,
+	actions []Composable,
 	colors TopAppBarColors,
 ) Composable {
 	return surface.Surface(
 		func(c Composer) Composer {
+
 			return row.Row(
 				func(c Composer) Composer {
 					// Navigation Icon
@@ -61,14 +63,10 @@ func SingleRowTopAppBar(
 					)(c)
 
 					// Actions
-					if actions != nil {
+					if len(actions) > 0 {
 						row.Row(
-							surface.Surface(
-								actions,
-								surface.WithContentColor(colors.ActionIconContentColor),
-								surface.WithColor(color.NRGBA{}), // Transparent
-							),
-							row.WithAlignment(row.Middle),                          // Vertical alignment
+							compose.Sequence(actions...),
+							row.WithAlignment(row.Middle),
 							row.WithModifier(padding_modifier.Padding(0, 0, 4, 0)), // End(4)
 						)(c)
 					}
@@ -151,13 +149,10 @@ func CenterAlignedTopAppBar(
 								)(c)
 
 								// Actions
-								if opts.Actions != nil {
+								if len(opts.Actions) > 0 {
+									// Wrap actions in a Row with Middle alignment
 									row.Row(
-										surface.Surface(
-											opts.Actions,
-											surface.WithContentColor(opts.Colors.ActionIconContentColor),
-											surface.WithColor(color.NRGBA{}),
-										),
+										compose.Sequence(opts.Actions...),
 										row.WithAlignment(row.Middle),
 										row.WithModifier(padding_modifier.Padding(0, 0, 4, 0)),
 									)(c)
@@ -203,7 +198,7 @@ func TwoRowsTopAppBar(
 	titleBottomPadding int,
 	maxHeight int,
 	navigationIcon Composable,
-	actions Composable,
+	actions []Composable,
 	colors TopAppBarColors,
 ) Composable {
 	return surface.Surface(
