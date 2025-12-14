@@ -1,4 +1,11 @@
-.PHONY: tag-patch tag-minor tag-major
+.PHONY: help tag-patch tag-minor tag-major
+
+help:
+	@echo "Available targets:"
+	@echo "  tag-patch   - Increment patch version (v0.0.X -> v0.0.X+1)"
+	@echo "  tag-minor   - Increment minor version (v0.X.0 -> v0.X+1.0)"
+	@echo "  tag-major   - Increment major version (vX.0.0 -> vX+1.0.0)"
+
 
 # Default to v0.0.0 if no tags exist
 CURRENT_TAG := $(shell git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0)
