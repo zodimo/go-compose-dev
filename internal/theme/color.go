@@ -4,6 +4,12 @@ import (
 	"image/color"
 )
 
+type ResolvableColor interface {
+	ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor
+}
+
+// ResolvedColor is a color that has been resolved from a ThemeColorDescriptor
+
 type ThemeColor interface {
 	AsHex() string
 	AsNRGBA() color.NRGBA

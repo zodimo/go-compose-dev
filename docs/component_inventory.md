@@ -57,7 +57,7 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | **Checkbox** | ✅ Implemented | `widget/checkbox` | `compose/foundation/material3/checkbox` |
 | **Chips** | ✅ Implemented | `compose/foundation/material3/chip` | Assist, Filter, Input, Suggestion chips. |
 | **Date Picker** | ❌ Missing | - | |
-| **Menus** | ✅ Implemented | `widget/overlay` | `compose/foundation/material3/menu`. Using Card for now (inline). |
+| [Menu](https://m3.material.io/components/menus/overview) | ✅ Implemented | `compose/foundation/material3/menu` | |
 | **Radio Button** | ✅ Implemented | `widget/radio` | `compose/foundation/material3/radiobutton` |
 | **Sliders** | ✅ Implemented | `widget/slider` | `compose/foundation/material3/slider` |
 | **Switch** | ✅ Implemented | `widget/toggle` | `compose/foundation/material3/switch` |

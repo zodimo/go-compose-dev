@@ -59,7 +59,10 @@ func Run(window *app.Window) error {
 			gtx = themeManager.Material3ThemeInit(gtx)
 
 			composer := compose.NewComposer(store)
-			layoutNode := UI(composer)
+			// UI() returns a Composable (func(Composer) Composer), so we call it.
+			// Then we call Build() to get the LayoutNode.
+			UI()(composer)
+			layoutNode := composer.Build()
 
 			callOp := runtime.Run(gtx, layoutNode)
 			callOp.Add(gtx.Ops)
