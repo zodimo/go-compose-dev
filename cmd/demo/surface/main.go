@@ -1,13 +1,14 @@
 package main
 
 import (
-	"go-compose-dev/compose"
-	"go-compose-dev/compose/runtime"
-	"go-compose-dev/internal/state"
-	"go-compose-dev/internal/store"
-	"go-compose-dev/internal/theme"
 	"log"
 	"os"
+
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/runtime"
+	"github.com/zodimo/go-compose/internal/state"
+	"github.com/zodimo/go-compose/internal/store"
+	"github.com/zodimo/go-compose/internal/theme"
 
 	"gioui.org/app"
 	"gioui.org/io/system"

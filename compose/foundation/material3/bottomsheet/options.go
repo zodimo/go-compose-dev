@@ -1,7 +1,7 @@
 package bottomsheet
 
 import (
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"git.sr.ht/~schnwalter/gio-mw/token"
 )

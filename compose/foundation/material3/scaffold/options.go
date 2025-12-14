@@ -1,8 +1,9 @@
 package scaffold
 
 import (
-	"go-compose-dev/internal/modifier"
 	"image/color"
+
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type ScaffoldOptions struct {

@@ -1,9 +1,9 @@
 package compose
 
 import (
-	"go-compose-dev/internal/composer/zipper"
-	"go-compose-dev/internal/state"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/internal/composer/zipper"
+	"github.com/zodimo/go-compose/internal/state"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 type Composable = api.Composable

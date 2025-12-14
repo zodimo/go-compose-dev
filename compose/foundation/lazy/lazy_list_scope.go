@@ -1,7 +1,7 @@
 package lazy
 
 import (
-	"go-compose-dev/compose"
+	"github.com/zodimo/go-compose/compose"
 )
 
 type LazyListScope interface {

@@ -1,8 +1,9 @@
 package shadow
 
 import (
-	"go-compose-dev/internal/modifier"
 	"image/color"
+
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type ShadowData struct {

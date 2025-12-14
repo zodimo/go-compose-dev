@@ -1,7 +1,7 @@
 package card
 
 import (
-	"go-compose-dev/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"git.sr.ht/~schnwalter/gio-mw/widget/card"
 )

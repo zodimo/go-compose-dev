@@ -1,8 +1,9 @@
 package bottomsheet
 
 import (
-	"go-compose-dev/internal/animation"
 	"time"
+
+	"github.com/zodimo/go-compose/internal/animation"
 )
 
 type SheetState struct {

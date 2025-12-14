@@ -3,8 +3,8 @@ package window
 import (
 	"image"
 
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
 	"gioui.org/op"

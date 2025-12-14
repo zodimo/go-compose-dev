@@ -2,9 +2,10 @@ package store
 
 import (
 	"fmt"
-	"go-compose-dev/internal/state"
 	"reflect"
 	"sync"
+
+	"github.com/zodimo/go-compose/internal/state"
 )
 
 type MutableValueInterface = state.MutableValue

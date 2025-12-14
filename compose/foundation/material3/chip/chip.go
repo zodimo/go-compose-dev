@@ -2,14 +2,15 @@ package chip
 
 import (
 	"fmt"
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/clickable"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/pkg/api"
+
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/clickable"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/widget"
 )

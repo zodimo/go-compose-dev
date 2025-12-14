@@ -1,13 +1,13 @@
 package navigationrail
 
 import (
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/internal/theme"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/internal/theme"
 
-	"go-compose-dev/compose/foundation/layout/spacer"
-	"go-compose-dev/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 )
 
 // NavigationRail represents a side navigation component.

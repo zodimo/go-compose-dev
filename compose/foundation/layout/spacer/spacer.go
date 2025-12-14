@@ -1,9 +1,9 @@
 package spacer
 
 import (
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 func Spacer(d int) api.Composable {

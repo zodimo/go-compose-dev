@@ -1,8 +1,9 @@
 package size
 
 import (
-	"go-compose-dev/internal/layoutnode"
 	"image"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
 )
 
 // Alignment is an interface that calculates the position of a child

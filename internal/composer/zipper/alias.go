@@ -1,13 +1,13 @@
 package zipper
 
 import (
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/identity"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/state"
-	"go-compose-dev/pkg/api"
-	idApi "go-compose-dev/pkg/compose-identifier/api"
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/identity"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/state"
+	"github.com/zodimo/go-compose/pkg/api"
+	idApi "github.com/zodimo/go-compose/pkg/compose-identifier/api"
 )
 
 type LayoutNode = layoutnode.LayoutNode

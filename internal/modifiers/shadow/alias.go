@@ -1,12 +1,13 @@
 package shadow
 
 import (
-	"go-compose-dev/compose/ui/graphics/shape"
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/helpers"
 	"image/color"
+
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/helpers"
 
 	"gioui.org/unit"
 )

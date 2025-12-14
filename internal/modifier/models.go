@@ -1,7 +1,7 @@
 package modifier
 
 import (
-	"go-compose-dev/internal/immap"
+	"github.com/zodimo/go-compose/internal/immap"
 
 	"github.com/zodimo/go-maybe"
 )

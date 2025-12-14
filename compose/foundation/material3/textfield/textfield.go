@@ -2,7 +2,8 @@ package textfield
 
 import (
 	"fmt"
-	"go-compose-dev/internal/layoutnode"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"git.sr.ht/~schnwalter/gio-mw/widget/input"
 )

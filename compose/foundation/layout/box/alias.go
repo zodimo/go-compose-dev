@@ -1,10 +1,10 @@
 package box
 
 import (
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/box"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/box"
 
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
 )

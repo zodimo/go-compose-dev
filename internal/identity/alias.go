@@ -1,8 +1,8 @@
 package identity
 
 import (
-	idApi "go-compose-dev/pkg/compose-identifier/api"
-	idModels "go-compose-dev/pkg/compose-identifier/models"
+	idApi "github.com/zodimo/go-compose/pkg/compose-identifier/api"
+	idModels "github.com/zodimo/go-compose/pkg/compose-identifier/models"
 )
 
 type apiIdentityManager = *idModels.IdentityManager

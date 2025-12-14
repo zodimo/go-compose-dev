@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/lazy"
-	"go-compose-dev/compose/foundation/material3/text"
-	ftext "go-compose-dev/compose/foundation/text"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
+
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/lazy"
+	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	ftext "github.com/zodimo/go-compose/compose/foundation/text"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 func UI() api.Composable {

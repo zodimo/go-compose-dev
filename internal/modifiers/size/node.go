@@ -1,9 +1,10 @@
 package size
 
 import (
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/layoutnode"
 	"image"
+
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/layout"
 	"gioui.org/op"

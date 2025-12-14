@@ -1,8 +1,8 @@
 package snackbar
 
 import (
-	"go-compose-dev/compose"
-	"go-compose-dev/internal/layoutnode"
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/layout"
 	"git.sr.ht/~schnwalter/gio-mw/wdk/block"

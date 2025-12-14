@@ -2,7 +2,8 @@ package store
 
 import (
 	"fmt"
-	"go-compose-dev/internal/state"
+
+	"github.com/zodimo/go-compose/internal/state"
 )
 
 func Remember[T any](c state.SupportState, key string, calc func() T) (T, error) {

@@ -4,19 +4,19 @@ import (
 	"fmt"
 	"image/color"
 
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/modifiers/clickable"
-	"go-compose-dev/internal/modifiers/clip"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/internal/theme"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/internal/modifiers/clickable"
+	"github.com/zodimo/go-compose/internal/modifiers/clip"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/internal/theme"
 
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/pkg/api"
 
-	"go-compose-dev/compose/foundation/layout/spacer"
-	"go-compose-dev/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 
 	"gioui.org/unit"
 

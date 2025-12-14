@@ -1,8 +1,8 @@
 package scale
 
 import (
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/modifier"
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type ScaleElement struct {

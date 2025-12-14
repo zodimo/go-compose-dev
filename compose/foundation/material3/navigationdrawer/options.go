@@ -1,6 +1,6 @@
 package navigationdrawer
 
-import "go-compose-dev/internal/modifier"
+import "github.com/zodimo/go-compose/internal/modifier"
 
 type ModalNavigationDrawerOptions struct {
 	Modifier Modifier

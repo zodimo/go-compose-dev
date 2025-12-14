@@ -2,7 +2,8 @@ package dialog
 
 import (
 	"fmt"
-	"go-compose-dev/internal/layoutnode"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"git.sr.ht/~schnwalter/gio-mw/wdk"
 	"git.sr.ht/~schnwalter/gio-mw/widget/button"

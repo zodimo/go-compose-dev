@@ -1,14 +1,15 @@
 package main
 
 import (
-	"go-compose-dev/compose"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/text"
-	"go-compose-dev/internal/modifiers/background"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
 	"image/color"
+
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/text"
+	"github.com/zodimo/go-compose/internal/modifiers/background"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 func UI(c api.Composer) api.LayoutNode {

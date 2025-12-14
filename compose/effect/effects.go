@@ -3,9 +3,10 @@ package effect
 import (
 	"context"
 	"fmt"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/pkg/api"
 	"reflect"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 // LaunchedEffect runs a side-effect in a goroutine.

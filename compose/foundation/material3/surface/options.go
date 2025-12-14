@@ -1,10 +1,11 @@
 package surface
 
 import (
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/modifier"
 	"image/color"
+
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type SurfaceOptions struct {

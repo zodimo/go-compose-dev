@@ -1,11 +1,12 @@
 package icon
 
 import (
-	"go-compose-dev/internal/color/colorhelper"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/theme"
-	"go-compose-dev/pkg/api"
 	"image/color"
+
+	"github.com/zodimo/go-compose/internal/color/colorhelper"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/theme"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
 	// . "golang.org/x/exp/shiny/materialdesign/icons"

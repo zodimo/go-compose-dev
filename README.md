@@ -1,10 +1,10 @@
-# Testbed for go-compose
+# go-compose
 
 ## Material 3 Component Inventory
 
-Comparison of official Material 3 components with their implementation status in `go-compose-dev` and availability in the upstream `gio-mw` library.
+Comparison of official Material 3 components with their implementation status in `github.com/zodimo/go-compose` and availability in the upstream `gio-mw` library.
 
-| Material 3 Component | `gio-mw` Availability | `go-compose-dev` Status | Notes |
+| Material 3 Component | `gio-mw` Availability | `github.com/zodimo/go-compose` Status | Notes |
 | :--- | :--- | :--- | :--- |
 | **App bars: Bottom** | 🔴 Missing | 🟢 Implemented | |
 | **App bars: Top** | 🔴 Missing | 🟢 Implemented | |

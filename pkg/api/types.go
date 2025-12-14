@@ -1,11 +1,11 @@
 package api
 
 import (
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/state"
-	idApi "go-compose-dev/pkg/compose-identifier/api"
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/state"
+	idApi "github.com/zodimo/go-compose/pkg/compose-identifier/api"
 )
 
 // compose-identifier.api.Identifier

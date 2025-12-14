@@ -1,10 +1,10 @@
 # Component Inventory & Gap Analysis
 
-This document tracks the status of Jetpack Compose components within `go-compose-dev` and their availability in the upstream `gio-mw` library.
+This document tracks the status of Jetpack Compose components within `github.com/zodimo/go-compose` and their availability in the upstream `gio-mw` library.
 
 **Status Legend:**
-- ✅ **Implemented**: Available in `go-compose-dev/compose/foundation/material3`.
-- 📦 **Available in gio-mw**: Exists in `gio-mw` but needs porting/wrapping in `go-compose-dev`.
+- ✅ **Implemented**: Available in `github.com/zodimo/go-compose/compose/foundation/material3`.
+- 📦 **Available in gio-mw**: Exists in `gio-mw` but needs porting/wrapping in `github.com/zodimo/go-compose`.
 - ❌ **Missing**: Not currently implemented in either.
 - 🚧 **Partial**: Started but incomplete.
 

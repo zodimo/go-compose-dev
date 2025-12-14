@@ -2,8 +2,9 @@ package text
 
 import (
 	"fmt"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/state"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/state"
 
 	"gioui.org/op"
 	"gioui.org/op/paint"

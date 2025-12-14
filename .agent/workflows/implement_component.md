@@ -4,7 +4,7 @@ description: Implement a new Material 3 component in GoCompose
 
 # Component Implementation Workflow
 
-This workflow guides you through implementing a new UI component in `go-compose-dev`.
+This workflow guides you through implementing a new UI component in `github.com/zodimo/go-compose`.
 
 ## 1. Planning & Analysis
 1. Check `docs/ROADMAP.md` to confirm the component's priority and requirements.

@@ -2,7 +2,8 @@ package button
 
 import (
 	"fmt"
-	"go-compose-dev/internal/layoutnode"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/widget"
 	"gioui.org/widget/material"

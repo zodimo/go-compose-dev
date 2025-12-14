@@ -1,6 +1,6 @@
 package padding
 
-import "go-compose-dev/internal/modifier"
+import "github.com/zodimo/go-compose/internal/modifier"
 
 type PaddingOptions struct {
 	RtlAware bool

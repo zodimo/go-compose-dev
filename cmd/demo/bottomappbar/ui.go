@@ -5,17 +5,17 @@ import (
 
 	"gioui.org/layout"
 
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/material3/bottomappbar"
-	"go-compose-dev/compose/foundation/material3/iconbutton"
-	m3text "go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/compose/foundation/text"
-	"go-compose-dev/pkg/api" // Import api for Composable/Composer
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/material3/bottomappbar"
+	"github.com/zodimo/go-compose/compose/foundation/material3/iconbutton"
+	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/foundation/text"
+	"github.com/zodimo/go-compose/pkg/api" // Import api for Composable/Composer
 
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/internal/modifiers/weight"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/internal/modifiers/weight"
 
 	mdicons "golang.org/x/exp/shiny/materialdesign/icons"
 )

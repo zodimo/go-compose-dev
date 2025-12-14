@@ -1,16 +1,17 @@
 package main
 
 import (
-	"go-compose-dev/compose"
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/material3/button"
-	"go-compose-dev/compose/foundation/material3/snackbar"
-	m3Text "go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
 	"log"
+
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/material3/button"
+	"github.com/zodimo/go-compose/compose/foundation/material3/snackbar"
+	m3Text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 func UI(c api.Composer) api.LayoutNode {

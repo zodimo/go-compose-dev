@@ -1,15 +1,16 @@
 package tab
 
 import (
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/internal/modifiers/background"
-	"go-compose-dev/internal/modifiers/clickable"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
 	"image/color"
+
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/internal/modifiers/background"
+	"github.com/zodimo/go-compose/internal/modifiers/clickable"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
 )
 
 // TabRow contains a row of Tabs and displays an indicator underneath the currently selected Tab.
@@ -118,7 +119,7 @@ func Tab(
 
 		// Clickable state
 		// We need a Clickable modifier or widget.
-		// go-compose-dev usually has interaction handling.
+		// github.com/zodimo/go-compose usually has interaction handling.
 
 		// Let's look at how Button does clicking.
 		// It wraps `button.Button` from gio-mw.

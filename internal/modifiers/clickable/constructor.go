@@ -1,6 +1,6 @@
 package clickable
 
-import "go-compose-dev/internal/modifier"
+import "github.com/zodimo/go-compose/internal/modifier"
 
 type ClickableOptions struct {
 	Clickable *GioClickable

@@ -2,8 +2,9 @@ package layoutnode
 
 import (
 	"fmt"
-	"go-compose-dev/internal/modifier"
 	"strings"
+
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 // DebugLayoutNode returns a formatted string representation of the layout node and its children

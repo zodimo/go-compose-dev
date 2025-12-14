@@ -2,9 +2,10 @@ package lazy
 
 import (
 	"fmt"
-	"go-compose-dev/compose"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifier"
+
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifier"
 
 	"gioui.org/layout"
 )

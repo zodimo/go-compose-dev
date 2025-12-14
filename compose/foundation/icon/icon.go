@@ -1,8 +1,9 @@
 package icon
 
 import (
-	"go-compose-dev/internal/layoutnode"
 	"image/color"
+
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/layout"
 	"gioui.org/widget"
