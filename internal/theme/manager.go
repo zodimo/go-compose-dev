@@ -1,7 +1,6 @@
 package theme
 
 import (
-	"image/color"
 	"sync"
 
 	"gioui.org/layout"
@@ -20,64 +19,67 @@ type ThemeManager interface {
 	SetMaterial3Theme(gtx layout.Context, theme *token.Theme)
 	GetMaterial3Theme() *token.Theme
 
-	ThemeColorResolver() ThemeColorResolver
+	ThemeColorResolver
 }
 
 var _ ThemeManager = (*themeManager)(nil)
 
 type themeManager struct {
-	mu             sync.RWMutex
-	materialTheme  *material.Theme
-	material3Theme *token.Theme
+	mu                 sync.RWMutex
+	basicTheme         *BasicTheme
+	theme              *Theme
+	themeColorResolver ThemeColorResolver
 }
 
-func newThemeManager(materialTheme *material.Theme) ThemeManager {
-	return &themeManager{
-		materialTheme: materialTheme,
+func newThemeManager(theme *BasicTheme) ThemeManager {
+	tm := &themeManager{
+		basicTheme: theme,
 	}
+	tm.themeColorResolver = newThemeColorResolver(tm)
+	return tm
 }
 
 func (tm *themeManager) MaterialTheme() *material.Theme {
 	tm.mu.RLock()
 	defer tm.mu.RUnlock()
-	return tm.materialTheme
+	return tm.basicTheme
 
 }
 func (tm *themeManager) SetMaterialTheme(theme *material.Theme) {
 	tm.mu.Lock()
 	defer tm.mu.Unlock()
-	tm.materialTheme = theme
+	tm.basicTheme = theme
 }
 
 func (tm *themeManager) Material3ThemeInit(gtx layout.Context) layout.Context {
 	tm.mu.Lock()
 	defer tm.mu.Unlock()
-	if tm.material3Theme == nil {
-		tm.material3Theme = defaultMaterial3Theme(gtx)
+	if tm.theme == nil {
+		tm.theme = defaultMaterial3Theme(gtx)
 	}
 
 	gtx.Values = make(map[string]any)
-	wdk.InitMaterialThemeInContext(gtx, tm.material3Theme)
+	wdk.InitMaterialThemeInContext(gtx, tm.theme)
 	return gtx
 
 }
 func (tm *themeManager) SetMaterial3Theme(gtx layout.Context, theme *token.Theme) {
 	tm.mu.Lock()
 	defer tm.mu.Unlock()
-	tm.material3Theme = theme
+	tm.theme = theme
 }
 
 func (tm *themeManager) GetMaterial3Theme() *token.Theme {
 	tm.mu.RLock()
 	defer tm.mu.RUnlock()
-	if tm.material3Theme == nil {
+	if tm.theme == nil {
 		panic("material3Theme is nil")
 	}
-	return tm.material3Theme
+	return tm.theme
 }
 
-func (tm *themeManager) ThemeColorResolver() ThemeColorResolver {
-	return newThemeColor(tm)
+func (tm *themeManager) Color(desc ThemeColorDescriptor) ThemeColor {
+	return tm.themeColorResolver.Color(desc)
 }
 
 func GetThemeManager() ThemeManager {
@@ -86,25 +88,4 @@ func GetThemeManager() ThemeManager {
 
 func init() {
 	themeManagerSingleton = newThemeManager(defaultMaterialTheme())
-
-}
-
-type ThemeColorResolver interface {
-	Material3(func(theme *token.Theme) color.Color) color.Color
-	Material(func(theme *material.Theme) color.Color) color.Color
-}
-
-type themeColorResolver struct {
-	tm ThemeManager
-}
-
-func (tc *themeColorResolver) Material3(reader func(theme *token.Theme) color.Color) color.Color {
-	return reader(tc.tm.GetMaterial3Theme())
-}
-
-func (tc *themeColorResolver) Material(reader func(theme *material.Theme) color.Color) color.Color {
-	return reader(tc.tm.MaterialTheme())
-}
-func newThemeColor(tm ThemeManager) ThemeColorResolver {
-	return &themeColorResolver{tm: tm}
 }
