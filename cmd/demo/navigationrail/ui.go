@@ -21,9 +21,12 @@ import (
 	"go-compose-dev/pkg/api"
 
 	"gioui.org/widget"
-	"git.sr.ht/~schnwalter/gio-mw/token"
 	"golang.org/x/exp/shiny/materialdesign/icons"
 )
+
+type ColorDescriptor = theme.ThemeColorDescriptor
+
+var themeManager = theme.GetThemeManager()
 
 func UI() api.Composable {
 	return func(c api.Composer) api.Composer {
@@ -71,13 +74,12 @@ func UI() api.Composable {
 								//Icon
 								icon.Icon(
 									item.Icon,
-									icon.WithThemeColor(func(tc theme.ThemeColorResolver) color.Color {
-										return tc.Material3(func(t *token.Theme) color.Color {
-											if isSelected {
-												return t.Scheme.SecondaryContainer.OnColor.AsNRGBA()
-											}
-											return t.Scheme.SurfaceVariant.OnColor.AsNRGBA()
-										})
+									icon.WithLazyColorDescriptor(func() ColorDescriptor {
+										if isSelected {
+											return themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer
+										}
+										return themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant
+
 									}),
 									icon.WithModifier(size.Size(24, 24)),
 								),
@@ -158,13 +160,12 @@ func UI() api.Composable {
 										//icon
 										icon.Icon(
 											item.Icon,
-											icon.WithThemeColor(func(tc theme.ThemeColorResolver) color.Color {
-												return tc.Material3(func(t *token.Theme) color.Color {
-													if isSelected {
-														return t.Scheme.SecondaryContainer.OnColor.AsNRGBA()
-													}
-													return t.Scheme.SurfaceVariant.OnColor.AsNRGBA()
-												})
+											icon.WithLazyColorDescriptor(func() ColorDescriptor {
+												if isSelected {
+													return themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer
+												}
+												return themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant
+
 											}),
 											icon.WithModifier(size.Size(24, 24)),
 										),
