@@ -12,7 +12,7 @@ import (
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/runtime"
 	"github.com/zodimo/go-compose/internal/state"
-	"github.com/zodimo/go-compose/internal/store"
+	"github.com/zodimo/go-compose/store"
 	"github.com/zodimo/go-compose/theme"
 )
 
