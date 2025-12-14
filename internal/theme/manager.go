@@ -19,21 +19,25 @@ type ThemeManager interface {
 	SetMaterial3Theme(gtx layout.Context, theme *token.Theme)
 	GetMaterial3Theme() *token.Theme
 
+	ColorRoleDescriptors() ColorRoleDescriptors
+
 	ThemeColorResolver
 }
 
 var _ ThemeManager = (*themeManager)(nil)
 
 type themeManager struct {
-	mu                 sync.RWMutex
-	basicTheme         *BasicTheme
-	theme              *Theme
-	themeColorResolver ThemeColorResolver
+	mu                   sync.RWMutex
+	basicTheme           *BasicTheme
+	theme                *Theme
+	themeColorResolver   ThemeColorResolver
+	colorRoleDescriptors ColorRoleDescriptors
 }
 
 func newThemeManager(theme *BasicTheme) ThemeManager {
 	tm := &themeManager{
-		basicTheme: theme,
+		basicTheme:           theme,
+		colorRoleDescriptors: NewColorRoleDescriptors(),
 	}
 	tm.themeColorResolver = newThemeColorResolver(tm)
 	return tm
@@ -78,8 +82,12 @@ func (tm *themeManager) GetMaterial3Theme() *token.Theme {
 	return tm.theme
 }
 
-func (tm *themeManager) Color(desc ThemeColorDescriptor) ThemeColor {
-	return tm.themeColorResolver.Color(desc)
+func (tm *themeManager) ResolveColorDescriptor(desc ThemeColorDescriptor) ThemeColor {
+	return tm.themeColorResolver.ResolveColorDescriptor(desc)
+}
+
+func (tm *themeManager) ColorRoleDescriptors() ColorRoleDescriptors {
+	return tm.colorRoleDescriptors
 }
 
 func GetThemeManager() ThemeManager {

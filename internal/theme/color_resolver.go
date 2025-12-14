@@ -9,7 +9,7 @@ type ThemeColorReaderFunc func(theme *Theme) ThemeColor
 type ThemeBasicColorReaderFunc func(theme *BasicTheme) ThemeColor
 
 type ThemeColorResolver interface {
-	Color(colorDesc ThemeColorDescriptor) ThemeColor
+	ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor
 }
 
 type themeColorResolver struct {
@@ -24,7 +24,7 @@ func (cr *themeColorResolver) Material(reader ThemeBasicColorReaderFunc) ThemeCo
 	return reader(cr.tm.MaterialTheme())
 }
 
-func (cr *themeColorResolver) Color(colorDesc ThemeColorDescriptor) ThemeColor {
+func (cr *themeColorResolver) ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor {
 	if colorDesc.isColor {
 		return ThemeColorFromColor(colorDesc.color)
 	}
