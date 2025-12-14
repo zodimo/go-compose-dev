@@ -1,7 +1,7 @@
 package clip
 
 import (
-	"go-compose-dev/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 func Clip(shape Shape) Modifier {

@@ -2,7 +2,7 @@ package store
 
 import (
 	"fmt"
-	"go-compose-dev/internal/state"
+	"github.com/zodimo/go-compose/internal/state"
 	"reflect"
 	"sync"
 )

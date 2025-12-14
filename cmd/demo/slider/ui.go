@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"image/color"
 
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/layout/spacer"
-	"go-compose-dev/compose/foundation/material3/scaffold"
-	"go-compose-dev/compose/foundation/material3/slider"
-	m3text "go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
+	"github.com/zodimo/go-compose/compose/foundation/material3/slider"
+	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 type Composable = api.Composable

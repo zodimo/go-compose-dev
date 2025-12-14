@@ -1,13 +1,13 @@
 package main
 
 import (
-	"go-compose-dev/compose"
-	"go-compose-dev/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 
-	"go-compose-dev/compose/foundation/text"
-	"go-compose-dev/internal/modifiers/background"
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/text"
+	"github.com/zodimo/go-compose/internal/modifiers/background"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/pkg/api"
 	"image/color"
 )
 

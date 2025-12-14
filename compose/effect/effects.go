@@ -3,8 +3,8 @@ package effect
 import (
 	"context"
 	"fmt"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/pkg/api"
 	"reflect"
 )
 

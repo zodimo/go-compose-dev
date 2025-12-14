@@ -3,10 +3,10 @@ package floatingactionbutton
 import (
 	"image/color"
 
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/modifier"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/internal/modifier"
 
-	// "go-compose-dev/pkg/api" // Removed unused api import
+	// "github.com/zodimo/go-compose/pkg/api" // Removed unused api import
 
 	"git.sr.ht/~schnwalter/gio-mw/token"
 )

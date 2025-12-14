@@ -1,7 +1,7 @@
 package state
 
 import (
-	"go-compose-dev/internal/immap"
+	"github.com/zodimo/go-compose/internal/immap"
 )
 
 type Memo = immap.ImmutableMap[any]

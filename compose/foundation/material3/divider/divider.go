@@ -1,7 +1,7 @@
 package divider
 
 import (
-	"go-compose-dev/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 )
 
 const Material3DivideNodeID = "Material3Divider"

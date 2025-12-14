@@ -3,9 +3,9 @@ package animation
 import (
 	"image/color"
 
-	"go-compose-dev/internal/animation"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/background"
+	"github.com/zodimo/go-compose/internal/animation"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/background"
 )
 
 type AnimatedBackgroundElement struct {

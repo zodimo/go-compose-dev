@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/material3/button"
-	"go-compose-dev/compose/foundation/material3/scaffold"
-	"go-compose-dev/compose/foundation/material3/surface"
-	m3text "go-compose-dev/compose/foundation/material3/text"
-	ftext "go-compose-dev/compose/foundation/text"
-	padding_modifier "go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/material3/button"
+	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	ftext "github.com/zodimo/go-compose/compose/foundation/text"
+	padding_modifier "github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 	"image/color"
 )
 

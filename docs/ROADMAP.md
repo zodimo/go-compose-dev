@@ -1,5 +1,5 @@
 
-# Roadmap: go-compose-dev
+# Roadmap: github.com/zodimo/go-compose
 
 This roadmap outlines the path towards a complete, production-ready implementation of Material 3 components in Go, powered by [Gio](https://gioui.org/).
 

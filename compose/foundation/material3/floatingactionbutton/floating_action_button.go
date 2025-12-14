@@ -2,12 +2,12 @@ package floatingactionbutton
 
 import (
 	"fmt"
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/clickable"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/clickable"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
 	"gioui.org/unit"

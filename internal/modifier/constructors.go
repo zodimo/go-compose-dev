@@ -1,6 +1,6 @@
 package modifier
 
-import "go-compose-dev/internal/immap"
+import "github.com/zodimo/go-compose/internal/immap"
 
 // EmptyModifier is the empty modifier that does nothing.
 var EmptyModifier Modifier = &emptyModifier{}

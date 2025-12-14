@@ -1,7 +1,7 @@
 package bottomsheet
 
 import (
-	"go-compose-dev/internal/animation"
+	"github.com/zodimo/go-compose/internal/animation"
 	"time"
 )
 

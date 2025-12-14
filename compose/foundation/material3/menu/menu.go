@@ -1,13 +1,13 @@
 package menu
 
 import (
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/compose/ui/window" // Import internal modifier
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/compose/ui/window" // Import internal modifier
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/unit"
 )

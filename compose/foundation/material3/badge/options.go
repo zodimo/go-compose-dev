@@ -3,8 +3,8 @@ package badge
 import (
 	"image/color"
 
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 type BadgeOptions struct {

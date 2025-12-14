@@ -1,7 +1,7 @@
 package shadow
 
 import (
-	"go-compose-dev/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifier"
 	"image/color"
 )
 

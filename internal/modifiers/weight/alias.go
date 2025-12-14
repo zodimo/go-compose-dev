@@ -1,10 +1,10 @@
 package weight
 
 import (
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/internal/modifiers/helpers"
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifiers/helpers"
 )
 
 type Modifier = modifier.Modifier

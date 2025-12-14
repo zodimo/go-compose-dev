@@ -1,6 +1,6 @@
 package theme
 
-import "go-compose-dev/internal/theme/colorrole"
+import "github.com/zodimo/go-compose/internal/theme/colorrole"
 
 type PrimaryColorRoleDescriptors struct {
 	Primary               ThemeColorDescriptor

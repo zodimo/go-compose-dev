@@ -1,12 +1,12 @@
 package navigationdrawer
 
 import (
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/internal/theme"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/internal/theme"
 
 	"gioui.org/unit"
 )

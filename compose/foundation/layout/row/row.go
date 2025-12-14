@@ -1,8 +1,8 @@
 package row
 
 import (
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifiers/weight"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifiers/weight"
 
 	"gioui.org/layout"
 )

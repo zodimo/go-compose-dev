@@ -1,8 +1,8 @@
 package animation
 
 import (
-	"go-compose-dev/internal/animation"
-	"go-compose-dev/internal/modifier"
+	"github.com/zodimo/go-compose/internal/animation"
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type AnimatedHeightElement struct {

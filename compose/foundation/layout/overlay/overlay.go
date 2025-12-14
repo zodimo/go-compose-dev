@@ -1,7 +1,7 @@
 package overlay
 
 import (
-	"go-compose-dev/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/layout"
 	"gioui.org/op/paint"

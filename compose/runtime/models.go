@@ -1,7 +1,7 @@
 package runtime
 
 import (
-	"go-compose-dev/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 	"image"
 
 	"gioui.org/op"

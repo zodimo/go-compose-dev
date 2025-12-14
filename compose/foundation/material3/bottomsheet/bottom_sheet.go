@@ -1,17 +1,17 @@
 package bottomsheet
 
 import (
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/material3/surface"
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/animation"
-	"go-compose-dev/internal/modifier"
-	animMod "go-compose-dev/internal/modifiers/animation"
-	"go-compose-dev/internal/modifiers/clickable"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/internal/theme"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/internal/animation"
+	"github.com/zodimo/go-compose/internal/modifier"
+	animMod "github.com/zodimo/go-compose/internal/modifiers/animation"
+	"github.com/zodimo/go-compose/internal/modifiers/clickable"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/internal/theme"
+	"github.com/zodimo/go-compose/pkg/api"
 	"time"
 
 	"gioui.org/unit"

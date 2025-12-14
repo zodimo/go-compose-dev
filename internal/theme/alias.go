@@ -1,7 +1,7 @@
 package theme
 
 import (
-	"go-compose-dev/internal/theme/colorrole"
+	"github.com/zodimo/go-compose/internal/theme/colorrole"
 
 	"gioui.org/widget/material"
 	"git.sr.ht/~schnwalter/gio-mw/token"

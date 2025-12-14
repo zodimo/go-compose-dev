@@ -2,7 +2,7 @@ package lazy
 
 import (
 	"fmt"
-	"go-compose-dev/compose"
+	"github.com/zodimo/go-compose/compose"
 
 	"gioui.org/layout"
 	"gioui.org/widget"

@@ -2,26 +2,26 @@ package main
 
 import (
 	"fmt"
-	"go-compose-dev/compose"
-	"go-compose-dev/compose/foundation/layout/box"
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/layout/overlay"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/material3/button"
-	"go-compose-dev/compose/foundation/material3/checkbox"
-	"go-compose-dev/compose/foundation/material3/dialog"
-	"go-compose-dev/compose/foundation/material3/radiobutton"
-	mswitch "go-compose-dev/compose/foundation/material3/switch"
-	"go-compose-dev/compose/foundation/material3/textfield"
+	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/overlay"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/material3/button"
+	"github.com/zodimo/go-compose/compose/foundation/material3/checkbox"
+	"github.com/zodimo/go-compose/compose/foundation/material3/dialog"
+	"github.com/zodimo/go-compose/compose/foundation/material3/radiobutton"
+	mswitch "github.com/zodimo/go-compose/compose/foundation/material3/switch"
+	"github.com/zodimo/go-compose/compose/foundation/material3/textfield"
 
-	m3text "go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/compose/foundation/text"
+	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/foundation/text"
 
-	"go-compose-dev/internal/modifiers/padding"
-	"go-compose-dev/internal/modifiers/size"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/internal/modifiers/padding"
+	"github.com/zodimo/go-compose/internal/modifiers/size"
+	"github.com/zodimo/go-compose/pkg/api"
 
-	"go-compose-dev/compose/foundation/material3/progress"
+	"github.com/zodimo/go-compose/compose/foundation/material3/progress"
 )
 
 func UI(c api.Composer) api.LayoutNode {

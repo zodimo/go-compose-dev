@@ -1,9 +1,9 @@
 package surface
 
 import (
-	"go-compose-dev/compose/ui/graphics/shape"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/unit"
 )

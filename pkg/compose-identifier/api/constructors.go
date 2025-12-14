@@ -1,7 +1,7 @@
 package api
 
 import (
-	"go-compose-dev/pkg/compose-identifier/models"
+	"github.com/zodimo/go-compose/pkg/compose-identifier/models"
 )
 
 func NewIdentifier() Identifier {

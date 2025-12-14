@@ -2,7 +2,7 @@ package layoutnode
 
 import (
 	"fmt"
-	"go-compose-dev/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifier"
 	"strings"
 )
 

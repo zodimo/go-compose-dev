@@ -1,6 +1,6 @@
 package weight
 
-import "go-compose-dev/internal/modifier"
+import "github.com/zodimo/go-compose/internal/modifier"
 
 func Weight(weight int) Modifier {
 

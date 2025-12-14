@@ -1,7 +1,7 @@
 package models
 
 import (
-	"go-compose-dev/pkg/compose-identifier/key"
+	"github.com/zodimo/go-compose/pkg/compose-identifier/key"
 )
 
 type Identifier struct {

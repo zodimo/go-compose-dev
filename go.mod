@@ -1,4 +1,4 @@
-module go-compose-dev
+module github.com/zodimo/go-compose
 
 go 1.24.4
 

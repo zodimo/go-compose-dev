@@ -1,7 +1,7 @@
 package lazy
 
 import (
-	"go-compose-dev/internal/modifier"
+	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type LazyListOption func(*LazyListOptions)

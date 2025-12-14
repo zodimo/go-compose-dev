@@ -1,9 +1,9 @@
 package badge
 
 import (
-	"go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 type Modifier = modifier.Modifier

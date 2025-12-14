@@ -1,8 +1,8 @@
 package animation
 
 import (
-	node "go-compose-dev/internal/Node"
-	"go-compose-dev/internal/layoutnode"
+	node "github.com/zodimo/go-compose/internal/Node"
+	"github.com/zodimo/go-compose/internal/layoutnode"
 )
 
 type AnimatedWidthNode struct {

@@ -1,7 +1,7 @@
 package text
 
 import (
-	"go-compose-dev/internal/color/f32color"
+	"github.com/zodimo/go-compose/internal/color/f32color"
 
 	"gioui.org/font/gofont"
 

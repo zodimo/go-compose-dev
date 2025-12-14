@@ -4,9 +4,9 @@ import (
 	"image"
 	"image/color"
 
-	"go-compose-dev/internal/layoutnode"
-	"go-compose-dev/internal/modifier"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
 	"gioui.org/op"

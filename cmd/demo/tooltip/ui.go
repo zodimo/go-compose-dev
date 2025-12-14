@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 
-	"go-compose-dev/compose/foundation/layout/column"
-	"go-compose-dev/compose/foundation/layout/row"
-	"go-compose-dev/compose/foundation/layout/spacer"
-	"go-compose-dev/compose/foundation/material3/button"
-	"go-compose-dev/compose/foundation/material3/text"
-	"go-compose-dev/compose/foundation/material3/tooltip"
-	"go-compose-dev/pkg/api"
+	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/foundation/material3/button"
+	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/foundation/material3/tooltip"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 func UI() api.Composable {
