@@ -9,7 +9,7 @@ Comparison of official Material 3 components with their implementation status in
 | **App bars: Bottom** | 🔴 Missing | 🟢 Implemented | |
 | **App bars: Top** | 🔴 Missing | 🟢 Implemented | |
 | **Badge** | 🟢 `widget/badge` | 🟢 Implemented | |
-| **Bottom sheets** | 🟢 `widget/sheet` | 🔴 Todo | |
+| **Bottom sheets** | 🟢 `widget/sheet` | 🟢 Implemented | Modal |
 | **Buttons** | 🟢 `widget/button` | 🟢 Implemented | |
 | **Buttons: Extended FAB** | 🟢 `widget/button` | 🔴 Todo | Likely a variant of Button |
 | **Buttons: FAB** | 🟢 `widget/button` | 🟢 Implemented | |

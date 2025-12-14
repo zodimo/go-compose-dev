@@ -49,6 +49,9 @@ To provide a feature-complete, idiomatic Go implementation of Jetpack Compose's 
 ### Phase 4: Polish & Advanced Features
 *Focus: Animation, accessibility, and desktop specifics.*
 
+- [x] **Bottom Sheets**:
+  - [x] Modal bottom sheet
+  - [ ] Standard bottom sheet (Persistent)
 - [ ] **Animations**:
     - [ ] Shared element transitions.
     - [ ] `AnimatedContent` wrappers.

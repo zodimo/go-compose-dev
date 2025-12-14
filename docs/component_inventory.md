@@ -25,13 +25,13 @@ This document tracks the status of Jetpack Compose components within `go-compose
 | **Badges** | ✅ Implemented | `compose/foundation/material3/badge` | |
 | **Progress Indicators** | ✅ Implemented | `widget/indicator` | `compose/foundation/material3/progress` |
 | **Snackbar** | ✅ Implemented | `widget/snackbar` | `compose/foundation/material3/snackbar` |
-| **Tooltips** | 📦 Available | `widget/tooltip` | |
+| **Tooltips** | ✅ Implemented | `widget/tooltip` | `compose/foundation/material3/tooltip` |
 
 ## Containment
 
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
-| **Bottom Sheets** | 📦 Available | `widget/sheet` | |
+| **Bottom Sheets** | ✅ Implemented | `widget/sheet` | `compose/foundation/material3/bottomsheet`. Modal Bottom Sheet implemented. |
 | **Cards** | ✅ Implemented | `widget/card` | `compose/foundation/material3/card` |
 | **Carousel** | ❌ Missing | - | |
 | **Dialogs** | ✅ Implemented | `widget/dialog` | `compose/foundation/material3/dialog` |
