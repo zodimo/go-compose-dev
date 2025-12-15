@@ -71,18 +71,22 @@ func UI() api.Composable {
 									selectedValue.Set(i)
 									drawerOpen.Set(false) // Close drawer
 								},
-								//Icon
-								icon.Icon(
-									item.Icon,
-									icon.WithLazyColor(func() ColorDescriptor {
-										if isSelected {
-											return themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer
-										}
-										return themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant
 
-									}),
-									icon.WithModifier(size.Size(24, 24)),
+								//Icon
+								c.If(
+									isSelected,
+									icon.Icon(
+										item.Icon,
+										icon.WithColor(themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer),
+										icon.WithModifier(size.Size(24, 24)),
+									),
+									icon.Icon(
+										item.Icon,
+										icon.WithColor(themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant),
+										icon.WithModifier(size.Size(24, 24)),
+									),
 								),
+
 								func(c api.Composer) api.Composer {
 									tm := theme.GetThemeManager()
 									m3 := tm.GetMaterial3Theme()
@@ -157,17 +161,19 @@ func UI() api.Composable {
 										func() {
 											selectedValue.Set(i)
 										},
-										//icon
-										icon.Icon(
-											item.Icon,
-											icon.WithLazyColor(func() ColorDescriptor {
-												if isSelected {
-													return themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer
-												}
-												return themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant
-
-											}),
-											icon.WithModifier(size.Size(24, 24)),
+										//Icon
+										c.If(
+											isSelected,
+											icon.Icon(
+												item.Icon,
+												icon.WithColor(themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer),
+												icon.WithModifier(size.Size(24, 24)),
+											),
+											icon.Icon(
+												item.Icon,
+												icon.WithColor(themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant),
+												icon.WithModifier(size.Size(24, 24)),
+											),
 										),
 										//label
 										func(c api.Composer) api.Composer {
