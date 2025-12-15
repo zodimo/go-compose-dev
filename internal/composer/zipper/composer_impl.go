@@ -16,11 +16,12 @@ type pathItem struct {
 }
 
 type composer struct {
-	focus     LayoutNode // group we are currently inside
-	path      []pathItem // how to climb back to root
-	memo      Memo       // remember cache for this composition run
-	state     PersistentState
-	idManager IdentityManager
+	focus      LayoutNode // group we are currently inside
+	path       []pathItem // how to climb back to root
+	memo       Memo       // remember cache for this composition run
+	state      PersistentState
+	idManager  IdentityManager
+	overrideID *Identifier // single override ID for c.Key (one Key affects one component)
 }
 
 // Tree Builder operations
@@ -44,26 +45,6 @@ func (c *composer) StartBlock(key string) Composer {
 	c.focus = newNode
 	return c
 
-}
-
-func (c *composer) StartBlockWithID(id Identifier, key string) Composer {
-	newNode := layoutnode.NewLayoutNode(id, key, EmptyMemo, EmptyMemo, c.state)
-
-	if c.focus == nil {
-		//The Root Node
-		// How to Make this Requirement Explicit?
-		newNode.ResetIdentifierKeyCounter()
-		c.focus = newNode
-		return c
-	}
-
-	c.path = append(c.path, pathItem{
-		parent: c.focus,
-		before: c.focus.LayoutNodeChildren(),
-		after:  []LayoutNode{},
-	})
-	c.focus = newNode
-	return c
 }
 
 func (c *composer) EndBlock() Composer {
@@ -109,6 +90,12 @@ func (c *composer) up() Composer {
 }
 
 func (c *composer) GenerateID() Identifier {
+	// Check if there's an override ID from c.Key
+	if c.overrideID != nil {
+		id := *c.overrideID
+		c.overrideID = nil
+		return id
+	}
 	return c.idManager.GenerateID()
 }
 func (c *composer) GetID() Identifier {
@@ -182,15 +169,15 @@ func (c *composer) Sequence(contents ...Composable) Composable {
 }
 
 func (c *composer) Key(key any, content Composable) Composable {
-	// We stringify the key to be used as an ID for the block
+	// Create a stable ID from the key
 	stringKey := fmt.Sprint(key)
 	identity := c.idManager.CreateID(stringKey)
-	return func(c Composer) Composer {
-		c.StartBlockWithID(identity, stringKey)
-		c = content(c)
-		c.SetWidgetConstructor(layoutnode.PassThroughWidgetConstructor)
-		c.EndBlock()
-		return c
+	return func(comp Composer) Composer {
+		// Set the override ID - will be consumed by the next GenerateID call
+		composerImpl := comp.(*composer)
+		composerImpl.overrideID = &identity
+		// Compose content directly - no wrapper node
+		return content(comp)
 	}
 }
 

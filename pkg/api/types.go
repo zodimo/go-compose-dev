@@ -59,7 +59,6 @@ type LayoutNode = layoutnode.LayoutNode
 
 type TreeBuilderComposer interface {
 	StartBlock(key string) Composer
-	StartBlockWithID(id Identifier, key string) Composer
 	EndBlock() Composer
 	Build() LayoutNode
 }
