@@ -3,6 +3,8 @@ package key
 import (
 	"fmt"
 	"sync/atomic"
+
+	"github.com/zodimo/go-zero-hash/hasher"
 )
 
 // What are the properties of the key
@@ -28,6 +30,7 @@ type KeyManager interface {
 	GenerateKey() Key
 	ResetKeyCounter()
 	EmptyKey() Key
+	CreateKey(seed string) Key
 }
 
 var _ KeyManager = (*keyManager)(nil)
@@ -51,6 +54,12 @@ func (km *keyManager) ResetKeyCounter() {
 
 func (km *keyManager) EmptyKey() Key {
 	return Key{}
+}
+
+func (km *keyManager) CreateKey(seed string) Key {
+	return Key{
+		value: hasher.HashStringZero(seed),
+	}
 }
 
 func GetOrCreateKeyManager(id string) KeyManager {
