@@ -40,15 +40,11 @@ func imageWidgetConstructor(resource ImageResource, options ImageOptions) layout
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 
-			srcSize := layoutnode.LayoutDimensions{Size: resource.ImageOp.Size()}
-			dstSize := layoutnode.LayoutDimensions{Size: gtx.Constraints.Max}
-			_ = options.ContentScale.Scale(srcSize, dstSize)
-
-			// scalefactor to fit and scale
-
 			widget := ImageWidget{
-				Src: resource.ImageOp,
-				// Scale: options.ContentScale.Scale(srcSize, dstSize),
+				Src:          resource.ImageOp,
+				ContentScale: options.ContentScale,
+				Alignment:    options.Alignment,
+				Alpha:        options.Alpha,
 			}
 			return widget.Layout(gtx)
 		}
