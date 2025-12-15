@@ -41,6 +41,8 @@ type Composer interface {
 	If(condition bool, ifTrue Composable, ifFalse Composable) Composable
 	When(condition bool, ifTrue Composable) Composable
 	Else(condition bool, ifFalse Composable) Composable
+
+	Sequence(contents ...Composable) Composable
 }
 
 // Public Modifier interface

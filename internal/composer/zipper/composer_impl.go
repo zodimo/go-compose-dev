@@ -154,6 +154,10 @@ func (c *composer) Else(condition bool, ifFalse Composable) Composable {
 	return ifFalse
 }
 
+func (c *composer) Sequence(contents ...Composable) Composable {
+	return Sequence(contents...)
+}
+
 func emptyComposable() Composable {
 	return func(c Composer) Composer {
 		return c

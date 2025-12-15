@@ -5,6 +5,7 @@ import (
 	"github.com/zodimo/go-compose/internal/identity"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/internal/sequence"
 	"github.com/zodimo/go-compose/pkg/api"
 	idApi "github.com/zodimo/go-compose/pkg/compose-identifier/api"
 	"github.com/zodimo/go-compose/state"
@@ -33,3 +34,5 @@ type RootNode = node.TreeNode
 
 type Composable = api.Composable
 type Composer = api.Composer
+
+var Sequence = sequence.Sequence
