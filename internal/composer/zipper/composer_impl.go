@@ -156,6 +156,10 @@ func (c *composer) Else(condition bool, ifFalse Composable) Composable {
 	return ifFalse
 }
 
+func (c *composer) Sequence(contents ...Composable) Composable {
+	return Sequence(contents...)
+}
+
 func (c *composer) Key(key any, content Composable) Composable {
 	return func(c Composer) Composer {
 		// We stringify the key to be used as an ID for the block

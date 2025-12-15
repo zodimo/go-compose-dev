@@ -42,6 +42,8 @@ type Composer interface {
 	When(condition bool, ifTrue Composable) Composable
 	Else(condition bool, ifFalse Composable) Composable
 
+	Sequence(contents ...Composable) Composable
+
 	// Control Flow
 	Key(key any, content Composable) Composable
 	Range(count int, fn func(int) Composable) Composable
