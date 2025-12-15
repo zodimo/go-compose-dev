@@ -41,6 +41,10 @@ type Composer interface {
 	If(condition bool, ifTrue Composable, ifFalse Composable) Composable
 	When(condition bool, ifTrue Composable) Composable
 	Else(condition bool, ifFalse Composable) Composable
+
+	// Control Flow
+	Key(key any, content Composable) Composable
+	Range(count int, fn func(int) Composable) Composable
 }
 
 // Public Modifier interface

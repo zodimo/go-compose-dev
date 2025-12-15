@@ -89,4 +89,42 @@ func TestConditionalComposables(t *testing.T) {
 			}
 		})
 	})
+
+	t.Run("Range", func(t *testing.T) {
+		count := 5
+		calledCount := 0
+
+		c.Range(count, func(i int) compose.Composable {
+			return func(c compose.Composer) compose.Composer {
+				calledCount++
+				return c
+			}
+		})(c)
+
+		if calledCount != count {
+			t.Errorf("Expected Range to call %d times, but called %d", count, calledCount)
+		}
+	})
+
+	t.Run("Key", func(t *testing.T) {
+		called := false
+		key := "my-key"
+
+		// We execute Key, which should start a block, execute content, and end block
+		c.Key(key, func(c compose.Composer) compose.Composer {
+			called = true
+			// Check if we can verify the block ID?
+			// The current composer implementation is opaque in this test.
+			// But we know StartBlock updates the path/focus.
+			// We can verify that GetID().Value() matches somehow or just that content is executed.
+			return c
+		})(c)
+
+		if !called {
+			t.Error("Expected content inside Key to be called")
+		}
+
+		// In a real integration test we would check if the layout node has the ID.
+		// For now we trust the implementation calls StartBlock.
+	})
 }
