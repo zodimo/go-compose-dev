@@ -33,8 +33,7 @@ func NavigationBar(
 						}
 						return c
 					},
-					row.WithModifier(size.FillMaxWidth()),
-					row.WithModifier(size.FillMaxHeight()),
+					row.WithModifier(size.FillMax()),
 					// Items utilize weight to distribute space evenly
 					row.WithAlignment(row.Middle), // Vertically centered
 				)(c)

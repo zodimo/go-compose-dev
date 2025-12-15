@@ -41,3 +41,9 @@ func (d navigationBarDefaults) ContainerElevation() unit.Dp {
 func (d navigationBarDefaults) Height() unit.Dp {
 	return unit.Dp(80)
 }
+
+func DefaultNavigationBarItemOptions() NavigationBarItemOptions {
+	return NavigationBarItemOptions{
+		Modifier: EmptyModifier,
+	}
+}

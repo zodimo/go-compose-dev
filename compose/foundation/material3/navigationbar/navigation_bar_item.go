@@ -30,9 +30,18 @@ func NavigationBarItem(
 	onClick func(),
 	icon Composable,
 	label Composable,
-	modifier Modifier,
+	options ...NavigationBarItemOption,
 ) Composable {
 	return func(c Composer) Composer {
+
+		opts := DefaultNavigationBarItemOptions()
+		for _, option := range options {
+			if option == nil {
+				continue
+			}
+			option(&opts)
+		}
+
 		// State for click interaction
 		key := c.GenerateID()
 		path := c.GetPath()
@@ -84,7 +93,7 @@ func NavigationBarItem(
 				column.WithAlignment(column.Middle), // Center children horizontally
 			),
 			box.WithModifier(
-				modifier.
+				opts.Modifier.
 					Then(weight.Weight(1)).     // Fill share of the Row
 					Then(size.FillMaxHeight()). // Fill height of the Row
 					Then(clickable.OnClick(func() {
