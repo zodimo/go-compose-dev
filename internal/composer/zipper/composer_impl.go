@@ -171,10 +171,11 @@ func (c *composer) Sequence(contents ...Composable) Composable {
 func (c *composer) Key(key any, content Composable) Composable {
 	// Create a stable ID from the key
 	stringKey := fmt.Sprint(key)
-	identity := c.idManager.CreateID(stringKey)
 	return func(comp Composer) Composer {
-		// Set the override ID - will be consumed by the next GenerateID call
+		// Create keyed ID at composition time, not definition time
 		composerImpl := comp.(*composer)
+		identity := composerImpl.idManager.CreateID(stringKey)
+		// Set the override ID - will be consumed by the next GenerateID call
 		composerImpl.overrideID = &identity
 		// Compose content directly - no wrapper node
 		return content(comp)
