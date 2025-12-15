@@ -3,13 +3,12 @@ package appbar
 import (
 	"image/color"
 
-	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
-	padding_modifier "github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/modifiers/weight"
 
@@ -28,7 +27,7 @@ func SingleRowTopAppBar(
 	return func(c Composer) Composer {
 		return surface.Surface(
 			row.Row(
-				compose.Sequence(
+				c.Sequence(
 					// Navigation Icon
 					c.When(
 						navigationIcon != nil,
@@ -39,7 +38,7 @@ func SingleRowTopAppBar(
 								surface.WithColor(color.NRGBA{}), // Transparent background
 							),
 							box.WithAlignment(layout.W),
-							box.WithModifier(padding_modifier.Padding(4, 0, 0, 0)), // Start(4)
+							box.WithModifier(padding.Padding(4, 0, 0, 0)), // Start(4)
 						),
 					),
 
@@ -55,18 +54,18 @@ func SingleRowTopAppBar(
 							}
 							return c
 						},
-						box.WithModifier(weight.Weight(1)),                    // Occupy remaining space
-						box.WithAlignment(layout.W),                           // Align text to start
-						box.WithModifier(padding_modifier.Horizontal(16, 16)), // Horizontal(16, 16)
+						box.WithModifier(weight.Weight(1)),           // Occupy remaining space
+						box.WithAlignment(layout.W),                  // Align text to start
+						box.WithModifier(padding.Horizontal(16, 16)), // Horizontal(16, 16)
 					),
 					spacer.SpacerWeight(1),
 					// Actions
 					c.When(
 						len(actions) > 0,
 						row.Row(
-							compose.Sequence(actions...),
+							c.Sequence(actions...),
 							row.WithAlignment(row.Middle),
-							row.WithModifier(padding_modifier.Padding(0, 0, 4, 0)), // End(4)
+							row.WithModifier(padding.Padding(0, 0, 4, 0)), // End(4)
 						),
 					),
 				),
@@ -122,10 +121,10 @@ func CenterAlignedTopAppBar(
 
 		return surface.Surface(
 			box.Box(
-				compose.Sequence(
+				c.Sequence(
 					// Layer 1: Navigation Icon and Actions
 					row.Row(
-						compose.Sequence(
+						c.Sequence(
 							// Navigation Icon
 							c.When(opts.NavigationIcon != nil,
 								box.Box(
@@ -135,7 +134,7 @@ func CenterAlignedTopAppBar(
 										surface.WithColor(color.NRGBA{}),
 									),
 									box.WithAlignment(layout.W),
-									box.WithModifier(padding_modifier.Padding(4, 0, 0, 0)),
+									box.WithModifier(padding.Padding(4, 0, 0, 0)),
 								),
 							),
 							// Spacer to push Actions to end
@@ -144,9 +143,9 @@ func CenterAlignedTopAppBar(
 							c.When(
 								len(opts.Actions) > 0,
 								row.Row(
-									compose.Sequence(opts.Actions...),
+									c.Sequence(opts.Actions...),
 									row.WithAlignment(row.Middle),
-									row.WithModifier(padding_modifier.Padding(0, 0, 4, 0)),
+									row.WithModifier(padding.Padding(0, 0, 4, 0)),
 								),
 							),
 						),
@@ -156,7 +155,7 @@ func CenterAlignedTopAppBar(
 					),
 					// Layer 2: Centered Title
 					box.Box(
-						compose.Sequence(
+						c.Sequence(
 							c.When(
 								title != nil,
 								surface.Surface(
@@ -192,7 +191,7 @@ func TwoRowsTopAppBar(
 	return func(c Composer) Composer {
 		return surface.Surface(
 			column.Column(
-				compose.Sequence(
+				c.Sequence(
 					// Top Row: Nav Icon + Actions (No Title)
 					SingleRowTopAppBar(
 						EmptyModifier,
@@ -209,7 +208,7 @@ func TwoRowsTopAppBar(
 					),
 					// Bottom Row: Title
 					box.Box(
-						compose.Sequence(
+						c.Sequence(
 							c.When(
 								title != nil,
 								surface.Surface(
@@ -232,7 +231,7 @@ func TwoRowsTopAppBar(
 						box.WithModifier(size.FillMaxWidth()),
 						box.WithModifier(weight.Weight(1)), // Fill remaining height
 						box.WithAlignment(layout.SW),       // Start, Bottom
-						box.WithModifier(padding_modifier.Padding(16, 0, 16, titleBottomPadding)),
+						box.WithModifier(padding.Padding(16, 0, 16, titleBottomPadding)),
 					),
 				),
 				column.WithModifier(size.FillMaxWidth()),
