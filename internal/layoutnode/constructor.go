@@ -58,7 +58,7 @@ var PassThroughWidgetConstructor = NewLayoutNodeWidgetConstructor(func(node Layo
 	if len(node.Children()) == 0 {
 		return ZeroGioLayoutWidget
 	}
-	return node.Children()[0].(LayoutNode).Layout
+	return node.Children()[0].(NodeCoordinator).Layout
 })
 
 var _ LayoutNodeWidgetConstructor = (*layoutNodeWidgetConstructor)(nil)

@@ -45,6 +45,27 @@ func (c *composer) StartBlock(key string) Composer {
 	return c
 
 }
+
+func (c *composer) StartBlockWithID(id Identifier, key string) Composer {
+	newNode := layoutnode.NewLayoutNode(id, key, EmptyMemo, EmptyMemo, c.state)
+
+	if c.focus == nil {
+		//The Root Node
+		// How to Make this Requirement Explicit?
+		newNode.ResetIdentifierKeyCounter()
+		c.focus = newNode
+		return c
+	}
+
+	c.path = append(c.path, pathItem{
+		parent: c.focus,
+		before: c.focus.LayoutNodeChildren(),
+		after:  []LayoutNode{},
+	})
+	c.focus = newNode
+	return c
+}
+
 func (c *composer) EndBlock() Composer {
 	return c.up()
 }
@@ -161,10 +182,11 @@ func (c *composer) Sequence(contents ...Composable) Composable {
 }
 
 func (c *composer) Key(key any, content Composable) Composable {
+	// We stringify the key to be used as an ID for the block
+	stringKey := fmt.Sprint(key)
+	identity := c.idManager.CreateID(stringKey)
 	return func(c Composer) Composer {
-		// We stringify the key to be used as an ID for the block
-		k := fmt.Sprint(key)
-		c.StartBlock(k)
+		c.StartBlockWithID(identity, stringKey)
 		c = content(c)
 		c.SetWidgetConstructor(layoutnode.PassThroughWidgetConstructor)
 		c.EndBlock()

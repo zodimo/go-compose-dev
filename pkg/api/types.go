@@ -58,7 +58,8 @@ type Modifier interface {
 type LayoutNode = layoutnode.LayoutNode
 
 type TreeBuilderComposer interface {
-	StartBlock(id string) Composer
+	StartBlock(key string) Composer
+	StartBlockWithID(id Identifier, key string) Composer
 	EndBlock() Composer
 	Build() LayoutNode
 }
