@@ -1,5 +1,9 @@
 # go-compose
 
+## Vision
+To provide a feature-complete, idiomatic Go implementation of Jetpack Compose's Material 3 API, enabling developers to build beautiful, cross-platform applications with a familiar declarative syntax.
+
+
 ## Material 3 Component Inventory
 
 Comparison of official Material 3 components with their implementation status in `github.com/zodimo/go-compose` and availability in the upstream `gio-mw` library.
