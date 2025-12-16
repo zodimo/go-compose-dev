@@ -118,6 +118,8 @@ type TextStyleOptions struct {
 	SelectionColor color.NRGBA
 	// TextSize determines the size of the text glyphs.
 	TextSize unit.Sp
+	// Strikethrough draws a line through the text when true.
+	Strikethrough bool
 }
 
 type TextStyleOption func(*TextStyleOptions)
@@ -137,5 +139,12 @@ func StyleWithColor(color color.NRGBA) TextStyleOption {
 func StyleWithTextSize(sizeInSP float32) TextStyleOption {
 	return func(o *TextStyleOptions) {
 		o.TextSize = unit.Sp(sizeInSP)
+	}
+}
+
+// StyleWithStrikethrough enables strikethrough text decoration.
+func StyleWithStrikethrough() TextStyleOption {
+	return func(o *TextStyleOptions) {
+		o.Strikethrough = true
 	}
 }

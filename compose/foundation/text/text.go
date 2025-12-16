@@ -2,11 +2,13 @@ package text
 
 import (
 	"fmt"
+	"image"
 
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/state"
 
 	"gioui.org/op"
+	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 	"gioui.org/widget"
 )
@@ -46,7 +48,7 @@ func Text(value string, options ...TextOption) Composable {
 		c.Modifier(func(modifier Modifier) Modifier {
 			return modifier.Then(opts.Modifier)
 		})
-		c.SetWidgetConstructor(textWidgetConstructor(opts, constructorArgs))
+		c.SetWidgetConstructor(textWidgetConstructor(constructorArgs))
 		return c.EndBlock()
 	}
 }
@@ -57,7 +59,7 @@ type BasicTextConstructorArgs struct {
 	selectable state.MutableValue
 }
 
-func textWidgetConstructor(options TextOptions, constructorArgs BasicTextConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {
+func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 
@@ -75,6 +77,8 @@ func textWidgetConstructor(options TextOptions, constructorArgs BasicTextConstru
 			paint.ColorOp{Color: textOptions.TextStyleOptions.SelectionColor}.Add(gtx.Ops)
 			selectColor := selectColorMacro.Stop()
 
+			var dims layoutnode.LayoutDimensions
+
 			if textOptions.Selectable {
 				selectable := constructorArgs.selectable.Get().(*widget.Selectable)
 				state := selectable
@@ -87,7 +91,7 @@ func textWidgetConstructor(options TextOptions, constructorArgs BasicTextConstru
 				state.WrapPolicy = constructorArgs.Options.WrapPolicy
 				state.LineHeight = constructorArgs.Options.LineHeight
 				state.LineHeightScale = constructorArgs.Options.LineHeightScale
-				return state.Layout(
+				dims = state.Layout(
 					gtx,
 					theme.Shaper,
 					constructorArgs.Options.TextStyleOptions.Font,
@@ -96,16 +100,28 @@ func textWidgetConstructor(options TextOptions, constructorArgs BasicTextConstru
 					selectColor,
 				)
 
+			} else {
+
+				dims = widget.Label{
+					Alignment:       textOptions.Alignment,
+					MaxLines:        textOptions.MaxLines,
+					Truncator:       textOptions.Truncator,
+					WrapPolicy:      textOptions.WrapPolicy,
+					LineHeight:      textOptions.LineHeight,
+					LineHeightScale: textOptions.LineHeightScale,
+				}.Layout(gtx, theme.Shaper, textOptions.TextStyleOptions.Font, textOptions.TextStyleOptions.TextSize, text, textColor)
 			}
 
-			return widget.Label{
-				Alignment:       textOptions.Alignment,
-				MaxLines:        textOptions.MaxLines,
-				Truncator:       textOptions.Truncator,
-				WrapPolicy:      textOptions.WrapPolicy,
-				LineHeight:      textOptions.LineHeight,
-				LineHeightScale: textOptions.LineHeightScale,
-			}.Layout(gtx, theme.Shaper, textOptions.TextStyleOptions.Font, textOptions.TextStyleOptions.TextSize, text, textColor)
+			// Draw strikethrough if enabled
+			if textOptions.TextStyleOptions.Strikethrough {
+				// Draw a line through the middle of the text
+				lineHeight := 1
+				y := dims.Size.Y / 2
+				rect := image.Rect(0, y, dims.Size.X, y+lineHeight)
+				paint.FillShape(gtx.Ops, textOptions.TextStyleOptions.Color, clip.Rect(rect).Op())
+			}
+
+			return dims
 		}
 	})
 
