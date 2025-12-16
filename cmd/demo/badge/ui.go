@@ -9,64 +9,59 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/badge"
 	"github.com/zodimo/go-compose/compose/foundation/material3/text"
 	"github.com/zodimo/go-compose/pkg/api"
+	"github.com/zodimo/go-compose/theme"
 )
 
 func UI() api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
-			func(c api.Composer) api.Composer {
-				text.Text("Badge Components", text.TypestyleHeadlineMedium)(c)
-				spacer.Height(16)(c)
+			c.Sequence(
+				text.Text("Badge Components", text.TypestyleHeadlineMedium),
+				spacer.Height(16),
 
 				// Small badge (dot)
-				text.Text("Small Badge (Dot)", text.TypestyleTitleSmall)(c)
-				spacer.Height(8)(c)
-				badge.Badge()(c)
-
-				spacer.Height(16)(c)
+				text.Text("Small Badge (Dot)", text.TypestyleTitleSmall),
+				spacer.Height(8),
+				badge.Badge(),
+				spacer.Height(16),
 
 				// Large badge with number
-				text.Text("Large Badge (Number)", text.TypestyleTitleSmall)(c)
-				spacer.Height(8)(c)
-				badge.Badge(badge.WithText("999+"))(c)
+				text.Text("Large Badge (Number)", text.TypestyleTitleSmall),
+				spacer.Height(8),
+				badge.Badge(badge.WithText("999+")),
 
-				spacer.Height(16)(c)
-
+				spacer.Height(16),
 				// BadgedBox examples
-				text.Text("BadgedBox Examples", text.TypestyleTitleSmall)(c)
-				spacer.Height(8)(c)
-
-				row.Row(func(c api.Composer) api.Composer {
-					// Dot badge on text
-					badge.BadgedBox(
-						badge.Badge(),
-						text.Text("🔔", text.TypestyleHeadlineMedium),
-					)(c)
-
-					spacer.Width(24)(c)
-
-					// Number badge on icon
-					badge.BadgedBox(
-						badge.Badge(badge.WithText("5")),
-						text.Text("✉️", text.TypestyleHeadlineMedium),
-					)(c)
-
-					spacer.Width(24)(c)
-
-					// Custom color badge
-					badge.BadgedBox(
-						badge.Badge(
-							badge.WithText("!"),
-							badge.WithContainerColor(color.NRGBA{R: 0, G: 200, B: 0, A: 255}),
+				text.Text("BadgedBox Examples", text.TypestyleTitleSmall),
+				spacer.Height(8),
+				row.Row(
+					c.Sequence(
+						// Dot badge on text
+						badge.BadgedBox(
+							badge.Badge(),
+							text.Text("🔔", text.TypestyleHeadlineMedium),
 						),
-						text.Text("📦", text.TypestyleHeadlineMedium),
-					)(c)
+						spacer.Width(24),
 
-					return c
-				})(c)
+						// Number badge on icon
+						badge.BadgedBox(
+							badge.Badge(badge.WithText("5")),
+							text.Text("✉️", text.TypestyleHeadlineMedium),
+						),
 
-				return c
-			},
+						spacer.Width(24),
+
+						// Custom color badge
+						badge.BadgedBox(
+							badge.Badge(
+								badge.WithText("!"),
+								badge.WithContainerColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 200, B: 0, A: 255})),
+							),
+							text.Text("📦", text.TypestyleHeadlineMedium),
+						),
+					),
+				),
+			),
 		)(c)
 	}
 }

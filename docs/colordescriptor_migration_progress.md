@@ -22,6 +22,7 @@ Components that use `theme.ColorDescriptor`:
 | **chip** | 2025-12-16 | Uses ColorDescriptor for Color (Surface) and BorderColor (OutlineVariant) |
 | **navigationbar** | 2025-12-16 | Uses ColorDescriptor for ContainerColor/ContentColor and Item IndicatorColor. Defaults: SurfaceContainer, OnVariant, SecondaryContainer |
 | **segmentedbutton** | 2025-12-16 | Uses ColorDescriptor for Selected/Unselected Color/ContentColor and BorderColor. Defaults: SecondaryContainer, Surface, OnSecondaryContainer, OnSurface, Outline |
+| **badge** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor. Defaults: Error, OnError |
 
 ### 📋 Pending ColorDescriptor Migration (6 components)
 
@@ -29,7 +30,7 @@ Native go-compose components using `color.Color` or `color.NRGBA` that should be
 
 | Component | Color Fields | Priority | Notes |
 |-----------|--------------|----------|-------|
-| **badge** | `ContainerColor`, `ContentColor` (NRGBA) | Medium | Simple component |
+| **slider** | `SliderColors` struct with 10 color.NRGBA fields | Medium | Input control |
 
 
 | **slider** | `SliderColors` struct with 10 color.NRGBA fields | Medium | Input control |
@@ -100,8 +101,8 @@ For step-by-step migration instructions, see:
 
 | Category | Count | Components |
 |----------|-------|------------|
-| ✅ **Migrated** | 9 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar |
-| 📋 **Pending** | 4 | badge, segmentedbutton, slider, divider |
+| ✅ **Migrated** | 10 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge |
+| 📋 **Pending** | 2 | slider, divider |
 | 🔗 **External widgets** | 13 | button, card, checkbox, dialog, iconbutton, menu, progress, radiobutton, snackbar, switch, text, textfield, tooltip |
 | ⚠️ **Special cases** | 2 | bottomsheet (uses token.MatColor), navigationdrawer (no colors) |
 
@@ -113,10 +114,10 @@ Based on component importance and usage:
 
 
 
-- `segmentedbutton` - Selection component
+
 
 **Medium Priority (2 components):**
-- `badge` - Notification component
+
 - `slider` - Input control (10 color fields)
 
 **Low Priority (1 component):**
@@ -125,8 +126,8 @@ Based on component importance and usage:
 ### Component Type Breakdown
 
 **Native Components (13):** Built in go-compose, support or should support ColorDescriptor
-- 9 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar
-- 4 pending migration: badge, segmentedbutton, slider, divider
+- 10 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge
+- 2 pending migration: slider, divider
 
 **External Widget Components (13):** Wrap gio-mw widgets, use gio-mw themes
 - No color customization exposed
@@ -138,8 +139,8 @@ Based on component importance and usage:
 
 ## Notes
 
-- 9 of 13 native components now use `theme.ColorDescriptor` (69% complete)
-- 4 high-value native components still need migration
+- 10 of 13 native components now use `theme.ColorDescriptor` (77% complete)
+- 2 high-value native components still need migration
 - External widget components (13) use gio-mw themes - no migration needed
 - All pending components have been verified by file inspection
 - `SpecificColor()` should only wrap non-theme colors in migrated components

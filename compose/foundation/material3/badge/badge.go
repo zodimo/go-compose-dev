@@ -2,19 +2,17 @@ package badge
 
 import (
 	"image"
-	"image/color"
 
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
+	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/layout"
 	"gioui.org/op"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
 	"gioui.org/unit"
-
-	"git.sr.ht/~schnwalter/gio-mw/wdk"
 )
 
 // Badge is a Material 3 badge component.
@@ -46,17 +44,9 @@ func Badge(options ...BadgeOption) api.Composable {
 func badgeWidgetConstructor(opts BadgeOptions) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-			theme := wdk.GetMaterialTheme(gtx)
-
-			// Resolve Defaults
-			containerColor := opts.ContainerColor
-			if containerColor == (color.NRGBA{}) {
-				containerColor = theme.Scheme.Error.Color.AsNRGBA()
-			}
-			contentColor := opts.ContentColor
-			if contentColor == (color.NRGBA{}) {
-				contentColor = theme.Scheme.Error.OnColor.AsNRGBA()
-			}
+			tm := theme.GetThemeManager()
+			containerColor := tm.ResolveColorDescriptor(opts.ContainerColor).AsNRGBA()
+			contentColor := tm.ResolveColorDescriptor(opts.ContentColor).AsNRGBA()
 
 			children := node.Children()
 			hasContent := len(children) > 0

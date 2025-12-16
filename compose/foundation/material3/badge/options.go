@@ -1,16 +1,15 @@
 package badge
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type BadgeOptions struct {
 	Content        api.Composable
-	ContainerColor color.NRGBA
-	ContentColor   color.NRGBA
+	ContainerColor theme.ColorDescriptor
+	ContentColor   theme.ColorDescriptor
 	Modifier       modifier.Modifier
 }
 
@@ -27,19 +26,23 @@ func WithContent(content api.Composable) BadgeOption {
 
 // WithText is a convenience function to create a badge with text content.
 // The text will use TypestyleLabelSmall and the badge's content color.
-func WithText(text string) BadgeOption {
+func WithText(label string) BadgeOption {
 	return func(o *BadgeOptions) {
-		o.Content = Text(text, TypestyleLabelSmall)
+		o.Content = Text(
+			label,
+			TypestyleLabelSmall,
+		// text.WithTextStyleOptions(text.StyleWithColor(theme.ColorHelper.ColorSelector().ErrorRoles.OnError))
+		)
 	}
 }
 
-func WithContainerColor(c color.NRGBA) BadgeOption {
+func WithContainerColor(c theme.ColorDescriptor) BadgeOption {
 	return func(o *BadgeOptions) {
 		o.ContainerColor = c
 	}
 }
 
-func WithContentColor(c color.NRGBA) BadgeOption {
+func WithContentColor(c theme.ColorDescriptor) BadgeOption {
 	return func(o *BadgeOptions) {
 		o.ContentColor = c
 	}
@@ -53,6 +56,8 @@ func WithModifier(modifier Modifier) BadgeOption {
 
 func DefaultBadgeOptions() BadgeOptions {
 	return BadgeOptions{
-		Modifier: EmptyModifier,
+		Modifier:       EmptyModifier,
+		ContainerColor: theme.ColorHelper.ColorSelector().ErrorRoles.Error,
+		ContentColor:   theme.ColorHelper.ColorSelector().ErrorRoles.OnError,
 	}
 }

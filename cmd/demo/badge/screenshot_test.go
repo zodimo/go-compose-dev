@@ -48,7 +48,7 @@ func TestScreenshot(t *testing.T) {
 
 	img := screenshot.TakeScreenshot(600, 800, callOp)
 
-	artifactPath := "/home/jaco/.gemini/antigravity/brain/5b2803e8-cb10-4281-9b2d-aaeda6e137aa/badge_screenshot.png"
+	artifactPath := "/home/jaco/.gemini/antigravity/brain/f4507f4d-958f-4202-aed9-678a640ef1ea/badge_screenshot.png"
 	f, err := os.Create(artifactPath)
 	if err != nil {
 		t.Fatalf("Failed to create screenshot file: %v", err)
