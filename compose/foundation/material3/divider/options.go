@@ -1,13 +1,13 @@
 package divider
 
 import (
-	"image/color"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type DividerOptions struct {
 	Modifier  Modifier
 	Thickness float64
-	Color     color.Color
+	Color     theme.ColorDescriptor
 }
 
 type DividerOption func(*DividerOptions)
@@ -24,7 +24,7 @@ func WithThickness(value int) DividerOption {
 	}
 }
 
-func WithColor(value color.Color) DividerOption {
+func WithColor(value theme.ColorDescriptor) DividerOption {
 	return func(o *DividerOptions) {
 		o.Color = value
 	}
