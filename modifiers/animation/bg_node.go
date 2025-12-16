@@ -2,10 +2,10 @@ package animation
 
 import (
 	"image"
-	"image/color"
 
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
@@ -62,7 +62,9 @@ func NewAnimatedBackgroundNode(element AnimatedBackgroundElement) *AnimatedBackg
 					// But we have color.Color.
 					// Let's convert to NRGBA to handle it easily or apply AlphaOp?
 					// Re-using logic:
-					nrgba := color.NRGBAModel.Convert(n.element.Color).(color.NRGBA)
+					tm := theme.GetThemeManager()
+					resolvedColor := tm.ResolveColorDescriptor(n.element.Color)
+					nrgba := resolvedColor.AsNRGBA()
 					nrgba.A = uint8(float32(nrgba.A) * progress)
 
 					// Paint

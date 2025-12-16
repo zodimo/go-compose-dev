@@ -56,7 +56,7 @@ func ModalNavigationDrawer(
 			anim.Disappear(time.Now())
 		}
 
-		baseScrim := m3.Scheme.Scrim.SetOpacity(token.OpacityLevel8).AsNRGBA()
+		baseScrim := theme.ColorHelper.SpecificColor(m3.Scheme.Scrim.AsNRGBA()).SetOpacity(token.OpacityLevel8)
 		// We use AnimatedBackground for scrim opacity
 
 		return box.Box(

@@ -12,9 +12,11 @@ Components that use `theme.ColorDescriptor`:
 
 | Component | Date Completed | Notes |
 |-----------|----------------|-------|
+| **AnimatedBackground** | 2025-12-16 | Modifier in `modifiers/animation`. Uses `ColorDescriptor`. |
 | **surface** | - | Foundation component, uses ColorDescriptor for Color, ContentColor, BorderColor |
 | **appbar** | 2025-12-16 | Uses ColorDescriptor for TopAppBarColors (5 fields: ContainerColor, ScrolledContainerColor, NavigationIconContentColor, TitleContentColor, ActionIconContentColor) |
 | **bottomappbar** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor |
+| **bottomsheet** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ScrimColor. Default: SurfaceContainerLow, Scrim. |
 | **navigationrail** | - | Uses surface wrapper with SpecificColor (relies on surface's ColorDescriptor) |
 | **tab** | 2025-12-16 | Uses ColorDescriptor for TabRow ContainerColor/ContentColor and Tab SelectedContentColor/UnselectedContentColor |
 | **scaffold** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor - core layout container |
@@ -57,11 +59,16 @@ Components that wrap gio-mw widgets and don't expose color options:
 > [!NOTE]
 > These components use the gio-mw widget library's Material theme system. They automatically respond to theme changes but do not expose color customization options.
 
-### ⚠️ Special Cases (2 components)
+### 🔧 Modifiers & Foundation (Pending)
+
+| Component | Status | Priority | Notes |
+|-----------|--------|----------|-------|
+| **Foundation Text** | Pending | High | `compose/foundation/text`. Core text component. |
+
+### ⚠️ Special Cases (1)
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| **bottomsheet** | Uses `token.MatColor` (gio-mw type) | Hybrid: native layout but uses gio-mw color types. Needs investigation whether to migrate or keep as-is |
 | **navigationdrawer** | No color options | Native component but doesn't expose color customization |
 
 ## Migration Workflow
@@ -95,14 +102,14 @@ For step-by-step migration instructions, see:
 
 **Total Material3 Components: 28**
 
-**ColorDescriptor Migration Progress: 12 of 13 native components (92%)**
+**ColorDescriptor Migration Progress: 14 of 15 native components/modifiers (93%)**
 
 | Category | Count | Components |
 |----------|-------|------------|
-| ✅ **Migrated** | 12 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider, divider |
+| ✅ **Migrated** | 14 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider, divider, bottomsheet, AnimatedBackground |
 | 📋 **Pending** | 0 | (None) |
 | 🔗 **External widgets** | 13 | button, card, checkbox, dialog, iconbutton, menu, progress, radiobutton, snackbar, switch, text, textfield, tooltip |
-| ⚠️ **Special cases** | 2 | bottomsheet (uses token.MatColor), navigationdrawer (no colors) |
+| ⚠️ **Special cases** | 1 | navigationdrawer (no colors) |
 
 ### Migration Priority
 
@@ -123,21 +130,20 @@ Based on component importance and usage:
 
 ### Component Type Breakdown
 
-**Native Components (13):** Built in go-compose, support or should support ColorDescriptor
-- 12 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider, divider
+**Native Components (15):** Built in go-compose, support or should support ColorDescriptor
+- 14 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider, divider, bottomsheet, AnimatedBackground
 - 0 pending migration
 
 **External Widget Components (13):** Wrap gio-mw widgets, use gio-mw themes
 - No color customization exposed
 - Automatically theme-aware via gio-mw
 
-**Special Cases (2):**
-- bottomsheet: Hybrid (native layout, gio-mw color types)
+**Special Cases (1):**
 - navigationdrawer: Native but minimal color customization
 
 ## Notes
 
-- 12 of 13 native components now use `theme.ColorDescriptor` (92% complete)
+- 14 of 15 native components/modifiers now use `theme.ColorDescriptor` (93% complete)
 - 1 high-value native components still need migration (navigationdrawer is the remaining native component, but has no color options)
 - External widget components (13) use gio-mw themes - no migration needed
 - All pending components have been verified by file inspection

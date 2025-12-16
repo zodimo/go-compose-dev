@@ -4,6 +4,7 @@ import (
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"git.sr.ht/~schnwalter/gio-mw/token"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type Composable = api.Composable
@@ -12,10 +13,10 @@ type ModalBottomSheetOptions struct {
 	IsOpen           bool // Controlled by parent usually, or we can use visible state?
 	OnDismissRequest func()
 	SheetState       *SheetState
-	ContainerColor   token.MatColor    // Will use default if not set
-	ScrimColor       token.MatColor    // Will use default if not set
-	Shape            token.CornerShape // Will use default if not set
-	DragHandle       Composable        // Optional custom drag handle
+	ContainerColor   theme.ColorDescriptor // Will use default if not set
+	ScrimColor       theme.ColorDescriptor // Will use default if not set
+	Shape            token.CornerShape     // Will use default if not set
+	DragHandle       Composable            // Optional custom drag handle
 	// WindowInsets     column.WindowInsets // For handling safe areas if needed - Removed for compilation
 }
 
@@ -23,7 +24,9 @@ type ModalBottomSheetOption func(*ModalBottomSheetOptions)
 
 func DefaultModalBottomSheetOptions() ModalBottomSheetOptions {
 	return ModalBottomSheetOptions{
-		IsOpen: false,
+		IsOpen:         false,
+		ContainerColor: theme.ColorHelper.ColorSelector().SurfaceRoles.ContainerLow,
+		ScrimColor:     theme.ColorHelper.ColorSelector().ScrimRoles.Scrim,
 	}
 }
 
@@ -48,9 +51,15 @@ func WithOnDismissRequest(onDismiss func()) ModalBottomSheetOption {
 	}
 }
 
-func WithContainerColor(color token.MatColor) ModalBottomSheetOption {
+func WithContainerColor(color theme.ColorDescriptor) ModalBottomSheetOption {
 	return func(o *ModalBottomSheetOptions) {
 		o.ContainerColor = color
+	}
+}
+
+func WithScrimColor(color theme.ColorDescriptor) ModalBottomSheetOption {
+	return func(o *ModalBottomSheetOptions) {
+		o.ScrimColor = color
 	}
 }
 
