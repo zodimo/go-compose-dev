@@ -1,9 +1,6 @@
 package scaffold
 
 import (
-	"github.com/zodimo/go-compose/theme"
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
@@ -36,16 +33,12 @@ func Scaffold(content Composable, options ...ScaffoldOption) Composable {
 			option(&opts)
 		}
 
-		// Prepare surface options
-		var surfaceOpts []surface.SurfaceOption
-		if opts.ContainerColor != (color.Color)(nil) && opts.ContainerColor != (color.NRGBA{}) {
-			surfaceOpts = append(surfaceOpts, surface.WithColor(theme.ColorHelper.SpecificColor(opts.ContainerColor)))
+		// Prepare surface options - ColorDescriptor values are always valid
+		surfaceOpts := []surface.SurfaceOption{
+			surface.WithColor(opts.ContainerColor),
+			surface.WithContentColor(opts.ContentColor),
+			surface.WithModifier(opts.Modifier),
 		}
-		if opts.ContentColor != (color.Color)(nil) && opts.ContentColor != (color.NRGBA{}) {
-			surfaceOpts = append(surfaceOpts, surface.WithContentColor(theme.ColorHelper.SpecificColor(opts.ContentColor)))
-		}
-		// Apply the scaffold modifier to the root surface
-		surfaceOpts = append(surfaceOpts, surface.WithModifier(opts.Modifier))
 
 		return surface.Surface(
 			func(c Composer) Composer {

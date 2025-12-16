@@ -1,9 +1,8 @@
 package scaffold
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type ScaffoldOptions struct {
@@ -13,8 +12,8 @@ type ScaffoldOptions struct {
 	SnackbarHost                 Composable
 	FloatingActionButton         Composable
 	FloatingActionButtonPosition FabPosition
-	ContainerColor               color.Color
-	ContentColor                 color.Color
+	ContainerColor               theme.ColorDescriptor
+	ContentColor                 theme.ColorDescriptor
 }
 
 type ScaffoldOption func(*ScaffoldOptions)
@@ -28,8 +27,8 @@ func DefaultScaffoldOptions() ScaffoldOptions {
 		SnackbarHost:                 nil,
 		FloatingActionButton:         nil,
 		FloatingActionButtonPosition: FabPositionEnd,
-		ContainerColor:               color.Transparent, // Will be resolved by Surface if nil/transparent
-		ContentColor:                 color.NRGBA{},     // Will be resolved by Surface
+		ContainerColor:               theme.ColorHelper.ColorSelector().SurfaceRoles.Surface,
+		ContentColor:                 theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
 	}
 }
 
@@ -70,11 +69,11 @@ func WithFloatingActionButtonPosition(pos FabPosition) ScaffoldOption {
 }
 
 // WithContainerColor sets the background color of the scaffold.
-func WithContainerColor(c color.Color) ScaffoldOption {
-	return func(o *ScaffoldOptions) { o.ContainerColor = c }
+func WithContainerColor(colorDesc theme.ColorDescriptor) ScaffoldOption {
+	return func(o *ScaffoldOptions) { o.ContainerColor = colorDesc }
 }
 
 // WithContentColor sets the content color of the scaffold.
-func WithContentColor(c color.Color) ScaffoldOption {
-	return func(o *ScaffoldOptions) { o.ContentColor = c }
+func WithContentColor(colorDesc theme.ColorDescriptor) ScaffoldOption {
+	return func(o *ScaffoldOptions) { o.ContentColor = colorDesc }
 }
