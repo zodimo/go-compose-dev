@@ -2,22 +2,22 @@ package theme
 
 import "image/color"
 
-func SpecificColor(color color.Color) ThemeColorDescriptor {
-	return ThemeColorDescriptor{
-		color:   ToNRGBA(color),
+func SpecificColor(color color.Color) ColorDescriptor {
+	return colorDescriptor{
+		color:   toNRGBA(color),
 		isColor: true,
 	}
 }
 
-func ThemeRoleColor(colorRole ColorRole) ThemeColorDescriptor {
-	return ThemeColorDescriptor{
+func ThemeRoleColor(colorRole ColorRole) ColorDescriptor {
+	return colorDescriptor{
 		colorRole: colorRole,
 	}
 }
 
 func ThemeColorFromColor(color color.Color) ThemeColor {
 	return themeColor{
-		tokenColor: TokenColor(ToNRGBA(color)),
+		tokenColor: TokenColor(toNRGBA(color)),
 	}
 }
 func ThemeColorFromNRGBA(color color.NRGBA) ThemeColor {

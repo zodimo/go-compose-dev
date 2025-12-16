@@ -13,7 +13,7 @@ import (
 	"gioui.org/widget"
 )
 
-var FallbackColorDescriptor = themeManager.ColorRoleDescriptors().BasicColorRoleDescriptors.BasicFg
+var FallbackColorDescriptor = colorHelper.ColorSelector().BasicColorRoleDescriptors.BasicFg
 
 // iconCacheKey is the key used to store the GlobalIconCache in the Composer's state.
 var iconCacheKey = "icon_global_cache"

@@ -10,7 +10,7 @@ type ThemeColorReaderFunc func(theme *Theme) ThemeColor
 type ThemeBasicColorReaderFunc func(theme *BasicTheme) ThemeColor
 
 type ThemeColorResolver interface {
-	ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor
+	ResolveColorDescriptor(colorDesc ColorDescriptor) ThemeColor
 }
 
 type themeColorResolver struct {
@@ -25,12 +25,13 @@ func (cr *themeColorResolver) Material(reader ThemeBasicColorReaderFunc) ThemeCo
 	return reader(cr.tm.MaterialTheme())
 }
 
-func (cr *themeColorResolver) ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor {
-	resolvedColor := cr.resolveColorDescriptor(colorDesc)
-	return cr.applyUpdates(colorDesc.updates, resolvedColor.AsTokenColor())
+func (cr *themeColorResolver) ResolveColorDescriptor(colorDesc ColorDescriptor) ThemeColor {
+	colorDescriptor := colorDesc.(colorDescriptor)
+	resolvedColor := cr.resolveColorDescriptor(colorDescriptor)
+	return cr.applyUpdates(colorDesc.Updates(), resolvedColor.AsTokenColor())
 }
 
-func (cr *themeColorResolver) resolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor {
+func (cr *themeColorResolver) resolveColorDescriptor(colorDesc colorDescriptor) ThemeColor {
 	if colorDesc.isColor {
 		return ThemeColorFromColor(colorDesc.color)
 	}
@@ -164,10 +165,10 @@ func newThemeColorResolver(tm ThemeManager) ThemeColorResolver {
 	return &themeColorResolver{tm: tm}
 }
 
-func (cr *themeColorResolver) applyUpdates(updates []ThemeColorUpdate, color TokenColor) ThemeColor {
+func (cr *themeColorResolver) applyUpdates(updates []ColorUpdate, color TokenColor) ThemeColor {
 	for _, update := range updates {
 		switch update.Action() {
-		case ThemeColorUpdateActionsSetOpacity:
+		case SetOpacityColorUpdateAction:
 			color = color.SetOpacity(GetOpacity(update))
 		}
 	}

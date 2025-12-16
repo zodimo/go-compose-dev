@@ -24,9 +24,9 @@ import (
 	"golang.org/x/exp/shiny/materialdesign/icons"
 )
 
-type ColorDescriptor = theme.ThemeColorDescriptor
+type ColorDescriptor = theme.ColorDescriptor
 
-var themeManager = theme.GetThemeManager()
+var colorHelper = theme.ColorHelper
 
 func UI() api.Composable {
 	return func(c api.Composer) api.Composer {
@@ -77,12 +77,12 @@ func UI() api.Composable {
 									isSelected,
 									icon.Icon(
 										item.Icon,
-										icon.WithColor(themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer),
+										icon.WithColor(colorHelper.ColorSelector().SecondaryRoles.OnContainer),
 										icon.WithModifier(size.Size(24, 24)),
 									),
 									icon.Icon(
 										item.Icon,
-										icon.WithColor(themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant),
+										icon.WithColor(colorHelper.ColorSelector().SurfaceRoles.OnVariant),
 										icon.WithModifier(size.Size(24, 24)),
 									),
 								),
@@ -130,7 +130,7 @@ func UI() api.Composable {
 									func(c api.Composer) api.Composer {
 										return icon.Icon(
 											icons.NavigationMenu,
-											icon.WithColor(themeManager.ColorDescriptor(color.NRGBA{A: 255})),
+											icon.WithColor(colorHelper.SpecificColor(color.NRGBA{A: 255})),
 											icon.WithModifier(size.Size(24, 24)),
 										)(c)
 									},
@@ -166,12 +166,12 @@ func UI() api.Composable {
 											isSelected,
 											icon.Icon(
 												item.Icon,
-												icon.WithColor(themeManager.ColorRoleDescriptors().SecondaryRoles.OnSecondaryContainer),
+												icon.WithColor(colorHelper.ColorSelector().SecondaryRoles.OnContainer),
 												icon.WithModifier(size.Size(24, 24)),
 											),
 											icon.Icon(
 												item.Icon,
-												icon.WithColor(themeManager.ColorRoleDescriptors().SurfaceRoles.OnSurfaceVariant),
+												icon.WithColor(colorHelper.ColorSelector().SurfaceRoles.OnVariant),
 												icon.WithModifier(size.Size(24, 24)),
 											),
 										),

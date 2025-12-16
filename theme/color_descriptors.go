@@ -3,256 +3,256 @@ package theme
 import "github.com/zodimo/go-compose/theme/colorrole"
 
 var (
-	Primary               = ThemeColorDescriptor{colorRole: colorrole.Primary}
-	OnPrimary             = ThemeColorDescriptor{colorRole: colorrole.OnPrimary}
-	PrimaryContainer      = ThemeColorDescriptor{colorRole: colorrole.PrimaryContainer}
-	OnPrimaryContainer    = ThemeColorDescriptor{colorRole: colorrole.OnPrimaryContainer}
-	PrimaryFixed          = ThemeColorDescriptor{colorRole: colorrole.PrimaryFixed}
-	OnPrimaryFixed        = ThemeColorDescriptor{colorRole: colorrole.OnPrimaryFixed}
-	PrimaryFixedVariant   = ThemeColorDescriptor{colorRole: colorrole.PrimaryFixedVariant}
-	OnPrimaryFixedVariant = ThemeColorDescriptor{colorRole: colorrole.OnPrimaryFixedVariant}
+	colorPrimary               = colorDescriptor{colorRole: colorrole.Primary}
+	colorOnPrimary             = colorDescriptor{colorRole: colorrole.OnPrimary}
+	colorPrimaryContainer      = colorDescriptor{colorRole: colorrole.PrimaryContainer}
+	colorOnPrimaryContainer    = colorDescriptor{colorRole: colorrole.OnPrimaryContainer}
+	colorPrimaryFixed          = colorDescriptor{colorRole: colorrole.PrimaryFixed}
+	colorOnPrimaryFixed        = colorDescriptor{colorRole: colorrole.OnPrimaryFixed}
+	colorPrimaryFixedVariant   = colorDescriptor{colorRole: colorrole.PrimaryFixedVariant}
+	colorOnPrimaryFixedVariant = colorDescriptor{colorRole: colorrole.OnPrimaryFixedVariant}
 
-	Secondary               = ThemeColorDescriptor{colorRole: colorrole.Secondary}
-	OnSecondary             = ThemeColorDescriptor{colorRole: colorrole.OnSecondary}
-	SecondaryContainer      = ThemeColorDescriptor{colorRole: colorrole.SecondaryContainer}
-	OnSecondaryContainer    = ThemeColorDescriptor{colorRole: colorrole.OnSecondaryContainer}
-	SecondaryFixed          = ThemeColorDescriptor{colorRole: colorrole.SecondaryFixed}
-	OnSecondaryFixed        = ThemeColorDescriptor{colorRole: colorrole.OnSecondaryFixed}
-	SecondaryFixedVariant   = ThemeColorDescriptor{colorRole: colorrole.SecondaryFixedVariant}
-	OnSecondaryFixedVariant = ThemeColorDescriptor{colorRole: colorrole.OnSecondaryFixedVariant}
+	colorSecondary               = colorDescriptor{colorRole: colorrole.Secondary}
+	colorOnSecondary             = colorDescriptor{colorRole: colorrole.OnSecondary}
+	colorSecondaryContainer      = colorDescriptor{colorRole: colorrole.SecondaryContainer}
+	colorOnSecondaryContainer    = colorDescriptor{colorRole: colorrole.OnSecondaryContainer}
+	colorSecondaryFixed          = colorDescriptor{colorRole: colorrole.SecondaryFixed}
+	colorOnSecondaryFixed        = colorDescriptor{colorRole: colorrole.OnSecondaryFixed}
+	colorSecondaryFixedVariant   = colorDescriptor{colorRole: colorrole.SecondaryFixedVariant}
+	colorOnSecondaryFixedVariant = colorDescriptor{colorRole: colorrole.OnSecondaryFixedVariant}
 
-	Tertiary               = ThemeColorDescriptor{colorRole: colorrole.Tertiary}
-	OnTertiary             = ThemeColorDescriptor{colorRole: colorrole.OnTertiary}
-	TertiaryContainer      = ThemeColorDescriptor{colorRole: colorrole.TertiaryContainer}
-	OnTertiaryContainer    = ThemeColorDescriptor{colorRole: colorrole.OnTertiaryContainer}
-	TertiaryFixed          = ThemeColorDescriptor{colorRole: colorrole.TertiaryFixed}
-	OnTertiaryFixed        = ThemeColorDescriptor{colorRole: colorrole.OnTertiaryFixed}
-	TertiaryFixedVariant   = ThemeColorDescriptor{colorRole: colorrole.TertiaryFixedVariant}
-	OnTertiaryFixedVariant = ThemeColorDescriptor{colorRole: colorrole.OnTertiaryFixedVariant}
+	colorTertiary               = colorDescriptor{colorRole: colorrole.Tertiary}
+	colorOnTertiary             = colorDescriptor{colorRole: colorrole.OnTertiary}
+	colorTertiaryContainer      = colorDescriptor{colorRole: colorrole.TertiaryContainer}
+	colorOnTertiaryContainer    = colorDescriptor{colorRole: colorrole.OnTertiaryContainer}
+	colorTertiaryFixed          = colorDescriptor{colorRole: colorrole.TertiaryFixed}
+	colorOnTertiaryFixed        = colorDescriptor{colorRole: colorrole.OnTertiaryFixed}
+	colorTertiaryFixedVariant   = colorDescriptor{colorRole: colorrole.TertiaryFixedVariant}
+	colorOnTertiaryFixedVariant = colorDescriptor{colorRole: colorrole.OnTertiaryFixedVariant}
 
-	Surface                 = ThemeColorDescriptor{colorRole: colorrole.Surface}
-	OnSurface               = ThemeColorDescriptor{colorRole: colorrole.OnSurface}
-	SurfaceVariant          = ThemeColorDescriptor{colorRole: colorrole.SurfaceVariant}
-	OnSurfaceVariant        = ThemeColorDescriptor{colorRole: colorrole.OnSurfaceVariant}
-	SurfaceDim              = ThemeColorDescriptor{colorRole: colorrole.SurfaceDim}
-	SurfaceBright           = ThemeColorDescriptor{colorRole: colorrole.SurfaceBright}
-	SurfaceContainerLowest  = ThemeColorDescriptor{colorRole: colorrole.SurfaceContainerLowest}
-	SurfaceContainerLow     = ThemeColorDescriptor{colorRole: colorrole.SurfaceContainerLow}
-	SurfaceContainer        = ThemeColorDescriptor{colorRole: colorrole.SurfaceContainer}
-	SurfaceContainerHigh    = ThemeColorDescriptor{colorRole: colorrole.SurfaceContainerHigh}
-	SurfaceContainerHighest = ThemeColorDescriptor{colorRole: colorrole.SurfaceContainerHighest}
+	colorSurface                 = colorDescriptor{colorRole: colorrole.Surface}
+	colorOnSurface               = colorDescriptor{colorRole: colorrole.OnSurface}
+	colorSurfaceVariant          = colorDescriptor{colorRole: colorrole.SurfaceVariant}
+	colorOnSurfaceVariant        = colorDescriptor{colorRole: colorrole.OnSurfaceVariant}
+	colorSurfaceDim              = colorDescriptor{colorRole: colorrole.SurfaceDim}
+	colorSurfaceBright           = colorDescriptor{colorRole: colorrole.SurfaceBright}
+	colorSurfaceContainerLowest  = colorDescriptor{colorRole: colorrole.SurfaceContainerLowest}
+	colorSurfaceContainerLow     = colorDescriptor{colorRole: colorrole.SurfaceContainerLow}
+	colorSurfaceContainer        = colorDescriptor{colorRole: colorrole.SurfaceContainer}
+	colorSurfaceContainerHigh    = colorDescriptor{colorRole: colorrole.SurfaceContainerHigh}
+	colorSurfaceContainerHighest = colorDescriptor{colorRole: colorrole.SurfaceContainerHighest}
 
-	InverseSurface   = ThemeColorDescriptor{colorRole: colorrole.InverseSurface}
-	OnInverseSurface = ThemeColorDescriptor{colorRole: colorrole.OnInverseSurface}
-	InversePrimary   = ThemeColorDescriptor{colorRole: colorrole.InversePrimary}
+	colorInverseSurface   = colorDescriptor{colorRole: colorrole.InverseSurface}
+	colorOnInverseSurface = colorDescriptor{colorRole: colorrole.OnInverseSurface}
+	colorInversePrimary   = colorDescriptor{colorRole: colorrole.InversePrimary}
 
-	Background   = ThemeColorDescriptor{colorRole: colorrole.Background}
-	OnBackground = ThemeColorDescriptor{colorRole: colorrole.OnBackground}
+	colorBackground   = colorDescriptor{colorRole: colorrole.Background}
+	colorOnBackground = colorDescriptor{colorRole: colorrole.OnBackground}
 
-	Outline        = ThemeColorDescriptor{colorRole: colorrole.Outline}
-	OutlineVariant = ThemeColorDescriptor{colorRole: colorrole.OutlineVariant}
+	colorOutline        = colorDescriptor{colorRole: colorrole.Outline}
+	colorOutlineVariant = colorDescriptor{colorRole: colorrole.OutlineVariant}
 
-	Error            = ThemeColorDescriptor{colorRole: colorrole.Error}
-	OnError          = ThemeColorDescriptor{colorRole: colorrole.OnError}
-	ErrorContainer   = ThemeColorDescriptor{colorRole: colorrole.ErrorContainer}
-	OnErrorContainer = ThemeColorDescriptor{colorRole: colorrole.OnErrorContainer}
+	colorError            = colorDescriptor{colorRole: colorrole.Error}
+	colorOnError          = colorDescriptor{colorRole: colorrole.OnError}
+	colorErrorContainer   = colorDescriptor{colorRole: colorrole.ErrorContainer}
+	colorOnErrorContainer = colorDescriptor{colorRole: colorrole.OnErrorContainer}
 
-	Scrim  = ThemeColorDescriptor{colorRole: colorrole.Scrim}
-	Shadow = ThemeColorDescriptor{colorRole: colorrole.Shadow}
+	colorScrim  = colorDescriptor{colorRole: colorrole.Scrim}
+	colorShadow = colorDescriptor{colorRole: colorrole.Shadow}
 
 	// Basic Roles
-	BasicBg         = ThemeColorDescriptor{colorRole: colorrole.BasicBg}
-	BasicFg         = ThemeColorDescriptor{colorRole: colorrole.BasicFg}
-	BasicContrastBg = ThemeColorDescriptor{colorRole: colorrole.BasicContrastBg}
-	BasicContrastFg = ThemeColorDescriptor{colorRole: colorrole.BasicContrastFg}
+	colorBasicBg         = colorDescriptor{colorRole: colorrole.BasicBg}
+	colorBasicFg         = colorDescriptor{colorRole: colorrole.BasicFg}
+	colorBasicContrastBg = colorDescriptor{colorRole: colorrole.BasicContrastBg}
+	colorBasicContrastFg = colorDescriptor{colorRole: colorrole.BasicContrastFg}
 )
 
 type PrimaryColorRoleDescriptors struct {
-	Primary               ThemeColorDescriptor
-	OnPrimary             ThemeColorDescriptor
-	PrimaryContainer      ThemeColorDescriptor
-	OnPrimaryContainer    ThemeColorDescriptor
-	PrimaryFixed          ThemeColorDescriptor
-	OnPrimaryFixed        ThemeColorDescriptor
-	PrimaryFixedVariant   ThemeColorDescriptor
-	OnPrimaryFixedVariant ThemeColorDescriptor
+	Primary        ColorDescriptor
+	OnPrimary      ColorDescriptor
+	Container      ColorDescriptor
+	OnContainer    ColorDescriptor
+	Fixed          ColorDescriptor
+	OnFixed        ColorDescriptor
+	FixedVariant   ColorDescriptor
+	OnFixedVariant ColorDescriptor
 }
 
 func newPrimaryColorRoleDescriptors() PrimaryColorRoleDescriptors {
 	return PrimaryColorRoleDescriptors{
-		Primary:               Primary,
-		OnPrimary:             OnPrimary,
-		PrimaryContainer:      PrimaryContainer,
-		OnPrimaryContainer:    OnPrimaryContainer,
-		PrimaryFixed:          PrimaryFixed,
-		OnPrimaryFixed:        OnPrimaryFixed,
-		PrimaryFixedVariant:   PrimaryFixedVariant,
-		OnPrimaryFixedVariant: OnPrimaryFixedVariant,
+		Primary:        colorPrimary,
+		OnPrimary:      colorOnPrimary,
+		Container:      colorPrimaryContainer,
+		OnContainer:    colorOnPrimaryContainer,
+		Fixed:          colorPrimaryFixed,
+		OnFixed:        colorOnPrimaryFixed,
+		FixedVariant:   colorPrimaryFixedVariant,
+		OnFixedVariant: colorOnPrimaryFixedVariant,
 	}
 }
 
 type SecondaryColorRoleDescriptors struct {
-	Secondary               ThemeColorDescriptor
-	OnSecondary             ThemeColorDescriptor
-	SecondaryContainer      ThemeColorDescriptor
-	OnSecondaryContainer    ThemeColorDescriptor
-	SecondaryFixed          ThemeColorDescriptor
-	OnSecondaryFixed        ThemeColorDescriptor
-	SecondaryFixedVariant   ThemeColorDescriptor
-	OnSecondaryFixedVariant ThemeColorDescriptor
+	Secondary      ColorDescriptor
+	OnSecondary    ColorDescriptor
+	Container      ColorDescriptor
+	OnContainer    ColorDescriptor
+	Fixed          ColorDescriptor
+	OnFixed        ColorDescriptor
+	FixedVariant   ColorDescriptor
+	OnFixedVariant ColorDescriptor
 }
 
 func newSecondaryColorRoleDescriptors() SecondaryColorRoleDescriptors {
 	return SecondaryColorRoleDescriptors{
-		Secondary:               Secondary,
-		OnSecondary:             OnSecondary,
-		SecondaryContainer:      SecondaryContainer,
-		OnSecondaryContainer:    OnSecondaryContainer,
-		SecondaryFixed:          SecondaryFixed,
-		OnSecondaryFixed:        OnSecondaryFixed,
-		SecondaryFixedVariant:   SecondaryFixedVariant,
-		OnSecondaryFixedVariant: OnSecondaryFixedVariant,
+		Secondary:      colorSecondary,
+		OnSecondary:    colorOnSecondary,
+		Container:      colorSecondaryContainer,
+		OnContainer:    colorOnSecondaryContainer,
+		Fixed:          colorSecondaryFixed,
+		OnFixed:        colorOnSecondaryFixed,
+		FixedVariant:   colorSecondaryFixedVariant,
+		OnFixedVariant: colorOnSecondaryFixedVariant,
 	}
 }
 
 type TertiaryColorRoleDescriptors struct {
-	Tertiary               ThemeColorDescriptor
-	OnTertiary             ThemeColorDescriptor
-	TertiaryContainer      ThemeColorDescriptor
-	OnTertiaryContainer    ThemeColorDescriptor
-	TertiaryFixed          ThemeColorDescriptor
-	OnTertiaryFixed        ThemeColorDescriptor
-	TertiaryFixedVariant   ThemeColorDescriptor
-	OnTertiaryFixedVariant ThemeColorDescriptor
+	Tertiary       ColorDescriptor
+	OnTertiary     ColorDescriptor
+	Container      ColorDescriptor
+	OnContainer    ColorDescriptor
+	Fixed          ColorDescriptor
+	OnFixed        ColorDescriptor
+	FixedVariant   ColorDescriptor
+	OnFixedVariant ColorDescriptor
 }
 
 func newTertiaryColorRoleDescriptors() TertiaryColorRoleDescriptors {
 	return TertiaryColorRoleDescriptors{
-		Tertiary:               Tertiary,
-		OnTertiary:             OnTertiary,
-		TertiaryContainer:      TertiaryContainer,
-		OnTertiaryContainer:    OnTertiaryContainer,
-		TertiaryFixed:          TertiaryFixed,
-		OnTertiaryFixed:        OnTertiaryFixed,
-		TertiaryFixedVariant:   TertiaryFixedVariant,
-		OnTertiaryFixedVariant: OnTertiaryFixedVariant,
+		Tertiary:       colorTertiary,
+		OnTertiary:     colorOnTertiary,
+		Container:      colorTertiaryContainer,
+		OnContainer:    colorOnTertiaryContainer,
+		Fixed:          colorTertiaryFixed,
+		OnFixed:        colorOnTertiaryFixed,
+		FixedVariant:   colorTertiaryFixedVariant,
+		OnFixedVariant: colorOnTertiaryFixedVariant,
 	}
 }
 
 type SurfaceColorRoleDescriptors struct {
-	Surface                 ThemeColorDescriptor
-	OnSurface               ThemeColorDescriptor
-	SurfaceVariant          ThemeColorDescriptor
-	OnSurfaceVariant        ThemeColorDescriptor
-	SurfaceDim              ThemeColorDescriptor
-	SurfaceBright           ThemeColorDescriptor
-	SurfaceContainerLowest  ThemeColorDescriptor
-	SurfaceContainerLow     ThemeColorDescriptor
-	SurfaceContainer        ThemeColorDescriptor
-	SurfaceContainerHigh    ThemeColorDescriptor
-	SurfaceContainerHighest ThemeColorDescriptor
+	Surface          ColorDescriptor
+	OnSurface        ColorDescriptor
+	Variant          ColorDescriptor
+	OnVariant        ColorDescriptor
+	Dim              ColorDescriptor
+	Bright           ColorDescriptor
+	ContainerLowest  ColorDescriptor
+	ContainerLow     ColorDescriptor
+	Container        ColorDescriptor
+	ContainerHigh    ColorDescriptor
+	ContainerHighest ColorDescriptor
 }
 
 func newSurfaceColorRoleDescriptors() SurfaceColorRoleDescriptors {
 	return SurfaceColorRoleDescriptors{
-		Surface:                 Surface,
-		OnSurface:               OnSurface,
-		SurfaceVariant:          SurfaceVariant,
-		OnSurfaceVariant:        OnSurfaceVariant,
-		SurfaceDim:              SurfaceDim,
-		SurfaceBright:           SurfaceBright,
-		SurfaceContainerLowest:  SurfaceContainerLowest,
-		SurfaceContainerLow:     SurfaceContainerLow,
-		SurfaceContainer:        SurfaceContainer,
-		SurfaceContainerHigh:    SurfaceContainerHigh,
-		SurfaceContainerHighest: SurfaceContainerHighest,
+		Surface:          colorSurface,
+		OnSurface:        colorOnSurface,
+		Variant:          colorSurfaceVariant,
+		OnVariant:        colorOnSurfaceVariant,
+		Dim:              colorSurfaceDim,
+		Bright:           colorSurfaceBright,
+		ContainerLowest:  colorSurfaceContainerLowest,
+		ContainerLow:     colorSurfaceContainerLow,
+		Container:        colorSurfaceContainer,
+		ContainerHigh:    colorSurfaceContainerHigh,
+		ContainerHighest: colorSurfaceContainerHighest,
 	}
 }
 
 type InverseColorRoleDescriptors struct {
-	InverseSurface   ThemeColorDescriptor
-	OnInverseSurface ThemeColorDescriptor
-	InversePrimary   ThemeColorDescriptor
+	Surface   ColorDescriptor
+	OnSurface ColorDescriptor
+	Primary   ColorDescriptor
 }
 
 func newInverseColorRoleDescriptors() InverseColorRoleDescriptors {
 	return InverseColorRoleDescriptors{
-		InverseSurface:   InverseSurface,
-		OnInverseSurface: OnInverseSurface,
-		InversePrimary:   InversePrimary,
+		Surface:   colorInverseSurface,
+		OnSurface: colorOnInverseSurface,
+		Primary:   colorInversePrimary,
 	}
 }
 
 type BackgroundColorRoleDescriptors struct {
-	Background   ThemeColorDescriptor
-	OnBackground ThemeColorDescriptor
+	Background   ColorDescriptor
+	OnBackground ColorDescriptor
 }
 
 func newBackgroundColorRoleDescriptors() BackgroundColorRoleDescriptors {
 	return BackgroundColorRoleDescriptors{
-		Background:   Background,
-		OnBackground: OnBackground,
+		Background:   colorBackground,
+		OnBackground: colorOnBackground,
 	}
 }
 
 type OutlineColorRoleDescriptors struct {
-	Outline        ThemeColorDescriptor
-	OutlineVariant ThemeColorDescriptor
+	Outline        ColorDescriptor
+	OutlineVariant ColorDescriptor
 }
 
 func newOutlineColorRoleDescriptors() OutlineColorRoleDescriptors {
 	return OutlineColorRoleDescriptors{
-		Outline:        Outline,
-		OutlineVariant: OutlineVariant,
+		Outline:        colorOutline,
+		OutlineVariant: colorOutlineVariant,
 	}
 }
 
 type ErrorColorRoleDescriptors struct {
-	Error            ThemeColorDescriptor
-	OnError          ThemeColorDescriptor
-	ErrorContainer   ThemeColorDescriptor
-	OnErrorContainer ThemeColorDescriptor
+	Error       ColorDescriptor
+	OnError     ColorDescriptor
+	Container   ColorDescriptor
+	OnContainer ColorDescriptor
 }
 
 func newErrorColorRoleDescriptors() ErrorColorRoleDescriptors {
 	return ErrorColorRoleDescriptors{
-		Error:            Error,
-		OnError:          OnError,
-		ErrorContainer:   ErrorContainer,
-		OnErrorContainer: OnErrorContainer,
+		Error:       colorError,
+		OnError:     colorOnError,
+		Container:   colorErrorContainer,
+		OnContainer: colorOnErrorContainer,
 	}
 }
 
 type ScrimColorRoleDescriptors struct {
-	Scrim  ThemeColorDescriptor
-	Shadow ThemeColorDescriptor
+	Scrim  ColorDescriptor
+	Shadow ColorDescriptor
 }
 
 func newScrimColorRoleDescriptors() ScrimColorRoleDescriptors {
 	return ScrimColorRoleDescriptors{
-		Scrim:  Scrim,
-		Shadow: Shadow,
+		Scrim:  colorScrim,
+		Shadow: colorShadow,
 	}
 }
 
 // Roles for Original Gioui Matrial Theme Palette
 type BasicColorRoleDescriptors struct {
-	BasicBg         ThemeColorDescriptor
-	BasicFg         ThemeColorDescriptor
-	BasicContrastBg ThemeColorDescriptor
-	BasicContrastFg ThemeColorDescriptor
+	BasicBg         ColorDescriptor
+	BasicFg         ColorDescriptor
+	BasicContrastBg ColorDescriptor
+	BasicContrastFg ColorDescriptor
 }
 
 func newBasicColorRoleDescriptors() BasicColorRoleDescriptors {
 	return BasicColorRoleDescriptors{
-		BasicBg:         BasicBg,
-		BasicFg:         BasicFg,
-		BasicContrastBg: BasicContrastBg,
-		BasicContrastFg: BasicContrastFg,
+		BasicBg:         colorBasicBg,
+		BasicFg:         colorBasicFg,
+		BasicContrastBg: colorBasicContrastBg,
+		BasicContrastFg: colorBasicContrastFg,
 	}
 }
 
-type M3ColorRolesDescriptors struct {
+type ColorRolesDescriptors struct {
 	PrimaryRoles         PrimaryColorRoleDescriptors
 	SecondaryRoles       SecondaryColorRoleDescriptors
 	TertiaryRoles        TertiaryColorRoleDescriptors
@@ -264,8 +264,8 @@ type M3ColorRolesDescriptors struct {
 	ScrimRoles           ScrimColorRoleDescriptors
 }
 
-func newM3ColorRolesDescriptors() M3ColorRolesDescriptors {
-	return M3ColorRolesDescriptors{
+func newM3ColorRolesDescriptors() ColorRolesDescriptors {
+	return ColorRolesDescriptors{
 		PrimaryRoles:         newPrimaryColorRoleDescriptors(),
 		SecondaryRoles:       newSecondaryColorRoleDescriptors(),
 		TertiaryRoles:        newTertiaryColorRoleDescriptors(),
@@ -279,13 +279,13 @@ func newM3ColorRolesDescriptors() M3ColorRolesDescriptors {
 }
 
 type ColorRoleDescriptors struct {
-	M3ColorRolesDescriptors
+	ColorRolesDescriptors
 	BasicColorRoleDescriptors
 }
 
 func NewColorRoleDescriptors() ColorRoleDescriptors {
 	return ColorRoleDescriptors{
-		M3ColorRolesDescriptors:   newM3ColorRolesDescriptors(),
+		ColorRolesDescriptors:     newM3ColorRolesDescriptors(),
 		BasicColorRoleDescriptors: newBasicColorRoleDescriptors(),
 	}
 }

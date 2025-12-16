@@ -17,6 +17,8 @@ import (
 	mdicons "golang.org/x/exp/shiny/materialdesign/icons"
 )
 
+var colorHelper = theme.ColorHelper
+
 func UI() api.Composable {
 	return func(c api.Composer) api.Composer {
 		// State for menus
@@ -51,7 +53,7 @@ func UI() api.Composable {
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
 													mdicons.ActionDone,
-													icon.WithColor(theme.GetThemeManager().ColorRoleDescriptors().PrimaryRoles.Primary),
+													icon.WithColor(colorHelper.ColorSelector().PrimaryRoles.Primary),
 												)(c)
 											}),
 										)(c)
@@ -100,7 +102,7 @@ func UI() api.Composable {
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
 													mdicons.ContentCreate,
-													icon.WithColor(theme.GetThemeManager().ColorRoleDescriptors().SurfaceRoles.OnSurface),
+													icon.WithColor(colorHelper.ColorSelector().SurfaceRoles.OnSurface),
 												)(c)
 											}),
 										)(c)
@@ -110,7 +112,7 @@ func UI() api.Composable {
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
 													mdicons.ActionSettings,
-													icon.WithColor(theme.GetThemeManager().ColorRoleDescriptors().SurfaceRoles.OnSurface),
+													icon.WithColor(colorHelper.ColorSelector().SurfaceRoles.OnSurface),
 												)(c)
 											}),
 										)(c)
@@ -120,7 +122,7 @@ func UI() api.Composable {
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
 													mdicons.SocialShare,
-													icon.WithColor(theme.GetThemeManager().ColorRoleDescriptors().SurfaceRoles.OnSurface),
+													icon.WithColor(colorHelper.ColorSelector().SurfaceRoles.OnSurface),
 												)(c)
 											}),
 										)(c)

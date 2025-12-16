@@ -18,7 +18,7 @@ func UI(c api.Composer) api.LayoutNode {
 	var rows []api.Composable
 	chunkSize := 40
 
-	themeManager := theme.GetThemeManager()
+	colorHelper := theme.ColorHelper
 
 	// Demo IconButtons
 	var demoIconButtons []api.Composable
@@ -68,7 +68,7 @@ func UI(c api.Composer) api.LayoutNode {
 			scaleFactor := 0.8 + 0.7*float32((i+j)%10)/10.0
 
 			rowItems = append(rowItems, icon.Icon(def.Data,
-				icon.WithColor(themeManager.ColorDescriptor(col)),
+				icon.WithColor(colorHelper.SpecificColor(col)),
 				icon.WithModifier(scale.Scale(scaleFactor)),
 				icon.WithModifier(padding.All(3)),
 			))

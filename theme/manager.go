@@ -12,6 +12,36 @@ import (
 
 var themeManagerSingleton ThemeManager
 
+var ColorHelper ThemeColorHelper = nil
+
+func init() {
+	ColorHelper = newTheColorHelper()
+}
+
+type ThemeColorHelper interface {
+	ColorSelector() *ColorRoleDescriptors
+	SpecificColor(color color.Color) ColorDescriptor
+}
+
+var _ ThemeColorHelper = (*themeColorHelper)(nil)
+
+type themeColorHelper struct {
+	roleDescriptors ColorRoleDescriptors
+}
+
+func (tch themeColorHelper) ColorSelector() *ColorRoleDescriptors {
+	return &tch.roleDescriptors
+}
+func (tch themeColorHelper) SpecificColor(color color.Color) ColorDescriptor {
+	return SpecificColor(color)
+}
+func newTheColorHelper() ThemeColorHelper {
+	return themeColorHelper{
+		roleDescriptors: NewColorRoleDescriptors(),
+	}
+}
+
+// Runtime
 type ThemeManager interface {
 	MaterialTheme() *material.Theme
 	SetMaterialTheme(theme *material.Theme)
@@ -19,10 +49,6 @@ type ThemeManager interface {
 	Material3ThemeInit(gtx layout.Context) layout.Context
 	SetMaterial3Theme(gtx layout.Context, theme *token.Theme)
 	GetMaterial3Theme() *token.Theme
-
-	ColorRoleDescriptors() ColorRoleDescriptors
-
-	ColorDescriptor(color color.Color) ThemeColorDescriptor
 
 	ThemeColorResolver
 }
@@ -85,7 +111,7 @@ func (tm *themeManager) GetMaterial3Theme() *token.Theme {
 	return tm.theme
 }
 
-func (tm *themeManager) ResolveColorDescriptor(desc ThemeColorDescriptor) ThemeColor {
+func (tm *themeManager) ResolveColorDescriptor(desc ColorDescriptor) ThemeColor {
 	return tm.themeColorResolver.ResolveColorDescriptor(desc)
 }
 
@@ -93,7 +119,7 @@ func (tm *themeManager) ColorRoleDescriptors() ColorRoleDescriptors {
 	return tm.colorRoleDescriptors
 }
 
-func (tm *themeManager) ColorDescriptor(color color.Color) ThemeColorDescriptor {
+func (tm *themeManager) ColorDescriptor(color color.Color) ColorDescriptor {
 	return SpecificColor(color)
 }
 

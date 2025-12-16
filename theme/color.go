@@ -5,7 +5,7 @@ import (
 )
 
 type ResolvableColor interface {
-	ResolveColorDescriptor(colorDesc ThemeColorDescriptor) ThemeColor
+	ResolveColorDescriptor(colorDesc ColorDescriptor) ThemeColor
 }
 
 // ResolvedColor is a color that has been resolved from a ThemeColorDescriptor
@@ -17,126 +17,141 @@ type ThemeColor interface {
 	AsTokenColor() TokenColor
 }
 
-type ThemeColorUpdateActions int
+type ColorUpdateActions int
 
 const (
-	ThemeColorUpdateActionsSetOpacity ThemeColorUpdateActions = iota
+	SetOpacityColorUpdateAction ColorUpdateActions = iota
 )
 
-type ThemeColorUpdate interface {
-	Action() ThemeColorUpdateActions
+type ColorUpdate interface {
+	Action() ColorUpdateActions
 	Value() any
-	Compare(other ThemeColorUpdate) bool
+	Compare(other ColorUpdate) bool
 	isThemeColorUpdate() bool
 }
 
-var _ ThemeColorUpdate = (*themeColorUpdate)(nil)
+var _ ColorUpdate = (*colorUpdate)(nil)
 
-type themeColorUpdate struct {
-	action ThemeColorUpdateActions
+type colorUpdate struct {
+	action ColorUpdateActions
 	value  any
 }
 
-func (u themeColorUpdate) Action() ThemeColorUpdateActions {
+func (u colorUpdate) Action() ColorUpdateActions {
 	return u.action
 }
 
-func (u themeColorUpdate) Value() any {
+func (u colorUpdate) Value() any {
 	return u.value
 }
 
-func (u themeColorUpdate) Compare(other ThemeColorUpdate) bool {
+func (u colorUpdate) Compare(other ColorUpdate) bool {
 	return u.action == other.Action() && u.value == other.Value()
 }
 
-func (u themeColorUpdate) isThemeColorUpdate() bool {
+func (u colorUpdate) isThemeColorUpdate() bool {
 	return true
 }
 
-var _ ThemeColorUpdate = (*ThemeColorUpdateTyped[any])(nil)
+var _ ColorUpdate = (*ColorUpdateTyped[any])(nil)
 
-type ThemeColorUpdateTyped[T comparable] struct {
-	action ThemeColorUpdateActions
+type ColorUpdateTyped[T comparable] struct {
+	action ColorUpdateActions
 	value  T
 }
 
-func (u ThemeColorUpdateTyped[T]) Action() ThemeColorUpdateActions {
+func (u ColorUpdateTyped[T]) Action() ColorUpdateActions {
 	return u.action
 }
 
-func (u ThemeColorUpdateTyped[T]) Value() T {
+func (u ColorUpdateTyped[T]) Value() T {
 	return u.value
 }
 
-func (u ThemeColorUpdateTyped[T]) Compare(other ThemeColorUpdate) bool {
+func (u ColorUpdateTyped[T]) Compare(other ColorUpdate) bool {
 	return u.action == other.Action() && u.value == other.Value()
 }
 
-func (u ThemeColorUpdateTyped[T]) isThemeColorUpdate() bool {
+func (u ColorUpdateTyped[T]) isThemeColorUpdate() bool {
 	return true
 }
 
-func (u ThemeColorUpdateTyped[T]) Any() ThemeColorUpdate {
-	return themeColorUpdate{
+func (u ColorUpdateTyped[T]) Any() ColorUpdate {
+	return colorUpdate{
 		action: u.action,
 		value:  u.value,
 	}
 }
 
-type ThemeColorDescriptor struct {
+type ColorDescriptor interface {
+	AppendUpdate(update ColorUpdate) ColorDescriptor
+	SetOpacity(opacity OpacityLevel) ColorDescriptor
+	Compare(other ColorDescriptor) bool
+	Updates() []ColorUpdate
+}
+
+var _ ColorDescriptor = (*colorDescriptor)(nil)
+
+type colorDescriptor struct {
 	color     color.NRGBA
 	colorRole ColorRole
 	isColor   bool
-	updates   []ThemeColorUpdate
+	updates   []ColorUpdate
 }
 
-func (t ThemeColorDescriptor) AppendUpdate(update ThemeColorUpdate) ThemeColorDescriptor {
+func (t colorDescriptor) AppendUpdate(update ColorUpdate) ColorDescriptor {
 	t = t.initUpdates()
 
 	t.updates = append(t.updates, update)
 	return t
 }
 
-func (t ThemeColorDescriptor) SetOpacity(opacity OpacityLevel) ThemeColorDescriptor {
+func (t colorDescriptor) SetOpacity(opacity OpacityLevel) ColorDescriptor {
 
 	update := SetOpacity(opacity)
 	return t.AppendUpdate(update.Any())
 }
 
-func (t ThemeColorDescriptor) initUpdates() ThemeColorDescriptor {
+func (t colorDescriptor) initUpdates() colorDescriptor {
 	if t.updates == nil {
-		t.updates = make([]ThemeColorUpdate, 0)
+		t.updates = make([]ColorUpdate, 0)
 	}
 	return t
 }
 
-func (t ThemeColorDescriptor) Compare(other ThemeColorDescriptor) bool {
-	if len(t.updates) != len(other.updates) {
+func (t colorDescriptor) Updates() []ColorUpdate {
+	return append([]ColorUpdate{}, t.updates...)
+}
+
+func (t colorDescriptor) Compare(other ColorDescriptor) bool {
+
+	otherColorDescriptor, ok := other.(colorDescriptor)
+	if !ok {
+		return false
+	}
+
+	if len(t.updates) != len(otherColorDescriptor.updates) {
 		return false
 	}
 	//compare updates
 	for i := range t.updates {
-		if !t.updates[i].Compare(other.updates[i]) {
+		if !t.updates[i].Compare(otherColorDescriptor.updates[i]) {
 			return false
 		}
 	}
 	//compare color
-	return t.color == other.color && t.colorRole == other.colorRole && t.isColor == other.isColor
+	return t.color == otherColorDescriptor.color && t.colorRole == otherColorDescriptor.colorRole && t.isColor == otherColorDescriptor.isColor
 }
 
-func (t ThemeColorDescriptor) Resolve() ThemeColor {
-	return GetThemeManager().ResolveColorDescriptor(t)
-}
-
-func SetOpacity(value OpacityLevel) *ThemeColorUpdateTyped[OpacityLevel] {
-	return &ThemeColorUpdateTyped[OpacityLevel]{
-		action: ThemeColorUpdateActionsSetOpacity,
+func SetOpacity(value OpacityLevel) *ColorUpdateTyped[OpacityLevel] {
+	return &ColorUpdateTyped[OpacityLevel]{
+		action: SetOpacityColorUpdateAction,
 		value:  value,
 	}
 }
 
-func GetOpacity(update ThemeColorUpdate) OpacityLevel {
-	if update.Action() != ThemeColorUpdateActionsSetOpacity {
+func GetOpacity(update ColorUpdate) OpacityLevel {
+	if update.Action() != SetOpacityColorUpdateAction {
 		panic("update is not a set opacity update")
 	}
 	return update.Value().(OpacityLevel)

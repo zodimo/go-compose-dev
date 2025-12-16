@@ -25,8 +25,7 @@ type IconWidget = func(gtx layoutContext, foreground color.Color) layoutDimensio
 
 var ToNRGBA = colorhelper.ToNRGBA
 
-type ColorDescriptor = theme.ThemeColorDescriptor
+type ColorDescriptor = theme.ColorDescriptor
 
+var colorHelper = theme.ColorHelper
 var themeManager = theme.GetThemeManager()
-
-var specificColor = theme.SpecificColor
