@@ -89,6 +89,18 @@ func switchWidgetConstructor(t *toggle.Toggle[string]) layoutnode.LayoutNodeWidg
 			labels := map[string]string{
 				singleSwitchKey: "",
 			}
+			// Calculate the required width for the switch target
+			// Width = TrackWidth + 2 * (FocusIndicatorOffset + FocusIndicatorThickness)
+			th := toggle.BuildTheme(gtx)
+			padding := th.FocusIndicatorOffset + th.FocusIndicatorThickness
+			targetWidth := gtx.Dp(th.TrackWidth) + 2*gtx.Dp(padding)
+
+			// Constrain the width to strictly the target width.
+			// This prevents the underlying block.Line from expanding to fill the parent
+			// and clips the unused label/spacer area.
+			gtx.Constraints.Max.X = targetWidth
+			gtx.Constraints.Min.X = targetWidth
+
 			return t.Layout(gtx, labels)
 		}
 	})
