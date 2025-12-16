@@ -1,8 +1,6 @@
 package border
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
@@ -30,4 +28,3 @@ var ToNRGBA = helpers.ToNRGBA
 
 type Shape = shape.Shape
 type Dp = unit.Dp
-type Color = color.Color

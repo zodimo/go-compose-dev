@@ -6,7 +6,7 @@ This document tracks the migration of Material3 components to use the `ColorDesc
 
 Last Updated: 2025-12-16 (Complete Component Audit)
 
-### ✅ Migrated to ColorDescriptor (6 components)
+### ✅ Migrated to ColorDescriptor (13 components)
 
 Components that use `theme.ColorDescriptor`:
 
@@ -17,7 +17,6 @@ Components that use `theme.ColorDescriptor`:
 | **appbar** | 2025-12-16 | Uses ColorDescriptor for TopAppBarColors (5 fields: ContainerColor, ScrolledContainerColor, NavigationIconContentColor, TitleContentColor, ActionIconContentColor) |
 | **bottomappbar** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor |
 | **bottomsheet** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ScrimColor. Default: SurfaceContainerLow, Scrim. |
-| **navigationrail** | - | Uses surface wrapper with SpecificColor (relies on surface's ColorDescriptor) |
 | **tab** | 2025-12-16 | Uses ColorDescriptor for TabRow ContainerColor/ContentColor and Tab SelectedContentColor/UnselectedContentColor |
 | **scaffold** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor - core layout container |
 | **floatingactionbutton** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor (defaults to PrimaryContainer/OnPrimaryContainer) |
@@ -26,17 +25,23 @@ Components that use `theme.ColorDescriptor`:
 | **segmentedbutton** | 2025-12-16 | Uses ColorDescriptor for Selected/Unselected Color/ContentColor and BorderColor. Defaults: SecondaryContainer, Surface, OnSecondaryContainer, OnSurface, Outline |
 | **badge** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor. Defaults: Error, OnError |
 | **slider** | 2025-12-16 | Uses ColorDescriptor for Thumb/Track/Tick colors. Defaults: Primary, OnPrimary, SurfaceContainerHighest, OnSurfaceVariant |
-| **divider** | 2025-12-16 | Uses ColorDescriptor for Color (OutlineVariant). Renamed from gio-mw wrapper to native implementation. |
+| **divider** | 2025-12-16 | Uses ColorDescriptor for Color (OutlineVariant). Native implementation. |
 
-### 📋 Pending ColorDescriptor Migration (5 components)
+### 📋 Pending ColorDescriptor Migration (6 components)
 
-Native go-compose components using `color.Color` or `color.NRGBA` that should be migrated:
+Native go-compose components that should expose `ColorDescriptor` options:
 
 | Component | Color Fields | Priority | Notes |
 |-----------|--------------|----------|-------|
+| **Foundation Text** | Color, SelectionColor | High | `compose/foundation/text`. Core text component uses `color.NRGBA` |
+| **NavigationDrawerItem** | ContainerColor (selected/unselected) | Medium | Uses hardcoded `color.Color` + SpecificColor wrapper |
+| **Overlay** | ScrimColor | Medium | `compose/foundation/layout/overlay`. Uses `color.NRGBA` for scrim |
+| **RadioButton** | SelectedColor, UnselectedColor, DisabledColor | Medium | Native component using `color.Color` |
+| **Shadow** | AmbientColor, SpotColor | Medium | `modifiers/shadow`. Uses `color.Color` for shadow colors |
+| **navigationrail** | ContainerColor, ContentColor | Medium | Currently uses SpecificColor wrappers to call surface |
 
 
-### 🔗 External Widget Components (13 confirmed)
+### 🔗 External Widget Components (12 confirmed)
 
 Components that wrap gio-mw widgets and don't expose color options:
 
@@ -49,7 +54,6 @@ Components that wrap gio-mw widgets and don't expose color options:
 | **iconbutton** | `gio-mw/widget/button` | No color options exposed |
 | **menu** | `gio-mw/token` | Uses gio-mw tokens |
 | **progress** | `gio-mw/widget/indicator` | Wrapper around gio-mw progress indicator |
-| **radiobutton** | `gio-mw/wdk` | No color options exposed |
 | **snackbar** | `gio-mw/widget/snackbar` | Wrapper around gio-mw snackbar widget |
 | **switch** | `gio-mw/widget/toggle` | No color options exposed |
 | **text** | `gio-mw/token`, `gio-mw/wdk` | Uses gio-mw typography helpers |
@@ -59,17 +63,8 @@ Components that wrap gio-mw widgets and don't expose color options:
 > [!NOTE]
 > These components use the gio-mw widget library's Material theme system. They automatically respond to theme changes but do not expose color customization options.
 
-### 🔧 Modifiers & Foundation (Pending)
-
-| Component | Status | Priority | Notes |
-|-----------|--------|----------|-------|
-| **Foundation Text** | Pending | High | `compose/foundation/text`. Core text component. |
-
-### ⚠️ Special Cases (1)
-
-| Component | Status | Notes |
-|-----------|--------|-------|
-| **navigationdrawer** | No color options | Native component but doesn't expose color customization |
+> [!NOTE]
+> No special cases remaining - all native components now categorized.
 
 ## Migration Workflow
 
@@ -102,50 +97,43 @@ For step-by-step migration instructions, see:
 
 **Total Material3 Components: 28**
 
-**ColorDescriptor Migration Progress: 14 of 15 native components/modifiers (93%)**
+**ColorDescriptor Migration Progress: 13 of 19 native components/modifiers (68%)**
 
 | Category | Count | Components |
 |----------|-------|------------|
-| ✅ **Migrated** | 14 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider, divider, bottomsheet, AnimatedBackground |
-| 📋 **Pending** | 0 | (None) |
-| 🔗 **External widgets** | 13 | button, card, checkbox, dialog, iconbutton, menu, progress, radiobutton, snackbar, switch, text, textfield, tooltip |
-| ⚠️ **Special cases** | 1 | navigationdrawer (no colors) |
+| ✅ **Migrated** | 13 | surface, appbar, bottomappbar, tab, scaffold, floatingactionbutton, chip, navigationbar, segmentedbutton, badge, slider, divider, bottomsheet, AnimatedBackground |
+| 📋 **Pending** | 6 | Foundation Text, NavigationDrawerItem, Overlay, RadioButton, Shadow, navigationrail |
+| 🔗 **External widgets** | 12 | button, card, checkbox, dialog, iconbutton, menu, progress, snackbar, switch, text, textfield, tooltip |
 
 ### Migration Priority
 
 Based on component importance and usage:
 
-**High Priority (4 components):**
+**High Priority (1 component):**
+- Foundation Text: Core text component, used throughout all demos and apps
 
-
-
-
-
-**Medium Priority (1 components):**
-
-- (None)
-
-**Low Priority (1 component):**
-- (None)
+**Medium Priority (5 components):**
+- NavigationDrawerItem: Uses hardcoded colors for selected/unselected state
+- Overlay: Layout component for modal overlays
+- RadioButton: Native component with color options
+- Shadow: Modifier for drop shadows
+- navigationrail: Expose ContainerColor/ContentColor as ColorDescriptor options
 
 ### Component Type Breakdown
 
-**Native Components (15):** Built in go-compose, support or should support ColorDescriptor
-- 14 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider, divider, bottomsheet, AnimatedBackground
-- 0 pending migration
+**Native Components (19):** Built in go-compose, support or should support ColorDescriptor
+- 13 migrated: surface, appbar, bottomappbar, tab, scaffold, floatingactionbutton, chip, navigationbar, segmentedbutton, badge, slider, divider, bottomsheet, AnimatedBackground
+- 6 pending: Foundation Text, NavigationDrawerItem, Overlay, RadioButton, Shadow, navigationrail
 
-**External Widget Components (13):** Wrap gio-mw widgets, use gio-mw themes
+**External Widget Components (12):** Wrap gio-mw widgets, use gio-mw themes
 - No color customization exposed
 - Automatically theme-aware via gio-mw
 
-**Special Cases (1):**
-- navigationdrawer: Native but minimal color customization
-
 ## Notes
 
-- 14 of 15 native components/modifiers now use `theme.ColorDescriptor` (93% complete)
-- 1 high-value native components still need migration (navigationdrawer is the remaining native component, but has no color options)
-- External widget components (13) use gio-mw themes - no migration needed
-- All pending components have been verified by file inspection
+- 13 of 19 native components/modifiers now use `theme.ColorDescriptor` (68% complete)
+- 6 components pending: Foundation Text, NavigationDrawerItem, Overlay, RadioButton, Shadow, navigationrail
+- External widget components (12) use gio-mw themes - no migration needed
+- All component statuses verified by code inspection (2025-12-16)
 - `SpecificColor()` should only wrap non-theme colors in migrated components
 - Theme role selectors ensure proper light/dark theme support
