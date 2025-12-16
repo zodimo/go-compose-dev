@@ -33,7 +33,7 @@ func NavigationRail(
 					func(c Composer) Composer {
 						if header != nil {
 							header(c)
-							spacer.Spacer(8)(c) // Spacing after header
+							spacer.Uniform(8)(c) // Spacing after header
 						}
 
 						// Content (Items)

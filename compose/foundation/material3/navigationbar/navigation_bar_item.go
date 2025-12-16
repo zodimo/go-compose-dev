@@ -55,7 +55,7 @@ func NavigationBarItem(
 		return box.Box(
 			column.Column(
 				func(c Composer) Composer {
-					spacer.Spacer(12)(c) // Top padding
+					spacer.Uniform(12)(c) // Top padding
 
 					// Icon Container (Indicator)
 					surface.Surface(
@@ -83,11 +83,11 @@ func NavigationBarItem(
 
 					// Label
 					if label != nil {
-						spacer.Spacer(4)(c)
+						spacer.Uniform(4)(c)
 						label(c)
 					}
 
-					spacer.Spacer(12)(c) // Bottom padding
+					spacer.Uniform(12)(c) // Bottom padding
 					return c
 				},
 				column.WithAlignment(column.Middle), // Center children horizontally

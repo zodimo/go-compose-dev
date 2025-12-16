@@ -59,7 +59,7 @@ func NavigationDrawerItem(
 						// We just layout children.
 						if icon != nil {
 							icon(c)
-							spacer.SpacerWidth(12)(c)
+							spacer.Width(12)(c)
 						}
 
 						// Label

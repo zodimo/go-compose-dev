@@ -7,7 +7,16 @@ import (
 	"github.com/zodimo/go-compose/modifiers/weight"
 )
 
-func Spacer(d int) Composable {
+func Spacer(width, height int) Composable {
+	return box.Box(
+		func(c Composer) Composer { return c },
+		box.WithModifier(
+			size.Size(width, height),
+		),
+	)
+}
+
+func Uniform(d int) Composable {
 	return box.Box(
 		func(c Composer) Composer { return c },
 		box.WithModifier(
@@ -16,7 +25,7 @@ func Spacer(d int) Composable {
 	)
 }
 
-func SpacerWidth(d int) Composable {
+func Width(d int) Composable {
 	return box.Box(
 		func(c Composer) Composer { return c },
 		box.WithModifier(
@@ -25,7 +34,7 @@ func SpacerWidth(d int) Composable {
 	)
 }
 
-func SpacerHeight(d int) Composable {
+func Height(d int) Composable {
 	return box.Box(
 		func(c Composer) Composer { return c },
 		box.WithModifier(
@@ -34,7 +43,7 @@ func SpacerHeight(d int) Composable {
 	)
 }
 
-func SpacerWeight(d int) Composable {
+func Weight(d int) Composable {
 	return box.Box(
 		compose.Id(),
 		box.WithModifier(

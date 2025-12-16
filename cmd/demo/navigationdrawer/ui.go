@@ -71,7 +71,7 @@ func UI() api.Composable {
 					row.Row(
 						func(c api.Composer) api.Composer {
 							text.Text("Navigation Drawer Demo", text.TypestyleHeadlineSmall)(c)
-							spacer.SpacerWidth(16)(c)
+							spacer.Width(16)(c)
 							// Toggle Button (only meaningful for Modal/Dismissible)
 							button.Filled(
 								func() { setIsOpen(!isOpen) },
@@ -82,7 +82,7 @@ func UI() api.Composable {
 						row.WithModifier(padding.All(16)),
 					)(c)
 
-					spacer.SpacerHeight(24)(c)
+					spacer.Height(24)(c)
 
 					// Type Switcher
 					row.Row(
@@ -106,14 +106,14 @@ func UI() api.Composable {
 										label,
 									)(c)
 								}
-								spacer.SpacerWidth(8)(c)
+								spacer.Width(8)(c)
 							}
 							return c
 						},
 						row.WithModifier(padding.All(16)),
 					)(c)
 
-					spacer.SpacerHeight(24)(c)
+					spacer.Height(24)(c)
 
 					text.Text("Current Selection: "+selectedItem, text.TypestyleBodyLarge)(c)
 

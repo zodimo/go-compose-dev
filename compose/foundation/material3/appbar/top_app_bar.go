@@ -58,7 +58,7 @@ func SingleRowTopAppBar(
 						box.WithAlignment(layout.W),                  // Align text to start
 						box.WithModifier(padding.Horizontal(16, 16)), // Horizontal(16, 16)
 					),
-					spacer.SpacerWeight(1),
+					spacer.Weight(1),
 					// Actions
 					c.When(
 						len(actions) > 0,
@@ -138,7 +138,7 @@ func CenterAlignedTopAppBar(
 								),
 							),
 							// Spacer to push Actions to end
-							spacer.SpacerWeight(1),
+							spacer.Weight(1),
 							// Actions
 							c.When(
 								len(opts.Actions) > 0,

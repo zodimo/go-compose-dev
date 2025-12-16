@@ -16,25 +16,25 @@ func UI() api.Composable {
 		return column.Column(
 			func(c api.Composer) api.Composer {
 				text.Text("Badge Components", text.TypestyleHeadlineMedium)(c)
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// Small badge (dot)
 				text.Text("Small Badge (Dot)", text.TypestyleTitleSmall)(c)
-				spacer.SpacerHeight(8)(c)
+				spacer.Height(8)(c)
 				badge.Badge()(c)
 
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// Large badge with number
 				text.Text("Large Badge (Number)", text.TypestyleTitleSmall)(c)
-				spacer.SpacerHeight(8)(c)
+				spacer.Height(8)(c)
 				badge.Badge(badge.WithText("999+"))(c)
 
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// BadgedBox examples
 				text.Text("BadgedBox Examples", text.TypestyleTitleSmall)(c)
-				spacer.SpacerHeight(8)(c)
+				spacer.Height(8)(c)
 
 				row.Row(func(c api.Composer) api.Composer {
 					// Dot badge on text
@@ -43,7 +43,7 @@ func UI() api.Composable {
 						text.Text("🔔", text.TypestyleHeadlineMedium),
 					)(c)
 
-					spacer.SpacerWidth(24)(c)
+					spacer.Width(24)(c)
 
 					// Number badge on icon
 					badge.BadgedBox(
@@ -51,7 +51,7 @@ func UI() api.Composable {
 						text.Text("✉️", text.TypestyleHeadlineMedium),
 					)(c)
 
-					spacer.SpacerWidth(24)(c)
+					spacer.Width(24)(c)
 
 					// Custom color badge
 					badge.BadgedBox(

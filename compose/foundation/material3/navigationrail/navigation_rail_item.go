@@ -76,7 +76,7 @@ func NavigationRailItem(
 
 				// Label
 				if label != nil {
-					spacer.Spacer(4)(c)
+					spacer.Uniform(4)(c)
 					label(c) // Should be styled with smaller font-size usually
 				}
 				return c

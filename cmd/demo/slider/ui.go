@@ -40,7 +40,7 @@ func UI() Composable {
 						)(c)
 						ValueText(basicValue.Get().(float32))(c)
 
-						spacer.SpacerHeight(24)(c)
+						spacer.Height(24)(c)
 
 						// 2. Stepped Slider (0-100, 5 steps)
 						Label("Stepped Slider (0-100, 5 steps)")(c)
@@ -52,7 +52,7 @@ func UI() Composable {
 						)(c)
 						ValueText(steppedValue.Get().(float32))(c)
 
-						spacer.SpacerHeight(24)(c)
+						spacer.Height(24)(c)
 
 						// 3. Slider with mapped range (0-100) continuous
 						Label("Mapped Range (0-100)")(c)
@@ -63,7 +63,7 @@ func UI() Composable {
 						)(c)
 						ValueText(rangeMappedValue.Get().(float32))(c)
 
-						spacer.SpacerHeight(24)(c)
+						spacer.Height(24)(c)
 
 						// 4. Custom Colors
 						Label("Custom Colors")(c)
@@ -84,7 +84,7 @@ func UI() Composable {
 							}),
 						)(c)
 
-						spacer.SpacerHeight(24)(c)
+						spacer.Height(24)(c)
 
 						// 5. Disabled Slider
 						Label("Disabled Slider")(c)

@@ -25,13 +25,13 @@ func UI() api.Composable {
 					text.TypestyleHeadlineMedium,
 				)(c)
 
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// Assist Chip Row
 				row.Row(
 					func(c api.Composer) api.Composer {
 						chip.AssistChip(func() { fmt.Println("Assist Chip Clicked") }, "Assist Chip")(c)
-						spacer.SpacerWidth(16)(c)
+						spacer.Width(16)(c)
 						chip.AssistChip(func() { fmt.Println("Assist with Icon") }, "With Icon",
 							chip.WithLeadingIcon(func(c api.Composer) api.Composer {
 								return text.Text("★", text.TypestyleBodyMedium)(c)
@@ -41,7 +41,7 @@ func UI() api.Composable {
 					},
 				)(c)
 
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// Filter Chip Row
 				row.Row(
@@ -66,7 +66,7 @@ func UI() api.Composable {
 					},
 				)(c)
 
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// Input Chip
 				row.Row(
@@ -80,13 +80,13 @@ func UI() api.Composable {
 					},
 				)(c)
 
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// Suggestion Chip
 				row.Row(
 					func(c api.Composer) api.Composer {
 						chip.SuggestionChip(func() { fmt.Println("Suggestion 1") }, "Suggestion 1")(c)
-						spacer.SpacerWidth(8)(c)
+						spacer.Width(8)(c)
 						chip.SuggestionChip(func() { fmt.Println("Suggestion 2") }, "Suggestion 2")(c)
 						return c
 					},

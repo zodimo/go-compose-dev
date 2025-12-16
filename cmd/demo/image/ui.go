@@ -33,7 +33,7 @@ func UI() api.Composable {
 			func(c api.Composer) api.Composer {
 				// 1. Basic Image (Fit)
 				text.Text("ContentScale: Fit", text.TypestyleBodyLarge)(c)
-				spacer.SpacerHeight(8)(c)
+				spacer.Height(8)(c)
 				surface.Surface(
 					fImage.Image(
 						imageResource,
@@ -41,11 +41,11 @@ func UI() api.Composable {
 					),
 					surface.WithModifier(size.Size(150, 100, size.SizeRequired()).Then(border.Border(unit.Dp(1), color.NRGBA{0, 0, 0, 255}, shape.ShapeRectangle))),
 				)(c)
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// 2. Crop
 				text.Text("ContentScale: Crop", text.TypestyleBodyLarge)(c)
-				spacer.SpacerHeight(8)(c)
+				spacer.Height(8)(c)
 				surface.Surface(
 					fImage.Image(
 						imageResource,
@@ -53,11 +53,11 @@ func UI() api.Composable {
 					),
 					surface.WithModifier(size.Size(150, 100, size.SizeRequired()).Then(border.Border(unit.Dp(1), color.NRGBA{0, 0, 0, 255}, shape.ShapeRectangle))),
 				)(c)
-				spacer.SpacerHeight(16)(c)
+				spacer.Height(16)(c)
 
 				// 3. Alignment (BottomEnd) + Alpha
 				text.Text("Alignment: BottomEnd + Alpha 0.5", text.TypestyleBodyLarge)(c)
-				spacer.SpacerHeight(8)(c)
+				spacer.Height(8)(c)
 				surface.Surface(
 					fImage.Image(
 						imageResource,

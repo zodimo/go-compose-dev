@@ -110,7 +110,7 @@ func UI() api.Composable {
 								},
 								api.EmptyModifier,
 							)(c)
-							spacer.Spacer(4)(c) // Changed spacer size
+							spacer.Uniform(4)(c) // Changed spacer size
 						}
 						return c
 					},
@@ -197,7 +197,7 @@ func UI() api.Composable {
 										},
 										api.EmptyModifier,
 									)(c)
-									spacer.Spacer(12)(c)
+									spacer.Uniform(12)(c)
 								}
 								return c
 							},
