@@ -165,10 +165,7 @@ func requireIconWidget(data []byte) IconWidget {
 	if err != nil {
 		panic(err)
 	}
-	return func(gtx layout.Context, foreground color.Color) layout.Dimensions {
-		if nrgba, ok := foreground.(color.NRGBA); ok {
-			return iconWidget.Layout(gtx, nrgba)
-		}
-		return iconWidget.Layout(gtx, ToNRGBA(foreground))
+	return func(gtx layout.Context, foreground color.NRGBA) layout.Dimensions {
+		return iconWidget.Layout(gtx, foreground)
 	}
 }

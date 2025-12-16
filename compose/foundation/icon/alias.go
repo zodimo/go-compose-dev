@@ -3,7 +3,6 @@ package icon
 import (
 	"image/color"
 
-	"github.com/zodimo/go-compose/internal/color/colorhelper"
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/theme"
@@ -21,9 +20,7 @@ type Composer = api.Composer
 
 type layoutContext = layout.Context
 type layoutDimensions = layout.Dimensions
-type IconWidget = func(gtx layoutContext, foreground color.Color) layoutDimensions
-
-var ToNRGBA = colorhelper.ToNRGBA
+type IconWidget = func(gtx layoutContext, foreground color.NRGBA) layoutDimensions
 
 type ColorDescriptor = theme.ColorDescriptor
 
