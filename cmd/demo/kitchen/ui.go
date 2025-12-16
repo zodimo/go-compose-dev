@@ -109,7 +109,7 @@ func UI(c api.Composer) api.LayoutNode {
 				overlay.WithOnDismiss(func() {
 					showDialog.Set(false)
 				}),
-			))
+			))(c)
 
 			// Snackbar host overlay
 			snackbar.SnackbarHost(snackbarHostState)(c)
