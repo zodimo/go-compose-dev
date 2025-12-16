@@ -115,7 +115,7 @@ func checkboxWidgetConstructor(cb *checkbox.Checkboxes[string]) layoutnode.Layou
 			// gio-mw Checkboxes renders the set.
 			// LayoutWithKind(gtx, LeadingKind, labels)
 
-			return cb.Layout(gtx, labels)
+			return cb.LayoutWithKind(gtx, checkbox.ButtonKind, labels)
 		}
 	})
 }

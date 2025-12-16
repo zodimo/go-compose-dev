@@ -61,13 +61,13 @@ func UI(c api.Composer) api.LayoutNode {
 			text.Text("Toggles", text.WithTextStyleOptions(text.StyleWithTextSize(20)), text.WithModifier(padding.Vertical(10, 10))),
 
 			// Checkbox
-			column.Column(compose.Sequence(
-				text.Text(fmt.Sprintf("Checkbox is checked: %v", isChecked.Get())),
+			row.Row(compose.Sequence(
 				checkbox.Checkbox(isChecked.Get().(bool), func(b bool) {
 					isChecked.Set(b)
 					fmt.Println("Checkbox changed:", b)
 				}),
-			)),
+				text.Text(fmt.Sprintf("Checkbox is checked: %v", isChecked.Get())),
+			), row.WithAlignment(row.Middle)),
 
 			// Switch
 			column.Column(compose.Sequence(
