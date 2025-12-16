@@ -23,14 +23,15 @@ Components that use `theme.ColorDescriptor`:
 | **navigationbar** | 2025-12-16 | Uses ColorDescriptor for ContainerColor/ContentColor and Item IndicatorColor. Defaults: SurfaceContainer, OnVariant, SecondaryContainer |
 | **segmentedbutton** | 2025-12-16 | Uses ColorDescriptor for Selected/Unselected Color/ContentColor and BorderColor. Defaults: SecondaryContainer, Surface, OnSecondaryContainer, OnSurface, Outline |
 | **badge** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor. Defaults: Error, OnError |
+| **slider** | 2025-12-16 | Uses ColorDescriptor for Thumb/Track/Tick colors. Defaults: Primary, OnPrimary, SurfaceContainerHighest, OnSurfaceVariant |
 
-### 📋 Pending ColorDescriptor Migration (6 components)
+### 📋 Pending ColorDescriptor Migration (5 components)
 
 Native go-compose components using `color.Color` or `color.NRGBA` that should be migrated:
 
 | Component | Color Fields | Priority | Notes |
 |-----------|--------------|----------|-------|
-| **slider** | `SliderColors` struct with 10 color.NRGBA fields | Medium | Input control |
+| **divider** | `Color` (Color) | Low | Simple component, but also uses gio-mw |
 
 
 | **slider** | `SliderColors` struct with 10 color.NRGBA fields | Medium | Input control |
@@ -97,12 +98,12 @@ For step-by-step migration instructions, see:
 
 **Total Material3 Components: 28**
 
-**ColorDescriptor Migration Progress: 7 of 13 native components (54%)**
+**ColorDescriptor Migration Progress: 8 of 13 native components (61%)**
 
 | Category | Count | Components |
 |----------|-------|------------|
-| ✅ **Migrated** | 10 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge |
-| 📋 **Pending** | 2 | slider, divider |
+| ✅ **Migrated** | 11 | surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider |
+| 📋 **Pending** | 1 | divider |
 | 🔗 **External widgets** | 13 | button, card, checkbox, dialog, iconbutton, menu, progress, radiobutton, snackbar, switch, text, textfield, tooltip |
 | ⚠️ **Special cases** | 2 | bottomsheet (uses token.MatColor), navigationdrawer (no colors) |
 
@@ -116,9 +117,9 @@ Based on component importance and usage:
 
 
 
-**Medium Priority (2 components):**
+**Medium Priority (1 components):**
 
-- `slider` - Input control (10 color fields)
+- (None)
 
 **Low Priority (1 component):**
 - `divider` - Simple visual separator
@@ -126,8 +127,8 @@ Based on component importance and usage:
 ### Component Type Breakdown
 
 **Native Components (13):** Built in go-compose, support or should support ColorDescriptor
-- 10 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge
-- 2 pending migration: slider, divider
+- 11 migrated: surface, appbar, bottomappbar, navigationrail, tab, scaffold, floatingactionbutton, chip, navigationbar, badge, slider
+- 1 pending migration: divider
 
 **External Widget Components (13):** Wrap gio-mw widgets, use gio-mw themes
 - No color customization exposed

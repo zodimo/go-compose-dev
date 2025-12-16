@@ -5,6 +5,7 @@ import (
 	"image"
 
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/layout"
 	"gioui.org/op"
@@ -149,34 +150,42 @@ func sliderWidgetConstructor(args sliderConstructorArgs) layoutnode.LayoutNodeWi
 			inactiveTrackRect := image.Rect(0, trackY, trackWidth, trackY+trackHeight)
 			roundedCorners := trackHeight / 2
 
-			trackColor := args.Colors.Track(args.Enabled, false)
+			tm := theme.GetThemeManager()
+			trackColorDesc := args.Colors.Track(args.Enabled, false)
+			trackColor := tm.ResolveColorDescriptor(trackColorDesc)
+
 			// Using Clip/Paint
 			inactiveTrackClip := clip.RRect{
 				Rect: inactiveTrackRect,
 				SE:   roundedCorners, SW: roundedCorners, NW: roundedCorners, NE: roundedCorners,
 			}.Push(gtx.Ops)
-			paint.ColorOp{Color: trackColor}.Add(gtx.Ops)
+			paint.ColorOp{Color: trackColor.AsNRGBA()}.Add(gtx.Ops)
 			paint.PaintOp{}.Add(gtx.Ops)
 			inactiveTrackClip.Pop()
 
 			// Active Track (Overlay)
 			if activeTrackWidth > 0 {
 				activeTrackRect := image.Rect(0, trackY, activeTrackWidth, trackY+trackHeight)
-				activeColor := args.Colors.Track(args.Enabled, true)
+				activeColorDesc := args.Colors.Track(args.Enabled, true)
+				activeColor := tm.ResolveColorDescriptor(activeColorDesc)
 
 				activeTrackClip := clip.RRect{
 					Rect: activeTrackRect,
 					SE:   roundedCorners, SW: roundedCorners, NW: roundedCorners, NE: roundedCorners,
 				}.Push(gtx.Ops)
-				paint.ColorOp{Color: activeColor}.Add(gtx.Ops)
+				paint.ColorOp{Color: activeColor.AsNRGBA()}.Add(gtx.Ops)
 				paint.PaintOp{}.Add(gtx.Ops)
 				activeTrackClip.Pop()
 			}
 
 			// Ticks
 			if args.Steps > 0 {
-				tickColor := args.Colors.Tick(args.Enabled, true) // Active part
-				inactiveTickColor := args.Colors.Tick(args.Enabled, false)
+				tickColorDesc := args.Colors.Tick(args.Enabled, true) // Active part
+				tickColor := tm.ResolveColorDescriptor(tickColorDesc)
+
+				inactiveTickColorDesc := args.Colors.Tick(args.Enabled, false)
+				inactiveTickColor := tm.ResolveColorDescriptor(inactiveTickColorDesc)
+
 				tickSizePx := gtx.Dp(TickSize)
 				stepSizePx := float32(trackWidth) / float32(args.Steps+1)
 
@@ -198,7 +207,7 @@ func sliderWidgetConstructor(args sliderConstructorArgs) layoutnode.LayoutNodeWi
 						Max: tickRect.Max,
 					}
 					tickClip := tickCircle.Push(gtx.Ops)
-					paint.ColorOp{Color: c}.Add(gtx.Ops)
+					paint.ColorOp{Color: c.AsNRGBA()}.Add(gtx.Ops)
 					paint.PaintOp{}.Add(gtx.Ops)
 					tickClip.Pop()
 				}
@@ -208,12 +217,14 @@ func sliderWidgetConstructor(args sliderConstructorArgs) layoutnode.LayoutNodeWi
 			thumbX := int(float32(trackWidth) * fraction)
 			thumbRect := image.Rect(thumbX-thumbSize/2, 0, thumbX+thumbSize/2, thumbSize)
 
-			thumbColor := args.Colors.Thumb(args.Enabled)
+			thumbColorDesc := args.Colors.Thumb(args.Enabled)
+			thumbColor := tm.ResolveColorDescriptor(thumbColorDesc)
+
 			thumbClip := clip.Ellipse{
 				Min: thumbRect.Min,
 				Max: thumbRect.Max,
 			}.Push(gtx.Ops)
-			paint.ColorOp{Color: thumbColor}.Add(gtx.Ops)
+			paint.ColorOp{Color: thumbColor.AsNRGBA()}.Add(gtx.Ops)
 			paint.PaintOp{}.Add(gtx.Ops)
 			thumbClip.Pop()
 

@@ -11,6 +11,7 @@ import (
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type Composable = api.Composable
@@ -71,16 +72,16 @@ func UI() Composable {
 							customColorValue.Get().(float32),
 							func(v float32) { customColorValue.Set(v) },
 							slider.WithColors(slider.SliderColors{
-								ThumbColor:            color.NRGBA{R: 255, A: 255},
-								ActiveTrackColor:      color.NRGBA{R: 200, G: 50, B: 50, A: 255},
-								InactiveTrackColor:    color.NRGBA{R: 200, G: 200, B: 200, A: 255},
-								ActiveTickColor:       color.NRGBA{R: 255, G: 255, B: 255, A: 255},
-								InactiveTickColor:     color.NRGBA{R: 0, G: 0, B: 0, A: 255},
-								DisabledThumbColor:    color.NRGBA{R: 100, G: 100, B: 100, A: 255},
-								DisabledActiveTrack:   color.NRGBA{R: 100, G: 100, B: 100, A: 255},
-								DisabledActiveTick:    color.NRGBA{R: 100, G: 100, B: 100, A: 255},
-								DisabledInactiveTrack: color.NRGBA{R: 220, G: 220, B: 220, A: 255},
-								DisabledInactiveTick:  color.NRGBA{R: 220, G: 220, B: 220, A: 255},
+								ThumbColor:            theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, A: 255}),
+								ActiveTrackColor:      theme.ColorHelper.SpecificColor(color.NRGBA{R: 200, G: 50, B: 50, A: 255}),
+								InactiveTrackColor:    theme.ColorHelper.SpecificColor(color.NRGBA{R: 200, G: 200, B: 200, A: 255}),
+								ActiveTickColor:       theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255}),
+								InactiveTickColor:     theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 0, A: 255}),
+								DisabledThumbColor:    theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 100, B: 100, A: 255}),
+								DisabledActiveTrack:   theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 100, B: 100, A: 255}),
+								DisabledActiveTick:    theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 100, B: 100, A: 255}),
+								DisabledInactiveTrack: theme.ColorHelper.SpecificColor(color.NRGBA{R: 220, G: 220, B: 220, A: 255}),
+								DisabledInactiveTick:  theme.ColorHelper.SpecificColor(color.NRGBA{R: 220, G: 220, B: 220, A: 255}),
 							}),
 						)(c)
 

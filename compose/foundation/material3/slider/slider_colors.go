@@ -1,27 +1,27 @@
 package slider
 
 import (
-	"image/color"
-
 	"gioui.org/layout"
+
+	"github.com/zodimo/go-compose/theme"
 )
 
 // SliderColors represents the colors used by a Slider in different states.
 type SliderColors struct {
-	ThumbColor            color.NRGBA
-	ActiveTrackColor      color.NRGBA
-	ActiveTickColor       color.NRGBA
-	InactiveTrackColor    color.NRGBA
-	InactiveTickColor     color.NRGBA
-	DisabledThumbColor    color.NRGBA
-	DisabledActiveTrack   color.NRGBA
-	DisabledActiveTick    color.NRGBA
-	DisabledInactiveTrack color.NRGBA
-	DisabledInactiveTick  color.NRGBA
+	ThumbColor            theme.ColorDescriptor
+	ActiveTrackColor      theme.ColorDescriptor
+	ActiveTickColor       theme.ColorDescriptor
+	InactiveTrackColor    theme.ColorDescriptor
+	InactiveTickColor     theme.ColorDescriptor
+	DisabledThumbColor    theme.ColorDescriptor
+	DisabledActiveTrack   theme.ColorDescriptor
+	DisabledActiveTick    theme.ColorDescriptor
+	DisabledInactiveTrack theme.ColorDescriptor
+	DisabledInactiveTick  theme.ColorDescriptor
 }
 
 // ThumbColor returns the color of the thumb based on the enabled state.
-func (c SliderColors) Thumb(enabled bool) color.NRGBA {
+func (c SliderColors) Thumb(enabled bool) theme.ColorDescriptor {
 	if enabled {
 		return c.ThumbColor
 	}
@@ -29,7 +29,7 @@ func (c SliderColors) Thumb(enabled bool) color.NRGBA {
 }
 
 // TrackColor returns the color of the track based on the enabled and active state.
-func (c SliderColors) Track(enabled, active bool) color.NRGBA {
+func (c SliderColors) Track(enabled, active bool) theme.ColorDescriptor {
 	if enabled {
 		if active {
 			return c.ActiveTrackColor
@@ -43,7 +43,7 @@ func (c SliderColors) Track(enabled, active bool) color.NRGBA {
 }
 
 // TickColor returns the color of the ticks based on the enabled and active state.
-func (c SliderColors) Tick(enabled, active bool) color.NRGBA {
+func (c SliderColors) Tick(enabled, active bool) theme.ColorDescriptor {
 	if enabled {
 		if active {
 			return c.ActiveTickColor
