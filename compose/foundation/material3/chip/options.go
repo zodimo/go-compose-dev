@@ -1,7 +1,7 @@
 package chip
 
 import (
-	"image/color"
+	"github.com/zodimo/go-compose/theme"
 
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -13,8 +13,8 @@ import (
 type ChipOptions struct {
 	Modifier     modifier.Modifier
 	Shape        shape.Shape
-	Color        color.NRGBA
-	BorderColor  color.NRGBA
+	Color        theme.ColorDescriptor
+	BorderColor  theme.ColorDescriptor
 	BorderWidth  unit.Dp
 	Elevation    unit.Dp
 	Height       unit.Dp
@@ -33,10 +33,10 @@ type Modifier = modifier.Modifier
 func DefaultChipOptions() ChipOptions {
 	return ChipOptions{
 		Modifier:    modifier.EmptyModifier,
-		Shape:       shape.RoundedCornerShape{Radius: unit.Dp(8)}, // Material 3 small rounding usually
-		Color:       color.NRGBA{R: 0, G: 0, B: 0, A: 0},          // Transparent by default, surface handles it
+		Shape:       shape.RoundedCornerShape{Radius: unit.Dp(8)},           // Material 3 small rounding usually
+		Color:       theme.ColorHelper.ColorSelector().SurfaceRoles.Surface, // Default to Surface
 		BorderWidth: unit.Dp(1),
-		BorderColor: color.NRGBA{R: 0x79, G: 0x74, B: 0x7E, A: 0xFF}, // Outline variant
+		BorderColor: theme.ColorHelper.ColorSelector().OutlineRoles.OutlineVariant, // Outline variant
 		Height:      unit.Dp(32),
 		Enabled:     true,
 		Selected:    false,
@@ -73,13 +73,13 @@ func WithTrailingIcon(icon api.Composable) ChipOption {
 	}
 }
 
-func WithColor(c color.NRGBA) ChipOption {
+func WithColor(c theme.ColorDescriptor) ChipOption {
 	return func(o *ChipOptions) {
 		o.Color = c
 	}
 }
 
-func WithBorder(width unit.Dp, color color.NRGBA) ChipOption {
+func WithBorder(width unit.Dp, color theme.ColorDescriptor) ChipOption {
 	return func(o *ChipOptions) {
 		o.BorderWidth = width
 		o.BorderColor = color
