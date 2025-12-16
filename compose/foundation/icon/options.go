@@ -14,8 +14,7 @@ type IconOption func(*IconOptions)
 func DefaultIconOptions() IconOptions {
 	return IconOptions{
 		Modifier: EmptyModifier,
-		// Default Fallback is black
-		Color: maybe.None[ColorDescriptor](),
+		Color:    maybe.None[ColorDescriptor](),
 	}
 }
 
