@@ -166,11 +166,21 @@ func newThemeColorResolver(tm ThemeManager) ThemeColorResolver {
 }
 
 func (cr *themeColorResolver) applyUpdates(updates []ColorUpdate, color TokenColor) ThemeColor {
+	currentColor := color.AsNRGBA()
+
 	for _, update := range updates {
 		switch update.Action() {
 		case SetOpacityColorUpdateAction:
 			color = color.SetOpacity(GetOpacity(update))
+			currentColor = color.AsNRGBA()
+		case LightenColorUpdateAction:
+			percentage := GetLighten(update)
+			currentColor = lightenColor(currentColor, percentage)
+		case DarkenColorUpdateAction:
+			percentage := GetDarken(update)
+			currentColor = darkenColor(currentColor, percentage)
 		}
 	}
-	return ThemeColorFromTokenColor(color)
+
+	return ThemeColorFromNRGBA(currentColor)
 }

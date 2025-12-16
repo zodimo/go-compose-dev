@@ -22,6 +22,8 @@ type ColorUpdateActions int
 
 const (
 	SetOpacityColorUpdateAction ColorUpdateActions = iota
+	LightenColorUpdateAction
+	DarkenColorUpdateAction
 )
 
 type ColorUpdate interface {
@@ -87,6 +89,8 @@ func (u ColorUpdateTyped[T]) Any() ColorUpdate {
 type ColorDescriptor interface {
 	AppendUpdate(update ColorUpdate) ColorDescriptor
 	SetOpacity(opacity OpacityLevel) ColorDescriptor
+	Lighten(percentage float32) ColorDescriptor
+	Darken(percentage float32) ColorDescriptor
 	Compare(other ColorDescriptor) bool
 	Updates() []ColorUpdate
 }
@@ -108,8 +112,17 @@ func (t colorDescriptor) AppendUpdate(update ColorUpdate) ColorDescriptor {
 }
 
 func (t colorDescriptor) SetOpacity(opacity OpacityLevel) ColorDescriptor {
-
 	update := SetOpacity(opacity)
+	return t.AppendUpdate(update.Any())
+}
+
+func (t colorDescriptor) Lighten(percentage float32) ColorDescriptor {
+	update := Lighten(percentage)
+	return t.AppendUpdate(update.Any())
+}
+
+func (t colorDescriptor) Darken(percentage float32) ColorDescriptor {
+	update := Darken(percentage)
 	return t.AppendUpdate(update.Any())
 }
 
@@ -156,4 +169,32 @@ func GetOpacity(update ColorUpdate) OpacityLevel {
 		panic("update is not a set opacity update")
 	}
 	return update.Value().(OpacityLevel)
+}
+
+func Lighten(percentage float32) *ColorUpdateTyped[float32] {
+	return &ColorUpdateTyped[float32]{
+		action: LightenColorUpdateAction,
+		value:  percentage,
+	}
+}
+
+func GetLighten(update ColorUpdate) float32 {
+	if update.Action() != LightenColorUpdateAction {
+		panic("update is not a lighten update")
+	}
+	return update.Value().(float32)
+}
+
+func Darken(percentage float32) *ColorUpdateTyped[float32] {
+	return &ColorUpdateTyped[float32]{
+		action: DarkenColorUpdateAction,
+		value:  percentage,
+	}
+}
+
+func GetDarken(update ColorUpdate) float32 {
+	if update.Action() != DarkenColorUpdateAction {
+		panic("update is not a darken update")
+	}
+	return update.Value().(float32)
 }
