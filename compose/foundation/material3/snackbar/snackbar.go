@@ -38,8 +38,13 @@ func SnackbarHost(hostState *SnackbarHostState) compose.Composable {
 
 		constructor := func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 			return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
+
 				// We need to call Update on the overlay
 				hostState.overlay.Update(gtx)
+
+				// Force the overlay to fill the max constraints so positioning works correctly.
+				// Box layout passes Min=(0,0), but Overlay needs to know the full bounds.
+				gtx.Constraints.Min = gtx.Constraints.Max
 
 				// Then Layout
 				hostState.overlay.Layout(gtx)
