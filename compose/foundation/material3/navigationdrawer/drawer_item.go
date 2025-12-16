@@ -31,15 +31,12 @@ func NavigationDrawerItem(
 	m Modifier,
 ) Composable {
 	return func(c Composer) Composer {
-		tm := theme.GetThemeManager()
-		m3 := tm.GetMaterial3Theme()
-
-		// Colors
-		var containerColor color.Color
+		// Colors - use theme role selectors
+		var containerColor theme.ColorDescriptor
 		if selected {
-			containerColor = m3.Scheme.SecondaryContainer.Color.AsNRGBA()
+			containerColor = theme.ColorHelper.ColorSelector().SecondaryRoles.Container
 		} else {
-			containerColor = color.NRGBA{A: 0} // Transparent
+			containerColor = theme.ColorHelper.SpecificColor(color.NRGBA{A: 0}) // Transparent
 		}
 
 		// Click interaction state
@@ -84,7 +81,7 @@ func NavigationDrawerItem(
 					),
 				)(c)
 			},
-			surface.WithColor(theme.ColorHelper.SpecificColor(containerColor)),
+			surface.WithColor(containerColor),
 			surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(28)}), // Stadium shape (height 56 / 2)
 			surface.WithModifier(
 				m.

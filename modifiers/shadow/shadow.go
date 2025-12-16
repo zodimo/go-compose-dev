@@ -1,16 +1,15 @@
 package shadow
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type ShadowData struct {
 	Elevation    Dp
 	Shape        Shape
-	AmbientColor Color
-	SpotColor    Color
+	AmbientColor theme.ColorDescriptor
+	SpotColor    theme.ColorDescriptor
 }
 
 type ShadowElement struct {
@@ -34,7 +33,7 @@ func (e *ShadowElement) Equals(other Element) bool {
 	return false
 }
 
-func Shadow(elevation Dp, shape Shape, ambientColor, spotColor Color) Modifier {
+func Shadow(elevation Dp, shape Shape, ambientColor, spotColor theme.ColorDescriptor) Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
 			&ShadowElement{
@@ -58,12 +57,9 @@ func Shadow(elevation Dp, shape Shape, ambientColor, spotColor Color) Modifier {
 	)
 }
 
-// Simple Shadow with defaults
+// Simple Shadow with defaults using theme Shadow role
 func Simple(elevation Dp, shape Shape) Modifier {
-	// Default shadow colors usually black or standard shadow color?
-	// gio-mw uses a shadow color from theme.
-	// For generic modifier, we might default to black with low opacity if not specified,
-	// but here we let caller specify or use these defaults.
-	black := color.NRGBA{A: 255}
-	return Shadow(elevation, shape, black, black)
+	// Use theme shadow color for defaults
+	shadowColor := theme.ColorHelper.ColorSelector().ScrimRoles.Shadow
+	return Shadow(elevation, shape, shadowColor, shadowColor)
 }

@@ -11,7 +11,6 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/snackbar"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
-	ftext "github.com/zodimo/go-compose/compose/foundation/text"
 	padding_modifier "github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
@@ -45,12 +44,7 @@ func UI(c api.Composer) api.LayoutNode {
 			return surface.Surface(
 				func(c api.Composer) api.Composer {
 					return box.Box(
-						func(c api.Composer) api.Composer {
-							m3text.Text("Top Bar", m3text.TypestyleTitleLarge,
-								ftext.WithTextStyleOptions(ftext.StyleWithColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255})),
-							)(c)
-							return c
-						},
+						m3text.Text("Top Bar", m3text.TypestyleTitleLarge),
 						box.WithModifier(padding_modifier.All(16)),
 					)(c)
 				},

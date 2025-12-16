@@ -24,7 +24,7 @@ func UI(c api.Composer) api.LayoutNode {
 						c.Sequence(
 							text.Text("Wrap Content (Default)",
 								text.WithTextStyleOptions(
-									text.StyleWithColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255}),
+									text.StyleWithColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255})),
 								),
 							),
 						),
@@ -38,7 +38,7 @@ func UI(c api.Composer) api.LayoutNode {
 						c.Sequence(
 							text.Text("Top Start",
 								text.WithTextStyleOptions(
-									text.StyleWithColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255}),
+									text.StyleWithColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 255, B: 255, A: 255})),
 								),
 							),
 						),
@@ -61,7 +61,7 @@ func UI(c api.Composer) api.LayoutNode {
 						c.Sequence(
 							text.Text("Bottom End Aligned",
 								text.WithTextStyleOptions(
-									text.StyleWithColor(color.NRGBA{R: 0, G: 0, B: 0, A: 255}),
+									text.StyleWithColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 0, A: 255})),
 								),
 							),
 						),

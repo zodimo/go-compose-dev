@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"image/color"
 
 	"gioui.org/layout"
 
@@ -11,7 +10,6 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/material3/navigationbar"
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
-	"github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/modifiers/weight"
 	"github.com/zodimo/go-compose/pkg/api"
@@ -43,9 +41,6 @@ func UI() api.Composable {
 						return m3text.Text(
 							fmt.Sprintf("Selected: %s", items[selectedIdx].Label),
 							m3text.TypestyleDisplayMedium,
-							text.WithTextStyleOptions(
-								text.StyleWithColor(color.NRGBA{A: 255}),
-							),
 						)(c)
 					},
 					box.WithModifier(weight.Weight(1)),

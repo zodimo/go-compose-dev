@@ -4,9 +4,9 @@ This document tracks the migration of Material3 components to use the `ColorDesc
 
 ## Migration Status
 
-Last Updated: 2025-12-16 (Complete Component Audit)
+Last Updated: 2025-12-16 (All Native Components Complete)
 
-### ✅ Migrated to ColorDescriptor (13 components)
+### ✅ Migrated to ColorDescriptor (19 components)
 
 Components that use `theme.ColorDescriptor`:
 
@@ -26,19 +26,16 @@ Components that use `theme.ColorDescriptor`:
 | **badge** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor. Defaults: Error, OnError |
 | **slider** | 2025-12-16 | Uses ColorDescriptor for Thumb/Track/Tick colors. Defaults: Primary, OnPrimary, SurfaceContainerHighest, OnSurfaceVariant |
 | **divider** | 2025-12-16 | Uses ColorDescriptor for Color (OutlineVariant). Native implementation. |
+| **Foundation Text** | 2025-12-16 | Uses ColorDescriptor for Color, SelectionColor. Defaults: SurfaceRoles.OnSurface, PrimaryRoles.Primary with opacity |
+| **Overlay** | 2025-12-16 | Uses ColorDescriptor for ScrimColor. Default: ScrimRoles.Scrim |
+| **RadioButton** | 2025-12-16 | Uses ColorDescriptor for SelectedColor, UnselectedColor, DisabledColor. Defaults: PrimaryRoles.Primary, SurfaceRoles.OnVariant, SurfaceRoles.OnSurface with opacity |
+| **Shadow** | 2025-12-16 | Modifier uses ColorDescriptor for AmbientColor, SpotColor. Default: ScrimRoles.Shadow |
+| **NavigationDrawerItem** | 2025-12-16 | Uses ColorDescriptor for containerColor (selected: SecondaryRoles.Container) |
+| **NavigationRail** | 2025-12-16 | Uses ColorDescriptor for ContainerColor, ContentColor. Defaults: SurfaceRoles.Surface, SurfaceRoles.OnSurface |
 
-### 📋 Pending ColorDescriptor Migration (6 components)
+### ✅ All Native Components Migrated
 
-Native go-compose components that should expose `ColorDescriptor` options:
-
-| Component | Color Fields | Priority | Notes |
-|-----------|--------------|----------|-------|
-| **Foundation Text** | Color, SelectionColor | High | `compose/foundation/text`. Core text component uses `color.NRGBA` |
-| **NavigationDrawerItem** | ContainerColor (selected/unselected) | Medium | Uses hardcoded `color.Color` + SpecificColor wrapper |
-| **Overlay** | ScrimColor | Medium | `compose/foundation/layout/overlay`. Uses `color.NRGBA` for scrim |
-| **RadioButton** | SelectedColor, UnselectedColor, DisabledColor | Medium | Native component using `color.Color` |
-| **Shadow** | AmbientColor, SpotColor | Medium | `modifiers/shadow`. Uses `color.Color` for shadow colors |
-| **navigationrail** | ContainerColor, ContentColor | Medium | Currently uses SpecificColor wrappers to call surface |
+All native go-compose components now use `theme.ColorDescriptor` with appropriate theme role defaults. No pending migrations remaining.
 
 
 ### 🔗 External Widget Components (12 confirmed)

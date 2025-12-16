@@ -6,6 +6,7 @@ import (
 
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/state"
+	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/op"
 	"gioui.org/op/clip"
@@ -64,17 +65,22 @@ func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 
 			// where to find the theme?
-			theme := GetThemeManager().MaterialTheme()
+			materialTheme := GetThemeManager().MaterialTheme()
+			tm := theme.GetThemeManager()
 
 			text := constructorArgs.Value
 			textOptions := constructorArgs.Options
 
+			// Resolve ColorDescriptors to NRGBA
+			resolvedTextColor := tm.ResolveColorDescriptor(textOptions.TextStyleOptions.Color).AsNRGBA()
+			resolvedSelectColor := tm.ResolveColorDescriptor(textOptions.TextStyleOptions.SelectionColor).AsNRGBA()
+
 			textColorMacro := op.Record(gtx.Ops)
-			paint.ColorOp{Color: textOptions.TextStyleOptions.Color}.Add(gtx.Ops)
+			paint.ColorOp{Color: resolvedTextColor}.Add(gtx.Ops)
 			textColor := textColorMacro.Stop()
 
 			selectColorMacro := op.Record(gtx.Ops)
-			paint.ColorOp{Color: textOptions.TextStyleOptions.SelectionColor}.Add(gtx.Ops)
+			paint.ColorOp{Color: resolvedSelectColor}.Add(gtx.Ops)
 			selectColor := selectColorMacro.Stop()
 
 			var dims layoutnode.LayoutDimensions
@@ -93,7 +99,7 @@ func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.
 				state.LineHeightScale = constructorArgs.Options.LineHeightScale
 				dims = state.Layout(
 					gtx,
-					theme.Shaper,
+					materialTheme.Shaper,
 					constructorArgs.Options.TextStyleOptions.Font,
 					constructorArgs.Options.TextStyleOptions.TextSize,
 					textColor,
@@ -109,7 +115,7 @@ func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.
 					WrapPolicy:      textOptions.WrapPolicy,
 					LineHeight:      textOptions.LineHeight,
 					LineHeightScale: textOptions.LineHeightScale,
-				}.Layout(gtx, theme.Shaper, textOptions.TextStyleOptions.Font, textOptions.TextStyleOptions.TextSize, text, textColor)
+				}.Layout(gtx, materialTheme.Shaper, textOptions.TextStyleOptions.Font, textOptions.TextStyleOptions.TextSize, text, textColor)
 			}
 
 			// Draw strikethrough if enabled
@@ -118,7 +124,7 @@ func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.
 				lineHeight := 1
 				y := dims.Size.Y / 2
 				rect := image.Rect(0, y, dims.Size.X, y+lineHeight)
-				paint.FillShape(gtx.Ops, textOptions.TextStyleOptions.Color, clip.Rect(rect).Op())
+				paint.FillShape(gtx.Ops, resolvedTextColor, clip.Rect(rect).Op())
 			}
 
 			return dims

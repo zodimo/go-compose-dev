@@ -1,8 +1,6 @@
 package main
 
 import (
-	"image/color"
-
 	"gioui.org/layout"
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
@@ -11,7 +9,6 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/bottomappbar"
 	"github.com/zodimo/go-compose/compose/foundation/material3/iconbutton"
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
-	"github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/pkg/api" // Import api for Composable/Composer
 
 	"github.com/zodimo/go-compose/modifiers/size"
@@ -30,9 +27,6 @@ func UI() api.Composable {
 						return m3text.Text(
 							"Content Area",
 							m3text.TypestyleBodyLarge, // valid style
-							text.WithTextStyleOptions(
-								text.StyleWithColor(color.NRGBA{A: 255}),
-							),
 						)(c)
 					},
 					box.WithModifier(weight.Weight(1)),

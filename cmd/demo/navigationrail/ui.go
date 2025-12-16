@@ -88,13 +88,11 @@ func UI() api.Composable {
 								),
 
 								func(c api.Composer) api.Composer {
-									tm := theme.GetThemeManager()
-									m3 := tm.GetMaterial3Theme()
-									var textColor color.NRGBA
+									var textColor theme.ColorDescriptor
 									if isSelected {
-										textColor = m3.Scheme.SecondaryContainer.OnColor.AsNRGBA()
+										textColor = theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
 									} else {
-										textColor = m3.Scheme.SurfaceVariant.OnColor.AsNRGBA()
+										textColor = theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant
 									}
 
 									return text.Text(
@@ -177,13 +175,11 @@ func UI() api.Composable {
 										),
 										//label
 										func(c api.Composer) api.Composer {
-											tm := theme.GetThemeManager()
-											m3 := tm.GetMaterial3Theme()
-											var textColor color.NRGBA
+											var textColor theme.ColorDescriptor
 											if isSelected {
-												textColor = m3.Scheme.SecondaryContainer.OnColor.AsNRGBA()
+												textColor = theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
 											} else {
-												textColor = m3.Scheme.SurfaceVariant.OnColor.AsNRGBA()
+												textColor = theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant
 											}
 
 											return text.Text(

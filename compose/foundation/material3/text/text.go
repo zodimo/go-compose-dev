@@ -6,6 +6,7 @@ import (
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
+	"github.com/zodimo/go-compose/theme"
 
 	"git.sr.ht/~schnwalter/gio-mw/token"
 	"git.sr.ht/~schnwalter/gio-mw/wdk"
@@ -38,12 +39,13 @@ func Text(value string, style Typestyle, options ...text.TextOption) api.Composa
 					Alignment:  opts.Alignment,
 					MaxLines:   opts.MaxLines,
 					WrapPolicy: opts.WrapPolicy,
-					// Color is tricky: foundation text options uses NRGBA, wdk uses token.MatColor.
-					// If the user specified a color, use it. Otherwise wdk.LayoutLabel defaults to theme color.
 				}
 
-				if opts.TextStyleOptions != nil && opts.TextStyleOptions.Color.A > 0 {
-					labelStyle.Color = token.MatColor(opts.TextStyleOptions.Color)
+				// Resolve ColorDescriptor to NRGBA, then to MatColor
+				if opts.TextStyleOptions != nil && opts.TextStyleOptions.Color != nil {
+					tm := theme.GetThemeManager()
+					resolvedColor := tm.ResolveColorDescriptor(opts.TextStyleOptions.Color).AsNRGBA()
+					labelStyle.Color = token.MatColor(resolvedColor)
 				}
 
 				return wdk.LayoutLabel(gtx, labelStyle, value)

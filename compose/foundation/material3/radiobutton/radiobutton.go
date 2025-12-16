@@ -13,8 +13,7 @@ import (
 	"gioui.org/widget"
 
 	"github.com/zodimo/go-compose/internal/layoutnode"
-
-	"git.sr.ht/~schnwalter/gio-mw/wdk"
+	"github.com/zodimo/go-compose/theme"
 )
 
 const Material3RadioButtonNodeID = "Material3RadioButton"
@@ -88,43 +87,16 @@ func radioButtonWidgetConstructor(
 			}
 
 			// Resolve colors from theme if not provided
-			theme := wdk.GetMaterialTheme(gtx)
+			tm := theme.GetThemeManager()
 
-			// Unselected Color
-			unselectedColorVal := colors.UnselectedColor
-			if unselectedColorVal == nil {
-				unselectedColorVal = theme.Scheme.SurfaceVariant.OnColor.AsNRGBA()
-			}
-			// Selected Color
-			selectedColorVal := colors.SelectedColor
-			if selectedColorVal == nil {
-				selectedColorVal = theme.Scheme.Primary.Color.AsNRGBA()
-			}
-			// Disabled Color
-			disabledColorVal := colors.DisabledColor
-			if disabledColorVal == nil {
-				// Material 3 Disabled state: 38% opacity of OnSurface
-				// We manually apply 38% opacity (approx 97/255)
-				c := theme.Scheme.Surface.OnColor.AsNRGBA()
-				c.A = 97
-				disabledColorVal = c
-			}
+			// Resolve ColorDescriptors to NRGBA
+			unselectedColorVal := tm.ResolveColorDescriptor(colors.UnselectedColor).AsNRGBA()
+			selectedColorVal := tm.ResolveColorDescriptor(colors.SelectedColor).AsNRGBA()
+			disabledColorVal := tm.ResolveColorDescriptor(colors.DisabledColor).AsNRGBA()
 
-			// Helper to convert to NRGBA
-			asNRGBA := func(c color.Color) color.NRGBA {
-				if c == nil {
-					return color.NRGBA{}
-				}
-				if n, ok := c.(color.NRGBA); ok {
-					return n
-				}
-				r, g, b, a := c.RGBA()
-				return color.NRGBA{
-					R: uint8(r >> 8),
-					G: uint8(g >> 8),
-					B: uint8(b >> 8),
-					A: uint8(a >> 8),
-				}
+			// Helper to keep code compatible (no-op, values already NRGBA)
+			asNRGBA := func(c color.NRGBA) color.NRGBA {
+				return c
 			}
 
 			// Layout constants based on Material 3

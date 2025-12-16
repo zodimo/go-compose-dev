@@ -61,7 +61,7 @@ func DropdownMenuItem(
 						text.Text(
 							textStr,
 							text.TypestyleLabelLarge, // Correct usage
-							baseText.WithTextStyleOptions(baseText.StyleWithColor(textColor.AsNRGBA())),
+							baseText.WithTextStyleOptions(baseText.StyleWithColor(textColor)),
 						)(c)
 
 						// Spacer to push trailing icon?

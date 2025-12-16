@@ -1,13 +1,13 @@
 package overlay
 
 import (
-	"image/color"
+	"github.com/zodimo/go-compose/theme"
 )
 
 type OverlayOptions struct {
 	Modifier   Modifier
 	OnDismiss  func()
-	ScrimColor color.NRGBA
+	ScrimColor theme.ColorDescriptor
 }
 
 type OverlayOption func(*OverlayOptions)
@@ -15,7 +15,7 @@ type OverlayOption func(*OverlayOptions)
 func DefaultOverlayOptions() OverlayOptions {
 	return OverlayOptions{
 		Modifier:   EmptyModifier,
-		ScrimColor: color.NRGBA{R: 0, G: 0, B: 0, A: 128}, // Semi-transparent black
+		ScrimColor: theme.ColorHelper.ColorSelector().ScrimRoles.Scrim,
 	}
 }
 
@@ -31,7 +31,7 @@ func WithOnDismiss(f func()) OverlayOption {
 	}
 }
 
-func WithScrimColor(c color.NRGBA) OverlayOption {
+func WithScrimColor(c theme.ColorDescriptor) OverlayOption {
 	return func(o *OverlayOptions) {
 		o.ScrimColor = c
 	}

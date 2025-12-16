@@ -3,6 +3,7 @@ package shadow
 import (
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/f32"
 	"gioui.org/op"
@@ -51,12 +52,9 @@ func NewShadowNode(element ShadowElement) *ShadowNode {
 
 					shadowSize := float32(gtx.Metric.Dp(elevation))
 
-					// Base shadow layer
-					// The color logic in gio-mw is e.ShadowColor.SetOpacity(0.12).
-					// We use provided AmbientColor/SpotColor? For now just use AmbientColor with fixed opacity logic or use as is.
-					// Let's assume AmbientColor is the main shadow color passed in.
-
-					col := ToNRGBA(n.shadowData.AmbientColor)
+					// Resolve ColorDescriptor to NRGBA
+					tm := theme.GetThemeManager()
+					col := tm.ResolveColorDescriptor(n.shadowData.AmbientColor).AsNRGBA()
 					// Apply some opacity if it's fully opaque?
 					// gio-mw uses 0.12*255 approx 30 alpha.
 					if col.A == 255 {

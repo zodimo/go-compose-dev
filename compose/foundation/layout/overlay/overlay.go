@@ -2,6 +2,7 @@ package overlay
 
 import (
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/layout"
 	"gioui.org/op/paint"
@@ -41,6 +42,10 @@ func overlayWidgetConstructor(options OverlayOptions) layoutnode.LayoutNodeWidge
 				}
 			}
 
+			// Resolve ScrimColor to NRGBA
+			tm := theme.GetThemeManager()
+			scrimColor := tm.ResolveColorDescriptor(options.ScrimColor).AsNRGBA()
+
 			// 1. Draw Scrim
 			// We use a Stack to draw scrim behind content
 			return layout.Stack{Alignment: layout.Center}.Layout(gtx,
@@ -48,7 +53,7 @@ func overlayWidgetConstructor(options OverlayOptions) layoutnode.LayoutNodeWidge
 					// Fill the screen/parent with scrim
 					// We use a Clickable to capture clicks, and paint the color
 					return scrimClickable.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-						paint.Fill(gtx.Ops, options.ScrimColor)
+						paint.Fill(gtx.Ops, scrimColor)
 						return layout.Dimensions{Size: gtx.Constraints.Max}
 					})
 				}),

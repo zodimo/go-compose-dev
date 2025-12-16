@@ -21,11 +21,9 @@ func NavigationRail(
 	content Composable,
 ) Composable {
 	return func(c Composer) Composer {
-		tm := theme.GetThemeManager()
-		m3 := tm.GetMaterial3Theme()
-
-		containerColor := m3.Scheme.Surface.Color.AsNRGBA()
-		contentColor := m3.Scheme.Surface.OnColor.AsNRGBA()
+		// Use theme role selectors directly
+		containerColor := theme.ColorHelper.ColorSelector().SurfaceRoles.Surface
+		contentColor := theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface
 
 		return surface.Surface(
 			func(c Composer) Composer {
@@ -49,8 +47,8 @@ func NavigationRail(
 					),
 				)(c)
 			},
-			surface.WithColor(theme.ColorHelper.SpecificColor(containerColor)),
-			surface.WithContentColor(theme.ColorHelper.SpecificColor(contentColor)),
+			surface.WithColor(containerColor),
+			surface.WithContentColor(contentColor),
 			surface.WithModifier(
 				modifier.
 					Then(size.Width(80)).

@@ -62,7 +62,7 @@ func WithColor(colorDesc theme.ColorDescriptor) SurfaceOption {
 
 func WithContentColor(colorDesc theme.ColorDescriptor) SurfaceOption {
 	return func(o *SurfaceOptions) {
-		o.Color = colorDesc
+		o.ContentColor = colorDesc
 	}
 }
 

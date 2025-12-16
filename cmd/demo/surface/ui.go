@@ -50,8 +50,8 @@ func UI(c api.Composer) api.LayoutNode {
 				c.Sequence(
 					column.Column(
 						c.Sequence(
-							m3text.Text("Aloha!", token.TypestyleHeadlineLarge, text.WithTextStyleOptions(text.StyleWithColor(color.NRGBA{R: 28, G: 27, B: 31, A: 255}))), // OnSurface
-							m3text.Text("Level 1: 1", token.TypestyleBodySmall, text.WithTextStyleOptions(text.StyleWithColor(color.NRGBA{R: 28, G: 27, B: 31, A: 255}))),
+							m3text.Text("Aloha!", token.TypestyleHeadlineLarge, text.WithTextStyleOptions(text.StyleWithColor(theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface))), // OnSurface
+							m3text.Text("Level 1: 1", token.TypestyleBodySmall, text.WithTextStyleOptions(text.StyleWithColor(theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface))),
 							// Start Recursion from Level 2
 							RecursiveSurface(2, active),
 						),
@@ -78,20 +78,8 @@ func RecursiveSurface(level int, active bool) api.Composable {
 			return c
 		}
 
-		// Colors (Baseline M3 Light)
-		primaryContainer := color.NRGBA{R: 234, G: 221, B: 255, A: 255}
-		onPrimaryContainer := color.NRGBA{R: 33, G: 0, B: 93, A: 255}
-
-		secondaryContainer := color.NRGBA{R: 232, G: 222, B: 248, A: 255}
-		onSecondaryContainer := color.NRGBA{R: 29, G: 25, B: 43, A: 255}
-
-		tertiaryContainer := color.NRGBA{R: 255, G: 216, B: 228, A: 255}
-		onTertiaryContainer := color.NRGBA{R: 49, G: 17, B: 29, A: 255}
-
-		inverseSurface := color.NRGBA{R: 49, G: 48, B: 51, A: 255}
-		inverseOnSurface := color.NRGBA{R: 244, G: 239, B: 244, A: 255}
-
-		var bgColor, textColor color.Color
+		var bgColor theme.ColorDescriptor
+		var textColor theme.ColorDescriptor
 		var currentShape surface.Shape
 		var elevation unit.Dp
 
@@ -102,29 +90,29 @@ func RecursiveSurface(level int, active bool) api.Composable {
 		cycle := (level) % 4
 		switch cycle {
 		case 0: // Primary Container
-			bgColor = primaryContainer
-			textColor = onPrimaryContainer
+			bgColor = theme.ColorHelper.ColorSelector().PrimaryRoles.Container
+			textColor = theme.ColorHelper.ColorSelector().PrimaryRoles.OnContainer
 			currentShape = shape.CutCornerShape{Radius: unit.Dp(20)}
 			if active {
 				elevation = unit.Dp(1)
 			}
 		case 1: // Secondary Container
-			bgColor = secondaryContainer
-			textColor = onSecondaryContainer
+			bgColor = theme.ColorHelper.ColorSelector().SecondaryRoles.Container
+			textColor = theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
 			currentShape = shape.RoundedCornerShape{Radius: unit.Dp(16)}
 			if active {
 				elevation = unit.Dp(3)
 			}
 		case 2: // Tertiary Container
-			bgColor = tertiaryContainer
-			textColor = onTertiaryContainer
+			bgColor = theme.ColorHelper.ColorSelector().TertiaryRoles.Container
+			textColor = theme.ColorHelper.ColorSelector().TertiaryRoles.OnContainer
 			currentShape = shape.CutCornerShape{Radius: unit.Dp(12)}
 			if active {
 				elevation = unit.Dp(6)
 			}
 		case 3: // Inverse Surface
-			bgColor = inverseSurface
-			textColor = inverseOnSurface
+			bgColor = theme.ColorHelper.ColorSelector().InverseRoles.Surface
+			textColor = theme.ColorHelper.ColorSelector().InverseRoles.OnSurface
 			currentShape = shape.RoundedCornerShape{Radius: unit.Dp(8)}
 			if active {
 				elevation = unit.Dp(8)
@@ -139,14 +127,14 @@ func RecursiveSurface(level int, active bool) api.Composable {
 				// Padding/Margin inside the surface
 				column.Column(
 					c.Sequence(
-						m3text.Text(fmt.Sprintf("Level %d: %d", level, cycle), token.TypestyleBodyMedium, text.WithTextStyleOptions(text.StyleWithColor(toNRGBA(textColor)))),
+						m3text.Text(fmt.Sprintf("Level %d: %d", level, cycle), token.TypestyleBodyMedium, text.WithTextStyleOptions(text.StyleWithColor(textColor))),
 						RecursiveSurface(level+1, active),
 					),
 					// Tighter padding to create tunnel effect
 					column.WithModifier(padding.All(4)), // changed from 20 to 4
 				),
 			),
-			surface.WithColor(theme.ColorHelper.SpecificColor(bgColor)),
+			surface.WithColor(bgColor),
 			surface.WithShape(currentShape),
 			surface.WithShadowElevation(elevation),
 			// surface.WithBorder(unit.Dp(1), toNRGBA(textColor)), // Optional border for contrast
@@ -156,8 +144,4 @@ func RecursiveSurface(level int, active bool) api.Composable {
 			// But here we apply padding to the Inner Surface via WithModifier.
 		)(c)
 	}
-}
-
-func toNRGBA(c color.Color) color.NRGBA {
-	return c.(color.NRGBA)
 }

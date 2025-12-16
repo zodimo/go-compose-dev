@@ -1,11 +1,11 @@
 package text
 
 import (
-	"image/color"
-
 	"gioui.org/font"
 	"gioui.org/text"
 	"gioui.org/unit"
+
+	"github.com/zodimo/go-compose/theme"
 )
 
 type TextOptions struct {
@@ -113,9 +113,9 @@ type TextStyleOptions struct {
 	// Face defines the text style.
 	Font font.Font
 	// Color is the text color.
-	Color color.NRGBA
+	Color theme.ColorDescriptor
 	// SelectionColor is the color of the background for selected text.
-	SelectionColor color.NRGBA
+	SelectionColor theme.ColorDescriptor
 	// TextSize determines the size of the text glyphs.
 	TextSize unit.Sp
 	// Strikethrough draws a line through the text when true.
@@ -130,9 +130,16 @@ func StyleWithFont(font font.Font) TextStyleOption {
 	}
 }
 
-func StyleWithColor(color color.NRGBA) TextStyleOption {
+func StyleWithColor(color theme.ColorDescriptor) TextStyleOption {
 	return func(o *TextStyleOptions) {
 		o.Color = color
+	}
+}
+
+// StyleWithSelectionColor sets the selection highlight color.
+func StyleWithSelectionColor(color theme.ColorDescriptor) TextStyleOption {
+	return func(o *TextStyleOptions) {
+		o.SelectionColor = color
 	}
 }
 
