@@ -1,13 +1,23 @@
 package card
 
 import (
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/modifiers/background"
+	"github.com/zodimo/go-compose/modifiers/clip"
+	"github.com/zodimo/go-compose/modifiers/shadow"
+	"github.com/zodimo/go-compose/theme"
 
-	"git.sr.ht/~schnwalter/gio-mw/widget/card"
+	"gioui.org/layout"
+	"gioui.org/unit"
+	"git.sr.ht/~schnwalter/gio-mw/wdk/block"
 )
 
 const Material3CardNodeID = "Material3Card"
 const Material3CardImageSlotID = "Material3CardImage"
+
+// Card corner radius (Material 3 Medium = 12dp)
+var cardCornerShape = shape.RoundedCornerShape{Radius: unit.Dp(12)}
 
 func Elevated(contents CardContentContainer, options ...CardOption) Composable {
 	return cardComposable(cardElevated, contents, options...)
@@ -37,8 +47,33 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 		}
 
 		c.StartBlock(Material3CardNodeID)
+
+		// Build modifier chain: user modifier + card styling modifiers
 		c.Modifier(func(modifier Modifier) Modifier {
-			return modifier.Then(opts.Modifier)
+			// Start with user-provided modifier
+			m := modifier.Then(opts.Modifier)
+
+			// Get card colors from theme
+			colorRoles := theme.ColorHelper.ColorSelector()
+
+			// Add background and clip based on card kind
+			switch kind {
+			case cardElevated:
+				// Elevated card: shadow + background + rounded clip
+				m = m.Then(shadow.Simple(unit.Dp(2), cardCornerShape))
+				m = m.Then(background.Background(colorRoles.SurfaceRoles.ContainerLow, background.WithShape(cardCornerShape)))
+				m = m.Then(clip.Clip(cardCornerShape))
+			case cardOutlined:
+				// Outlined card: background + rounded clip (TODO: add border)
+				m = m.Then(background.Background(colorRoles.SurfaceRoles.Surface, background.WithShape(cardCornerShape)))
+				m = m.Then(clip.Clip(cardCornerShape))
+			default: // Filled
+				// Filled card: background + rounded clip
+				m = m.Then(background.Background(colorRoles.SurfaceRoles.ContainerHighest, background.WithShape(cardCornerShape)))
+				m = m.Then(clip.Clip(cardCornerShape))
+			}
+
+			return m
 		})
 
 		images := []*GioImage{}
@@ -65,40 +100,41 @@ type CardConstructorArgs struct {
 
 func getCardImages(node layoutnode.LayoutNode) []*GioImage {
 	return node.FindSlot(Material3CardImageSlotID).UnwrapUnsafe().([]*GioImage)
-
 }
 
 func cardWidgetConstructor(args CardConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 
-			cardWidget := card.Card{Kind: args.Kind}
-
-			cardChildren := []*m3CardChild{}
 			nodeChildren := node.Children()
 			images := getCardImages(node)
 
+			// Build layout widgets for children
+			var widgets []block.Segment
 			for _, indexedChild := range args.Contents.children {
 				switch indexedChild.contentType {
 				case CardContentCover:
 					nodeIndex := indexedChild.childIndex
-					m3Child := m3CardContentCover(nodeChildren[nodeIndex].(layoutnode.NodeCoordinator).Layout)
-					cardChildren = append(cardChildren, m3Child)
+					widgets = append(widgets, block.NewSegment(nodeChildren[nodeIndex].(layoutnode.NodeCoordinator).Layout))
 				case CardContentImage:
 					imageIndex := indexedChild.childIndex
-					m3Child := m3CardImage(images[imageIndex])
-					cardChildren = append(cardChildren, m3Child)
+					img := images[imageIndex]
+					widgets = append(widgets, block.NewSegment(func(gtx layout.Context) layout.Dimensions {
+						return img.Layout(gtx)
+					}))
 				default:
 					// content
 					nodeIndex := indexedChild.childIndex
-					m3Child := m3CardContent(nodeChildren[nodeIndex].(layoutnode.NodeCoordinator).Layout)
-					cardChildren = append(cardChildren, m3Child)
+					widgets = append(widgets, block.NewSegment(nodeChildren[nodeIndex].(layoutnode.NodeCoordinator).Layout))
 				}
 			}
 
-			return cardWidget.Layout(gtx,
-				cardChildren...,
-			)
+			// Simple layout: just lay out children vertically
+			// NO Clickable wrapper - this fixes focus navigation!
+			return block.Line{
+				Axis:     block.AxisVertical,
+				Overflow: block.OverflowClip,
+			}.Layout(gtx, widgets...)
 		}
 	})
 }

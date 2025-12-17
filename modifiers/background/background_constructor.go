@@ -18,6 +18,13 @@ func DefaultBackgroundOptions() BackgroundOptions {
 
 type BackgroundOption func(options *BackgroundOptions)
 
+// WithShape sets the shape for the background (e.g., rounded corners)
+func WithShape(shape Shape) BackgroundOption {
+	return func(options *BackgroundOptions) {
+		options.Shape = shape
+	}
+}
+
 func Background(colorDesc theme.ColorDescriptor, options ...BackgroundOption) Modifier {
 
 	opt := DefaultBackgroundOptions()
