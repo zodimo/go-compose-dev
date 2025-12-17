@@ -44,6 +44,48 @@ surface.Surface(
 | Card with elevation, padding, and content | **Surface** |
 | Semantic elevation (FAB, Dialog, etc.) | **Surface** |
 
+## Card vs Surface
+
+Use `card.Elevated/Filled/Outlined` when:
+- Building a **simple content card** with title, body, optional image
+- Following the standard **M3 Card layout pattern**
+- Content flows **linearly** (no overlapping elements)
+
+```go
+card.Elevated(
+    card.CardContents(
+        card.Image(gioImage),
+        card.Content(titleAndBody),
+    ),
+)
+```
+
+Use `surface.Surface` when:
+- Building **custom layouts** with overlapping elements
+- Need **partial rounded corners** (e.g., only top corners rounded)
+- Implementing **non-standard card designs** (profile cards with overlapping avatars)
+- Creating **dialog/sheet backgrounds**
+
+```go
+// Custom profile card with overlapping header
+surface.Surface(
+    column.Column(
+        c.Sequence(
+            // Header with only top corners rounded
+            surface.Surface(headerContent,
+                surface.WithShape(shape.RoundedCornerShape{TopStart: 16, TopEnd: 16}),
+            ),
+            // Overlapping profile image
+            profileImageComposable,
+            // Content
+            contentComposable,
+        ),
+    ),
+    surface.WithShape(shape.RoundedCornerShape{Radius: 16}),
+    surface.WithShadowElevation(4),
+)
+```
+
 ## Available Styling Modifiers
 
 | Modifier | Purpose | Example |
@@ -53,6 +95,7 @@ surface.Surface(
 | `background.Background(color)` | Fill background | `background.Background(colors.SurfaceRoles.Surface)` |
 | `shadow.Simple(elevation, shape)` | Add shadow | `shadow.Simple(4, shape.RoundedCornerShape{Radius: 8})` |
 | `padding.All(dp)` | Add padding | `padding.All(16)` |
+| `offset.Offset(x, y)` | Translate position | `offset.OffsetY(-50)` — overlapping layouts |
 
 ## Color Pattern: Use ColorSelector
 
