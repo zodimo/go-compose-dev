@@ -49,8 +49,9 @@ func UI(c api.Composer) api.LayoutNode {
 					)(c)
 				},
 				surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 98, G: 0, B: 238, A: 255})), // Purple 500
-				surface.WithModifier(size.FillMaxWidth()),
-				surface.WithModifier(size.Height(56)),
+				surface.WithModifier(size.FillMaxWidth().
+					Then(size.Height(56)),
+				),
 			)(c)
 		}),
 		scaffold.WithBottomBar(func(c api.Composer) api.Composer {
@@ -66,16 +67,18 @@ func UI(c api.Composer) api.LayoutNode {
 					)(c)
 				},
 				surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 240, G: 240, B: 240, A: 255})), // Light Gray
-				surface.WithModifier(size.FillMaxWidth()),
-				surface.WithModifier(size.Height(80)),
+				surface.WithModifier(size.FillMaxWidth().
+					Then(size.Height(80)),
+				),
 			)(c)
 		}),
 		scaffold.WithFloatingActionButton(func(c api.Composer) api.Composer {
 			return button.Filled(func() {
 				fmt.Println("FAB Clicked")
 			}, "+",
-				button.WithModifier(size.Size(56, 56)),
-				button.WithModifier(padding_modifier.All(0)), // Reset padding?
+				button.WithModifier(size.Size(56, 56).
+					Then(padding_modifier.All(0)), // Reset padding?
+				),
 			)(c)
 		}),
 		scaffold.WithSnackbarHost(snackbar.SnackbarHost(snackbarHostState)),

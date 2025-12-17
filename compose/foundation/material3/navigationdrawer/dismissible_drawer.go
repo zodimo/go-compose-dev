@@ -8,7 +8,6 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/animation"
-	"github.com/zodimo/go-compose/internal/modifier"
 	animMod "github.com/zodimo/go-compose/modifiers/animation"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/theme"
@@ -62,16 +61,14 @@ func DismissibleNavigationDrawer(
 							surface.WithColor(theme.ColorHelper.SpecificColor(drawerContainerColor)),
 							surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(0)}),
 							surface.WithModifier(
-								modifier.EmptyModifier.
-									Then(size.Width(360)). // Inner content fits 360
-									Then(size.FillMaxHeight()),
+								size.Width(360). // Inner content fits 360
+											Then(size.FillMaxHeight()),
 							),
 						)(c)
 					},
 					// The outer box constrains the width based on animation
 					box.WithModifier(
-						modifier.EmptyModifier.
-							Then(animMod.AnimatedWidth(anim, 360)).
+						animMod.AnimatedWidth(anim, 360).
 							Then(size.FillMaxHeight()),
 						// We might need clipping here if the content shouldn't squash
 						// But usually side-by-side drawers might squash?

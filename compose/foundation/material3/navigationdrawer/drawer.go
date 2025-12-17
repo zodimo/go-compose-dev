@@ -85,8 +85,7 @@ func ModalNavigationDrawer(
 					box.Box(
 						func(c Composer) Composer { return c },
 						box.WithModifier(
-							modifier.EmptyModifier.
-								Then(size.FillMax()).
+							size.FillMax().
 								Then(animMod.AnimatedBackground(anim, baseScrim, shape.ShapeRectangle)). // RectangleShape singleton
 								Then(clickable.OnClick(func() {
 									if opts.OnClose != nil {
@@ -102,9 +101,8 @@ func ModalNavigationDrawer(
 						surface.WithColor(theme.ColorHelper.SpecificColor(drawerContainerColor)),
 						surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(16)}),
 						surface.WithModifier(
-							modifier.EmptyModifier.
-								Then(animMod.AnimatedWidth(anim, 360)). // Animate width
-								Then(size.FillMaxHeight()),
+							animMod.AnimatedWidth(anim, 360). // Animate width
+												Then(size.FillMaxHeight()),
 						),
 					)(c)
 				}

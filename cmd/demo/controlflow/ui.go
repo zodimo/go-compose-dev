@@ -72,8 +72,7 @@ func UI(c api.Composer) api.LayoutNode {
 				m3Text.Text("This block has a stable key 'my-stable-block'", m3Text.TypestyleBodyMedium),
 			),
 		),
-		column.WithModifier(size.FillMax()),
-		column.WithModifier(padding.All(24)),
+		column.WithModifier(size.FillMax().Then(padding.All(24))),
 	)(c)
 
 	return c.Build()

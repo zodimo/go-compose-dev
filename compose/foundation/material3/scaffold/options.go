@@ -38,7 +38,7 @@ func WithModifier(m Modifier) ScaffoldOption {
 		if o.Modifier == nil {
 			o.Modifier = m
 		} else {
-			o.Modifier = o.Modifier.Then(m)
+			o.Modifier = m
 		}
 	}
 }

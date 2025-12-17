@@ -13,8 +13,6 @@ import (
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/theme"
 
-	"github.com/zodimo/go-compose/pkg/api"
-
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
 	"github.com/zodimo/go-ternary"
@@ -65,8 +63,7 @@ func NavigationRailItem(
 					)),
 					surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(12)}), // Pill shape (approx)
 					surface.WithModifier(
-						api.EmptyModifier.
-							Then(size.FillMaxWidth()).
+						size.FillMaxWidth().
 							Then(size.Height(32)).
 							Then(clip.Clip(shape.RoundedCornerShape{Radius: unit.Dp(12)})). // Clip to pill shape
 							Then(padding.Padding(4, 4, 4, 4)),                              // Padding inside indicator? Or just center icon.

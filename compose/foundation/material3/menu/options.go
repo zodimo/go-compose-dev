@@ -23,9 +23,9 @@ func DefaultDropdownMenuOptions() DropdownMenuOptions {
 
 type DropdownMenuOption func(*DropdownMenuOptions)
 
-func WithModifier(mod modifier.Modifier) DropdownMenuOption {
+func WithModifier(m modifier.Modifier) DropdownMenuOption {
 	return func(opts *DropdownMenuOptions) {
-		opts.Modifier = mod
+		opts.Modifier = m
 	}
 }
 

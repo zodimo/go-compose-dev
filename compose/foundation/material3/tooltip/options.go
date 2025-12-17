@@ -22,6 +22,6 @@ func DefaultTooltipOptions() TooltipOptions {
 // WithModifier appends a modifier to the tooltip.
 func WithModifier(m Modifier) TooltipOption {
 	return func(o *TooltipOptions) {
-		o.Modifier = o.Modifier.Then(m)
+		o.Modifier = m
 	}
 }

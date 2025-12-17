@@ -17,9 +17,10 @@ func UI(c api.Composer) api.LayoutNode {
 	c = column.Column(
 		c.Sequence(
 			text.Text("hello world",
-				text.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 0, B: 0, A: 150}))),
-				text.WithModifier(padding.All(20)),
-				text.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 255, B: 0, A: 255}))),
+				text.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 0, B: 0, A: 150})).
+					Then(padding.All(20)).
+					Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 255, B: 0, A: 255}))),
+				),
 			),
 		),
 		column.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 200, A: 255}))),

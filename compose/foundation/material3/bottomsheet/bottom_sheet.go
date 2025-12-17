@@ -96,8 +96,7 @@ func ModalBottomSheet(
 						box.Box(
 							compose.Id(),
 							box.WithModifier(
-								modifier.EmptyModifier.
-									Then(size.FillMax()).
+								size.FillMax().
 									Then(animMod.AnimatedBackground(anim, baseScrim, shape.ShapeRectangle)).
 									Then(clickable.OnClick(func() {
 										if opts.OnDismissRequest != nil {
@@ -120,8 +119,7 @@ func ModalBottomSheet(
 											box.Box(
 												compose.Id(),
 												box.WithModifier(
-													modifier.EmptyModifier.
-														Then(size.Width(32)).
+													size.Width(32).
 														Then(size.Height(4)).
 														Then(animMod.AnimatedBackground(
 															anim,
@@ -159,13 +157,12 @@ func ModalBottomSheet(
 								// The `drawer.go` used `unit.Dp(16)`.
 								surface.WithShape(shape.RoundedCornerShape{Radius: sheetShape.Size}),
 								surface.WithModifier(
-									modifier.EmptyModifier.
-										Then(animMod.AnimatedHeight(anim, 0)). // Animate height from 0 (or slide up)
-										Then(size.FillMaxWidth()),
+									animMod.AnimatedHeight(anim, 0). // Animate height from 0 (or slide up)
+														Then(size.FillMaxWidth()),
 								),
 							),
 							box.WithModifier(
-								modifier.EmptyModifier.Then(size.FillMax()),
+								size.FillMax(),
 							),
 							box.WithAlignment(box.S), // Align the surface to the bottom
 						),

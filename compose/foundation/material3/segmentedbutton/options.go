@@ -33,7 +33,7 @@ func DefaultSegmentedButtonRowOptions() SegmentedButtonRowOptions {
 // WithRowModifier sets a custom modifier for the row.
 func WithRowModifier(m Modifier) SegmentedButtonRowOption {
 	return func(o *SegmentedButtonRowOptions) {
-		o.Modifier = o.Modifier.Then(m)
+		o.Modifier = m
 	}
 }
 
@@ -80,7 +80,7 @@ func DefaultSegmentOptions() SegmentOptions {
 // WithModifier sets a custom modifier for the segment.
 func WithModifier(m Modifier) SegmentOption {
 	return func(o *SegmentOptions) {
-		o.Modifier = o.Modifier.Then(m)
+		o.Modifier = m
 	}
 }
 

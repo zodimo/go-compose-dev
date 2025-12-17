@@ -12,9 +12,9 @@ type DividerOptions struct {
 
 type DividerOption func(*DividerOptions)
 
-func WithModifier(modifier Modifier) DividerOption {
+func WithModifier(m Modifier) DividerOption {
 	return func(o *DividerOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 

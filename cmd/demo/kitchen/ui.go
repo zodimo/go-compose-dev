@@ -63,8 +63,7 @@ func UI(c api.Composer) api.LayoutNode {
 							)(c)
 						})
 					},
-					lazy.WithModifier(weight.Weight(1)),
-					lazy.WithModifier(size.FillMaxWidth()),
+					lazy.WithModifier(weight.Weight(1).Then(size.FillMaxWidth())),
 				),
 				scaffold.WithTopBar(
 					appbar.TopAppBar(

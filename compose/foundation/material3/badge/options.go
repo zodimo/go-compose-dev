@@ -48,9 +48,9 @@ func WithContentColor(c theme.ColorDescriptor) BadgeOption {
 	}
 }
 
-func WithModifier(modifier Modifier) BadgeOption {
+func WithModifier(m Modifier) BadgeOption {
 	return func(o *BadgeOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 

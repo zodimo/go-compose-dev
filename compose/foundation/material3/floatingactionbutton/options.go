@@ -68,9 +68,9 @@ func WithElevation(elevation token.ElevationLevel) FloatingActionButtonOption {
 	}
 }
 
-func WithModifier(modifier modifier.Modifier) FloatingActionButtonOption {
+func WithModifier(m modifier.Modifier) FloatingActionButtonOption {
 	return func(o *FloatingActionButtonOptions) {
-		o.Modifier = modifier
+		o.Modifier = m
 	}
 }
 

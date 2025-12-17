@@ -18,9 +18,9 @@ func WithTheme(theme *material.Theme) ButtonOption {
 	}
 }
 
-func WithModifier(modifier Modifier) ButtonOption {
+func WithModifier(m Modifier) ButtonOption {
 	return func(o *ButtonOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 

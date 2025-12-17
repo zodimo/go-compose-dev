@@ -40,14 +40,16 @@ func UI(c api.Composer) api.LayoutNode {
 						),
 					),
 					// column.WithModifier(size.Size(200, 200, size.SizeRequired())),
-					column.WithModifier(clickable.OnClick(func() {
-						fmt.Println("First Column clicked!!")
-						counterCell.Set(counterCell.Get().(int) + 1)
-					})),
-					column.WithModifier(weight.Weight(1)),
-					column.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 200, A: 200}))),
-					column.WithModifier(padding.All(20)),
-					column.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 100, B: 200, A: 200}))),
+					column.WithModifier(
+						clickable.OnClick(func() {
+							fmt.Println("First Column clicked!!")
+							counterCell.Set(counterCell.Get().(int) + 1)
+						}).
+							Then(weight.Weight(1)).
+							Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 200, A: 200}))).
+							Then(padding.All(20)).
+							Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 100, B: 200, A: 200}))),
+					),
 				),
 				column.Column(
 					c.Sequence(
@@ -58,28 +60,32 @@ func UI(c api.Composer) api.LayoutNode {
 						// button.WithModifier(size.FillMax())
 						),
 					),
-					column.WithModifier(weight.Weight(1)),
-					column.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 150, G: 0, B: 0, A: 200}))),
+					column.WithModifier(weight.Weight(1).
+						Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 150, G: 0, B: 0, A: 200}))),
+					),
 				),
 				column.Column(
 					c.Sequence(),
-					column.WithModifier(clip.Clip(shape.ShapeCircle)),
-					column.WithModifier(size.Size(100, 50)),
-					column.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 0, B: 0, A: 200}))),
-					column.WithModifier(clickable.OnClick(func() {
-						fmt.Println("Last Column clicked!!")
-					})),
+					column.WithModifier(clip.Clip(shape.ShapeCircle).
+						Then(size.Size(100, 50)).
+						Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 0, B: 0, A: 200}))).
+						Then(clickable.OnClick(func() {
+							fmt.Println("Last Column clicked!!")
+						})),
+					),
 				),
 			),
-				row.WithModifier(size.Height(300)),
-				row.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 200, B: 0, A: 200}))),
+				row.WithModifier(size.Height(300).
+					Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 200, B: 0, A: 200}))),
+				),
 			),
 			text.Text("hello world",
 				text.Selectable(),
 				text.WithAlignment(text.Middle),
-				text.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 0, B: 0, A: 150}))),
-				text.WithModifier(padding.All(20)),
-				text.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 200, G: 0, B: 50, A: 50}))),
+				text.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 100, G: 0, B: 0, A: 150})).
+					Then(padding.All(20)).
+					Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 200, G: 0, B: 50, A: 50}))),
+				),
 			),
 
 			m3Button.Text(func() {
@@ -104,8 +110,9 @@ func UI(c api.Composer) api.LayoutNode {
 				m3Card.Content(text.Text("Filled")),
 			)),
 		),
-		column.WithModifier(size.FillMax()),
-		column.WithModifier(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 200, G: 0, B: 0, A: 50}))),
+		column.WithModifier(size.FillMax().
+			Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{R: 200, G: 0, B: 0, A: 50}))),
+		),
 
 		column.WithAlignment(column.Middle),
 	)(c)

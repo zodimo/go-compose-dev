@@ -74,10 +74,11 @@ func NavigationDrawerItem(
 					},
 
 					row.WithAlignment(row.Middle), // Vertically center content
-					row.WithModifier(size.FillMax()),
-					row.WithModifier(
-						// Padding inside the item
-						padding.Padding(16, 0, 24, 0), // 16dp start, 24dp end
+					row.WithModifier(size.FillMax().
+						Then(
+							// Padding inside the item
+							padding.Padding(16, 0, 24, 0), // 16dp start, 24dp end
+						),
 					),
 				)(c)
 			},

@@ -55,9 +55,11 @@ func SingleRowTopAppBar(
 							}
 							return c
 						},
-						box.WithModifier(weight.Weight(1)),           // Occupy remaining space
-						box.WithAlignment(layout.W),                  // Align text to start
-						box.WithModifier(padding.Horizontal(16, 16)), // Horizontal(16, 16)
+						box.WithModifier(weight.Weight(1). // Occupy remaining space
+											Then(padding.Horizontal(16, 16)), // Horizontal(16, 16)
+						),
+						box.WithAlignment(layout.W), // Align text to start
+
 					),
 					spacer.Weight(1),
 					// Actions
@@ -70,9 +72,10 @@ func SingleRowTopAppBar(
 						),
 					),
 				),
-				row.WithModifier(size.FillMaxWidth()),
-				row.WithModifier(size.Height(64)), // Standard Height
-				row.WithAlignment(row.Middle),     // Vertical Alignment
+				row.WithModifier(size.FillMaxWidth().
+					Then(size.Height(64)), // Standard Height
+				),
+				row.WithAlignment(row.Middle), // Vertical Alignment
 			),
 			surface.WithModifier(modifier),
 			surface.WithColor(colors.ContainerColor),
@@ -150,8 +153,9 @@ func CenterAlignedTopAppBar(
 								),
 							),
 						),
-						row.WithModifier(size.FillMaxWidth()),
-						row.WithModifier(size.Height(64)),
+						row.WithModifier(size.FillMaxWidth().
+							Then(size.Height(64)),
+						),
 						row.WithAlignment(row.Middle),
 					),
 					// Layer 2: Centered Title
@@ -170,8 +174,7 @@ func CenterAlignedTopAppBar(
 						box.WithModifier(size.FillMax()), // Consume space to allow centering
 					),
 				),
-				box.WithModifier(size.FillMaxWidth()),
-				box.WithModifier(size.Height(64)),
+				box.WithModifier(size.FillMaxWidth().Then(size.Height(64))),
 			),
 			surface.WithModifier(opts.Modifier),
 			surface.WithColor(opts.Colors.ContainerColor),
@@ -229,14 +232,15 @@ func TwoRowsTopAppBar(
 								),
 							),
 						),
-						box.WithModifier(size.FillMaxWidth()),
-						box.WithModifier(weight.Weight(1)), // Fill remaining height
-						box.WithAlignment(layout.SW),       // Start, Bottom
-						box.WithModifier(padding.Padding(16, 0, 16, titleBottomPadding)),
+						box.WithModifier(size.FillMaxWidth().
+							Then(weight.Weight(1)). // Fill remaining height
+							Then(padding.Padding(16, 0, 16, titleBottomPadding)),
+						),
+
+						box.WithAlignment(layout.SW), // Start, Bottom
 					),
 				),
-				column.WithModifier(size.FillMaxWidth()),
-				column.WithModifier(size.Height(maxHeight)),
+				column.WithModifier(size.FillMaxWidth().Then(size.Height(maxHeight))),
 			),
 			surface.WithModifier(modifier),
 			surface.WithColor(colors.ContainerColor),

@@ -25,9 +25,9 @@ func DefaultImageOptions() ImageOptions {
 
 type ImageOption func(*ImageOptions)
 
-func WithModifier(modifier modifier.Modifier) ImageOption {
+func WithModifier(m modifier.Modifier) ImageOption {
 	return func(o *ImageOptions) {
-		o.Modifier = modifier
+		o.Modifier = m
 	}
 }
 

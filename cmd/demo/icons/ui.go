@@ -69,8 +69,7 @@ func UI(c api.Composer) api.LayoutNode {
 
 			rowItems = append(rowItems, icon.Icon(def.Data,
 				icon.WithColor(colorHelper.SpecificColor(col)),
-				icon.WithModifier(scale.Scale(scaleFactor)),
-				icon.WithModifier(padding.All(3)),
+				icon.WithModifier(scale.Scale(scaleFactor).Then(padding.All(3))),
 			))
 		}
 		rows = append(rows, row.Row(c.Sequence(rowItems...)))

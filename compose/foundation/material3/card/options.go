@@ -6,8 +6,8 @@ type CardOptions struct {
 
 type CardOption func(o *CardOptions)
 
-func WithModifier(modifier Modifier) CardOption {
+func WithModifier(m Modifier) CardOption {
 	return func(o *CardOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }

@@ -11,9 +11,9 @@ type IconButtonOptions struct {
 
 type IconButtonOption func(o *IconButtonOptions)
 
-func WithModifier(modifier Modifier) IconButtonOption {
+func WithModifier(m Modifier) IconButtonOption {
 	return func(o *IconButtonOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 

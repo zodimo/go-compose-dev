@@ -2,51 +2,28 @@ package card
 
 type CardContentContainer struct {
 	composableCount int
-	imageCount      int
-	children        []*indexedCardChild
+	children        []*CardChild
 }
 
 func newCardContentContainer() *CardContentContainer {
 	return &CardContentContainer{
 		composableCount: 0,
-		imageCount:      0,
-		children:        []*indexedCardChild{},
+		children:        []*CardChild{},
 	}
 }
 
-func (c *CardContentContainer) addChild(index int, child *CardChild) {
-	var childIndex int
-	if child.contentType == CardContentImage {
-		childIndex = c.imageCount
-		c.imageCount++
-	} else {
-		childIndex = c.composableCount
-		c.composableCount++
-	}
+func (c *CardContentContainer) addChild(child *CardChild) {
 
-	c.children = append(c.children, &indexedCardChild{
-		index:       index,
-		contentType: child.contentType,
-		childIndex:  childIndex,
-		image:       child.image,
-		composable:  child.composable,
-	})
+	c.children = append(c.children, child)
 }
 
 func CardContents(children ...*CardChild) CardContentContainer {
 
 	container := newCardContentContainer()
-	for index, child := range children {
-		container.addChild(index, child)
+	for _, child := range children {
+		container.addChild(child)
 	}
 	return *container
-}
-
-func Image(image *GioImage) *CardChild {
-	return &CardChild{
-		image:       image,
-		contentType: CardContentImage,
-	}
 }
 
 func Content(composable Composable) *CardChild {
@@ -64,17 +41,8 @@ func ContentCover(composable Composable) *CardChild {
 	}
 }
 
-type indexedCardChild struct {
-	index       int
-	contentType CardContentType
-	childIndex  int
-	image       *GioImage
-	composable  Composable
-}
-
 type CardChild struct {
 	cover       bool
-	image       *GioImage
 	composable  Composable
 	contentType CardContentType
 }

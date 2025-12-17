@@ -45,9 +45,9 @@ type TabOptions struct {
 
 type TabOption func(options *TabOptions)
 
-func WithModifier(modifier modifier.Modifier) TabOption {
+func WithModifier(m modifier.Modifier) TabOption {
 	return func(options *TabOptions) {
-		options.Modifier = options.Modifier.Then(modifier)
+		options.Modifier = m
 	}
 }
 

@@ -152,8 +152,7 @@ func UI() api.Composable {
 				return c
 			},
 			box.WithModifier(
-				api.EmptyModifier.
-					Then(size.FillMax()).
+				size.FillMax().
 					Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{255, 255, 255, 255}))),
 			),
 		)(c)

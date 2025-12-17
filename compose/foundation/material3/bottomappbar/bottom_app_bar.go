@@ -62,15 +62,17 @@ func BottomAppBar(
 						}
 						return c
 					},
-					row.WithModifier(size.FillMaxWidth()),
-					row.WithModifier(size.Height(80)), // Standard height for BottomAppBar
-					row.WithAlignment(row.Middle),     // Vertically center content
-					row.WithModifier(padding_modifier.Padding(
-						int(opts.ContentPadding.Start),
-						int(opts.ContentPadding.Top),
-						int(opts.ContentPadding.End),
-						int(opts.ContentPadding.Bottom),
-					)),
+					row.WithModifier(size.FillMaxWidth().
+						Then(size.Height(80)). // Standard height for BottomAppBar
+						Then(padding_modifier.Padding(
+							int(opts.ContentPadding.Start),
+							int(opts.ContentPadding.Top),
+							int(opts.ContentPadding.End),
+							int(opts.ContentPadding.Bottom),
+						)),
+					),
+					row.WithAlignment(row.Middle), // Vertically center content
+
 				)(c)
 			},
 			surface.WithModifier(opts.Modifier),

@@ -78,17 +78,19 @@ func Scaffold(content Composable, options ...ScaffoldOption) Composable {
 									opts.FloatingActionButton,
 									box.WithAlignment(layout.S), // Bottom Center
 									// Add standard padding for FAB
-									box.WithModifier(padding_modifier.All(16)),
-									// Wrapper must fill max to align FAB relative to screen
-									box.WithModifier(size.FillMax()),
+									box.WithModifier(padding_modifier.All(16).
+										// Wrapper must fill max to align FAB relative to screen
+										Then(size.FillMax()),
+									),
 								),
 								box.Box(
 									opts.FloatingActionButton,
 									box.WithAlignment(layout.SE), // Bottom End
 									// Add standard padding for FAB
-									box.WithModifier(padding_modifier.All(16)),
-									// Wrapper must fill max to align FAB relative to screen
-									box.WithModifier(size.FillMax()),
+									box.WithModifier(padding_modifier.All(16).
+										// Wrapper must fill max to align FAB relative to screen
+										Then(size.FillMax()),
+									),
 								),
 							),
 						),

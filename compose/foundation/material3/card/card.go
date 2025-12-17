@@ -1,20 +1,21 @@
 package card
 
 import (
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/modifiers/background"
+	"github.com/zodimo/go-compose/modifiers/border"
 	"github.com/zodimo/go-compose/modifiers/clip"
+	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/shadow"
 	"github.com/zodimo/go-compose/theme"
 
-	"gioui.org/layout"
 	"gioui.org/unit"
 	"git.sr.ht/~schnwalter/gio-mw/wdk/block"
 )
 
 const Material3CardNodeID = "Material3Card"
-const Material3CardImageSlotID = "Material3CardImage"
 
 // Card corner radius (Material 3 Medium = 12dp)
 var cardCornerShape = shape.RoundedCornerShape{Radius: unit.Dp(12)}
@@ -64,8 +65,9 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 				m = m.Then(background.Background(colorRoles.SurfaceRoles.ContainerLow, background.WithShape(cardCornerShape)))
 				m = m.Then(clip.Clip(cardCornerShape))
 			case cardOutlined:
-				// Outlined card: background + rounded clip (TODO: add border)
+				// Outlined card: background + border + rounded clip
 				m = m.Then(background.Background(colorRoles.SurfaceRoles.Surface, background.WithShape(cardCornerShape)))
+				m = m.Then(border.Border(unit.Dp(1), colorRoles.OutlineRoles.OutlineVariant, cardCornerShape))
 				m = m.Then(clip.Clip(cardCornerShape))
 			default: // Filled
 				// Filled card: background + rounded clip
@@ -76,16 +78,14 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 			return m
 		})
 
-		images := []*GioImage{}
 		for _, child := range contents.children {
-			if child.contentType == CardContentImage {
-				images = append(images, child.image)
-				continue
+			if child.cover {
+				c.WithComposable(child.composable)
+			} else {
+				// add padding
+				c.WithComposable(box.Box(child.composable, box.WithModifier(padding.All(16))))
 			}
-			c.WithComposable(child.composable)
 		}
-
-		c.EmitSlot(Material3CardImageSlotID, images)
 
 		c.SetWidgetConstructor(cardWidgetConstructor(args))
 
@@ -98,35 +98,16 @@ type CardConstructorArgs struct {
 	Contents CardContentContainer
 }
 
-func getCardImages(node layoutnode.LayoutNode) []*GioImage {
-	return node.FindSlot(Material3CardImageSlotID).UnwrapUnsafe().([]*GioImage)
-}
-
 func cardWidgetConstructor(args CardConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
 
-			nodeChildren := node.Children()
-			images := getCardImages(node)
-
 			// Build layout widgets for children
 			var widgets []block.Segment
-			for _, indexedChild := range args.Contents.children {
-				switch indexedChild.contentType {
-				case CardContentCover:
-					nodeIndex := indexedChild.childIndex
-					widgets = append(widgets, block.NewSegment(nodeChildren[nodeIndex].(layoutnode.NodeCoordinator).Layout))
-				case CardContentImage:
-					imageIndex := indexedChild.childIndex
-					img := images[imageIndex]
-					widgets = append(widgets, block.NewSegment(func(gtx layout.Context) layout.Dimensions {
-						return img.Layout(gtx)
-					}))
-				default:
-					// content
-					nodeIndex := indexedChild.childIndex
-					widgets = append(widgets, block.NewSegment(nodeChildren[nodeIndex].(layoutnode.NodeCoordinator).Layout))
-				}
+			for _, child := range node.Children() {
+				// content
+				widgets = append(widgets, block.NewSegment(child.(layoutnode.NodeCoordinator).Layout))
+
 			}
 
 			// Simple layout: just lay out children vertically

@@ -154,8 +154,9 @@ func UI() api.Composable {
 					),
 					spacer.Height(16),
 				),
-				column.WithModifier(size.FillMax()),
-				column.WithModifier(padding.All(16)), // Add some padding around the column
+				column.WithModifier(size.FillMax().
+					Then(padding.All(16)), // Add some padding around the column
+				),
 			)(c)
 		},
 	)

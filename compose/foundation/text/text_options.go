@@ -41,9 +41,9 @@ type TextOptions struct {
 
 type TextOption func(*TextOptions)
 
-func WithModifier(modifier Modifier) TextOption {
+func WithModifier(m Modifier) TextOption {
 	return func(o *TextOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 

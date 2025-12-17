@@ -224,8 +224,7 @@ func UI(c api.Composer) api.LayoutNode {
 				),
 			))
 		},
-		lazy.WithModifier(padding.All(24)),
-		lazy.WithModifier(size.FillMax()),
+		lazy.WithModifier(padding.All(24).Then(size.FillMax())),
 	)(c)
 
 	return c.Build()
@@ -239,16 +238,12 @@ func SectionTitle(title string) api.Composable {
 // CardContent creates a standard card content with title and description
 func CardContent(title, description string) api.Composable {
 	return func(c api.Composer) api.Composer {
-		return box.Box(
-			column.Column(
-				c.Sequence(
-					m3text.Text(title, m3text.TypestyleTitleMedium),
-					spacer.Height(8),
-					m3text.Text(description, m3text.TypestyleBodyMedium),
-				),
+		return column.Column(
+			c.Sequence(
+				m3text.Text(title, m3text.TypestyleTitleMedium),
+				spacer.Height(8),
+				m3text.Text(description, m3text.TypestyleBodyMedium),
 			),
-			box.WithModifier(padding.All(16)),
-			box.WithAlignment(layout.NW),
 		)(c)
 	}
 }
@@ -258,7 +253,6 @@ func SmallCardContent(title string) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return box.Box(
 			m3text.Text(title, m3text.TypestyleTitleSmall),
-			box.WithModifier(padding.All(16)),
 			box.WithAlignment(layout.Center),
 		)(c)
 	}
@@ -267,32 +261,28 @@ func SmallCardContent(title string) api.Composable {
 // InteractiveCardContent creates a card with interactive elements
 func InteractiveCardContent(inputValue api.MutableValue) api.Composable {
 	return func(c api.Composer) api.Composer {
-		return box.Box(
-			column.Column(
-				c.Sequence(
-					m3text.Text("Interactive Form", m3text.TypestyleTitleMedium),
-					spacer.Height(12),
-					m3text.Text("Tab between fields works correctly:", m3text.TypestyleBodySmall),
-					spacer.Height(12),
-					textfield.TextField(
-						inputValue.Get().(string),
-						func(s string) { inputValue.Set(s) },
-						"Enter something",
-						textfield.WithModifier(size.FillMaxWidth()),
-					),
-					spacer.Height(12),
-					textfield.TextField(
-						"",
-						func(s string) {},
-						"Another field",
-						textfield.WithModifier(size.FillMaxWidth()),
-					),
-					spacer.Height(16),
-					button.Filled(func() {}, "Submit"),
+		return column.Column(
+			c.Sequence(
+				m3text.Text("Interactive Form", m3text.TypestyleTitleMedium),
+				spacer.Height(12),
+				m3text.Text("Tab between fields works correctly:", m3text.TypestyleBodySmall),
+				spacer.Height(12),
+				textfield.TextField(
+					inputValue.Get().(string),
+					func(s string) { inputValue.Set(s) },
+					"Enter something",
+					textfield.WithModifier(size.FillMaxWidth()),
 				),
+				spacer.Height(12),
+				textfield.TextField(
+					"",
+					func(s string) {},
+					"Another field",
+					textfield.WithModifier(size.FillMaxWidth()),
+				),
+				spacer.Height(16),
+				button.Filled(func() {}, "Submit"),
 			),
-			box.WithModifier(padding.All(16)),
-			box.WithAlignment(layout.NW),
 		)(c)
 	}
 }
@@ -307,9 +297,10 @@ func CoverBanner(title, subtitle string) api.Composable {
 					m3text.Text(subtitle, m3text.TypestyleBodySmall),
 				),
 			),
-			box.WithModifier(padding.All(24)),
-			box.WithModifier(background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container)),
-			box.WithModifier(size.FillMaxWidth()),
+			box.WithModifier(padding.All(24).
+				Then(background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container)).
+				Then(size.FillMaxWidth()),
+			),
 			box.WithAlignment(layout.NW),
 		)(c)
 	}
@@ -326,8 +317,7 @@ func ActionButtons() api.Composable {
 					button.Filled(func() {}, "Confirm"),
 				),
 			),
-			box.WithModifier(padding.Horizontal(16, 16)),
-			box.WithModifier(padding.Vertical(0, 16)),
+			box.WithModifier(padding.Horizontal(16, 16).Then(padding.Vertical(0, 16))),
 			box.WithAlignment(layout.E),
 		)(c)
 	}

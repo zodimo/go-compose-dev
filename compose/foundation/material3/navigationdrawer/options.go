@@ -10,9 +10,9 @@ type ModalNavigationDrawerOptions struct {
 
 type ModalNavigationDrawerOption func(*ModalNavigationDrawerOptions)
 
-func WithModifier(modifier Modifier) ModalNavigationDrawerOption {
+func WithModifier(m Modifier) ModalNavigationDrawerOption {
 	return func(o *ModalNavigationDrawerOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 

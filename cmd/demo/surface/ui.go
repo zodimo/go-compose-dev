@@ -41,8 +41,7 @@ func UI(c api.Composer) api.LayoutNode {
 						button.WithModifier(padding.All(8)),
 					),
 				),
-				row.WithModifier(size.FillMaxWidth()),
-				row.WithModifier(padding.All(16)),
+				row.WithModifier(size.FillMaxWidth().Then(padding.All(16))),
 			),
 			// Content Area
 			// Level 0: Surface (White/Background)
@@ -64,8 +63,7 @@ func UI(c api.Composer) api.LayoutNode {
 				surface.WithModifier(size.FillMax()),
 			),
 		),
-		column.WithModifier(size.FillMax()),
-		column.WithModifier(padding.All(8)),
+		column.WithModifier(size.FillMax().Then(padding.All(8))),
 	)(c)
 
 	return c.Build()

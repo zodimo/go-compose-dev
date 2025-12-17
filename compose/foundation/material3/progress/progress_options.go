@@ -9,9 +9,9 @@ type IndicatorOptions struct {
 
 type IndicatorOption func(o *IndicatorOptions)
 
-func WithModifier(modifier Modifier) IndicatorOption {
+func WithModifier(m Modifier) IndicatorOption {
 	return func(o *IndicatorOptions) {
-		o.Modifier = o.Modifier.Then(modifier)
+		o.Modifier = m
 	}
 }
 
