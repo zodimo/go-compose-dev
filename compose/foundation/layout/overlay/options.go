@@ -15,7 +15,7 @@ type OverlayOption func(*OverlayOptions)
 func DefaultOverlayOptions() OverlayOptions {
 	return OverlayOptions{
 		Modifier:   EmptyModifier,
-		ScrimColor: theme.ColorHelper.ColorSelector().ScrimRoles.Scrim,
+		ScrimColor: theme.ColorHelper.ColorSelector().ScrimRoles.Scrim.SetOpacity(0.32),
 	}
 }
 
