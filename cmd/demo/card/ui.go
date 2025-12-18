@@ -337,18 +337,16 @@ func InteractiveCardContent(inputValue api.MutableValue) api.Composable {
 // CoverBanner creates a full-bleed colored banner for ContentCover
 func CoverBanner(title, subtitle string) api.Composable {
 	return func(c api.Composer) api.Composer {
-		return box.Box(
-			column.Column(
-				c.Sequence(
-					m3text.Text(title, m3text.TypestyleHeadlineSmall),
-					m3text.Text(subtitle, m3text.TypestyleBodySmall),
-				),
+		return column.Column(
+			c.Sequence(
+				m3text.Text(title, m3text.TypestyleHeadlineSmall),
+				m3text.Text(subtitle, m3text.TypestyleBodySmall),
 			),
-			box.WithModifier(padding.All(24).
-				Then(background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container)).
-				Then(size.FillMaxWidth()),
+			column.WithModifier(
+				padding.All(24).
+					Then(background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container)).
+					Then(size.FillMaxWidth()),
 			),
-			box.WithAlignment(layout.NW),
 		)(c)
 	}
 }
