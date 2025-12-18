@@ -39,8 +39,12 @@ func (s *MutableStateFlow[T]) Emit(value T) {
 	subs := make([]chan T, len(s.subscribers))
 	copy(subs, s.subscribers)
 	s.mu.Unlock()
+	s.notifySubscribers(value, subs)
 
-	for _, ch := range subs {
+}
+
+func (s *MutableStateFlow[T]) notifySubscribers(value T, subscribers []chan T) {
+	for _, ch := range subscribers {
 		// Non-blocking send (Conflation)
 		// If the subscriber is slow, we drain the old value and send the new one
 		select {
@@ -54,6 +58,7 @@ func (s *MutableStateFlow[T]) Emit(value T) {
 			ch <- value
 		}
 	}
+
 }
 
 // Collect follows the Kotlin pattern: it blocks until the context is cancelled
@@ -95,7 +100,10 @@ func (s *MutableStateFlow[T]) Collect(ctx context.Context, collector func(T)) er
 // Update provides an atomic way to modify state (like Kotlin's .update { ... })
 func (s *MutableStateFlow[T]) Update(f func(current T) T) {
 	s.mu.Lock()
-	next := f(s.value)
+	value := f(s.value)
+	s.value = value
+	subs := make([]chan T, len(s.subscribers))
+	copy(subs, s.subscribers)
 	s.mu.Unlock()
-	s.Emit(next)
+	s.notifySubscribers(value, subs)
 }
