@@ -337,15 +337,18 @@ func InteractiveCardContent(inputValue api.MutableValue) api.Composable {
 // CoverBanner creates a full-bleed colored banner for ContentCover
 func CoverBanner(title, subtitle string) api.Composable {
 	return func(c api.Composer) api.Composer {
+		// Apply internal modifiers: Background -> Padding
+		// Card now enforces FillMaxWidth for ContentCover, so we just need styling.
+
 		return column.Column(
 			c.Sequence(
 				m3text.Text(title, m3text.TypestyleHeadlineSmall),
 				m3text.Text(subtitle, m3text.TypestyleBodySmall),
 			),
 			column.WithModifier(
-				padding.All(24).
-					Then(background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container)).
-					Then(size.FillMaxWidth()),
+				background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container).
+					Then(size.FillMaxWidth()).
+					Then(padding.All(24)),
 			),
 		)(c)
 	}

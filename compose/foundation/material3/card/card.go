@@ -11,6 +11,7 @@ import (
 	"github.com/zodimo/go-compose/modifiers/clip"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/shadow"
+	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/unit"
@@ -87,7 +88,8 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 
 	for _, child := range contents.children {
 		if child.cover {
-			composables = append(composables, child.composable)
+			// ContentCover items should be full width by default
+			composables = append(composables, box.Box(child.composable, box.WithModifier(size.FillMaxWidth())))
 		} else {
 			// add padding
 			composables = append(composables, box.Box(child.composable, box.WithModifier(padding.All(16))))
