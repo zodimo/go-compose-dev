@@ -107,3 +107,7 @@ func (s *MutableStateFlow[T]) Update(f func(current T) T) {
 	s.mu.Unlock()
 	s.notifySubscribers(value, subs)
 }
+
+func (s *MutableStateFlow[T]) AsStateFlow() StateFlow[T] {
+	return s
+}
