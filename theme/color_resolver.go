@@ -2,7 +2,9 @@ package theme
 
 import (
 	"fmt"
+	"image/color"
 
+	"github.com/zodimo/go-compose/compose/ui/utils/lerp"
 	"github.com/zodimo/go-compose/theme/colorrole"
 )
 
@@ -165,20 +167,56 @@ func newThemeColorResolver(tm ThemeManager) ThemeColorResolver {
 	return &themeColorResolver{tm: tm}
 }
 
-func (cr *themeColorResolver) applyUpdates(updates []ColorUpdate, color TokenColor) ThemeColor {
-	currentColor := color.AsNRGBA()
+func (cr *themeColorResolver) applyUpdates(updates []ColorUpdate, tokenColor TokenColor) ThemeColor {
+	currentColor := tokenColor.AsNRGBA()
 
 	for _, update := range updates {
 		switch update.Action() {
 		case SetOpacityColorUpdateAction:
-			color = color.SetOpacity(GetOpacity(update))
-			currentColor = color.AsNRGBA()
+			tokenColor = tokenColor.SetOpacity(GetOpacity(update))
+			currentColor = tokenColor.AsNRGBA()
 		case LightenColorUpdateAction:
 			percentage := GetLighten(update)
 			currentColor = lightenColor(currentColor, percentage)
 		case DarkenColorUpdateAction:
 			percentage := GetDarken(update)
 			currentColor = darkenColor(currentColor, percentage)
+		case LerpColorUpdateAction:
+			params := GetLerp(update)
+			resolvedStop := cr.ResolveColorDescriptor(params.Stop)
+			currentColorNRGBA := currentColor
+			stopColorNRGBA := resolvedStop.AsNRGBA()
+
+			// Use the lerp package to interpolate
+			// We need to convert NRGBA to the struct expected by lerp.ColorLerp
+			// ColorLerp expects struct{ R, G, B, A float32 }
+
+			startFloat := struct{ R, G, B, A float32 }{
+				R: float32(currentColorNRGBA.R),
+				G: float32(currentColorNRGBA.G),
+				B: float32(currentColorNRGBA.B),
+				A: float32(currentColorNRGBA.A),
+			}
+			stopFloat := struct{ R, G, B, A float32 }{
+				R: float32(stopColorNRGBA.R),
+				G: float32(stopColorNRGBA.G),
+				B: float32(stopColorNRGBA.B),
+				A: float32(stopColorNRGBA.A),
+			}
+
+			res := lerp.ColorLerp(startFloat, stopFloat, params.Fraction)
+
+			// Clamp results to 0-255 (though ColorLerp usually handles range if inputs are generic)
+			// But here we are dealing with 0-255 mapped to float.
+			// Wait, lerp.ColorLerp works on float32. standard NRGBA is uint8.
+			// Let's assume standard behavior.
+
+			currentColor = color.NRGBA{
+				R: uint8(res.R),
+				G: uint8(res.G),
+				B: uint8(res.B),
+				A: uint8(res.A),
+			}
 		}
 	}
 

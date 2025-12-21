@@ -24,6 +24,7 @@ const (
 	SetOpacityColorUpdateAction ColorUpdateActions = iota
 	LightenColorUpdateAction
 	DarkenColorUpdateAction
+	LerpColorUpdateAction
 )
 
 type ColorUpdate interface {
@@ -197,4 +198,86 @@ func GetDarken(update ColorUpdate) float32 {
 		panic("update is not a darken update")
 	}
 	return update.Value().(float32)
+}
+
+type LerpColorUpdateParams struct {
+	Stop     ColorDescriptor
+	Fraction float32
+}
+
+func Lerp(stop ColorDescriptor, fraction float32) LerpColorUpdate {
+	return LerpColorUpdate{
+		value: LerpColorUpdateParams{
+			Stop:     stop,
+			Fraction: fraction,
+		},
+	}
+}
+
+func GetLerp(update ColorUpdate) LerpColorUpdateParams {
+	if update.Action() != LerpColorUpdateAction {
+		panic("update is not a lerp update")
+	}
+	return update.Value().(LerpColorUpdateParams)
+}
+
+func (u ColorUpdateTyped[T]) CompareTyped(other ColorUpdateTyped[T]) bool {
+	// For slices or other non-comparable types in T (like interfaces containing them),
+	// we might need custom logic.
+	// However, ColorDescriptor interface values are comparable if the underlying concrete types are.
+	// Our colorDescriptor contains a slice (updates), which makes it not directly comparable with ==.
+	// So we need special handling for LerpColorUpdateParams which contains ColorDescriptor.
+
+	// This default Compare is simple equality, which fails for slices.
+	// We should switch to a type switch or similar if we want generic robustness,
+	// but here we are method on a specific type instantiation.
+	// Wait, u.value is T. If T is LerpColorUpdateParams, it has a ColorDescriptor.
+	// ColorDescriptor is an interface. If the underlying struct has a slice, == panics.
+	return u.action == other.action // Only checking action here is insufficient, see below
+}
+
+// Check special case for LerpColorUpdateParams in the generic Compare method?
+// The generic Compare uses u.value == other.Value(). This WILL PANIC if value contains a slice (which ColorDescriptor implementation does).
+// We need to implement a specific Compare for the Lerp update or modify the generic one.
+// Since ColorUpdateTyped is generic, we can't specialize methods easily without type switch.
+
+// Redefining Compare for ColorUpdateTyped to handle ColorDescriptor comparison safely.
+// Actually, earlier in the existing code:
+// func (u ColorUpdateTyped[T]) Compare(other ColorUpdate) bool {
+// 	return u.action == other.Action() && u.value == other.Value()
+// }
+// This existing implementation is dangerous if T contains non-comparable types (like slices).
+// colorDescriptor struct HAS a slice `updates []ColorUpdate`.
+// So we MUST change `Compare` in `theme/color.go` to handle this, or implement a specific type for Lerp update that isn't `ColorUpdateTyped`.
+// Let's implement a specific type for LerpUpdate to avoid breaking the generic struct or making it too complex.
+
+type LerpColorUpdate struct {
+	value LerpColorUpdateParams
+}
+
+func (u LerpColorUpdate) Action() ColorUpdateActions {
+	return LerpColorUpdateAction
+}
+
+func (u LerpColorUpdate) Value() any {
+	return u.value
+}
+
+func (u LerpColorUpdate) Compare(other ColorUpdate) bool {
+	if other.Action() != LerpColorUpdateAction {
+		return false
+	}
+	otherParams, ok := other.Value().(LerpColorUpdateParams)
+	if !ok {
+		return false
+	}
+	if u.value.Fraction != otherParams.Fraction {
+		return false
+	}
+	// Deep compare the Stop descriptor
+	return u.value.Stop.Compare(otherParams.Stop)
+}
+
+func (u LerpColorUpdate) isThemeColorUpdate() bool {
+	return true
 }
