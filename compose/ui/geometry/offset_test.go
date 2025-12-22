@@ -17,6 +17,15 @@ func TestOffsetInfinite(t *testing.T) {
 	}
 }
 
+func TestOffsetEqualInfinite(t *testing.T) {
+	inf1 := OffsetInfinite
+	inf2 := OffsetInfinite
+
+	if !inf1.Equal(inf2) {
+		t.Errorf("OffsetInfinite should equal OffsetInfinite")
+	}
+}
+
 func TestOffsetUnspecified(t *testing.T) {
 	if !math.IsNaN(float64(OffsetUnspecified.X)) || !math.IsNaN(float64(OffsetUnspecified.Y)) {
 		t.Errorf("OffsetUnspecified = %v, want (NaN, NaN)", OffsetUnspecified)

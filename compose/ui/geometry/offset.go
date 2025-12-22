@@ -144,6 +144,14 @@ func (o Offset) Equal(other Offset) bool {
 	if o.IsUnspecified() && other.IsUnspecified() {
 		return true
 	}
+
+	if o.IsInfinite() && other.IsInfinite() {
+		return true
+	}
 	return float32Equals(o.X, other.X, float32EqualityThreshold) &&
 		float32Equals(o.Y, other.Y, float32EqualityThreshold)
+}
+
+func (o Offset) IsInfinite() bool {
+	return math.IsInf(float64(o.X), 1) && math.IsInf(float64(o.Y), 1)
 }
