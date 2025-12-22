@@ -1,6 +1,11 @@
 package style
 
-import "math"
+import (
+	"fmt"
+	"math"
+
+	"github.com/zodimo/go-compose/compose/ui/utils/lerp"
+)
 
 // BaselineShift represents the amount by which text is shifted up or down from the current baseline.
 // The shift is calculated as: multiplier * (baseline - ascent)
@@ -17,8 +22,8 @@ const (
 	BaselineShiftNone BaselineShift = 0.0
 )
 
-// Unspecified represents an unset baseline shift (NaN value)
-var Unspecified = BaselineShift(math.NaN())
+// BaselineShiftUnspecified represents an unset baseline shift (NaN value)
+var BaselineShiftUnspecified = BaselineShift(math.NaN())
 
 // IsSpecified returns true if this baseline shift is not Unspecified (i.e., not NaN)
 func (bs BaselineShift) IsSpecified() bool {
@@ -44,14 +49,26 @@ func NewBaselineShift(multiplier float32) BaselineShift {
 	return BaselineShift(multiplier)
 }
 
-// LerpBaselineShift interpolates between two BaselineShifts.
-func LerpBaselineShift(start, stop BaselineShift, fraction float32) BaselineShift {
-	if !start.IsSpecified() || !stop.IsSpecified() {
-		// Fallback or discrete or if one is unspecified return implementation specific
-		// Usually lerp with unspecified means returning unspecified or stop?
-		// Kotlin implementation: return lerp(start.multiplier, stop.multiplier, fraction)
-		// If one is NaN, the result will contain NaN which is Unspecified.
-		// But we should verify. For now, simple float lerp.
+// String returns a string representation of the BaselineShift
+func (bs BaselineShift) String() string {
+	switch {
+	case !bs.IsSpecified():
+		return "BaselineShift.Unspecified"
+	case bs == BaselineShiftSuperscript:
+		return "BaselineShift.Superscript"
+	case bs == BaselineShiftSubscript:
+		return "BaselineShift.Subscript"
+	case bs == BaselineShiftNone:
+		return "BaselineShift.None"
+	default:
+		return fmt.Sprintf("BaselineShift(multiplier=%v)", bs.Multiplier())
 	}
-	return BaselineShift(float32(start) + (float32(stop)-float32(start))*fraction)
+}
+
+// LerpBaselineShift linearly interpolates between two BaselineShifts.
+// If either start or stop is Unspecified (NaN), the result will be Unspecified.
+func LerpBaselineShift(start, stop BaselineShift, fraction float32) BaselineShift {
+	// Kotlin implementation: return BaselineShift(lerp(start.multiplier, stop.multiplier, fraction))
+	// If one is NaN, the arithmetic naturally produces NaN.
+	return lerp.Between32(start, stop, fraction)
 }
