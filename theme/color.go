@@ -309,7 +309,10 @@ func (u unspecifiedColorDescriptor) Darken(percentage float32) ColorDescriptor {
 }
 
 func (u unspecifiedColorDescriptor) Compare(other ColorDescriptor) bool {
-	panic("unspecified color descriptor cannot be compared")
+	if _, ok := other.(unspecifiedColorDescriptor); ok {
+		return true
+	}
+	return false
 }
 
 func (u unspecifiedColorDescriptor) Updates() []ColorUpdate {
