@@ -12,8 +12,8 @@ import (
 // Core Types
 // ============================================================================
 
-// AnnotatedString is the basic data structure of text with multiple styles.
-// It's immutable; use Builder to construct instances.
+// AnnotatedString is immutable text with style and metadata annotations.
+// Use Builder to construct instances efficiently.
 type AnnotatedString struct {
 	text        string
 	annotations []Range[Annotation]
@@ -23,7 +23,7 @@ type AnnotatedString struct {
 	paragraphStyles []Range[ParagraphStyle]
 }
 
-// Range represents an annotation applied to a text range [Start, End).
+// Range represents an annotation applied to a half-open range [Start, End).
 type Range[T any] struct {
 	Item  T
 	Start int
@@ -47,31 +47,31 @@ type Annotation interface {
 }
 
 // ============================================================================
-// Annotation Implementations
+// Annotation Types
 // ============================================================================
 
 // SpanStyle specifies character-level styling (color, font, etc.).
 type SpanStyle struct {
-	// Define fields as needed (Color, FontSize, etc.)
+	// Add fields: Color, FontSize, FontWeight, etc.
 }
 
 func (SpanStyle) isAnnotation() {}
 
 // ParagraphStyle specifies paragraph-level styling (alignment, indent, etc.).
 type ParagraphStyle struct {
-	// Define fields as needed
+	// Add fields: Alignment, LineHeight, TextIndent, etc.
 }
 
 func (ParagraphStyle) isAnnotation() {}
 
-// StringAnnotation is a simple string metadata attachment.
+// StringAnnotation is simple string metadata attached to text.
 type StringAnnotation string
 
 func (StringAnnotation) isAnnotation() {}
 
 // TtsAnnotation provides text-to-speech metadata.
 type TtsAnnotation struct {
-	// Define TTS-specific fields
+	// Add TTS-specific fields: Language, Pitch, etc.
 }
 
 func (TtsAnnotation) isAnnotation() {}
@@ -85,7 +85,7 @@ func (LinkAnnotation) isAnnotation() {}
 
 // Bullet represents a bullet list marker.
 type Bullet struct {
-	// Define bullet styling fields
+	// Add bullet styling fields
 }
 
 func (Bullet) isAnnotation() {}
@@ -107,46 +107,32 @@ func newAnnotatedStringWithAnnotations(text string, annotations []Range[Annotati
 		panic(err)
 	}
 
-	as := AnnotatedString{
-		text:        text,
-		annotations: annotations,
+	as := AnnotatedString{text: text}
+	if len(annotations) == 0 {
+		return as
 	}
 
 	// Build cached slices
-	var spanStyles []Range[SpanStyle]
-	var paraStyles []Range[ParagraphStyle]
+	as.spanStyles = make([]Range[SpanStyle], 0, 4)
+	as.paragraphStyles = make([]Range[ParagraphStyle], 0, 4)
 
 	for _, ann := range annotations {
 		switch v := ann.Item.(type) {
 		case SpanStyle:
-			if spanStyles == nil {
-				spanStyles = make([]Range[SpanStyle], 0, 4)
-			}
-			spanStyles = append(spanStyles, Range[SpanStyle]{
-				Item:  v,
-				Start: ann.Start,
-				End:   ann.End,
-				Tag:   ann.Tag,
+			as.spanStyles = append(as.spanStyles, Range[SpanStyle]{
+				Item: v, Start: ann.Start, End: ann.End, Tag: ann.Tag,
 			})
 		case ParagraphStyle:
-			if paraStyles == nil {
-				paraStyles = make([]Range[ParagraphStyle], 0, 4)
-			}
-			paraStyles = append(paraStyles, Range[ParagraphStyle]{
-				Item:  v,
-				Start: ann.Start,
-				End:   ann.End,
-				Tag:   ann.Tag,
+			as.paragraphStyles = append(as.paragraphStyles, Range[ParagraphStyle]{
+				Item: v, Start: ann.Start, End: ann.End, Tag: ann.Tag,
 			})
 		}
 	}
-
-	as.spanStyles = spanStyles
-	as.paragraphStyles = paraStyles
+	as.annotations = annotations
 	return as
 }
 
-// constructAnnotations merges SpanStyle and ParagraphStyle slices into a unified annotation list.
+// constructAnnotations merges SpanStyle and ParagraphStyle slices.
 func constructAnnotations(spanStyles []Range[SpanStyle], paragraphStyles []Range[ParagraphStyle]) []Range[Annotation] {
 	totalLen := len(spanStyles) + len(paragraphStyles)
 	if totalLen == 0 {
@@ -173,7 +159,7 @@ func constructAnnotations(spanStyles []Range[SpanStyle], paragraphStyles []Range
 	return annotations
 }
 
-// paragraphStylesFromAnnotations extracts ParagraphStyle ranges from generic annotations.
+// paragraphStylesFromAnnotations extracts ParagraphStyle ranges.
 func paragraphStylesFromAnnotations(annotations []Range[Annotation]) []Range[ParagraphStyle] {
 	var paraStyles []Range[ParagraphStyle]
 	for _, ann := range annotations {
@@ -195,15 +181,13 @@ func validateParagraphStyles(styles []Range[ParagraphStyle]) error {
 		return nil
 	}
 
-	// Sort by Start
 	sorted := make([]Range[ParagraphStyle], len(styles))
 	copy(sorted, styles)
 	sort.Slice(sorted, func(i, j int) bool {
 		return sorted[i].Start < sorted[j].Start
 	})
 
-	// Track nested paragraph ends
-	ends := make([]int, 0, 4)
+	ends := make([]int, 0, 4) // Track nested paragraph end positions
 	for _, s := range sorted {
 		for len(ends) > 0 && s.Start >= ends[len(ends)-1] {
 			ends = ends[:len(ends)-1] // Pop finished paragraphs
@@ -230,12 +214,12 @@ func (as AnnotatedString) Len() int {
 	return len(as.text)
 }
 
-// String implements fmt.Stringer and returns the plain text.
+// String returns the plain text (implements fmt.Stringer).
 func (as AnnotatedString) String() string {
 	return as.text
 }
 
-// CharAt returns the character at the given index.
+// CharAt returns the byte at index (useful for ASCII).
 func (as AnnotatedString) CharAt(index int) byte {
 	return as.text[index]
 }
@@ -245,7 +229,7 @@ func (as AnnotatedString) Text() string {
 	return as.text
 }
 
-// SpanStyles returns all SpanStyle ranges.
+// SpanStyles returns all SpanStyle ranges (may be empty slice).
 func (as AnnotatedString) SpanStyles() []Range[SpanStyle] {
 	if as.spanStyles == nil {
 		return []Range[SpanStyle]{}
@@ -253,7 +237,7 @@ func (as AnnotatedString) SpanStyles() []Range[SpanStyle] {
 	return as.spanStyles
 }
 
-// ParagraphStyles returns all ParagraphStyle ranges.
+// ParagraphStyles returns all ParagraphStyle ranges (may be empty slice).
 func (as AnnotatedString) ParagraphStyles() []Range[ParagraphStyle] {
 	if as.paragraphStyles == nil {
 		return []Range[ParagraphStyle]{}
@@ -265,7 +249,7 @@ func (as AnnotatedString) ParagraphStyles() []Range[ParagraphStyle] {
 // Operations
 // ============================================================================
 
-// SubSequence returns a substring with annotations in the range [start, end).
+// SubSequence returns a substring with annotations in range [start, end).
 func (as AnnotatedString) SubSequence(start, end int) AnnotatedString {
 	if start == 0 && end >= len(as.text) {
 		return as
@@ -291,12 +275,11 @@ func (as AnnotatedString) Append(other AnnotatedString) AnnotatedString {
 	return b.ToAnnotatedString()
 }
 
-// GetStringAnnotations queries string annotations by tag within a range.
+// GetStringAnnotations queries string annotations by tag within [start, end).
 func (as AnnotatedString) GetStringAnnotations(tag string, start, end int) []Range[string] {
 	if start >= end {
 		return nil
 	}
-
 	var result []Range[string]
 	for _, ann := range as.annotations {
 		if sa, ok := ann.Item.(StringAnnotation); ok && ann.Tag == tag && intersect(start, end, ann.Start, ann.End) {
@@ -311,7 +294,7 @@ func (as AnnotatedString) GetStringAnnotations(tag string, start, end int) []Ran
 	return result
 }
 
-// HasStringAnnotations checks if any string annotations with the given tag exist in range.
+// HasStringAnnotations checks if any string annotations with tag exist in range.
 func (as AnnotatedString) HasStringAnnotations(tag string, start, end int) bool {
 	for _, ann := range as.annotations {
 		if _, ok := ann.Item.(StringAnnotation); ok && ann.Tag == tag && intersect(start, end, ann.Start, ann.End) {
@@ -321,12 +304,11 @@ func (as AnnotatedString) HasStringAnnotations(tag string, start, end int) bool 
 	return false
 }
 
-// GetLinkAnnotations queries LinkAnnotations within a range.
+// GetLinkAnnotations queries LinkAnnotations within [start, end).
 func (as AnnotatedString) GetLinkAnnotations(start, end int) []Range[LinkAnnotation] {
 	if start >= end {
 		return nil
 	}
-
 	var result []Range[LinkAnnotation]
 	for _, ann := range as.annotations {
 		if la, ok := ann.Item.(LinkAnnotation); ok && intersect(start, end, ann.Start, ann.End) {
@@ -351,22 +333,17 @@ func (as AnnotatedString) HasLinkAnnotations(start, end int) bool {
 	return false
 }
 
-// HasEqualAnnotations compares annotation lists for equality.
+// HasEqualAnnotations compares annotation lists for deep equality.
 func (as AnnotatedString) HasEqualAnnotations(other AnnotatedString) bool {
 	if len(as.annotations) != len(other.annotations) {
 		return false
 	}
 	for i, ann := range as.annotations {
-		if !rangeEqual(ann, other.annotations[i]) {
+		if ann.Start != other.annotations[i].Start || ann.End != other.annotations[i].End || ann.Tag != other.annotations[i].Tag {
 			return false
 		}
 	}
 	return true
-}
-
-// rangeEqual compares two Range[Annotation] instances.
-func rangeEqual(a, b Range[Annotation]) bool {
-	return a.Start == b.Start && a.End == b.End && a.Tag == b.Tag
 }
 
 // Empty returns an empty AnnotatedString.
@@ -388,27 +365,26 @@ type Builder struct {
 type mutableRange struct {
 	item  Annotation
 	start int
-	end   int // mutable, defaults to intMin
+	end   int // mutable, initially math.MinInt
 	tag   string
 }
 
-// NewBuilder creates a new Builder with optional initial capacity.
+// NewBuilder creates a Builder with optional initial capacity.
 func NewBuilder(capacity ...int) *Builder {
 	cap := 16
 	if len(capacity) > 0 && capacity[0] > 0 {
 		cap = capacity[0]
 	}
-	var builder strings.Builder
-	builder.Grow(cap)
-
+	var text strings.Builder
+	text.Grow(cap)
 	return &Builder{
-		text:        builder,
+		text:        text,
 		styleStack:  make([]mutableRange, 0, 8),
 		annotations: make([]mutableRange, 0, 16),
 	}
 }
 
-// Len returns the current text length.
+// Len returns current text length.
 func (b *Builder) Len() int {
 	return b.text.Len()
 }
@@ -420,10 +396,8 @@ func (b *Builder) Append(s string) {
 
 // AppendAnnotatedString adds another AnnotatedString with offset annotations.
 func (b *Builder) AppendAnnotatedString(as AnnotatedString) {
-	start := b.text.Len()
+	offset := b.text.Len()
 	b.text.WriteString(as.text)
-
-	offset := start
 	for _, ann := range as.annotations {
 		b.annotations = append(b.annotations, mutableRange{
 			item:  ann.Item,
@@ -434,7 +408,7 @@ func (b *Builder) AppendAnnotatedString(as AnnotatedString) {
 	}
 }
 
-// AddStyle adds a SpanStyle to the given range.
+// AddStyle adds a SpanStyle to range [start, end).
 func (b *Builder) AddStyle(style SpanStyle, start, end int) {
 	b.annotations = append(b.annotations, mutableRange{
 		item:  style,
@@ -443,7 +417,7 @@ func (b *Builder) AddStyle(style SpanStyle, start, end int) {
 	})
 }
 
-// AddParagraphStyle adds a ParagraphStyle to the given range.
+// AddParagraphStyle adds a ParagraphStyle to range [start, end).
 func (b *Builder) AddParagraphStyle(style ParagraphStyle, start, end int) {
 	b.annotations = append(b.annotations, mutableRange{
 		item:  style,
@@ -467,7 +441,7 @@ func (b *Builder) PushStyle(style SpanStyle) int {
 	mr := mutableRange{
 		item:  style,
 		start: b.text.Len(),
-		end:   math.MinInt, // marker for unset
+		end:   math.MinInt,
 	}
 	b.styleStack = append(b.styleStack, mr)
 	b.annotations = append(b.annotations, mr)
@@ -479,8 +453,7 @@ func (b *Builder) Pop() {
 	if len(b.styleStack) == 0 {
 		panic("nothing to pop")
 	}
-	last := &b.styleStack[len(b.styleStack)-1]
-	last.end = b.text.Len()
+	b.styleStack[len(b.styleStack)-1].end = b.text.Len()
 	b.styleStack = b.styleStack[:len(b.styleStack)-1]
 }
 
@@ -494,9 +467,8 @@ func (b *Builder) PopTo(index int) {
 	}
 }
 
-// ToAnnotatedString builds the final AnnotatedString.
+// ToAnnotatedString builds the final immutable AnnotatedString.
 func (b *Builder) ToAnnotatedString() AnnotatedString {
-	// Close any open ranges
 	for i := range b.annotations {
 		if b.annotations[i].end == math.MinInt {
 			b.annotations[i].end = b.text.Len()
@@ -505,7 +477,7 @@ func (b *Builder) ToAnnotatedString() AnnotatedString {
 	return newAnnotatedStringWithAnnotations(b.text.String(), mutableToImmutable(b.annotations))
 }
 
-// mutableToImmutable converts mutableRange slices to Range[Annotation].
+// mutableToImmutable converts mutableRange to Range[Annotation].
 func mutableToImmutable(mr []mutableRange) []Range[Annotation] {
 	if len(mr) == 0 {
 		return nil
@@ -523,98 +495,6 @@ func mutableToImmutable(mr []mutableRange) []Range[Annotation] {
 }
 
 // ============================================================================
-// Paragraph Normalization
-// ============================================================================
-
-// NormalizedParagraphStyles returns paragraph styles with gaps filled by default style.
-// This implements the complex merging logic from the Kotlin version.
-func (as AnnotatedString) NormalizedParagraphStyles(defaultStyle ParagraphStyle) []Range[ParagraphStyle] {
-	paraStyles := as.ParagraphStyles()
-	if len(paraStyles) == 0 {
-		return []Range[ParagraphStyle]{
-			{Item: defaultStyle, Start: 0, End: len(as.text)},
-		}
-	}
-
-	sort.Slice(paraStyles, func(i, j int) bool {
-		return paraStyles[i].Start < paraStyles[j].Start
-	})
-
-	var result []Range[ParagraphStyle]
-	lastAdded := 0
-	var stack []Range[ParagraphStyle]
-
-	for _, current := range paraStyles {
-		merged := current.Item // TODO: Actually merge with defaultStyle
-		currentRange := Range[ParagraphStyle]{
-			Item:  merged,
-			Start: current.Start,
-			End:   current.End,
-		}
-
-		// Fill gaps
-		for lastAdded < currentRange.Start && len(stack) > 0 {
-			lastStack := stack[len(stack)-1]
-			if currentRange.Start < lastStack.End {
-				result = append(result, Range[ParagraphStyle]{
-					Item:  lastStack.Item,
-					Start: lastAdded,
-					End:   currentRange.Start,
-				})
-				lastAdded = currentRange.Start
-				break
-			}
-			result = append(result, lastStack)
-			lastAdded = lastStack.End
-			stack = stack[:len(stack)-1]
-		}
-
-		if lastAdded < currentRange.Start {
-			result = append(result, Range[ParagraphStyle]{
-				Item:  defaultStyle,
-				Start: lastAdded,
-				End:   currentRange.Start,
-			})
-			lastAdded = currentRange.Start
-		}
-
-		// Handle nesting/overlapping
-		if len(stack) > 0 {
-			lastStack := stack[len(stack)-1]
-			if lastStack.Start == currentRange.Start && lastStack.End == currentRange.End {
-				// Fully overlapped - merge and replace
-				stack[len(stack)-1] = currentRange
-			} else if lastStack.End < currentRange.End {
-				panic("paragraph overlap not allowed")
-			} else {
-				stack = append(stack, currentRange)
-			}
-		} else {
-			stack = append(stack, currentRange)
-		}
-	}
-
-	// Empty remaining stack
-	for len(stack) > 0 {
-		last := stack[len(stack)-1]
-		result = append(result, last)
-		lastAdded = last.End
-		stack = stack[:len(stack)-1]
-	}
-
-	// Add trailing default style
-	if lastAdded < len(as.text) {
-		result = append(result, Range[ParagraphStyle]{
-			Item:  defaultStyle,
-			Start: lastAdded,
-			End:   len(as.text),
-		})
-	}
-
-	return result
-}
-
-// ============================================================================
 // Utility Functions
 // ============================================================================
 
@@ -623,7 +503,6 @@ func filterRanges(annotations []Range[Annotation], start, end int) []Range[Annot
 	if len(annotations) == 0 || start >= end {
 		return nil
 	}
-
 	var result []Range[Annotation]
 	for _, ann := range annotations {
 		if intersect(start, end, ann.Start, ann.End) {
@@ -638,17 +517,11 @@ func filterRanges(annotations []Range[Annotation], start, end int) []Range[Annot
 	return result
 }
 
-// intersect checks if two ranges [aStart, aEnd) and [bStart, bEnd) intersect.
+// intersect checks if two half-open ranges [aStart, aEnd) and [bStart, bEnd) intersect.
 func intersect(aStart, aEnd, bStart, bEnd int) bool {
 	return (aStart < aEnd && bStart < bEnd && aStart < bEnd && bStart < aEnd) ||
 		(aStart == aEnd && aStart >= bStart && aStart <= bEnd) ||
 		(bStart == bEnd && bStart >= aStart && bStart <= aEnd)
-}
-
-// contains checks if [outerStart, outerEnd) fully contains [innerStart, innerEnd).
-func contains(outerStart, outerEnd, innerStart, innerEnd int) bool {
-	return outerStart <= innerStart && innerEnd <= outerEnd &&
-		(outerEnd != innerEnd || (innerStart == innerEnd) == (outerStart == outerEnd))
 }
 
 // max returns the larger of two integers.
