@@ -1,6 +1,7 @@
 package theme
 
 import (
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 	"github.com/zodimo/go-compose/theme/colorrole"
 
 	"gioui.org/widget/material"
@@ -15,3 +16,5 @@ type BasicTheme = material.Theme
 type TokenColor = token.MatColor
 
 type OpacityLevel = token.OpacityLevel
+
+var colorLerp = lerp.ColorLerp

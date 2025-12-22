@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image/color"
 
-	"github.com/zodimo/go-compose/compose/ui/utils/lerp"
 	"github.com/zodimo/go-compose/theme/colorrole"
 )
 
@@ -204,7 +203,7 @@ func (cr *themeColorResolver) applyUpdates(updates []ColorUpdate, tokenColor Tok
 				A: float32(stopColorNRGBA.A),
 			}
 
-			res := lerp.ColorLerp(startFloat, stopFloat, params.Fraction)
+			res := colorLerp(startFloat, stopFloat, params.Fraction)
 
 			// Clamp results to 0-255 (though ColorLerp usually handles range if inputs are generic)
 			// But here we are dealing with 0-255 mapped to float.
