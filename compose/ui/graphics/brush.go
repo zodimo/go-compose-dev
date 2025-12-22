@@ -404,6 +404,10 @@ func AsShaderBrush(b Brush) ShaderBrush {
 // Use NewShaderBrushForTest() to create instances in tests.
 type ShaderBrushForTest struct{}
 
+func NewShaderBrushForTest() ShaderBrushForTest {
+	return ShaderBrushForTest{}
+}
+
 func (s ShaderBrushForTest) isBrush()                                            {}
 func (s ShaderBrushForTest) CreateShader(size geometry.Size) Shader              { return nil }
 func (s ShaderBrushForTest) ApplyTo(size geometry.Size, p *Paint, alpha float32) {}
