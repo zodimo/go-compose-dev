@@ -90,7 +90,7 @@ func ifNaN(a, b float32) float32 {
 }
 
 func takeFontWeightOrElse(a, b font.FontWeight) font.FontWeight {
-	if a == 0 { // Assuming 0 is unset/invalid for FontWeight which starts at 100
+	if a.Weight() == 0 { // Assuming 0 is unset/invalid for FontWeight which starts at 100
 		return b
 	}
 	return a
