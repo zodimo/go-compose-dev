@@ -3,8 +3,6 @@ package geometry
 import (
 	"fmt"
 	"math"
-
-	"github.com/zodimo/go-compose/pkg/floatutils"
 )
 
 // Offset is an immutable 2D floating-point offset.
@@ -146,6 +144,6 @@ func (o Offset) Equal(other Offset) bool {
 	if o.IsUnspecified() && other.IsUnspecified() {
 		return true
 	}
-	return floatutils.Float32Equals(o.X, other.X, floatutils.Float32EqualityThreshold) &&
-		floatutils.Float32Equals(o.Y, other.Y, floatutils.Float32EqualityThreshold)
+	return float32Equals(o.X, other.X, float32EqualityThreshold) &&
+		float32Equals(o.Y, other.Y, float32EqualityThreshold)
 }

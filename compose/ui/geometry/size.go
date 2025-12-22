@@ -3,8 +3,6 @@ package geometry
 import (
 	"fmt"
 	"math"
-
-	"github.com/zodimo/go-compose/pkg/floatutils"
 )
 
 // Size represents a 2D floating-point size.
@@ -96,8 +94,8 @@ func (s Size) Equal(other Size) bool {
 	if s.IsUnspecified() && other.IsUnspecified() {
 		return true
 	}
-	return floatutils.Float32Equals(s.Width, other.Width, floatutils.Float32EqualityThreshold) &&
-		floatutils.Float32Equals(s.Height, other.Height, floatutils.Float32EqualityThreshold)
+	return float32Equals(s.Width, other.Width, float32EqualityThreshold) &&
+		float32Equals(s.Height, other.Height, float32EqualityThreshold)
 }
 
 // LerpSize linearly interpolates between two sizes.
