@@ -50,20 +50,6 @@ type Annotation interface {
 // Annotation Types
 // ============================================================================
 
-// SpanStyle specifies character-level styling (color, font, etc.).
-type SpanStyle struct {
-	// Add fields: Color, FontSize, FontWeight, etc.
-}
-
-func (SpanStyle) isAnnotation() {}
-
-// ParagraphStyle specifies paragraph-level styling (alignment, indent, etc.).
-type ParagraphStyle struct {
-	// Add fields: Alignment, LineHeight, TextIndent, etc.
-}
-
-func (ParagraphStyle) isAnnotation() {}
-
 // StringAnnotation is simple string metadata attached to text.
 type StringAnnotation string
 
