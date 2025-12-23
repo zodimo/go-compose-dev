@@ -138,7 +138,7 @@ func (d *densityImpl) DpSizeToSize(size DpSize) geometry.Size {
 
 func (d *densityImpl) SizeToDpSize(size geometry.Size) DpSize {
 	if size.IsSpecified() {
-		return NewDpSize(d.FloatToDp(size.Width), d.FloatToDp(size.Height))
+		return NewDpSize(d.FloatToDp(size.Width()), d.FloatToDp(size.Height()))
 	}
 	return DpSizeUnspecified
 }
