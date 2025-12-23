@@ -7,6 +7,7 @@ type Float interface {
 }
 
 var FloatUnspecified = math.NaN()
+var Float32Unspecified = float32(math.NaN())
 
 func IsSpecified[T Float](f T) bool {
 	//same as !math.IsNaN()
