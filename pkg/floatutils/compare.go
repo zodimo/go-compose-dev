@@ -16,3 +16,20 @@ func Float32Equals(a, b, epsilon float32) bool {
 func Float64Equals(a, b, epsilon float64) bool {
 	return math.Abs(a-b) <= epsilon
 }
+
+func IsInfinite[T Float](f T) bool {
+	if !IsSpecified(f) {
+		return false
+	}
+	return math.IsInf(float64(f), 0)
+}
+
+func IsSpecified[T Float](f T) bool {
+	//same as !math.IsNaN()
+	return float64(f) != FloatUnspecified
+}
+
+// @deprecated
+func IsNaN[T Float](f T) bool {
+	return float64(f) == FloatUnspecified
+}
