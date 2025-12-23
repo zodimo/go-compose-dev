@@ -1,13 +1,13 @@
 package theme
 
 import (
-	"image/color"
 	"sync"
 
 	"gioui.org/layout"
 	"gioui.org/widget/material"
 	"git.sr.ht/~schnwalter/gio-mw/token"
 	"git.sr.ht/~schnwalter/gio-mw/wdk"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 var themeManagerSingleton ThemeManager
@@ -20,7 +20,7 @@ func init() {
 
 type ThemeColorHelper interface {
 	ColorSelector() *ColorRoleDescriptors
-	SpecificColor(color color.Color) ColorDescriptor
+	SpecificColor(color graphics.Color) ColorDescriptor
 	UnspecifiedColor() ColorDescriptor
 }
 
@@ -33,7 +33,7 @@ type themeColorHelper struct {
 func (tch themeColorHelper) ColorSelector() *ColorRoleDescriptors {
 	return &tch.roleDescriptors
 }
-func (tch themeColorHelper) SpecificColor(color color.Color) ColorDescriptor {
+func (tch themeColorHelper) SpecificColor(color graphics.Color) ColorDescriptor {
 	return SpecificColor(color)
 }
 func (tch themeColorHelper) UnspecifiedColor() ColorDescriptor {
@@ -123,7 +123,7 @@ func (tm *themeManager) ColorRoleDescriptors() ColorRoleDescriptors {
 	return tm.colorRoleDescriptors
 }
 
-func (tm *themeManager) ColorDescriptor(color color.Color) ColorDescriptor {
+func (tm *themeManager) ColorDescriptor(color graphics.Color) ColorDescriptor {
 	return SpecificColor(color)
 }
 

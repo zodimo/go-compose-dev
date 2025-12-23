@@ -36,10 +36,7 @@ func ModalNavigationDrawer(
 	}
 
 	return func(c Composer) Composer {
-		tm := theme.GetThemeManager()
-		m3 := tm.GetMaterial3Theme()
-
-		drawerContainerColor := m3.Scheme.SurfaceContainerLow.AsNRGBA()
+		drawerContainerColor := theme.ColorHelper.ColorSelector().SurfaceRoles.ContainerLow
 
 		// Animation state
 		anim := c.State(c.GenerateID().String()+"/anim", func() any {
@@ -56,7 +53,7 @@ func ModalNavigationDrawer(
 			anim.Disappear(time.Now())
 		}
 
-		baseScrim := theme.ColorHelper.SpecificColor(m3.Scheme.Scrim.AsNRGBA()).SetOpacity(token.OpacityLevel8)
+		baseScrim := theme.ColorHelper.ColorSelector().ScrimRoles.Scrim.SetOpacity(token.OpacityLevel8)
 		// We use AnimatedBackground for scrim opacity
 
 		return box.Box(
@@ -98,7 +95,7 @@ func ModalNavigationDrawer(
 					// 3. Drawer Sheet
 					surface.Surface(
 						drawerContent,
-						surface.WithColor(theme.ColorHelper.SpecificColor(drawerContainerColor)),
+						surface.WithColor(drawerContainerColor),
 						surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(16)}),
 						surface.WithModifier(
 							animMod.AnimatedWidth(anim, 360). // Animate width

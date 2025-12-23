@@ -1,12 +1,11 @@
 package tab
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/background"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/padding"
@@ -166,7 +165,7 @@ func Tab(
 								box.WithModifier(
 									size.FillMaxWidth().
 										Then(size.Height(3)).
-										Then(background.Background(theme.ColorHelper.SpecificColor(color.NRGBA{}))), // Transparent
+										Then(background.Background(theme.ColorHelper.SpecificColor(graphics.ColorTransparent))), // Transparent
 								),
 							)(c)
 						}
@@ -182,7 +181,7 @@ func Tab(
 					Then(size.FillMaxHeight()).       // Fill row height
 					Then(clickable.OnClick(onClick)), // Use clickable package
 			),
-			surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})), // Transparent container
+			surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)), // Transparent container
 			surface.WithContentColor(contentColor),
 		)(c)
 	}

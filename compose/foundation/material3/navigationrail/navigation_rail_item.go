@@ -2,10 +2,10 @@ package navigationrail
 
 import (
 	"fmt"
-	"image/color"
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/clip"
@@ -59,7 +59,7 @@ func NavigationRailItem(
 					surface.WithColor(ternary.Ternary(
 						selected,
 						colors.SecondaryRoles.Container,
-						specificColor(color.NRGBA{A: 0}), // Transparent
+						specificColor(graphics.ColorTransparent), // Transparent
 					)),
 					surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(12)}), // Pill shape (approx)
 					surface.WithModifier(

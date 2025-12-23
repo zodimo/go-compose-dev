@@ -1,11 +1,11 @@
 package theme_test
 
 import (
-	"image/color"
 	"testing"
 
 	"gioui.org/layout"
 	"gioui.org/op"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/theme"
 )
 
@@ -47,24 +47,24 @@ func TestSurfaceColorResolution(t *testing.T) {
 
 func TestSpecificColorPreservation(t *testing.T) {
 	tm := theme.GetThemeManager()
-	targetColor := color.NRGBA{R: 255, G: 0, B: 0, A: 255}
+	targetColor := graphics.ColorRed
 
 	desc := theme.ColorHelper.SpecificColor(targetColor)
 	resolved := tm.ResolveColorDescriptor(desc).AsNRGBA()
 
-	if resolved != targetColor {
+	if resolved != graphics.ColorToNRGBA(targetColor) {
 		t.Errorf("SpecificColor failed: got %+v, want %+v", resolved, targetColor)
 	}
 }
 
 func TestTransparencyResolution(t *testing.T) {
 	tm := theme.GetThemeManager()
-	transparent := color.NRGBA{R: 0, G: 0, B: 0, A: 0}
+	transparent := graphics.ColorTransparent
 
 	desc := theme.ColorHelper.SpecificColor(transparent)
 	resolved := tm.ResolveColorDescriptor(desc).AsNRGBA()
 
-	if resolved != transparent {
+	if resolved != graphics.ColorToNRGBA(transparent) {
 		t.Errorf("Transparent color failed: got %+v, want %+v", resolved, transparent)
 	}
 }

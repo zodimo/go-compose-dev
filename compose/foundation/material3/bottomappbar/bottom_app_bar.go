@@ -1,11 +1,10 @@
 package bottomappbar
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	padding_modifier "github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/modifiers/weight"
@@ -39,7 +38,7 @@ func BottomAppBar(
 									return surface.Surface(
 										actions,
 										surface.WithContentColor(opts.ContentColor),
-										surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})), // Transparent background
+										surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)), // Transparent background
 									)(c)
 								}
 								return c

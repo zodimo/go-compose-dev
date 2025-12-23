@@ -1,6 +1,8 @@
 package theme
 
-import "image/color"
+import (
+	"image/color"
+)
 
 func toNRGBA(c color.Color) color.NRGBA {
 	if nrgba, ok := c.(color.NRGBA); ok {

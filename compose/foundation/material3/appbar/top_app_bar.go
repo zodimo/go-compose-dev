@@ -1,13 +1,12 @@
 package appbar
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/modifiers/weight"
@@ -36,7 +35,7 @@ func SingleRowTopAppBar(
 							surface.Surface(
 								navigationIcon,
 								surface.WithContentColor(colors.NavigationIconContentColor),
-								surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})), // Transparent background
+								surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)), // Transparent background
 							),
 							box.WithAlignment(layout.W),
 							box.WithModifier(padding.Padding(4, 0, 0, 0)), // Start(4)
@@ -50,7 +49,7 @@ func SingleRowTopAppBar(
 								return surface.Surface(
 									title,
 									surface.WithContentColor(colors.TitleContentColor),
-									surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})), // Transparent
+									surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)), // Transparent
 								)(c)
 							}
 							return c
@@ -135,7 +134,7 @@ func CenterAlignedTopAppBar(
 									surface.Surface(
 										opts.NavigationIcon,
 										surface.WithContentColor(opts.Colors.NavigationIconContentColor),
-										surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})),
+										surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)),
 									),
 									box.WithAlignment(layout.W),
 									box.WithModifier(padding.Padding(4, 0, 0, 0)),
@@ -166,7 +165,7 @@ func CenterAlignedTopAppBar(
 								surface.Surface(
 									title,
 									surface.WithContentColor(opts.Colors.TitleContentColor),
-									surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})),
+									surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)),
 								),
 							),
 						),
@@ -205,7 +204,7 @@ func TwoRowsTopAppBar(
 						TopAppBarColors{
 							// Use transparent container for nested app bar to avoid layering issues?
 							// Or use same colors. SingleRowTopAppBar sets container color.
-							ContainerColor:             theme.ColorHelper.SpecificColor(color.NRGBA{}), // Transparent, let parent surface color show
+							ContainerColor:             theme.ColorHelper.SpecificColor(graphics.ColorTransparent), // Transparent, let parent surface color show
 							NavigationIconContentColor: colors.NavigationIconContentColor,
 							ActionIconContentColor:     colors.ActionIconContentColor,
 						},
@@ -228,7 +227,7 @@ func TwoRowsTopAppBar(
 										return title(c)
 									},
 									surface.WithContentColor(colors.TitleContentColor),
-									surface.WithColor(theme.ColorHelper.SpecificColor(color.NRGBA{})),
+									surface.WithColor(theme.ColorHelper.SpecificColor(graphics.ColorTransparent)),
 								),
 							),
 						),

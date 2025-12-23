@@ -2,6 +2,8 @@ package theme
 
 import (
 	"image/color"
+
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 var ColorUnspecified ColorDescriptor = nil
@@ -96,13 +98,14 @@ type ColorDescriptor interface {
 	Darken(percentage float32) ColorDescriptor
 	Compare(other ColorDescriptor) bool
 	Updates() []ColorUpdate
-	TakeOrElse(other func() ColorDescriptor) ColorDescriptor // support unspecifiedXXX compose pattern
+	IsSpecified() bool
+	TakeOrElse(other ColorDescriptor) ColorDescriptor // support unspecifiedXXX compose pattern
 }
 
 var _ ColorDescriptor = (*colorDescriptor)(nil)
 
 type colorDescriptor struct {
-	color     color.NRGBA
+	color     graphics.Color
 	colorRole ColorRole
 	isColor   bool
 	updates   []ColorUpdate
@@ -161,7 +164,11 @@ func (t colorDescriptor) Compare(other ColorDescriptor) bool {
 	return t.color == otherColorDescriptor.color && t.colorRole == otherColorDescriptor.colorRole && t.isColor == otherColorDescriptor.isColor
 }
 
-func (t colorDescriptor) TakeOrElse(other func() ColorDescriptor) ColorDescriptor {
+func (t colorDescriptor) IsSpecified() bool {
+	return !(t.isColor && t.color == graphics.ColorUnspecified)
+}
+
+func (t colorDescriptor) TakeOrElse(other ColorDescriptor) ColorDescriptor {
 	return t
 }
 

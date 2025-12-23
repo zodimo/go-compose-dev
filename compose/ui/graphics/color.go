@@ -2,6 +2,7 @@ package graphics
 
 import (
 	"fmt"
+	"image/color"
 
 	"github.com/zodimo/go-compose/compose/ui/graphics/colorspace"
 	"github.com/zodimo/go-compose/compose/ui/util"
@@ -290,3 +291,12 @@ func (c Color) Luminance() float32 {
 // ColorProducer functional interface?
 // Deprecate or alias.
 type ColorProducer func() Color
+
+func ColorToNRGBA(c Color) color.NRGBA {
+	return color.NRGBA{
+		R: uint8(c.Red() * 255),
+		G: uint8(c.Green() * 255),
+		B: uint8(c.Blue() * 255),
+		A: uint8(c.Alpha() * 255),
+	}
+}

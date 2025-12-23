@@ -29,10 +29,7 @@ func DismissibleNavigationDrawer(
 	}
 
 	return func(c Composer) Composer {
-		tm := theme.GetThemeManager()
-		m3 := tm.GetMaterial3Theme()
-
-		drawerContainerColor := m3.Scheme.SurfaceContainerLow.AsNRGBA()
+		drawerContainerColor := theme.ColorHelper.ColorSelector().SurfaceRoles.ContainerLow
 
 		// Animation state
 		// We use a persistent pointer for the animation state
@@ -58,7 +55,7 @@ func DismissibleNavigationDrawer(
 					func(c Composer) Composer {
 						return surface.Surface(
 							drawerContent,
-							surface.WithColor(theme.ColorHelper.SpecificColor(drawerContainerColor)),
+							surface.WithColor(drawerContainerColor),
 							surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(0)}),
 							surface.WithModifier(
 								size.Width(360). // Inner content fits 360

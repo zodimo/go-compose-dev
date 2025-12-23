@@ -2,12 +2,12 @@ package navigationbar
 
 import (
 	"fmt"
-	"image/color"
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/clip"
@@ -70,7 +70,7 @@ func NavigationBarItem(
 						surface.WithColor(ternary.Ternary(
 							selected,
 							colors.IndicatorColor,
-							theme.ColorHelper.SpecificColor(color.NRGBA{A: 0}), // Transparent
+							theme.ColorHelper.SpecificColor(graphics.ColorTransparent), // Transparent
 						)),
 						surface.WithContentColor(ternary.Ternary(
 							selected,

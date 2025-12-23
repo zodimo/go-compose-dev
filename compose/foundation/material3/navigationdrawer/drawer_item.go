@@ -1,12 +1,11 @@
 package navigationdrawer
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/clip"
@@ -36,7 +35,7 @@ func NavigationDrawerItem(
 		if selected {
 			containerColor = theme.ColorHelper.ColorSelector().SecondaryRoles.Container
 		} else {
-			containerColor = theme.ColorHelper.SpecificColor(color.NRGBA{A: 0}) // Transparent
+			containerColor = theme.ColorHelper.SpecificColor(graphics.ColorTransparent) // Transparent
 		}
 
 		// Click interaction state

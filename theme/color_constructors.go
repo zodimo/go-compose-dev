@@ -1,10 +1,14 @@
 package theme
 
-import "image/color"
+import (
+	"image/color"
 
-func SpecificColor(color color.Color) ColorDescriptor {
+	"github.com/zodimo/go-compose/compose/ui/graphics"
+)
+
+func SpecificColor(color graphics.Color) ColorDescriptor {
 	return colorDescriptor{
-		color:   toNRGBA(color),
+		color:   color,
 		isColor: true,
 	}
 }
@@ -12,6 +16,12 @@ func SpecificColor(color color.Color) ColorDescriptor {
 func ThemeRoleColor(colorRole ColorRole) ColorDescriptor {
 	return colorDescriptor{
 		colorRole: colorRole,
+	}
+}
+
+func ThemeColorFromGraphicsColor(color graphics.Color) ThemeColor {
+	return themeColor{
+		tokenColor: TokenColor(graphics.ColorToNRGBA(color)),
 	}
 }
 

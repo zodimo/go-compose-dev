@@ -20,17 +20,14 @@ func PermanentNavigationDrawer(
 	modifier Modifier,
 ) Composable {
 	return func(c Composer) Composer {
-		tm := theme.GetThemeManager()
-		m3 := tm.GetMaterial3Theme()
-
-		drawerContainerColor := m3.Scheme.SurfaceContainerLow.AsNRGBA()
+		drawerContainerColor := theme.ColorHelper.ColorSelector().SurfaceRoles.ContainerLow
 
 		return row.Row(
 			func(c Composer) Composer {
 				// 1. Drawer Sheet
 				surface.Surface(
 					drawerContent,
-					surface.WithColor(theme.ColorHelper.SpecificColor(drawerContainerColor)),
+					surface.WithColor(drawerContainerColor),
 					// Standard drawer doesn't usually have rounded corners on the edge touching the content
 					// unless it's a specific variant, but M3 defaults often show 0 radius or small radius.
 					// We'll stick to a standard square edge or small radius if needed.

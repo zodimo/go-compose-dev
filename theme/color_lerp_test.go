@@ -1,11 +1,11 @@
 package theme_test
 
 import (
-	"image/color"
 	"testing"
 
 	"gioui.org/layout"
 	"gioui.org/op"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/theme"
 )
 
@@ -18,8 +18,8 @@ func TestColorLerp(t *testing.T) {
 
 	t.Run("Static Color Lerp", func(t *testing.T) {
 		start := theme.ColorLerp(
-			theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 0, B: 0, A: 255}),
-			theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 255, A: 255}),
+			theme.ColorHelper.SpecificColor(graphics.ColorRed),
+			theme.ColorHelper.SpecificColor(graphics.ColorBlue),
 			0.5,
 		)
 
@@ -74,9 +74,9 @@ func TestColorLerp(t *testing.T) {
 	})
 
 	t.Run("Chained Lerp", func(t *testing.T) {
-		start := theme.ColorHelper.SpecificColor(color.NRGBA{R: 255, G: 0, B: 0, A: 255})
-		mid := theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 255, B: 0, A: 255})
-		end := theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 0, B: 255, A: 255})
+		start := theme.ColorHelper.SpecificColor(graphics.ColorRed)
+		mid := theme.ColorHelper.SpecificColor(graphics.ColorGreen)
+		end := theme.ColorHelper.SpecificColor(graphics.ColorBlue)
 
 		// Start -> Mid (50%) = (127, 127, 0)
 		// Then Lerp to End (50%) = (63, 63, 127)
