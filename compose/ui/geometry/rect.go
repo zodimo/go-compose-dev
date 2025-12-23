@@ -3,6 +3,8 @@ package geometry
 import (
 	"fmt"
 	"math"
+
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
 // Rect is an immutable, 2D, axis-aligned, floating-point rectangle whose coordinates are relative to a given origin.
@@ -225,9 +227,9 @@ func (r Rect) Equal(other Rect) bool {
 // LerpRect linearly interpolates between two rectangles.
 func LerpRect(start, stop Rect, fraction float32) Rect {
 	return Rect{
-		Left:   lerpBetween(start.Left, stop.Left, float64(fraction)),
-		Top:    lerpBetween(start.Top, stop.Top, float64(fraction)),
-		Right:  lerpBetween(start.Right, stop.Right, float64(fraction)),
-		Bottom: lerpBetween(start.Bottom, stop.Bottom, float64(fraction)),
+		Left:   lerp.Between32(start.Left, stop.Left, fraction),
+		Top:    lerp.Between32(start.Top, stop.Top, fraction),
+		Right:  lerp.Between32(start.Right, stop.Right, fraction),
+		Bottom: lerp.Between32(start.Bottom, stop.Bottom, fraction),
 	}
 }

@@ -3,6 +3,8 @@ package geometry
 import (
 	"fmt"
 	"math"
+
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
 // Offset is an immutable 2D floating-point offset.
@@ -15,11 +17,11 @@ type Offset struct {
 var OffsetZero = Offset{X: 0, Y: 0}
 
 // OffsetInfinite is an offset with infinite x and y components.
-var OffsetInfinite = Offset{X: float32(math.Inf(1)), Y: float32(math.Inf(1))}
+var OffsetInfinite = Offset{X: float32Infinite, Y: float32Infinite}
 
 // OffsetUnspecified Represents an unspecified [Offset] value, usually a replacement for `null` when a
 // primitive value is desired.
-var OffsetUnspecified = Offset{X: float32(math.NaN()), Y: float32(math.NaN())}
+var OffsetUnspecified = Offset{X: float32Unspecified, Y: float32Unspecified}
 
 // NewOffset constructs an Offset from the given x and y values.
 func NewOffset(x, y float32) Offset {
@@ -109,8 +111,8 @@ func (o Offset) String() string {
 // LerpOffset linearly interpolates between two offsets.
 func LerpOffset(start, stop Offset, fraction float32) Offset {
 	return Offset{
-		X: lerpBetween(start.X, stop.X, float64(fraction)),
-		Y: lerpBetween(start.Y, stop.Y, float64(fraction)),
+		X: lerp.Between32(start.X, stop.X, fraction),
+		Y: lerp.Between32(start.Y, stop.Y, fraction),
 	}
 }
 
@@ -132,11 +134,11 @@ func (o Offset) IsUnspecified() bool {
 }
 
 // TakeOrElse returns this offset if Specified, otherwise executes the block and returns its result.
-func (o Offset) TakeOrElse(block func() Offset) Offset {
+func (o Offset) TakeOrElse(value Offset) Offset {
 	if o.IsSpecified() {
 		return o
 	}
-	return block()
+	return value
 }
 
 // Equal checks equality with another Offset.

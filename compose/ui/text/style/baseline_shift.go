@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/zodimo/go-compose/compose/ui/utils/lerp"
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
 // BaselineShift represents the amount by which text is shifted up or down from the current baseline.

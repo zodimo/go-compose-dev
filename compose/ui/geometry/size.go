@@ -3,6 +3,8 @@ package geometry
 import (
 	"fmt"
 	"math"
+
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
 // Size represents a 2D floating-point size.
@@ -101,7 +103,7 @@ func (s Size) Equal(other Size) bool {
 // LerpSize linearly interpolates between two sizes.
 func LerpSize(start, stop Size, fraction float32) Size {
 	return Size{
-		Width:  lerpBetween(start.Width, stop.Width, float64(fraction)),
-		Height: lerpBetween(start.Height, stop.Height, float64(fraction)),
+		Width:  lerp.Between32(start.Width, stop.Width, fraction),
+		Height: lerp.Between32(start.Height, stop.Height, fraction),
 	}
 }

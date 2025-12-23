@@ -4,6 +4,7 @@ package graphics
 import (
 	"fmt"
 
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 	"github.com/zodimo/go-compose/theme"
 )
 
@@ -66,9 +67,9 @@ func LerpShadow(start, stop Shadow, fraction float32) Shadow {
 	return NewShadow(
 		theme.ColorLerp(start.Color, stop.Color, fraction),
 		Offset{
-			X: lerpBetween(start.Offset.X, stop.Offset.X, float64(fraction)),
-			Y: lerpBetween(start.Offset.Y, stop.Offset.Y, float64(fraction)),
+			X: lerp.Between32(start.Offset.X, stop.Offset.X, fraction),
+			Y: lerp.Between32(start.Offset.Y, stop.Offset.Y, fraction),
 		},
-		lerpBetween(start.BlurRadius, stop.BlurRadius, float64(fraction)),
+		lerp.Between32(start.BlurRadius, stop.BlurRadius, fraction),
 	)
 }
