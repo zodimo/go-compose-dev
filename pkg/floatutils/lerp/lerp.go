@@ -20,6 +20,12 @@ type Float interface {
 //
 //	pos := lerp.Between(0.0, 100.0, 0.5) // 50.0
 func Between[T Float](start, stop T, fraction float64) T {
+	if fraction == 0 {
+		return start
+	}
+	if fraction == 1 {
+		return stop
+	}
 	s, e := float64(start), float64(stop)
 	return T(s + (e-s)*fraction)
 }
@@ -30,6 +36,12 @@ func Between[T Float](start, stop T, fraction float64) T {
 //
 //	opacity := lerp.Between32(0.0, 1.0, 0.5) // 0.5
 func Between32[T ~float32](start, stop T, fraction float32) T {
+	if fraction == 0 {
+		return start
+	}
+	if fraction == 1 {
+		return stop
+	}
 	s, e := float32(start), float32(stop)
 	return T(s + (e-s)*fraction)
 }
@@ -40,6 +52,12 @@ func Between32[T ~float32](start, stop T, fraction float32) T {
 
 // Float32 interpolates between two float32 values with zero allocation overhead.
 func Float32(start, stop, fraction float32) float32 {
+	if fraction == 0 {
+		return start
+	}
+	if fraction == 1 {
+		return stop
+	}
 	return (1-fraction)*start + fraction*stop
 }
 
