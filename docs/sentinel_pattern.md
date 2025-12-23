@@ -104,7 +104,43 @@ partial := &TextStyle{
 }
 ```
 
+## **2.1 Stack-Allocation Guarantee (The Golden Rule)**
+
+The pattern **must** ensure `Unspecified` is **zero-heap-cost** at the call site. There are **two ways** to achieve this, based on type category:
+
+### **For Primitives: Immediate Constant**
+```go
+// ✅ The value is embedded directly in machine code
+const ColorUnspecified Color = 0  // No memory address, just a literal
+
+// USAGE: Stack-allocated (actually register-allocated)
+var bg Color = ColorUnspecified  // MOVQ $0, AX (one instruction, no memory)
+```
+
+**Guarantee**: The value lives in **`.rodata`** (read-only data segment) and is **copied directly** into the stack/register at call time. **Zero heap allocation.**
+
 ---
+
+### **For Complex Objects: Global Singleton Pointer**
+```go
+// ✅ Singleton allocated ONCE at program start (data segment)
+var EmptyTextStyle = &TextStyle{ /* ... */ }  // Static initialization
+
+// USAGE: Stack-allocated pointer (8 bytes on stack, points to global)
+var style *TextStyle = EmptyTextStyle  // LEAQ EmptyTextStyle(SB), AX
+```
+
+**Guarantee**: The **pointer** is on the stack (8 bytes), but the pointed-to `TextStyle` is in static memory (`.data` segment). **Zero heap allocation at call site.**
+
+## **Updated Rule**
+
+**The unspecified value must be ONE of:**
+1. **A compile-time constant** (`const XUnspecified = 0`, `.rodata`)
+2. **A global singleton pointer** (`var EmptyX = &X{...}`, `.data`)
+3. **`nil`** (zero value, stack-allocated pointer)
+
+**NEVER a local variable or function return that escapes to heap.**
+
 
 ## 3. Anti-Patterns: What NOT to Do
 
@@ -279,3 +315,43 @@ final := TakeOrElse(style, themeStyle)  // 0 allocs
 **Document Version**: 1.0  
 **Last Updated**: 2025-12-23  
 **Applies To**: All declarative UI composition code in this project
+
+
+---
+
+
+## **Anti-Pattern: Heap-Allocated "Unspecified"**
+
+### **❌ WRONG: Creating sentinel at call time**
+```go
+// ❌ This is NOT the pattern
+func Text(style *TextStyle) {
+	var UnspecifiedOnStack = &TextStyle{ /* ... */ }  // Heap escape!
+	// ...
+}
+
+// ❌ Also wrong: Returning a new sentinel per call
+func UnspecifiedColor() *Color {
+	return &Color{}  // New allocation every call = disaster
+}
+```
+
+**Why it's wrong**: Defeats the entire purpose. You pay **24-40 bytes per frame** instead of **0 bytes**.
+
+## **Stack vs Heap: Quick Test**
+
+```go
+// ✅ Stack-allocated (good)
+go run -gcflags="-m" yourfile.go
+# command-line-arguments
+# ./main.go:10:6: can inline TakeOrElse
+# ./main.go:15:15: bg does not escape
+
+// ❌ Heap-allocated (bad)
+go run -gcflags="-m" yourfile.go
+# ./main.go:20:23: func literal escapes to heap
+# ./main.go:25:9: &TextStyle{...} escapes to heap
+```
+
+**Your agent must ensure `go build -gcflags="-m"` reports "does not escape" for all unspecified values.**
+
