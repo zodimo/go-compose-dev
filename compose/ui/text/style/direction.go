@@ -95,9 +95,9 @@ func (t TextDirection) IsSpecified() bool {
 
 // TakeOrElse returns this TextDirection if IsSpecified() is true,
 // otherwise executes the provided function and returns its result.
-func (t TextDirection) TakeOrElse(block func() TextDirection) TextDirection {
+func (t TextDirection) TakeOrElse(block TextDirection) TextDirection {
 	if t.IsSpecified() {
 		return t
 	}
-	return block()
+	return block
 }

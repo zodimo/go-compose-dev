@@ -115,11 +115,11 @@ func (d Dp) IsFinite() bool {
 }
 
 // TakeOrElse returns this Dp if Specified, otherwise executes the block.
-func (d Dp) TakeOrElse(block func() Dp) Dp {
+func (d Dp) TakeOrElse(block Dp) Dp {
 	if d.IsSpecified() {
 		return d
 	}
-	return block()
+	return block
 }
 
 // MinDp returns the smaller of two Dps.
@@ -216,11 +216,11 @@ func (o DpOffset) IsUnspecified() bool {
 	// Let's stick strictly to "both must be valid" for IsSpecified.
 }
 
-func (o DpOffset) TakeOrElse(block func() DpOffset) DpOffset {
+func (o DpOffset) TakeOrElse(block DpOffset) DpOffset {
 	if o.IsSpecified() {
 		return o
 	}
-	return block()
+	return block
 }
 
 func LerpDpOffset(start, stop DpOffset, fraction float32) DpOffset {
@@ -293,11 +293,11 @@ func (s DpSize) String() string {
 	return "DpSize.Unspecified"
 }
 
-func (s DpSize) TakeOrElse(block func() DpSize) DpSize {
+func (s DpSize) TakeOrElse(block DpSize) DpSize {
 	if s.IsSpecified() {
 		return s
 	}
-	return block()
+	return block
 }
 
 func (s DpSize) Center() DpOffset {

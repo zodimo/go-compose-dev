@@ -69,9 +69,9 @@ func (h Hyphens) IsSpecified() bool {
 
 // If [IsSpecified] is true then this is returned, otherwise [block] is executed and its result is
 // returned.
-func (h Hyphens) TakeOrElse(block func() Hyphens) Hyphens {
+func (h Hyphens) TakeOrElse(block Hyphens) Hyphens {
 	if h.IsSpecified() {
 		return h
 	}
-	return block()
+	return block
 }

@@ -35,7 +35,7 @@ func TestTextForegroundStyleUnspecified_TakeOrElse(t *testing.T) {
 	specifiedColor := graphics.ColorRed
 	fallback := TextForegroundStyleFromColor(specifiedColor)
 
-	result := u.TakeOrElse(func() TextForegroundStyle { return fallback })
+	result := u.TakeOrElse(fallback)
 
 	// Should return the fallback since u is unspecified
 	if !isColorSpecified(result.Color()) {
@@ -79,7 +79,7 @@ func TestColorStyle_TakeOrElse(t *testing.T) {
 	style := TextForegroundStyleFromColor(specifiedColor)
 
 	// TakeOrElse should return the style itself
-	result := style.TakeOrElse(func() TextForegroundStyle { return TextForegroundStyleUnspecified })
+	result := style.TakeOrElse(TextForegroundStyleUnspecified)
 
 	if !isColorSpecified(result.Color()) {
 		t.Errorf("Expected specified color to be returned")
@@ -145,7 +145,7 @@ func TestBrushStyle_TakeOrElse(t *testing.T) {
 	style := TextForegroundStyleFromBrush(brush, 0.8)
 
 	// TakeOrElse should return the style itself
-	result := style.TakeOrElse(func() TextForegroundStyle { return TextForegroundStyleUnspecified })
+	result := style.TakeOrElse(TextForegroundStyleUnspecified)
 
 	if !IsBrushStyle(result) {
 		t.Errorf("Expected BrushStyle to be returned")

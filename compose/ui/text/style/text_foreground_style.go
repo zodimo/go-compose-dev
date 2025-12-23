@@ -26,7 +26,7 @@ type TextForegroundStyle interface {
 	// Merge merges this style with another, returning the result.
 	Merge(other TextForegroundStyle) TextForegroundStyle
 	// TakeOrElse returns this style if it's not Unspecified, otherwise calls other().
-	TakeOrElse(other func() TextForegroundStyle) TextForegroundStyle
+	TakeOrElse(other TextForegroundStyle) TextForegroundStyle
 
 	isTextForegroundStyle()
 }
@@ -51,8 +51,8 @@ func (u textForegroundStyleUnspecified) Merge(other TextForegroundStyle) TextFor
 	return defaultMerge(u, other)
 }
 
-func (u textForegroundStyleUnspecified) TakeOrElse(other func() TextForegroundStyle) TextForegroundStyle {
-	return other()
+func (u textForegroundStyleUnspecified) TakeOrElse(other TextForegroundStyle) TextForegroundStyle {
+	return other
 }
 
 func (u textForegroundStyleUnspecified) isTextForegroundStyle() {}
@@ -83,7 +83,7 @@ func (c colorStyle) Merge(other TextForegroundStyle) TextForegroundStyle {
 	return defaultMerge(c, other)
 }
 
-func (c colorStyle) TakeOrElse(other func() TextForegroundStyle) TextForegroundStyle {
+func (c colorStyle) TakeOrElse(other TextForegroundStyle) TextForegroundStyle {
 	return c
 }
 
@@ -112,7 +112,7 @@ func (b brushStyle) Merge(other TextForegroundStyle) TextForegroundStyle {
 	return defaultMerge(b, other)
 }
 
-func (b brushStyle) TakeOrElse(other func() TextForegroundStyle) TextForegroundStyle {
+func (b brushStyle) TakeOrElse(other TextForegroundStyle) TextForegroundStyle {
 	return b
 }
 
@@ -179,7 +179,7 @@ func defaultMerge(current, other TextForegroundStyle) TextForegroundStyle {
 
 	default:
 		// Neither is brush - use takeOrElse
-		return other.TakeOrElse(func() TextForegroundStyle { return current })
+		return other.TakeOrElse(current)
 	}
 }
 

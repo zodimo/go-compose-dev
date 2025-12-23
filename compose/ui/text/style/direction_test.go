@@ -144,7 +144,7 @@ func TestTextDirection_TakeOrElse(t *testing.T) {
 
 	t.Run("specified value returns itself", func(t *testing.T) {
 		dir := TextDirectionRtl
-		result := dir.TakeOrElse(func() TextDirection { return defaultDir })
+		result := dir.TakeOrElse(defaultDir)
 		if result != TextDirectionRtl {
 			t.Errorf("TakeOrElse() = %v, want %v", result, TextDirectionRtl)
 		}
@@ -152,33 +152,25 @@ func TestTextDirection_TakeOrElse(t *testing.T) {
 
 	t.Run("unspecified value returns block result", func(t *testing.T) {
 		dir := TextDirectionUnspecified
-		result := dir.TakeOrElse(func() TextDirection { return defaultDir })
+		result := dir.TakeOrElse(defaultDir)
 		if result != defaultDir {
 			t.Errorf("TakeOrElse() = %v, want %v", result, defaultDir)
 		}
 	})
 
 	t.Run("block is not called when specified", func(t *testing.T) {
-		called := false
 		dir := TextDirectionContent
-		dir.TakeOrElse(func() TextDirection {
-			called = true
-			return defaultDir
-		})
-		if called {
-			t.Error("TakeOrElse() should not call block when value is specified")
+		takeDir := dir.TakeOrElse(defaultDir)
+		if takeDir != TextDirectionContent {
+			t.Errorf("TakeOrElse() = %v, want %v", takeDir, TextDirectionContent)
 		}
 	})
 
 	t.Run("block is called when unspecified", func(t *testing.T) {
-		called := false
 		dir := TextDirectionUnspecified
-		dir.TakeOrElse(func() TextDirection {
-			called = true
-			return defaultDir
-		})
-		if !called {
-			t.Error("TakeOrElse() should call block when value is unspecified")
+		takeDir := dir.TakeOrElse(defaultDir)
+		if takeDir != defaultDir {
+			t.Errorf("TakeOrElse() = %v, want %v", takeDir, defaultDir)
 		}
 	})
 }
