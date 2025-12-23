@@ -17,6 +17,13 @@ func TakeOrElseValue[T interface{ IsSpecified() bool }](a, b T) T {
 	return b
 }
 
+func TakeOrElse[T comparable](a, b, unspecified T) T {
+	if a == unspecified {
+		return b
+	}
+	return a
+}
+
 // Generic TakeOrElse for any type with IsSpecified() method
 // golang interface or pointer receiver
 func TakeOrElsePointer[T any](a, b *T) *T {
