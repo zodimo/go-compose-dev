@@ -106,7 +106,7 @@ func IsShadow(s *Shadow) bool {
 	return s != nil && s != ShadowUnspecified
 }
 func TakeOrElseShadow(s, def *Shadow) *Shadow {
-	if s == nil || s == ShadowUnspecified {
+	if !IsShadow(s) {
 		return def
 	}
 	return s
