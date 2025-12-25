@@ -21,8 +21,8 @@ func TestTextAlignConstants(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.align.Value != tt.expected {
-				t.Errorf("TextAlign%s.Value = %d, want %d", tt.name, tt.align.Value, tt.expected)
+			if int(tt.align) != tt.expected {
+				t.Errorf("TextAlign%s = %d, want %d", tt.name, int(tt.align), tt.expected)
 			}
 		})
 	}
@@ -40,7 +40,7 @@ func TestTextAlign_String(t *testing.T) {
 		{TextAlignJustify, "Justify"},
 		{TextAlignStart, "Start"},
 		{TextAlignEnd, "End"},
-		{TextAlign{Value: 99}, "Invalid"},
+		{TextAlign(99), "Invalid"},
 	}
 
 	for _, tt := range tests {
@@ -182,24 +182,18 @@ func TestTextAlign_TakeOrElse(t *testing.T) {
 
 func TestTextAlign_Equality(t *testing.T) {
 	t.Run("same values are equal", func(t *testing.T) {
-		a := TextAlign{Value: 3}
-		b := TextAlign{Value: 3}
+		a := TextAlignCenter
+		b := TextAlignCenter
 		if a != b {
-			t.Errorf("TextAlign{3} != TextAlign{3}")
+			t.Errorf("TextAlignCenter != TextAlignCenter")
 		}
 	})
 
 	t.Run("different values are not equal", func(t *testing.T) {
-		a := TextAlign{Value: 1}
-		b := TextAlign{Value: 2}
+		a := TextAlignLeft
+		b := TextAlignRight
 		if a == b {
-			t.Errorf("TextAlign{1} == TextAlign{2}")
-		}
-	})
-
-	t.Run("constants are equal to equivalent structs", func(t *testing.T) {
-		if TextAlignCenter != (TextAlign{Value: 3}) {
-			t.Errorf("TextAlignCenter != TextAlign{3}")
+			t.Errorf("TextAlignLeft == TextAlignRight")
 		}
 	})
 }
