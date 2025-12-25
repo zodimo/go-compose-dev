@@ -8,7 +8,7 @@ func Lerp(start, stop, fraction float32) float32 {
 }
 
 // FastCoerceIn clamps the value between min and max.
-func FastCoerceIn(value, min, max float32) float32 {
+func FastCoerceIn[T ~float32 | ~int](value, min, max T) T {
 	if value < min {
 		return min
 	}
@@ -57,11 +57,5 @@ func PackFloats(v1, v2 float32) int64 {
 
 // FastCoerceInInt clamps integer value between min and max.
 func FastCoerceInInt(value, min, max int) int {
-	if value < min {
-		return min
-	}
-	if value > max {
-		return max
-	}
-	return value
+	return FastCoerceIn(value, min, max)
 }

@@ -9,9 +9,9 @@ import (
 	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
-// EmptyShadow is the singleton sentinel for unspecified/empty Shadow.
+// ShadowUnspecified is the singleton sentinel for unspecified/empty Shadow.
 // It is allocated in the data segment (global) and used as a pointer to avoid allocations.
-var EmptyShadow = &Shadow{
+var ShadowUnspecified = &Shadow{
 	Color:      ColorUnspecified,
 	Offset:     geometry.OffsetUnspecified,
 	BlurRadius: floatutils.Float32Unspecified,
@@ -32,8 +32,8 @@ var (
 )
 
 // NewShadow creates a new Shadow instance.
-func NewShadow(color Color, offset geometry.Offset, blurRadius float32) Shadow {
-	return Shadow{
+func NewShadow(color Color, offset geometry.Offset, blurRadius float32) *Shadow {
+	return &Shadow{
 		Color:      color,
 		Offset:     offset,
 		BlurRadius: blurRadius,
@@ -42,41 +42,24 @@ func NewShadow(color Color, offset geometry.Offset, blurRadius float32) Shadow {
 
 // Copy creates a new Shadow with optional field overrides.
 // Pass nil for parameters you want unchanged.
-func (s Shadow) Copy(color *Color, offset *Offset, blurRadius *float32) Shadow {
-	result := s
-	if color != nil {
-		result.Color = *color
+// these are values not structs
+func (s Shadow) Copy(options ...ShadowOption) Shadow {
+	opt := ShadowOptionsDefault
+	for _, option := range options {
+		option(opt)
 	}
-	if offset != nil {
-		result.Offset = *offset
+
+	return Shadow{
+		Color:      opt.Color.TakeOrElse(s.Color),
+		Offset:     opt.Offset.TakeOrElse(s.Offset),
+		BlurRadius: floatutils.TakeOrElseFloat32(opt.BlurRadius, s.BlurRadius),
 	}
-	if blurRadius != nil {
-		result.BlurRadius = *blurRadius
-	}
-	return result
 }
 
-// TakeOrElse returns the existing shadow if it's specified, otherwise the default.
-// This is a package-level function to handle nil receivers safely.
-func TakeOrElse(s, defaultShadow *Shadow) *Shadow {
-	if s == nil || s == EmptyShadow {
-		return defaultShadow
-	}
-	return s
-}
+// Helper functions
 
-// Equal performs deep equality check with epsilon tolerance for all fields.
-func (s *Shadow) Equal(other *Shadow) bool {
-	return ShadowEquals(s, other)
-}
-
-func (s *Shadow) IsSpecified() bool {
-	return ShadowIsSpecified(s)
-}
-
-// String returns a human-readable representation.
-func (s *Shadow) String() string {
-	if !s.IsSpecified() {
+func StringShadow(s *Shadow) string {
+	if !IsShadow(s) {
 		return "EmptyShadow"
 	}
 	return fmt.Sprintf("Shadow(color=%v, offset=%v, blurRadius=%.2f)",
@@ -84,16 +67,21 @@ func (s *Shadow) String() string {
 }
 
 // LerpShadow interpolates between two Shadows.
-func LerpShadow(start, stop *Shadow, fraction float32) Shadow {
-	start = TakeOrElse(start, EmptyShadow)
-	stop = TakeOrElse(stop, EmptyShadow)
+func LerpShadow(start, stop *Shadow, fraction float32) *Shadow {
 
 	if fraction == 0 {
-		return *start
+		return start
 	}
 	if fraction == 1 {
-		return *stop
+		return stop
 	}
+
+	start = CoalesceShadow(start, ShadowUnspecified)
+	stop = CoalesceShadow(stop, ShadowUnspecified)
+
+	start = TakeOrElseShadow(start, ShadowUnspecified)
+	stop = TakeOrElseShadow(stop, ShadowUnspecified)
+
 	return NewShadow(
 		Lerp(start.Color, stop.Color, fraction),
 		geometry.LerpOffset(start.Offset, stop.Offset, fraction),
@@ -101,20 +89,85 @@ func LerpShadow(start, stop *Shadow, fraction float32) Shadow {
 	)
 }
 
-func ShadowIsSpecified(s *Shadow) bool {
-	shallow := s != nil && s != EmptyShadow
-	if shallow {
-		// making sure s is not empty
-		return s.Color.IsSpecified() && s.Offset.IsSpecified() && floatutils.IsSpecified(s.BlurRadius)
+func ShadowTakeOrElse(s, defaultShadow *Shadow) *Shadow {
+	if !IsShadow(s) {
+		return defaultShadow
 	}
-	return shallow
+	return s
 }
 
-func ShadowEquals(s1, s2 *Shadow) bool {
-	if !ShadowIsSpecified(s1) && !ShadowIsSpecified(s2) {
+func takeOrElse[T comparable](a, b, sentinel T) T {
+	if a != sentinel {
+		return a
+	}
+	return b
+}
+
+// Short for IsSpecifiedShadow
+func IsShadow(s *Shadow) bool {
+	return s != nil && s != ShadowUnspecified
+}
+func TakeOrElseShadow(s, def *Shadow) *Shadow {
+	if s == nil || s == ShadowUnspecified {
+		return def
+	}
+	return s
+}
+
+// Identity (2 ns)
+func SameShadow(a, b *Shadow) bool {
+	if a == nil && b == nil {
 		return true
 	}
+	if a == nil {
+		return b == ShadowUnspecified
+	}
+	if b == nil {
+		return a == ShadowUnspecified
+	}
+	return a == b
+}
 
-	return s1.Color == s2.Color && s1.Offset.Equal(s2.Offset) &&
-		float32Equals(s1.BlurRadius, s2.BlurRadius, float32EqualityThreshold)
+func EqualShadow(a, b *Shadow) bool {
+	if !SameShadow(a, b) {
+		return SemanticEqualShadow(a, b)
+	}
+	return true
+}
+
+// Semantic equality (field-by-field, 20 ns)
+func SemanticEqualShadow(a, b *Shadow) bool {
+
+	a = CoalesceShadow(a, ShadowUnspecified)
+	b = CoalesceShadow(b, ShadowUnspecified)
+
+	return a.Color == b.Color &&
+		a.Offset.Equal(b.Offset) &&
+		floatutils.Float32Equals(a.BlurRadius, b.BlurRadius, float32EqualityThreshold)
+}
+
+func MergeShadow(a, b *Shadow) *Shadow {
+	a = CoalesceShadow(a, ShadowUnspecified)
+	b = CoalesceShadow(b, ShadowUnspecified)
+
+	if a == ShadowUnspecified {
+		return b
+	}
+	if b == ShadowUnspecified {
+		return a
+	}
+
+	// Both are custom: allocate new merged style
+	return &Shadow{
+		Color:      takeOrElse(a.Color, b.Color, ColorUnspecified),
+		Offset:     takeOrElse(a.Offset, b.Offset, geometry.OffsetUnspecified),
+		BlurRadius: takeOrElse(a.BlurRadius, b.BlurRadius, floatutils.Float32Unspecified),
+	}
+}
+
+func CoalesceShadow(ptr, def *Shadow) *Shadow {
+	if ptr == nil {
+		return def
+	}
+	return ptr
 }
