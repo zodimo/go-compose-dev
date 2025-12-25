@@ -20,8 +20,8 @@ func TestTextDirectionConstants(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.direction.Value != tt.expected {
-				t.Errorf("TextDirection%s.Value = %d, want %d", tt.name, tt.direction.Value, tt.expected)
+			if int(tt.direction) != tt.expected {
+				t.Errorf("TextDirection%s = %d, want %d", tt.name, int(tt.direction), tt.expected)
 			}
 		})
 	}
@@ -38,7 +38,7 @@ func TestTextDirection_String(t *testing.T) {
 		{TextDirectionContent, "Content"},
 		{TextDirectionContentOrLtr, "ContentOrLtr"},
 		{TextDirectionContentOrRtl, "ContentOrRtl"},
-		{TextDirection{Value: 99}, "Invalid"},
+		{TextDirection(99), "Invalid"},
 	}
 
 	for _, tt := range tests {
@@ -177,24 +177,24 @@ func TestTextDirection_TakeOrElse(t *testing.T) {
 
 func TestTextDirection_Equality(t *testing.T) {
 	t.Run("same values are equal", func(t *testing.T) {
-		a := TextDirection{Value: 3}
-		b := TextDirection{Value: 3}
+		a := TextDirection(3)
+		b := TextDirection(3)
 		if a != b {
-			t.Errorf("TextDirection{3} != TextDirection{3}")
+			t.Errorf("TextDirection(3) != TextDirection(3)")
 		}
 	})
 
 	t.Run("different values are not equal", func(t *testing.T) {
-		a := TextDirection{Value: 1}
-		b := TextDirection{Value: 2}
+		a := TextDirection(1)
+		b := TextDirection(2)
 		if a == b {
-			t.Errorf("TextDirection{1} == TextDirection{2}")
+			t.Errorf("TextDirection(1) == TextDirection(2)")
 		}
 	})
 
-	t.Run("constants are equal to equivalent structs", func(t *testing.T) {
-		if TextDirectionContent != (TextDirection{Value: 3}) {
-			t.Errorf("TextDirectionContent != TextDirection{3}")
+	t.Run("constants are equal to equivalent values", func(t *testing.T) {
+		if TextDirectionContent != TextDirection(3) {
+			t.Errorf("TextDirectionContent != TextDirection(3)")
 		}
 	})
 }

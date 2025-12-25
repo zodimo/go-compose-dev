@@ -6,18 +6,16 @@ import (
 
 // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-text/src/commonMain/kotlin/androidx/compose/ui/text/style/TextDirection.kt
 
-// TextDirection defines the algorithm to be used while determining the text direction.
-type TextDirection struct {
-	Value int
-}
+const (
+	// TextDirectionUnspecified represents an unset value, a usual replacement for "null"
+	// when a primitive value is desired.
+	TextDirectionUnspecified TextDirection = 0
 
-// TextDirection constants
-var (
 	// TextDirectionLtr always sets the text direction to be Left to Right.
-	TextDirectionLtr = TextDirection{Value: 1}
+	TextDirectionLtr TextDirection = 1
 
 	// TextDirectionRtl always sets the text direction to be Right to Left.
-	TextDirectionRtl = TextDirection{Value: 2}
+	TextDirectionRtl TextDirection = 2
 
 	// TextDirectionContent indicates that the text direction depends on the first strong
 	// directional character in the text according to the Unicode Bidirectional Algorithm.
@@ -25,24 +23,23 @@ var (
 	// resolve the final TextDirection.
 	// * if used while creating a Paragraph object, LocaleList will be used to resolve
 	//   the direction as a fallback instead of LayoutDirection.
-	TextDirectionContent = TextDirection{Value: 3}
+	TextDirectionContent TextDirection = 3
 
 	// TextDirectionContentOrLtr indicates that the text direction depends on the first
 	// strong directional character in the text according to the Unicode Bidirectional
 	// Algorithm. If no strong directional character is present, then Left to Right will
 	// be used as the default direction.
-	TextDirectionContentOrLtr = TextDirection{Value: 4}
+	TextDirectionContentOrLtr TextDirection = 4
 
 	// TextDirectionContentOrRtl indicates that the text direction depends on the first
 	// strong directional character in the text according to the Unicode Bidirectional
 	// Algorithm. If no strong directional character is present, then Right to Left will
 	// be used as the default direction.
-	TextDirectionContentOrRtl = TextDirection{Value: 5}
-
-	// TextDirectionUnspecified represents an unset value, a usual replacement for "null"
-	// when a primitive value is desired.
-	TextDirectionUnspecified = TextDirection{Value: 0}
+	TextDirectionContentOrRtl TextDirection = 5
 )
+
+// TextDirection defines the algorithm to be used while determining the text direction.
+type TextDirection int
 
 // String returns the string representation of the TextDirection.
 func (t TextDirection) String() string {
@@ -85,12 +82,12 @@ func TextDirectionValueOf(value int) (TextDirection, error) {
 			"the given value=%d is not recognized by TextDirection", value,
 		)
 	}
-	return TextDirection{Value: value}, nil
+	return TextDirection(value), nil
 }
 
 // IsSpecified returns true if this TextDirection is not TextDirectionUnspecified.
 func (t TextDirection) IsSpecified() bool {
-	return t.Value != 0
+	return t != TextDirectionUnspecified
 }
 
 // TakeOrElse returns this TextDirection if IsSpecified() is true,
