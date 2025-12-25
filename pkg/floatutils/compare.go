@@ -25,14 +25,14 @@ func IsInfinite[T Float](f T) bool {
 }
 
 func IsSpecified[T Float](f T) bool {
-	return float64(f) != FloatUnspecified
+	return float64(f) != Float64Unspecified
 }
 
 func IsUnspecified[T Float](f T) bool {
-	return float64(f) == FloatUnspecified
+	return float64(f) == Float64Unspecified
 }
 
 // @deprecated
 func IsNaN[T Float](f T) bool {
-	return float64(f) == FloatUnspecified
+	return float64(f) == Float64Unspecified
 }

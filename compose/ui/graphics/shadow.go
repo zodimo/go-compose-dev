@@ -50,7 +50,7 @@ func (s Shadow) Copy(options ...ShadowOption) Shadow {
 	return Shadow{
 		Color:      opt.Color.TakeOrElse(s.Color),
 		Offset:     opt.Offset.TakeOrElse(s.Offset),
-		BlurRadius: floatutils.TakeOrElseFloat32(opt.BlurRadius, s.BlurRadius),
+		BlurRadius: floatutils.TakeOrElse(opt.BlurRadius, s.BlurRadius),
 	}
 }
 
