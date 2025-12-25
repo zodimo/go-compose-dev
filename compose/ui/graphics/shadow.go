@@ -41,8 +41,6 @@ func NewShadow(color Color, offset geometry.Offset, blurRadius float32) *Shadow 
 }
 
 // Copy creates a new Shadow with optional field overrides.
-// Pass nil for parameters you want unchanged.
-// these are values not structs
 func (s Shadow) Copy(options ...ShadowOption) Shadow {
 	opt := ShadowOptionsDefault
 	for _, option := range options {
