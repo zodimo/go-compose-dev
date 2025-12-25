@@ -89,22 +89,22 @@ func (m *FontMatcher) filterByClosestWeight(
 		possibleWeight := font.Weight()
 
 		// Apply range filters
-		if minSearchRange.IsSpecified() && possibleWeight.Compare(minSearchRange) < 0 {
+		if minSearchRange.IsFontWeight() && possibleWeight.Compare(minSearchRange) < 0 {
 			continue
 		}
-		if maxSearchRange.IsSpecified() && possibleWeight.Compare(maxSearchRange) > 0 {
+		if maxSearchRange.IsFontWeight() && possibleWeight.Compare(maxSearchRange) > 0 {
 			continue
 		}
 
 		cmp := possibleWeight.Compare(weight)
 		if cmp < 0 {
 			// possibleWeight < target weight
-			if !bestWeightBelow.IsSpecified() || possibleWeight.Compare(bestWeightBelow) > 0 {
+			if !bestWeightBelow.IsFontWeight() || possibleWeight.Compare(bestWeightBelow) > 0 {
 				bestWeightBelow = possibleWeight
 			}
 		} else if cmp > 0 {
 			// possibleWeight > target weight
-			if !bestWeightAbove.IsSpecified() || possibleWeight.Compare(bestWeightAbove) < 0 {
+			if !bestWeightAbove.IsFontWeight() || possibleWeight.Compare(bestWeightAbove) < 0 {
 				bestWeightAbove = possibleWeight
 			}
 		} else {
@@ -117,20 +117,20 @@ func (m *FontMatcher) filterByClosestWeight(
 
 	var bestWeight FontWeight
 	if preferBelow {
-		if bestWeightBelow.IsSpecified() {
+		if bestWeightBelow.IsFontWeight() {
 			bestWeight = bestWeightBelow
 		} else {
 			bestWeight = bestWeightAbove
 		}
 	} else {
-		if bestWeightAbove.IsSpecified() {
+		if bestWeightAbove.IsFontWeight() {
 			bestWeight = bestWeightAbove
 		} else {
 			bestWeight = bestWeightBelow
 		}
 	}
 
-	if !bestWeight.IsSpecified() {
+	if !bestWeight.IsFontWeight() {
 		return nil
 	}
 

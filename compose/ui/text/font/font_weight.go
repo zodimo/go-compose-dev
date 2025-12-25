@@ -32,7 +32,7 @@ func (w FontWeight) Weight() int {
 // Compare compares two FontWeights.
 // Returns -1 if w < other, 0 if equal, 1 if w > other.
 func (w FontWeight) Compare(other FontWeight) int {
-	if !w.IsSpecified() || !other.IsSpecified() {
+	if !w.IsFontWeight() || !other.IsFontWeight() {
 		panic("FontWeight must be specified")
 	}
 	if w < other {
@@ -50,18 +50,18 @@ func (w FontWeight) Equals(other FontWeight) bool {
 
 // String returns a string representation of the FontWeight.
 func (w FontWeight) String() string {
-	if !w.IsSpecified() {
+	if !w.IsFontWeight() {
 		return "FontWeightUnspecified"
 	}
 	return fmt.Sprintf("FontWeight(weight=%d)", w)
 }
 
-func (w FontWeight) IsSpecified() bool {
+func (w FontWeight) IsFontWeight() bool {
 	return w != FontWeightUnspecified
 }
 
 func (w FontWeight) TakeOrElse(other FontWeight) FontWeight {
-	if w.IsSpecified() {
+	if w.IsFontWeight() {
 		return w
 	}
 	return other
@@ -120,7 +120,7 @@ func FontWeightValues() []FontWeight {
 // LerpFontWeight linearly interpolates between two FontWeights.
 // The fraction represents position on the timeline: 0.0 returns start, 1.0 returns stop.
 func LerpFontWeight(start, stop FontWeight, fraction float32) FontWeight {
-	if !start.IsSpecified() || !stop.IsSpecified() {
+	if !start.IsFontWeight() || !stop.IsFontWeight() {
 		panic("FontWeight must be specified")
 	}
 	weight := lerp.Between32(float32(start), float32(stop), fraction)
