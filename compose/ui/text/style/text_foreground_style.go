@@ -170,3 +170,35 @@ func TakeOrElseTextForegroundStyle(style, defaultStyle *TextForegroundStyle) *Te
 	}
 	return style
 }
+
+// Identity (2 ns)
+func SameTextForegroundStyle(a, b *TextForegroundStyle) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil {
+		return b == TextForegroundStyleUnspecified
+	}
+	if b == nil {
+		return a == TextForegroundStyleUnspecified
+	}
+	return a == b
+}
+
+// Semantic equality (field-by-field, 20 ns)
+func SemanticEqualTextForegroundStyle(a, b *TextForegroundStyle) bool {
+
+	a = CoalesceTextForegroundStyle(a, TextForegroundStyleUnspecified)
+	b = CoalesceTextForegroundStyle(b, TextForegroundStyleUnspecified)
+
+	return a.Color == b.Color &&
+		graphics.EqualBrush(a.Brush, b.Brush) &&
+		floatutils.Float32Equals(a.Alpha, b.Alpha, floatutils.Float32EqualityThreshold)
+}
+
+func EqualTextForegroundStyle(a, b *TextForegroundStyle) bool {
+	if !SameTextForegroundStyle(a, b) {
+		return SemanticEqualTextForegroundStyle(a, b)
+	}
+	return true
+}

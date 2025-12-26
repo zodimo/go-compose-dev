@@ -5,10 +5,6 @@ import (
 	"strings"
 )
 
-var TextDecorationUnspecified = &TextDecoration{
-	mask: TextDecorationMaskUnspecified,
-}
-
 type TextDecorationMask int
 
 const (
@@ -25,39 +21,41 @@ type TextDecoration struct {
 
 var (
 	// TextDecorationNone Defines a horizontal line to be drawn on the text.
-	TextDecorationNone = TextDecoration{mask: TextDecorationMaskNone}
+	TextDecorationNone = &TextDecoration{mask: TextDecorationMaskNone}
 
 	// TextDecorationUnderline Draws a horizontal line below the text.
-	TextDecorationUnderline = TextDecoration{mask: TextDecorationMaskUnderline}
+	TextDecorationUnderline = &TextDecoration{mask: TextDecorationMaskUnderline}
 
 	// TextDecorationLineThrough Draws a horizontal line over the text.
-	TextDecorationLineThrough = TextDecoration{mask: TextDecorationMaskLineThrough}
+	TextDecorationLineThrough = &TextDecoration{mask: TextDecorationMaskLineThrough}
+
+	TextDecorationUnspecified = &TextDecoration{mask: TextDecorationMaskUnspecified}
 )
 
 // Combine creates a decoration that includes all the given decorations.
-func Combine(decorations []TextDecoration) TextDecoration {
+func Combine(decorations []*TextDecoration) *TextDecoration {
 	mask := TextDecorationMaskNone
 	for _, decoration := range decorations {
-		mask |= decoration.mask
+		decoration = CoalesceTextDecoration(decoration, TextDecorationUnspecified)
+		if IsSpecifiedTextDecoration(decoration) {
+			mask |= decoration.mask
+		}
 	}
-	return TextDecoration{mask: mask}
+	return &TextDecoration{mask: mask}
 }
 
 // Plus creates a decoration that includes both of the TextDecorations.
-func (t TextDecoration) Plus(decoration TextDecoration) TextDecoration {
-	return TextDecoration{mask: t.mask | decoration.mask}
+func (t TextDecoration) Plus(decoration *TextDecoration) *TextDecoration {
+	decoration = CoalesceTextDecoration(decoration, TextDecorationUnspecified)
+
+	return &TextDecoration{mask: t.mask | decoration.mask}
 }
 
 // Contains checks whether this TextDecoration contains the given decoration.
-func (t TextDecoration) Contains(other TextDecoration) bool {
-	return (t.mask | other.mask) == t.mask
-}
+func (t TextDecoration) Contains(other *TextDecoration) bool {
+	other = CoalesceTextDecoration(other, TextDecorationUnspecified)
 
-func (t TextDecoration) Equals(other *TextDecoration) bool {
-	if other == nil {
-		return false
-	}
-	return t.mask == other.mask
+	return (t.mask | other.mask) == t.mask
 }
 
 // NewTextDecoration constructs a TextDecoration instance from the underlying mask.

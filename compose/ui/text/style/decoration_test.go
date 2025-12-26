@@ -5,7 +5,7 @@ import (
 )
 
 func TestTextDecoration_Combine(t *testing.T) {
-	combined := Combine([]TextDecoration{TextDecorationUnderline, TextDecorationLineThrough})
+	combined := Combine([]*TextDecoration{TextDecorationUnderline, TextDecorationLineThrough})
 	if !combined.Contains(TextDecorationUnderline) {
 		t.Errorf("Expected combined decoration to contain Underline")
 	}
@@ -28,17 +28,17 @@ func TestTextDecoration_Plus(t *testing.T) {
 }
 
 func TestTextDecoration_String(t *testing.T) {
-	if TextDecorationNone.String() != "TextDecoration.None" {
-		t.Errorf("Expected TextDecoration.None, got %s", TextDecorationNone.String())
+	if StringTextDecoration(TextDecorationNone) != "TextDecoration.None" {
+		t.Errorf("Expected TextDecoration.None, got %s", StringTextDecoration(TextDecorationNone))
 	}
-	if TextDecorationUnderline.String() != "TextDecoration.Underline" {
-		t.Errorf("Expected TextDecoration.Underline, got %s", TextDecorationUnderline.String())
+	if StringTextDecoration(TextDecorationUnderline) != "TextDecoration.Underline" {
+		t.Errorf("Expected TextDecoration.Underline, got %s", StringTextDecoration(TextDecorationUnderline))
 	}
 	combined := TextDecorationUnderline.Plus(TextDecorationLineThrough)
 	expected := "TextDecoration[Underline, LineThrough]"
 	// Order depends on implementation, but here we append in specific order
-	if combined.String() != expected {
-		t.Errorf("Expected %s, got %s", expected, combined.String())
+	if StringTextDecoration(combined) != expected {
+		t.Errorf("Expected %s, got %s", expected, StringTextDecoration(combined))
 	}
 }
 

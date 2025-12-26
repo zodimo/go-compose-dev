@@ -76,7 +76,15 @@ func SemanticEqualParagraphStyle(a, b *ParagraphStyle) bool {
 	a = CoalesceParagraphStyle(a, ParagraphStyleUnspecified)
 	b = CoalesceParagraphStyle(b, ParagraphStyleUnspecified)
 
-	panic("ParagraphStyle SemanticEqualParagraphStyle not implemented")
+	return a.TextAlign == b.TextAlign &&
+		a.TextDirection == b.TextDirection &&
+		a.LineHeight == b.LineHeight &&
+		style.EqualTextIndent(a.TextIndent, b.TextIndent) &&
+		style.EqualLineHeightStyle(a.LineHeightStyle, b.LineHeightStyle) &&
+		a.LineBreak == b.LineBreak &&
+		a.Hyphens == b.Hyphens &&
+		style.EqualTextMotion(a.TextMotion, b.TextMotion)
+
 }
 
 func EqualParagraphStyle(a, b *ParagraphStyle) bool {

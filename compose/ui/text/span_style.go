@@ -105,7 +105,22 @@ func SemanticEqualSpanStyle(a, b *SpanStyle) bool {
 	a = CoalesceSpanStyle(a, SpanStyleUnspecified)
 	b = CoalesceSpanStyle(b, SpanStyleUnspecified)
 
-	panic("SpanStyle SemanticEqualSpanStyle not implemented")
+	return style.EqualTextForegroundStyle(a.textForegroundStyle, b.textForegroundStyle) &&
+		a.FontSize == b.FontSize &&
+		a.FontWeight == b.FontWeight &&
+		a.FontStyle == b.FontStyle &&
+		font.EqualFontSynthesis(a.FontSynthesis, b.FontSynthesis) &&
+		font.EqualFontFamily(a.FontFamily, b.FontFamily) &&
+		a.FontFeatureSettings == b.FontFeatureSettings &&
+		a.LetterSpacing == b.LetterSpacing &&
+		a.BaselineShift == b.BaselineShift &&
+		style.EqualTextGeometricTransform(a.TextGeometricTransform, b.TextGeometricTransform) &&
+		intl.EqualLocaleList(a.LocaleList, b.LocaleList) &&
+		a.Background == b.Background &&
+		style.EqualTextDecoration(a.TextDecoration, b.TextDecoration) &&
+		graphics.EqualShadow(a.Shadow, b.Shadow) &&
+		EqualPlatformSpanStyle(a.PlatformStyle, b.PlatformStyle) &&
+		graphics.EqualDrawStyle(a.DrawStyle, b.DrawStyle)
 }
 
 func EqualSpanStyle(a, b *SpanStyle) bool {
