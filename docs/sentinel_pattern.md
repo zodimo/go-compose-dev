@@ -9,6 +9,12 @@
 > 3. `TakeOrElseT` – 2-param fallback, package-level function  
 > 4. `MergeT` – composition merge, package-level function
 > 5. `StringT` – stringification, package-level function  
+> 6. `CoalesceT` – nil coalescing, package-level function
+> 7. `SameT` – identity, package-level function
+> 8. `EqualT` – semantic equality, package-level function
+> 9. `SemanticEqualT` – semantic equality, package-level function
+> 10. `CopyT` – copy, package-level function
+
 > No other public symbols are required. All verification commands are in Section 8.
 
 ---
@@ -251,7 +257,7 @@ var off Offset = OffsetUnspecified  // register literal, 0 heap
 ```go
 type Profile string
 const ProfileUnspecified Profile = ""  // zero value = sentinel (when empty is rare)
-func (p Profile) IsProfile() bool { return p != ProfileUnspecified }
+func (p Profile) IsSpecified() bool { return p != ProfileUnspecified }
 ```
 
 If **empty string is meaningful**, reserve a **globally unique** magic value:
@@ -289,13 +295,13 @@ const (
 // Primitive type
 type MyUnit float32
 const MyUnitUnspecified MyUnit = MyUnit(math.NaN())
-func (u MyUnit) IsMyUnit() bool { return !math.IsNaN(float64(u)) }
+func (u MyUnit) IsSpecified() bool { return !math.IsNaN(float64(u)) }
 
 // Complex type
 type MyStyle struct { field1 Color; field2 Dp }
 var MyStyleUnspecified = &MyStyle{field1: ColorUnspecified, field2: DpUnspecified}
 
-func IsMyStyle(s *MyStyle) bool {
+func IsSpecifiedMyStyle(s *MyStyle) bool {
 	return s != nil && s != MyStyleUnspecified
 }
 func TakeOrElseMyStyle(s, def *MyStyle) *MyStyle {
@@ -324,8 +330,8 @@ go test -bench=. -gcflags="-m" 2>&1 | grep -E "does not escape|inlined"
 ```go
 ❌ type Color interface { IsSpecified() bool }        // interface forces alloc
 ❌ var UnspecifiedColor *Color = nil                  // nil interface → panic
-❌ func (ts *TextStyle) IsTextStyle() bool            // method on nil receiver
-❌ func (ts *TextStyle) TakeOrElseTextStyle(block *TextStyle) *TextStyle // REJECT: method on nil receiver
+❌ func (ts *TextStyle) IsSpecified() bool            // method on nil receiver
+❌ func (ts *TextStyle) TakeOrElse(block *TextStyle) *TextStyle // REJECT: method on nil receiver
 ❌ func TakeOrElseColor(block func() Color) Color // lambda escapes in Go
 ❌ type T struct { isSpecified bool }                 // flag field = double mem
 ```
@@ -366,9 +372,15 @@ func takeOrElse[T comparable](a, b, sentinel T) T {
 // UI_PACKAGE_CONTRACT
 // For every exported type T in package ui, the following symbols MUST exist:
 //   const/var TUnspecified  // Sentinel value or singleton pointer
-//   func IsT(v *T) bool      // Package-level predicate (never method on *T)
+//   func IsSpecifiedT(v *T) bool      // Package-level predicate (never method on *T)
 //   func TakeOrElseT(a, b *T) *T // Package-level fallback (never method on *T)
 //   func MergeT(a, b *T) *T      // Package-level composition (never method on *T)
+//   func CoalesceT(ptr, def *T) *T // Package-level fallback (never method on *T)
+//   func SameT(a, b *T) bool      // Package-level predicate (never method on *T)
+//   func EqualT(a, b *T) bool      // Package-level predicate (never method on *T)
+//   func SemanticEqualT(a, b *T) bool      // Package-level predicate (never method on *T)
+//   func CopyT(a, b *T) *T      // Package-level predicate (never method on *T)
+//   func StringT(s *T) string      // Package-level predicate (never method on *T)
 // Additional symbols (abbreviations, helpers) are allowed but must be documented.
 // All sentinel values must be compile-time constants or package-level variables.
 // No function may accept func() parameters in hot paths (forces heap escape).
