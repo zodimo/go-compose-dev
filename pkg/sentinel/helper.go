@@ -1,4 +1,4 @@
-package Sentinel
+package sentinel
 
 // Do not implement this interface on complex objects
 // value classes inline to primitives, and Unspecified is just the zero bit pattern.
