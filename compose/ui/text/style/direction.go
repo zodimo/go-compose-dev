@@ -2,6 +2,8 @@ package style
 
 import (
 	"fmt"
+
+	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
 // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-text/src/commonMain/kotlin/androidx/compose/ui/text/style/TextDirection.kt
@@ -97,4 +99,16 @@ func (t TextDirection) TakeOrElse(block TextDirection) TextDirection {
 		return t
 	}
 	return block
+}
+
+// ResolveTextDirection resolves the TextDirection, using the LayoutDirection if necessary.
+// If the TextDirection is unspecified, it defaults to Ltr.
+func ResolveTextDirection(layoutDirection unit.LayoutDirection, textDirection TextDirection) TextDirection {
+	if textDirection != TextDirectionUnspecified {
+		return textDirection
+	}
+	if layoutDirection == unit.LayoutDirectionRtl {
+		return TextDirectionRtl
+	}
+	return TextDirectionLtr
 }

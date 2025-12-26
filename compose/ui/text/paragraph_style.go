@@ -130,7 +130,17 @@ func (s ParagraphStyle) Copy(options ...ParagraphStyleOption) *ParagraphStyle {
 }
 
 func StringParagraphStyle(s *ParagraphStyle) string {
-	panic("ParagraphStyle ToString not implemented")
+	return "ParagraphStyle(" +
+		"TextAlign=" + s.TextAlign.String() + ", " +
+		"TextDirection=" + s.TextDirection.String() + ", " +
+		"LineHeight=" + s.LineHeight.String() + ", " +
+		"TextIndent=" + style.StringTextIndent(s.TextIndent) + ", " +
+		"PlatformStyle=" + StringPlatformParagraphStyle(s.PlatformStyle) + ", " +
+		"LineHeightStyle=" + style.StringLineHeightStyle(s.LineHeightStyle) + ", " +
+		"LineBreak=" + s.LineBreak.String() + ", " +
+		"Hyphens=" + s.Hyphens.String() + ", " +
+		"TextMotion=" + style.StringTextMotion(s.TextMotion) +
+		")"
 }
 
 func IsSpecifiedParagraphStyle(s *ParagraphStyle) bool {
@@ -211,4 +221,74 @@ func CoalesceParagraphStyle(ptr, def *ParagraphStyle) *ParagraphStyle {
 		return def
 	}
 	return ptr
+}
+
+// LerpParagraphStyle interpolates between two ParagraphStyles.
+func LerpParagraphStyle(start, stop *ParagraphStyle, fraction float32) *ParagraphStyle {
+	return &ParagraphStyle{
+		TextAlign:       lerpDiscrete(start.TextAlign, stop.TextAlign, fraction),
+		TextDirection:   lerpDiscrete(start.TextDirection, stop.TextDirection, fraction),
+		LineHeight:      style.LerpTextUnitInheritable(start.LineHeight, stop.LineHeight, fraction),
+		TextIndent:      style.LerpTextIndent(start.TextIndent, stop.TextIndent, fraction),
+		PlatformStyle:   lerpPlatformParagraphStyle(start.PlatformStyle, stop.PlatformStyle, fraction),
+		LineHeightStyle: lerpDiscrete(start.LineHeightStyle, stop.LineHeightStyle, fraction),
+		LineBreak:       lerpDiscrete(start.LineBreak, stop.LineBreak, fraction),
+		Hyphens:         lerpDiscrete(start.Hyphens, stop.Hyphens, fraction),
+		TextMotion:      lerpDiscrete(start.TextMotion, stop.TextMotion, fraction),
+	}
+}
+
+func lerpPlatformParagraphStyle(start, stop *PlatformParagraphStyle, fraction float32) *PlatformParagraphStyle {
+	if start == nil && stop == nil {
+		return nil
+	}
+	startNonNull := TakeOrElsePlatformParagraphStyle(start, PlatformParagraphStyleUnspecified)
+	stopNonNull := TakeOrElsePlatformParagraphStyle(stop, PlatformParagraphStyleUnspecified)
+	return lerpDiscrete(startNonNull, stopNonNull, fraction)
+}
+
+func ResolveParagraphStyleDefaults(s *ParagraphStyle, direction unit.LayoutDirection) *ParagraphStyle {
+	textAlign := s.TextAlign
+	if textAlign == style.TextAlignUnspecified {
+		textAlign = style.TextAlignStart
+	}
+
+	textDirection := style.ResolveTextDirection(direction, s.TextDirection)
+
+	lineHeight := s.LineHeight
+	if lineHeight.IsUnspecified() {
+		lineHeight = unit.TextUnitUnspecified
+	}
+
+	textIndent := s.TextIndent
+	if textIndent == nil {
+		textIndent = &style.TextIndentNone
+	}
+
+	lineBreak := s.LineBreak
+	if lineBreak == style.LineBreakUnspecified {
+		lineBreak = style.LineBreakSimple
+	}
+
+	hyphens := s.Hyphens
+	if hyphens == style.HyphensUnspecified {
+		hyphens = style.HyphensNone
+	}
+
+	textMotion := s.TextMotion
+	if textMotion == nil {
+		textMotion = style.TextMotionStatic
+	}
+
+	return &ParagraphStyle{
+		TextAlign:       textAlign,
+		TextDirection:   textDirection,
+		LineHeight:      lineHeight,
+		TextIndent:      textIndent,
+		PlatformStyle:   s.PlatformStyle,
+		LineHeightStyle: s.LineHeightStyle,
+		LineBreak:       lineBreak,
+		Hyphens:         hyphens,
+		TextMotion:      textMotion,
+	}
 }

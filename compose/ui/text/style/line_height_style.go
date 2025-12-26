@@ -197,3 +197,46 @@ func TakeOrElseLineHeightStyle(s, def *LineHeightStyle) *LineHeightStyle {
 	}
 	return s
 }
+
+func StringLineHeightStyle(s *LineHeightStyle) string {
+	if !IsSpecifiedLineHeightStyle(s) {
+		return "LineHeightStyle.Unspecified"
+	}
+	return "LineHeightStyle(" +
+		"Alignment=" + StringLineHeightStyleAlignment(s.Alignment) + ", " +
+		"Trim=" + s.Trim.String() + ", " +
+		"Mode=" + s.Mode.String() +
+		")"
+}
+
+func (t LineHeightStyleTrim) String() string {
+	switch t {
+	case LineHeightStyleTrimFirstLineTop:
+		return "LineHeightStyle.Trim.FirstLineTop"
+	case LineHeightStyleTrimLastLineBottom:
+		return "LineHeightStyle.Trim.LastLineBottom"
+	case LineHeightStyleTrimBoth:
+		return "LineHeightStyle.Trim.Both"
+	case LineHeightStyleTrimNone:
+		return "LineHeightStyle.Trim.None"
+	case LineHeightStyleTrimUnspecified:
+		return "LineHeightStyle.Trim.Unspecified"
+	default:
+		return "Invalid"
+	}
+}
+
+func (m LineHeightStyleMode) String() string {
+	switch m {
+	case LineHeightStyleModeFixed:
+		return "LineHeightStyle.Mode.Fixed"
+	case LineHeightStyleModeMinimum:
+		return "LineHeightStyle.Mode.Minimum"
+	case LineHeightStyleModeTight:
+		return "LineHeightStyle.Mode.Tight"
+	case LineHeightStyleModeUnspecified:
+		return "LineHeightStyle.Mode.Unspecified"
+	default:
+		return "Invalid"
+	}
+}

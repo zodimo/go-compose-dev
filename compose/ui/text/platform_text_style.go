@@ -73,3 +73,11 @@ func EqualPlatformSpanStyle(a, b *PlatformSpanStyle) bool {
 func EqualPlatformParagraphStyle(a, b *PlatformParagraphStyle) bool {
 	panic("EqualPlatformParagraphStyle not implemented")
 }
+
+func StringPlatformParagraphStyle(s *PlatformParagraphStyle) string {
+	if !IsSpecifiedPlatformParagraphStyle(s) {
+		return "PlatformParagraphStyle.Unspecified"
+	}
+	// Currently empty struct
+	return "PlatformParagraphStyle()"
+}
