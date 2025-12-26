@@ -2,11 +2,6 @@ package util
 
 import "math"
 
-// Lerp returns the linear interpolation between start and stop by fraction.
-func Lerp(start, stop, fraction float32) float32 {
-	return (1-fraction)*start + fraction*stop
-}
-
 // FastCoerceIn clamps the value between min and max.
 func FastCoerceIn[T ~float32 | ~int](value, min, max T) T {
 	if value < min {

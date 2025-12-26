@@ -43,6 +43,7 @@ func NewRangeWithTag[T any](item T, start, end int, tag string) Range[T] {
 
 // Annotation is a marker interface for all annotation types.
 type Annotation interface {
+	//Closed interface
 	isAnnotation()
 }
 

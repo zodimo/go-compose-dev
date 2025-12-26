@@ -53,3 +53,15 @@ func TakeOrElsePlatformParagraphStyle(s, def *PlatformParagraphStyle) *PlatformP
 	}
 	return s
 }
+
+func EqualPlatformTextStyle(a, b *PlatformTextStyle) bool {
+	panic("EqualPlatformTextStyle not implemented")
+}
+
+func EqualPlatformSpanStyle(a, b *PlatformSpanStyle) bool {
+	panic("EqualPlatformSpanStyle not implemented")
+}
+
+func EqualPlatformParagraphStyle(a, b *PlatformParagraphStyle) bool {
+	panic("EqualPlatformParagraphStyle not implemented")
+}
