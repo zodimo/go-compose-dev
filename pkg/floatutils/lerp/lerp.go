@@ -3,8 +3,6 @@
 package lerp
 
 import (
-	"math"
-
 	"github.com/zodimo/go-compose/pkg/floatutils"
 )
 
@@ -81,6 +79,45 @@ func Float32(start, stop, fraction float32) float32 {
 	return (1-fraction)*start + fraction*stop
 }
 
+func FloatList32(a, b []float32, t float32) []float32 {
+	if a == nil && b == nil {
+		return nil
+	}
+	if a == nil {
+		a = b // Treat as if 'a' has same stops as 'b' but maybe we should ensure size?
+		// Kotlin says: "if other == null return null".
+		// But here we might be lerping [0, 1] to [0, 0.5, 1].
+		// Let's following Kotlin logic simplified:
+		// If either is null/empty, we might just return the other or interpolate to default?
+		// Kotlin: lerpNullableFloatList
+		// if (right == null || left == null) return null
+		// This implies if one doesn't have stops (evenly distributed), result doesn't either?
+		// Wait, linearGradient without stops implies even distribution.
+		if b == nil {
+			return nil
+		}
+		// So if either is nil, return nil (meaning evenly distributed result?)
+		// If we lerp from explicit stops to implicit stops, the result should probably be explicit?
+		// But Kotlin returns null if either is null.
+		return nil
+	}
+	if b == nil {
+		return nil
+	}
+
+	n := len(a)
+	if len(b) > n {
+		n = len(b)
+	}
+	res := make([]float32, n)
+	for i := 0; i < n; i++ {
+		f1 := a[min(i, len(a)-1)]
+		f2 := b[min(i, len(b)-1)]
+		res[i] = Float32(f1, f2, t)
+	}
+	return res
+}
+
 // Int provides fast integer interpolation using float32 intermediates.
 // Truncates fractional parts; use IntPrecise for correct rounding.
 func Int(start, stop int, fraction float32) int {
@@ -97,41 +134,4 @@ func IntFixed(start, stop, fraction int) int {
 func IntPrecise(start, stop int, fraction float32) int {
 	f64 := float64(start) + float64(stop-start)*float64(fraction)
 	return int(f64 + 0.5) // Nearest-integer rounding
-}
-
-// ============================================================================
-// Color Interpolation
-// ============================================================================
-
-// TODO: Move to color/lerp package to eliminate coupling with internal packages
-
-// ColorLerp performs standard RGBA interpolation.
-//
-// Example:
-//
-//	mid := lerp.ColorLerp(color1, color2, 0.5)
-func ColorLerp(a, b struct{ R, G, B, A float32 }, p float32) struct{ R, G, B, A float32 } {
-	invP := 1 - p
-	return struct{ R, G, B, A float32 }{
-		R: a.R*invP + b.R*p,
-		G: a.G*invP + b.G*p,
-		B: a.B*invP + b.B*p,
-		A: a.A*invP + b.A*p,
-	}
-}
-
-// ColorLerpPrecise uses squared interpolation for gamma-correct color blending.
-// ~3x slower but produces perceptually better results.
-func ColorLerpPrecise(a, b struct{ R, G, B, A float32 }, p float32) struct{ R, G, B, A float32 } {
-	invP := 1 - p
-	return struct{ R, G, B, A float32 }{
-		R: sqrt(a.R*a.R*invP + b.R*b.R*p),
-		G: sqrt(a.G*a.G*invP + b.G*b.G*p),
-		B: sqrt(a.B*a.B*invP + b.B*b.B*p),
-		A: a.A*invP + b.A*p,
-	}
-}
-
-func sqrt(v float32) float32 {
-	return float32(math.Sqrt(float64(v)))
 }
