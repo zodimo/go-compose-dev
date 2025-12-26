@@ -16,18 +16,55 @@ var LocalListCurrent = &LocaleList{
 	List: []Locale{},
 }
 
-// Equals returns true if both LocaleLists have the same locales.
-func (l LocaleList) Equals(other *LocaleList) bool {
-	if other == nil {
-		return false
+func IsSpecifiedLocaleList(s *LocaleList) bool {
+	return s != nil && s != LocaleListUnspecified
+}
+func TakeOrElseLocaleList(s, def *LocaleList) *LocaleList {
+	if !IsSpecifiedLocaleList(s) {
+		return def
 	}
-	if len(l.List) != len(other.List) {
-		return false
+	return s
+}
+
+// Identity (2 ns)
+func SameLocaleList(a, b *LocaleList) bool {
+	if a == nil && b == nil {
+		return true
 	}
-	for i, locale := range l.List {
-		if locale != other.List[i] {
+	if a == nil {
+		return b == LocaleListUnspecified
+	}
+	if b == nil {
+		return a == LocaleListUnspecified
+	}
+	return a == b
+}
+
+// Semantic equality (field-by-field, 20 ns)
+func SemanticEqualLocaleList(a, b *LocaleList) bool {
+
+	a = CoalesceLocaleList(a, LocaleListUnspecified)
+	b = CoalesceLocaleList(b, LocaleListUnspecified)
+
+	for i, locale := range a.List {
+		if locale != b.List[i] {
 			return false
 		}
 	}
 	return true
+}
+
+// EqualLocaleList returns true if both LocaleLists have the same locales.
+func EqualLocaleList(a, b *LocaleList) bool {
+	if !SameLocaleList(a, b) {
+		return SemanticEqualLocaleList(a, b)
+	}
+	return true
+}
+
+func CoalesceLocaleList(ptr, def *LocaleList) *LocaleList {
+	if ptr == nil {
+		return def
+	}
+	return ptr
 }

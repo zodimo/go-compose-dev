@@ -182,3 +182,7 @@ func FontFamilyFromFonts(fonts ...Font) FontFamily {
 func FontFamilyFromTypeface(typeface Typeface) FontFamily {
 	return NewLoadedFontFamily(typeface)
 }
+
+func EqualFontFamily(a, b FontFamily) bool {
+	panic("EqualFontFamily not implemented")
+}
