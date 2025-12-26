@@ -4,7 +4,16 @@ import (
 	"math"
 
 	"github.com/zodimo/go-compose/compose/ui/graphics"
+	"github.com/zodimo/go-compose/pkg/floatutils"
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
+
+// TextForegroundStyleUnspecified is the unspecified TextForegroundStyle.
+var TextForegroundStyleUnspecified *TextForegroundStyle = &TextForegroundStyle{
+	Color: graphics.ColorUnspecified,
+	Brush: nil,
+	Alpha: floatutils.Float32Unspecified,
+}
 
 // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-text/src/commonMain/kotlin/androidx/compose/ui/text/style/TextForegroundStyle.kt
 
@@ -16,121 +25,28 @@ import (
 //   - If Brush() is not nil, Color() is Unspecified.
 //   - Both Color() can be Unspecified and Brush() nil, indicating nothing is specified.
 //   - SolidColor brushes are stored as regular Colors.
-type TextForegroundStyle interface {
-	// Color returns the color for this style. Returns Unspecified if using a brush.
-	Color() graphics.Color
-	// Brush returns the brush for this style. Returns nil if using a color.
-	Brush() graphics.Brush
-	// Alpha returns the alpha value. Returns NaN if unspecified.
-	Alpha() float32
-	// Merge merges this style with another, returning the result.
-	Merge(other TextForegroundStyle) TextForegroundStyle
-	// TakeOrElse returns this style if it's not Unspecified, otherwise calls other().
-	TakeOrElse(other TextForegroundStyle) TextForegroundStyle
 
-	isTextForegroundStyle()
+type TextForegroundStyle struct {
+	Color graphics.Color
+	Brush graphics.Brush
+	Alpha float32
 }
 
-// --- Unspecified singleton ---
-
-type textForegroundStyleUnspecified struct{}
-
-func (u textForegroundStyleUnspecified) Color() graphics.Color {
-	return graphics.ColorUnspecified
-}
-
-func (u textForegroundStyleUnspecified) Brush() graphics.Brush {
-	return nil
-}
-
-func (u textForegroundStyleUnspecified) Alpha() float32 {
-	return float32(math.NaN())
-}
-
-func (u textForegroundStyleUnspecified) Merge(other TextForegroundStyle) TextForegroundStyle {
-	return defaultMerge(u, other)
-}
-
-func (u textForegroundStyleUnspecified) TakeOrElse(other TextForegroundStyle) TextForegroundStyle {
-	return other
-}
-
-func (u textForegroundStyleUnspecified) isTextForegroundStyle() {}
-
-// TextForegroundStyleUnspecified is the unspecified TextForegroundStyle.
-var TextForegroundStyleUnspecified TextForegroundStyle = textForegroundStyleUnspecified{}
-
-// --- ColorStyle ---
-
-type colorStyle struct {
-	value graphics.Color
-}
-
-func (c colorStyle) Color() graphics.Color {
-	return c.value
-}
-
-func (c colorStyle) Brush() graphics.Brush {
-	return nil
-}
-
-func (c colorStyle) Alpha() float32 {
-	// TODO: extract alpha from color when ColorDescriptor supports it
-	return 1.0
-}
-
-func (c colorStyle) Merge(other TextForegroundStyle) TextForegroundStyle {
-	return defaultMerge(c, other)
-}
-
-func (c colorStyle) TakeOrElse(other TextForegroundStyle) TextForegroundStyle {
-	return c
-}
-
-func (c colorStyle) isTextForegroundStyle() {}
-
-// --- BrushStyle ---
-
-type brushStyle struct {
-	value graphics.ShaderBrush
-	alpha float32
-}
-
-func (b brushStyle) Color() graphics.Color {
-	return graphics.ColorUnspecified
-}
-
-func (b brushStyle) Brush() graphics.Brush {
-	return b.value
-}
-
-func (b brushStyle) Alpha() float32 {
-	return b.alpha
-}
-
-func (b brushStyle) Merge(other TextForegroundStyle) TextForegroundStyle {
-	return defaultMerge(b, other)
-}
-
-func (b brushStyle) TakeOrElse(other TextForegroundStyle) TextForegroundStyle {
-	return b
-}
-
-func (b brushStyle) isTextForegroundStyle() {}
-
-// IsBrushStyle returns true if the style is a BrushStyle.
-func IsBrushStyle(s TextForegroundStyle) bool {
-	_, ok := s.(brushStyle)
-	return ok
+func (s TextForegroundStyle) isBrushStyle() bool {
+	return s.Brush != nil
 }
 
 // --- Factory functions ---
 
 // TextForegroundStyleFromColor creates a TextForegroundStyle from a Color.
 // Returns Unspecified if the color is unspecified.
-func TextForegroundStyleFromColor(color graphics.Color) TextForegroundStyle {
-	if isColorSpecified(color) {
-		return colorStyle{value: color}
+func TextForegroundStyleFromColor(color graphics.Color) *TextForegroundStyle {
+	if color.IsSpecified() {
+		return &TextForegroundStyle{
+			Color: color,
+			Brush: nil,
+			Alpha: floatutils.Float32Unspecified,
+		}
 	}
 	return TextForegroundStyleUnspecified
 }
@@ -139,7 +55,7 @@ func TextForegroundStyleFromColor(color graphics.Color) TextForegroundStyle {
 // If brush is nil, returns Unspecified.
 // If brush is a SolidColor, returns a ColorStyle with the color modulated by alpha.
 // If brush is a ShaderBrush, returns a BrushStyle.
-func TextForegroundStyleFromBrush(brush graphics.Brush, alpha float32) TextForegroundStyle {
+func TextForegroundStyleFromBrush(brush graphics.Brush, alpha float32) *TextForegroundStyle {
 	if brush == nil {
 		return TextForegroundStyleUnspecified
 	}
@@ -150,37 +66,14 @@ func TextForegroundStyleFromBrush(brush graphics.Brush, alpha float32) TextForeg
 	}
 
 	if sb := graphics.AsShaderBrush(brush); sb != nil {
-		return brushStyle{value: sb, alpha: alpha}
+		return &TextForegroundStyle{
+			Color: graphics.ColorUnspecified,
+			Brush: sb,
+			Alpha: alpha,
+		}
 	}
 
 	return TextForegroundStyleUnspecified
-}
-
-// --- Merge logic ---
-
-// defaultMerge implements the merge logic for TextForegroundStyle.
-// This prevents Color or Unspecified TextForegroundStyle from overriding an existing Brush.
-func defaultMerge(current, other TextForegroundStyle) TextForegroundStyle {
-	switch {
-	case IsBrushStyle(other) && IsBrushStyle(current):
-		// Both are brush styles, merge with alpha fallback
-		otherBrush := other.(brushStyle)
-		currentBrush := current.(brushStyle)
-		newAlpha := takeOrElseFloat(otherBrush.alpha, func() float32 { return currentBrush.alpha })
-		return brushStyle{value: otherBrush.value, alpha: newAlpha}
-
-	case IsBrushStyle(other) && !IsBrushStyle(current):
-		// Other is brush, current is not - use other
-		return other
-
-	case !IsBrushStyle(other) && IsBrushStyle(current):
-		// Other is not brush, current is brush - keep current (preserve brush)
-		return current
-
-	default:
-		// Neither is brush - use takeOrElse
-		return other.TakeOrElse(current)
-	}
 }
 
 // --- Lerp function ---
@@ -188,20 +81,23 @@ func defaultMerge(current, other TextForegroundStyle) TextForegroundStyle {
 // LerpTextForegroundStyle linearly interpolates between two TextForegroundStyles.
 // If both styles are not BrushStyles, lerps the color values.
 // Otherwise, lerps discretely.
-func LerpTextForegroundStyle(start, stop TextForegroundStyle, fraction float32) TextForegroundStyle {
-	if !IsBrushStyle(start) && !IsBrushStyle(stop) {
+func LerpTextForegroundStyle(start, stop *TextForegroundStyle, fraction float32) *TextForegroundStyle {
+
+	start = CoalesceTextForegroundStyle(start, TextForegroundStyleUnspecified)
+	stop = CoalesceTextForegroundStyle(stop, TextForegroundStyleUnspecified)
+
+	if !start.isBrushStyle() && !stop.isBrushStyle() {
 		// Both are colors - lerp colors
-		c1 := start.Color()
-		c2 := stop.Color()
-		return TextForegroundStyleFromColor(graphics.Lerp(c1, c2, fraction))
+		c1 := start.Color
+		c2 := stop.Color
+		return TextForegroundStyleFromColor(graphics.LerpColor(c1, c2, fraction))
 	}
 
-	if IsBrushStyle(start) && IsBrushStyle(stop) {
+	if start.isBrushStyle() && stop.isBrushStyle() {
 		// Both are brushes - lerp alpha, discrete brush
-		startBrush := start.(brushStyle)
-		stopBrush := stop.(brushStyle)
-		lerpedBrush := lerpDiscrete(startBrush.value, stopBrush.value, fraction)
-		lerpedAlpha := lerpFloat(startBrush.alpha, stopBrush.alpha, fraction)
+
+		lerpedBrush := lerpDiscrete(start.Brush, stop.Brush, fraction)
+		lerpedAlpha := lerp.Between32(start.Alpha, stop.Alpha, fraction)
 		return TextForegroundStyleFromBrush(lerpedBrush, lerpedAlpha)
 	}
 
@@ -234,7 +130,43 @@ func takeOrElseFloat(value float32, block func() float32) float32 {
 	return value
 }
 
-// lerpFloat linearly interpolates between two floats.
-func lerpFloat(a, b, fraction float32) float32 {
-	return a + (b-a)*fraction
+// MergeTextForegroundStyle implements the merge logic for TextForegroundStyle.
+// This prevents Color or Unspecified TextForegroundStyle from overriding an existing Brush.
+func MergeTextForegroundStyle(current, other *TextForegroundStyle) *TextForegroundStyle {
+	current = CoalesceTextForegroundStyle(current, TextForegroundStyleUnspecified)
+	other = CoalesceTextForegroundStyle(other, TextForegroundStyleUnspecified)
+
+	switch {
+	case other.isBrushStyle() && current.isBrushStyle():
+		// Both are brush styles, merge with alpha fallback
+
+		newAlpha := floatutils.TakeOrElse(other.Alpha, current.Alpha)
+		return TextForegroundStyleFromBrush(other.Brush, newAlpha)
+
+	case other.isBrushStyle() && !current.isBrushStyle():
+		// Other is brush, current is not - use other
+		return other
+
+	case !other.isBrushStyle() && current.isBrushStyle():
+		// Other is not brush, current is brush - keep current (preserve brush)
+		return current
+
+	default:
+		// Neither is brush - use takeOrElse
+		return TakeOrElseTextForegroundStyle(other, current)
+	}
+}
+
+func CoalesceTextForegroundStyle(ptr, def *TextForegroundStyle) *TextForegroundStyle {
+	if ptr == nil {
+		return def
+	}
+	return ptr
+}
+
+func TakeOrElseTextForegroundStyle(style, defaultStyle *TextForegroundStyle) *TextForegroundStyle {
+	if style == nil || style == TextForegroundStyleUnspecified {
+		return defaultStyle
+	}
+	return style
 }
