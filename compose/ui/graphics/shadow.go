@@ -119,13 +119,6 @@ func SameShadow(a, b *Shadow) bool {
 	return a == b
 }
 
-func EqualShadow(a, b *Shadow) bool {
-	if !SameShadow(a, b) {
-		return SemanticEqualShadow(a, b)
-	}
-	return true
-}
-
 // Semantic equality (field-by-field, 20 ns)
 func SemanticEqualShadow(a, b *Shadow) bool {
 
@@ -135,6 +128,13 @@ func SemanticEqualShadow(a, b *Shadow) bool {
 	return a.Color == b.Color &&
 		a.Offset.Equal(b.Offset) &&
 		floatutils.Float32Equals(a.BlurRadius, b.BlurRadius, float32EqualityThreshold)
+}
+
+func EqualShadow(a, b *Shadow) bool {
+	if !SameShadow(a, b) {
+		return SemanticEqualShadow(a, b)
+	}
+	return true
 }
 
 func MergeShadow(a, b *Shadow) *Shadow {
