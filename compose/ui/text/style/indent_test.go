@@ -31,7 +31,7 @@ func TestTextIndent_Copy(t *testing.T) {
 
 	// Copy with no changes
 	copy1 := original.Copy(nil, nil)
-	if !copy1.Equals(original) {
+	if !EqualTextIndent(copy1, original) {
 		t.Errorf("Copy with nil args should equal original")
 	}
 
@@ -62,20 +62,20 @@ func TestTextIndent_Equals(t *testing.T) {
 	ti3 := NewTextIndent(unit.Sp(10), unit.Sp(6))
 	ti4 := NewTextIndent(unit.Sp(11), unit.Sp(5))
 
-	if !ti1.Equals(ti2) {
+	if !EqualTextIndent(ti1, ti2) {
 		t.Error("Equal TextIndents should be equal")
 	}
-	if ti1.Equals(ti3) {
+	if EqualTextIndent(ti1, ti3) {
 		t.Error("TextIndents with different RestLine should not be equal")
 	}
-	if ti1.Equals(ti4) {
+	if EqualTextIndent(ti1, ti4) {
 		t.Error("TextIndents with different FirstLine should not be equal")
 	}
 }
 
 func TestTextIndent_String(t *testing.T) {
 	ti := NewTextIndent(unit.Sp(10), unit.Sp(5))
-	str := ti.String()
+	str := StringTextIndent(ti)
 	expected := "TextIndent(firstLine=10.sp, restLine=5.sp)"
 	if str != expected {
 		t.Errorf("String() = %q, want %q", str, expected)
@@ -231,13 +231,13 @@ func TestLerpTextIndent_StartAndStop(t *testing.T) {
 
 	// At fraction 0, should equal start
 	result0 := LerpTextIndent(start, stop, 0.0)
-	if !result0.Equals(start) {
+	if !EqualTextIndent(result0, start) {
 		t.Errorf("LerpTextIndent at 0.0 should equal start")
 	}
 
 	// At fraction 1, should equal stop
 	result1 := LerpTextIndent(start, stop, 1.0)
-	if !result1.Equals(stop) {
+	if !EqualTextIndent(result1, stop) {
 		t.Errorf("LerpTextIndent at 1.0 should equal stop")
 	}
 }

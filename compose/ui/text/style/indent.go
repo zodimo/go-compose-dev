@@ -6,6 +6,8 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
+var TextIndentUnspecified = &TextIndent{FirstLine: unit.TextUnitUnspecified, RestLine: unit.TextUnitUnspecified}
+
 //https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-text/src/commonMain/kotlin/androidx/compose/ui/text/style/TextIndent.kt;drc=4970f6e96cdb06089723da0ab8ec93ae3f067c7a;l=32
 
 // TextIndent specifies the indentation of a paragraph.
@@ -20,8 +22,8 @@ type TextIndent struct {
 var TextIndentNone = TextIndent{FirstLine: unit.Sp(0), RestLine: unit.Sp(0)}
 
 // NewTextIndent creates a new TextIndent with the given first line and rest line indentation.
-func NewTextIndent(firstLine, restLine unit.TextUnit) TextIndent {
-	return TextIndent{
+func NewTextIndent(firstLine, restLine unit.TextUnit) *TextIndent {
+	return &TextIndent{
 		FirstLine: firstLine,
 		RestLine:  restLine,
 	}
@@ -29,7 +31,7 @@ func NewTextIndent(firstLine, restLine unit.TextUnit) TextIndent {
 
 // Copy returns a new TextIndent with optionally updated fields.
 // Pass nil to use the current value for that field.
-func (ti TextIndent) Copy(firstLine, restLine *unit.TextUnit) TextIndent {
+func (ti TextIndent) Copy(firstLine, restLine *unit.TextUnit) *TextIndent {
 	fl := ti.FirstLine
 	if firstLine != nil {
 		fl = *firstLine
@@ -38,15 +40,10 @@ func (ti TextIndent) Copy(firstLine, restLine *unit.TextUnit) TextIndent {
 	if restLine != nil {
 		rl = *restLine
 	}
-	return TextIndent{
+	return &TextIndent{
 		FirstLine: fl,
 		RestLine:  rl,
 	}
-}
-
-// Equals checks if two TextIndent instances are equal.
-func (ti TextIndent) Equals(other TextIndent) bool {
-	return ti.FirstLine.Equals(other.FirstLine) && ti.RestLine.Equals(other.RestLine)
 }
 
 // HashCode returns a hash code for the TextIndent.
@@ -60,11 +57,6 @@ func (ti TextIndent) HashCode() int {
 func hashTextUnit(tu unit.TextUnit) int {
 	// Simple hash combining type and value
 	return int(tu.Type())*31 + int(tu.Value()*1000)
-}
-
-// String returns a string representation of the TextIndent.
-func (ti TextIndent) String() string {
-	return fmt.Sprintf("TextIndent(firstLine=%s, restLine=%s)", ti.FirstLine, ti.RestLine)
 }
 
 // lerpDiscrete returns a if fraction < 0.5, otherwise b.
@@ -116,9 +108,69 @@ func LerpTextUnitInheritable(a, b unit.TextUnit, fraction float32) unit.TextUnit
 // stop), and values in between meaning that the interpolation is at the relevant point on the
 // timeline between start and stop. The interpolation can be extrapolated beyond 0.0 and 1.0, so
 // negative values and values greater than 1.0 are valid.
-func LerpTextIndent(start, stop TextIndent, fraction float32) TextIndent {
-	return TextIndent{
+func LerpTextIndent(start, stop *TextIndent, fraction float32) *TextIndent {
+	start = CoalesceTextIndent(start, TextIndentUnspecified)
+	stop = CoalesceTextIndent(stop, TextIndentUnspecified)
+
+	return &TextIndent{
 		FirstLine: LerpTextUnitInheritable(start.FirstLine, stop.FirstLine, fraction),
 		RestLine:  LerpTextUnitInheritable(start.RestLine, stop.RestLine, fraction),
 	}
+}
+
+// String returns a string representation of the TextIndent.
+func StringTextIndent(s *TextIndent) string {
+	if !IsSpecifiedTextIndent(s) {
+		return "TextIndentUnspecified"
+	}
+	return fmt.Sprintf("TextIndent(firstLine=%s, restLine=%s)",
+		s.FirstLine, s.RestLine)
+}
+
+func SameTextIndent(a, b *TextIndent) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil {
+		return b == TextIndentUnspecified
+	}
+	if b == nil {
+		return a == TextIndentUnspecified
+	}
+	return a == b
+}
+
+func EqualTextIndent(a, b *TextIndent) bool {
+	if !SameTextIndent(a, b) {
+		return SemanticEqualTextIndent(a, b)
+	}
+	return true
+}
+
+// Semantic equality (field-by-field, 20 ns)
+func SemanticEqualTextIndent(a, b *TextIndent) bool {
+
+	a = CoalesceTextIndent(a, TextIndentUnspecified)
+	b = CoalesceTextIndent(b, TextIndentUnspecified)
+
+	return a.FirstLine.Equals(b.FirstLine) &&
+		a.RestLine.Equals(b.RestLine)
+}
+
+func CoalesceTextIndent(ptr, def *TextIndent) *TextIndent {
+	if ptr == nil {
+		return def
+	}
+	return ptr
+}
+
+func IsSpecifiedTextIndent(indent *TextIndent) bool {
+	return indent != nil && indent != TextIndentUnspecified
+}
+
+func TakeOrElseTextIndent(a, b *TextIndent) *TextIndent {
+	if IsSpecifiedTextIndent(a) {
+		return a
+	}
+	return b
 }
