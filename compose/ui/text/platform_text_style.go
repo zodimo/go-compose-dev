@@ -1,28 +1,14 @@
 package text
 
+var PlatformTextStyleUnspecified *PlatformTextStyle = &PlatformTextStyle{
+	SpanStyle:      PlatformSpanStyleUnspecified,
+	ParagraphStyle: PlatformParagraphStyleUnspecified,
+}
+var PlatformSpanStyleUnspecified *PlatformSpanStyle = &PlatformSpanStyle{}
+var PlatformParagraphStyleUnspecified *PlatformParagraphStyle = &PlatformParagraphStyle{}
+
 // PlatformSpanStyle contains platform-specific text styling.
 type PlatformSpanStyle struct {
-}
-
-func (s *PlatformSpanStyle) Merge(other *PlatformSpanStyle) *PlatformSpanStyle {
-	if s == nil {
-		return other
-	}
-	if other == nil {
-		return s
-	}
-	// No fields to merge yet
-	return s
-}
-
-func (s *PlatformSpanStyle) Equals(other *PlatformSpanStyle) bool {
-	if s == other {
-		return true
-	}
-	if s == nil || other == nil {
-		return false
-	}
-	return true
 }
 
 // PlatformParagraphStyle contains platform-specific paragraph styling.
@@ -35,94 +21,35 @@ type PlatformTextStyle struct {
 	ParagraphStyle *PlatformParagraphStyle
 }
 
-func (s *PlatformTextStyle) Merge(other *PlatformTextStyle) *PlatformTextStyle {
-	if s == nil {
-		return other
-	}
-	if other == nil {
-		return s
-	}
-	return &PlatformTextStyle{
-		SpanStyle:      s.SpanStyle.Merge(other.SpanStyle),
-		ParagraphStyle: s.ParagraphStyle.Merge(other.ParagraphStyle),
-	}
+func IsSpecifiedPlatformTextStyle(s *PlatformTextStyle) bool {
+	return s != nil && s != PlatformTextStyleUnspecified
 }
 
-func (s *PlatformTextStyle) Equals(other *PlatformTextStyle) bool {
-	if s == other {
-		return true
-	}
-	if s == nil || other == nil {
-		return false
-	}
-	if !s.SpanStyle.Equals(other.SpanStyle) {
-		return false
-	}
-	if !s.ParagraphStyle.Equals(other.ParagraphStyle) {
-		return false
-	}
-	return true
+func IsSpecifiedPlatformSpanStyle(s *PlatformSpanStyle) bool {
+	return s != nil && s != PlatformSpanStyleUnspecified
 }
 
-func (s *PlatformParagraphStyle) Merge(other *PlatformParagraphStyle) *PlatformParagraphStyle {
-	if s == nil {
-		return other
+func IsSpecifiedPlatformParagraphStyle(s *PlatformParagraphStyle) bool {
+	return s != nil && s != PlatformParagraphStyleUnspecified
+}
+
+func TakeOrElsePlatformTextStyle(s, def *PlatformTextStyle) *PlatformTextStyle {
+	if !IsSpecifiedPlatformTextStyle(s) {
+		return def
 	}
-	if other == nil {
-		return s
-	}
-	// No fields to merge yet
 	return s
 }
 
-func (s *PlatformParagraphStyle) Equals(other *PlatformParagraphStyle) bool {
-	if s == other {
-		return true
+func TakeOrElsePlatformSpanStyle(s, def *PlatformSpanStyle) *PlatformSpanStyle {
+	if !IsSpecifiedPlatformSpanStyle(s) {
+		return def
 	}
-	if s == nil || other == nil {
-		return false
-	}
-	return true
+	return s
 }
 
-func lerpPlatformSpanStyle(start, stop *PlatformSpanStyle, fraction float32) *PlatformSpanStyle {
-	if start == nil && stop == nil {
-		return nil
+func TakeOrElsePlatformParagraphStyle(s, def *PlatformParagraphStyle) *PlatformParagraphStyle {
+	if !IsSpecifiedPlatformParagraphStyle(s) {
+		return def
 	}
-	if start == nil {
-		return stop
-	}
-	if stop == nil {
-		return start
-	}
-	// Discrete interpolation
-	if fraction < 0.5 {
-		return start
-	}
-	return stop
-}
-
-func lerpPlatformParagraphStyle(start, stop *PlatformParagraphStyle, fraction float32) *PlatformParagraphStyle {
-	if start == nil && stop == nil {
-		return nil
-	}
-	if start == nil {
-		return stop
-	}
-	if stop == nil {
-		return start
-	}
-	// Discrete interpolation
-	if fraction < 0.5 {
-		return start
-	}
-	return stop
-}
-
-// LerpDiscrete interpolates between two values discretely.
-func LerpDiscrete[T any](start, stop T, fraction float32) T {
-	if fraction < 0.5 {
-		return start
-	}
-	return stop
+	return s
 }
