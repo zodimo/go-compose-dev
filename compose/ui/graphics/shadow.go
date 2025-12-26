@@ -81,7 +81,7 @@ func LerpShadow(start, stop *Shadow, fraction float32) *Shadow {
 	stop = TakeOrElseShadow(stop, ShadowUnspecified)
 
 	return NewShadow(
-		Lerp(start.Color, stop.Color, fraction),
+		LerpColor(start.Color, stop.Color, fraction),
 		geometry.LerpOffset(start.Offset, stop.Offset, fraction),
 		lerp.Between32(start.BlurRadius, stop.BlurRadius, fraction),
 	)
