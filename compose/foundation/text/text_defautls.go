@@ -5,15 +5,15 @@ import (
 	"gioui.org/text"
 	"gioui.org/widget/material"
 
-	"git.sr.ht/~schnwalter/gio-mw/token"
 	"github.com/zodimo/go-compose/theme"
 )
 
 func DefaultTextStyleOptions() *TextStyleOptions {
 	Options := &TextStyleOptions{
-		Color:          theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
-		SelectionColor: theme.ColorHelper.ColorSelector().PrimaryRoles.Primary.SetOpacity(token.OpacityLevel8),
-		TextSize:       14, // Default text size in SP
+		Color:          theme.ColorHelper.UnspecifiedColor(),
+		SelectionColor: theme.ColorHelper.UnspecifiedColor(),
+
+		TextSize: 14, // Default text size in SP
 	}
 	return Options
 }

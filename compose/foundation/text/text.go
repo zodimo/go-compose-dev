@@ -3,7 +3,10 @@ package text
 import (
 	"fmt"
 	"image"
+	"image/color"
 
+	"github.com/zodimo/go-compose/compose/foundation/text/selection"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/state"
 	"github.com/zodimo/go-compose/theme"
@@ -39,10 +42,13 @@ func Text(value string, options ...TextOption) Composable {
 			selectable = c.State(selectablePath, func() any { return &widget.Selectable{} })
 		}
 
+		textSelectionColor := selection.LocalTextSelectionColors.Current(c)
+
 		constructorArgs := BasicTextConstructorArgs{
-			Value:      value,
-			Options:    opts,
-			selectable: selectable,
+			Value:               value,
+			Options:             opts,
+			selectable:          selectable,
+			textSelectionColors: textSelectionColor,
 		}
 
 		c.StartBlock(BasicTextNodeID)
@@ -55,9 +61,10 @@ func Text(value string, options ...TextOption) Composable {
 }
 
 type BasicTextConstructorArgs struct {
-	Value      string
-	Options    TextOptions
-	selectable state.MutableValue
+	Value               string
+	Options             TextOptions
+	selectable          state.MutableValue
+	textSelectionColors selection.TextSelectionColors
 }
 
 func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {
@@ -71,9 +78,26 @@ func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.
 			text := constructorArgs.Value
 			textOptions := constructorArgs.Options
 
+			var resolvedSelectColor color.NRGBA
+			if theme.IsSpecifiedColor(textOptions.TextStyleOptions.SelectionColor) {
+				resolvedSelectColor = tm.ResolveColorDescriptor(textOptions.TextStyleOptions.SelectionColor).AsNRGBA()
+
+			} else {
+				// resolvedSelectColor = textOptions.TextStyleOptions.SelectionColor
+				resolvedSelectColor = tm.ResolveColorDescriptor(
+					theme.ColorHelper.SpecificColor(constructorArgs.textSelectionColors.BackgroundColor),
+				).AsNRGBA()
+			}
+
 			// Resolve ColorDescriptors to NRGBA
-			resolvedTextColor := tm.ResolveColorDescriptor(textOptions.TextStyleOptions.Color).AsNRGBA()
-			resolvedSelectColor := tm.ResolveColorDescriptor(textOptions.TextStyleOptions.SelectionColor).AsNRGBA()
+			var resolvedTextColor color.NRGBA
+			if theme.IsSpecifiedColor(textOptions.TextStyleOptions.Color) {
+				resolvedTextColor = tm.ResolveColorDescriptor(textOptions.TextStyleOptions.Color).AsNRGBA()
+			} else {
+				resolvedTextColor = tm.ResolveColorDescriptor(
+					theme.ColorHelper.SpecificColor(graphics.ColorBlack),
+				).AsNRGBA()
+			}
 
 			textColorMacro := op.Record(gtx.Ops)
 			paint.ColorOp{Color: resolvedTextColor}.Add(gtx.Ops)
