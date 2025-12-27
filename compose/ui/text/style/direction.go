@@ -88,14 +88,14 @@ func TextDirectionValueOf(value int) (TextDirection, error) {
 }
 
 // TextDirection returns true if this TextDirection is not TextDirectionUnspecified.
-func (t TextDirection) IsTextDirection() bool {
+func (t TextDirection) IsSpecified() bool {
 	return t != TextDirectionUnspecified
 }
 
 // TakeOrElse returns this TextDirection if IsSpecified() is true,
 // otherwise executes the provided function and returns its result.
 func (t TextDirection) TakeOrElse(block TextDirection) TextDirection {
-	if t.IsTextDirection() {
+	if t.IsSpecified() {
 		return t
 	}
 	return block
@@ -104,7 +104,7 @@ func (t TextDirection) TakeOrElse(block TextDirection) TextDirection {
 // ResolveTextDirection resolves the TextDirection, using the LayoutDirection if necessary.
 // If the TextDirection is unspecified, it defaults to Ltr.
 func ResolveTextDirection(layoutDirection unit.LayoutDirection, textDirection TextDirection) TextDirection {
-	if textDirection != TextDirectionUnspecified {
+	if textDirection.IsSpecified() {
 		return textDirection
 	}
 	if layoutDirection == unit.LayoutDirectionRtl {
