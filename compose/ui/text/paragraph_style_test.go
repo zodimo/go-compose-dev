@@ -96,12 +96,12 @@ func TestResolveParagraphStyleDefaults(t *testing.T) {
 		t.Error("Expected default LineHeight Unspecified")
 	}
 	// Check TextIndent default
-	if resolved.TextIndent != &style.TextIndentNone { // Pointer comparison might fail if not same instance, but TextIndentNone is global var
+	if resolved.TextIndent != style.TextIndentNone { // Pointer comparison might fail if not same instance, but TextIndentNone is global var
 		// If TextIndentNone is a var, it might be same instance if assigned directly.
 		// In ResolveParagraphStyleDefaults: textIndent = &style.TextIndentNone.
 		// Wait, &style.TextIndentNone takes address of global. Correct.
 		// But equality might need value check or SameTextIndent.
-		if !style.SameTextIndent(resolved.TextIndent, &style.TextIndentNone) {
+		if !style.SameTextIndent(resolved.TextIndent, style.TextIndentNone) {
 			t.Error("Expected TextIndentNone")
 		}
 	}
