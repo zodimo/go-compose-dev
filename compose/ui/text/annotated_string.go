@@ -1043,3 +1043,17 @@ func (as AnnotatedString) Decapitalize() AnnotatedString {
 		annotations:     as.annotations,
 	}
 }
+
+func (as AnnotatedString) HasInlineContent() bool {
+	return len(as.annotations) > 0
+}
+
+func (as AnnotatedString) HasLinks() bool {
+	//find link annotation
+	for _, annotationRange := range as.annotations {
+		if _, ok := annotationRange.Item.(LinkAnnotation); ok {
+			return true
+		}
+	}
+	return false
+}
