@@ -94,34 +94,15 @@ type MouseSelectionObserver interface {
 // SelectionRegistrarExtended extends SelectionRegistrar with methods needed for
 // the default selection modifier implementation.
 //
+// Note: NotifySelectionUpdateStart, NotifySelectionUpdate, and NotifySelectionUpdateEnd
+// are inherited from the embedded SelectionRegistrar interface.
+//
 // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/text/selection/SelectionRegistrar.kt
 type SelectionRegistrarExtended interface {
 	SelectionRegistrar
 
 	// HasSelection returns true if there is an active selection for the given selectableId.
 	HasSelection(selectableId int64) bool
-
-	// NotifySelectionUpdateStart notifies the registrar that a selection gesture has started.
-	NotifySelectionUpdateStart(
-		layoutCoordinates LayoutCoordinates,
-		startPosition geometry.Offset,
-		adjustment SelectionAdjustment,
-		isInTouchMode bool,
-	)
-
-	// NotifySelectionUpdate notifies the registrar that the selection has been updated.
-	// Returns true if the update was consumed.
-	NotifySelectionUpdate(
-		layoutCoordinates LayoutCoordinates,
-		previousPosition geometry.Offset,
-		newPosition geometry.Offset,
-		isStartHandle bool,
-		adjustment SelectionAdjustment,
-		isInTouchMode bool,
-	) bool
-
-	// NotifySelectionUpdateEnd notifies the registrar that a selection gesture has ended.
-	NotifySelectionUpdateEnd()
 
 	// MakeSelectionModifier creates a modifier for handling selection gestures.
 	// This is platform-specific and may return different implementations on different platforms.

@@ -5,84 +5,162 @@
 package modifiers
 
 import (
+	"github.com/zodimo/go-compose/compose/foundation/text/selection"
+	"github.com/zodimo/go-compose/compose/ui/geometry"
+	"github.com/zodimo/go-compose/compose/ui/layout"
 	"github.com/zodimo/go-compose/compose/ui/text"
 )
 
+// Re-export types from selection package for backward compatibility and convenience.
+// The canonical definitions are in the selection package.
+
 // LayoutCoordinates provides access to layout coordinates for a composable.
-// This is a subset of the full LayoutCoordinates interface, containing only
-// the methods needed for selection handling.
-//
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui/src/commonMain/kotlin/androidx/compose/ui/layout/LayoutCoordinates.kt
-type LayoutCoordinates interface {
-	// IsAttached returns true if this layout is currently attached.
-	IsAttached() bool
-}
+// Use layout.LayoutCoordinates for new code.
+type LayoutCoordinates = layout.LayoutCoordinates
 
-// Selectable represents a selectable region of text.
-//
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/text/selection/Selectable.kt
-type Selectable interface {
-	// GetLastVisibleOffset returns the last visible character offset.
-	GetLastVisibleOffset() int
-}
+// SelectionRegistrar is an alias to the selection package's SelectionRegistrar.
+// Use selection.SelectionRegistrar for new code.
+type SelectionRegistrar = selection.SelectionRegistrar
 
-// SelectionAnchorInfo contains information about a selection anchor point.
-//
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/text/selection/Selection.kt
-type SelectionAnchorInfo struct {
-	// Offset is the character offset of this anchor in the text.
-	Offset int
-	// Direction is the text direction at this anchor point.
-	Direction int
-	// SelectableId is the id of the selectable this anchor belongs to.
-	SelectableId int64
-}
+// Selection is an alias to the selection package's Selection.
+// Use selection.Selection for new code.
+type Selection = selection.Selection
 
-// Selection represents a text selection with start and end anchors.
-//
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/text/selection/Selection.kt
-type Selection struct {
-	// Start is the start anchor of the selection.
-	Start SelectionAnchorInfo
-	// End is the end anchor of the selection.
-	End SelectionAnchorInfo
-	// HandlesCrossed indicates if the selection handles have crossed.
-	// When true, the start handle is visually after the end handle.
-	HandlesCrossed bool
-}
+// Selectable is an alias to the selection package's Selectable.
+// Use selection.Selectable for new code.
+type Selectable = selection.Selectable
 
 // MultiWidgetSelectionDelegate is a selection delegate that coordinates selection
-// across multiple text widgets.
+// across multiple text widgets. It implements the Selectable interface.
 //
 // https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/text/selection/MultiWidgetSelectionDelegate.kt
 type MultiWidgetSelectionDelegate struct {
-	// SelectableId is the unique identifier for this selectable.
-	SelectableId int64
+	// selectableId is the unique identifier for this selectable.
+	selectableId int64
 	// CoordinatesCallback returns the current layout coordinates.
-	CoordinatesCallback func() LayoutCoordinates
+	CoordinatesCallback func() layout.LayoutCoordinates
 	// LayoutResultCallback returns the current text layout result.
 	LayoutResultCallback func() *text.TextLayoutResult
 }
 
-// SelectionRegistrar manages the registration and coordination of selectable text regions.
-//
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/foundation/foundation/src/commonMain/kotlin/androidx/compose/foundation/text/selection/SelectionRegistrar.kt
-type SelectionRegistrar interface {
-	// Subscribe registers a selectable and returns the Selectable handle.
-	Subscribe(delegate MultiWidgetSelectionDelegate) Selectable
-
-	// Unsubscribe removes a selectable from the registrar.
-	Unsubscribe(selectable Selectable)
-
-	// NotifySelectableChange notifies the registrar that a selectable's content has changed.
-	NotifySelectableChange(selectableId int64)
-
-	// NotifyPositionChange notifies the registrar that a selectable's position has changed.
-	NotifyPositionChange(selectableId int64)
-
-	// Subselections returns the map of selection ID to Selection for active subselections.
-	Subselections() map[int64]*Selection
+// NewMultiWidgetSelectionDelegate creates a new MultiWidgetSelectionDelegate.
+func NewMultiWidgetSelectionDelegate(
+	selectableId int64,
+	coordinatesCallback func() layout.LayoutCoordinates,
+	layoutResultCallback func() *text.TextLayoutResult,
+) *MultiWidgetSelectionDelegate {
+	return &MultiWidgetSelectionDelegate{
+		selectableId:         selectableId,
+		CoordinatesCallback:  coordinatesCallback,
+		LayoutResultCallback: layoutResultCallback,
+	}
 }
+
+// SelectableId implements Selectable.SelectableId.
+func (d *MultiWidgetSelectionDelegate) SelectableId() int64 {
+	return d.selectableId
+}
+
+// AppendSelectableInfoToBuilder implements Selectable.AppendSelectableInfoToBuilder.
+func (d *MultiWidgetSelectionDelegate) AppendSelectableInfoToBuilder(builder selection.SelectionLayoutBuilder) {
+	// TODO: Implement when SelectionLayoutBuilder is fully defined
+}
+
+// GetSelectAllSelection implements Selectable.GetSelectAllSelection.
+func (d *MultiWidgetSelectionDelegate) GetSelectAllSelection() *selection.Selection {
+	result := d.LayoutResultCallback()
+	if result == nil {
+		return nil
+	}
+	textLen := len(result.LayoutInput().Text.Text())
+	if textLen == 0 {
+		return nil
+	}
+	return &selection.Selection{
+		Start: selection.AnchorInfo{
+			Offset:       0,
+			SelectableId: d.selectableId,
+		},
+		End: selection.AnchorInfo{
+			Offset:       textLen,
+			SelectableId: d.selectableId,
+		},
+		HandlesCrossed: false,
+	}
+}
+
+// GetHandlePosition implements Selectable.GetHandlePosition.
+func (d *MultiWidgetSelectionDelegate) GetHandlePosition(sel selection.Selection, isStartHandle bool) geometry.Offset {
+	// TODO: Implement proper handle position calculation using TextLayoutResult
+	return geometry.OffsetZero
+}
+
+// GetLayoutCoordinates implements Selectable.GetLayoutCoordinates.
+func (d *MultiWidgetSelectionDelegate) GetLayoutCoordinates() layout.LayoutCoordinates {
+	return d.CoordinatesCallback()
+}
+
+// TextLayoutResult implements Selectable.TextLayoutResult.
+func (d *MultiWidgetSelectionDelegate) TextLayoutResult() *text.TextLayoutResult {
+	return d.LayoutResultCallback()
+}
+
+// GetText implements Selectable.GetText.
+func (d *MultiWidgetSelectionDelegate) GetText() text.AnnotatedString {
+	result := d.LayoutResultCallback()
+	if result == nil {
+		return text.NewAnnotatedString("", nil, nil)
+	}
+	return result.LayoutInput().Text
+}
+
+// GetBoundingBox implements Selectable.GetBoundingBox.
+func (d *MultiWidgetSelectionDelegate) GetBoundingBox(offset int) geometry.Rect {
+	// TODO: Implement using TextLayoutResult
+	return geometry.RectZero
+}
+
+// GetLineLeft implements Selectable.GetLineLeft.
+func (d *MultiWidgetSelectionDelegate) GetLineLeft(offset int) float32 {
+	// TODO: Implement using TextLayoutResult
+	return 0
+}
+
+// GetLineRight implements Selectable.GetLineRight.
+func (d *MultiWidgetSelectionDelegate) GetLineRight(offset int) float32 {
+	// TODO: Implement using TextLayoutResult
+	return 0
+}
+
+// GetCenterYForOffset implements Selectable.GetCenterYForOffset.
+func (d *MultiWidgetSelectionDelegate) GetCenterYForOffset(offset int) float32 {
+	// TODO: Implement using TextLayoutResult
+	return 0
+}
+
+// GetRangeOfLineContaining implements Selectable.GetRangeOfLineContaining.
+func (d *MultiWidgetSelectionDelegate) GetRangeOfLineContaining(offset int) text.TextRange {
+	// TODO: Implement using TextLayoutResult
+	return text.TextRangeZero
+}
+
+// GetLastVisibleOffset implements Selectable.GetLastVisibleOffset.
+func (d *MultiWidgetSelectionDelegate) GetLastVisibleOffset() int {
+	result := d.LayoutResultCallback()
+	if result == nil {
+		return 0
+	}
+	return len(result.LayoutInput().Text.Text())
+}
+
+// GetLineHeight implements Selectable.GetLineHeight.
+func (d *MultiWidgetSelectionDelegate) GetLineHeight(offset int) float32 {
+	// TODO: Implement using TextLayoutResult
+	return 0
+}
+
+// Verify MultiWidgetSelectionDelegate implements Selectable at compile time.
+var _ selection.Selectable = (*MultiWidgetSelectionDelegate)(nil)
 
 // RememberObserver is an interface for objects that need lifecycle callbacks
 // when remembered in composition.

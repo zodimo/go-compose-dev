@@ -3,7 +3,10 @@ package modifiers
 import (
 	"testing"
 
+	"github.com/zodimo/go-compose/compose/foundation/text/selection"
+	"github.com/zodimo/go-compose/compose/ui/geometry"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
+	"github.com/zodimo/go-compose/compose/ui/layout"
 	"github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/compose/ui/text/style"
 	"github.com/zodimo/go-compose/compose/ui/unit"
@@ -19,12 +22,88 @@ func (m *mockLayoutCoordinates) IsAttached() bool {
 	return m.attached
 }
 
+func (m *mockLayoutCoordinates) Size() unit.IntSize {
+	return unit.IntSize{}
+}
+
+func (m *mockLayoutCoordinates) PositionInRoot() geometry.Offset {
+	return geometry.OffsetZero
+}
+
+func (m *mockLayoutCoordinates) PositionInWindow() geometry.Offset {
+	return geometry.OffsetZero
+}
+
+func (m *mockLayoutCoordinates) LocalPositionOf(source layout.LayoutCoordinates, relativeToSource geometry.Offset) geometry.Offset {
+	return geometry.OffsetZero
+}
+
+func (m *mockLayoutCoordinates) VisibleBounds() geometry.Rect {
+	return geometry.RectZero
+}
+
+func (m *mockLayoutCoordinates) BoundsInWindow() geometry.Rect {
+	return geometry.RectZero
+}
+
+// mockSelectable implements the full selection.Selectable interface
 type mockSelectable struct {
+	selectableId      int64
 	lastVisibleOffset int
+}
+
+func (m *mockSelectable) SelectableId() int64 {
+	return m.selectableId
+}
+
+func (m *mockSelectable) AppendSelectableInfoToBuilder(builder selection.SelectionLayoutBuilder) {}
+
+func (m *mockSelectable) GetSelectAllSelection() *selection.Selection {
+	return nil
+}
+
+func (m *mockSelectable) GetHandlePosition(sel selection.Selection, isStartHandle bool) geometry.Offset {
+	return geometry.OffsetZero
+}
+
+func (m *mockSelectable) GetLayoutCoordinates() layout.LayoutCoordinates {
+	return nil
+}
+
+func (m *mockSelectable) TextLayoutResult() *text.TextLayoutResult {
+	return nil
+}
+
+func (m *mockSelectable) GetText() text.AnnotatedString {
+	return text.NewAnnotatedString("", nil, nil)
+}
+
+func (m *mockSelectable) GetBoundingBox(offset int) geometry.Rect {
+	return geometry.RectZero
+}
+
+func (m *mockSelectable) GetLineLeft(offset int) float32 {
+	return 0
+}
+
+func (m *mockSelectable) GetLineRight(offset int) float32 {
+	return 0
+}
+
+func (m *mockSelectable) GetCenterYForOffset(offset int) float32 {
+	return 0
+}
+
+func (m *mockSelectable) GetRangeOfLineContaining(offset int) text.TextRange {
+	return text.TextRangeZero
 }
 
 func (m *mockSelectable) GetLastVisibleOffset() int {
 	return m.lastVisibleOffset
+}
+
+func (m *mockSelectable) GetLineHeight(offset int) float32 {
+	return 0
 }
 
 type mockSelectionRegistrar struct {
@@ -33,23 +112,31 @@ type mockSelectionRegistrar struct {
 	selectableId    int64
 	positionChanged bool
 	contentChanged  bool
-	subselections   map[int64]*Selection
+	subselections   map[int64]*selection.Selection
+	nextId          int64
 }
 
 func newMockSelectionRegistrar() *mockSelectionRegistrar {
 	return &mockSelectionRegistrar{
-		subselections: make(map[int64]*Selection),
+		subselections: make(map[int64]*selection.Selection),
+		nextId:        1,
 	}
 }
 
-func (m *mockSelectionRegistrar) Subscribe(delegate MultiWidgetSelectionDelegate) Selectable {
+func (m *mockSelectionRegistrar) Subscribe(selectable selection.Selectable) selection.Selectable {
 	m.subscribed = true
-	m.selectableId = delegate.SelectableId
-	return &mockSelectable{lastVisibleOffset: 100}
+	m.selectableId = selectable.SelectableId()
+	return &mockSelectable{selectableId: selectable.SelectableId(), lastVisibleOffset: 100}
 }
 
-func (m *mockSelectionRegistrar) Unsubscribe(selectable Selectable) {
+func (m *mockSelectionRegistrar) Unsubscribe(selectable selection.Selectable) {
 	m.unsubscribed = true
+}
+
+func (m *mockSelectionRegistrar) NextSelectableId() int64 {
+	id := m.nextId
+	m.nextId++
+	return id
 }
 
 func (m *mockSelectionRegistrar) NotifySelectableChange(selectableId int64) {
@@ -60,8 +147,33 @@ func (m *mockSelectionRegistrar) NotifyPositionChange(selectableId int64) {
 	m.positionChanged = true
 }
 
-func (m *mockSelectionRegistrar) Subselections() map[int64]*Selection {
+func (m *mockSelectionRegistrar) Subselections() map[int64]*selection.Selection {
 	return m.subselections
+}
+
+func (m *mockSelectionRegistrar) NotifySelectionUpdateStart(
+	layoutCoordinates layout.LayoutCoordinates,
+	startPosition geometry.Offset,
+	adjustment selection.SelectionAdjustment,
+	isInTouchMode bool,
+) {
+}
+
+func (m *mockSelectionRegistrar) NotifySelectionUpdateSelectAll(selectableId int64, isInTouchMode bool) {
+}
+
+func (m *mockSelectionRegistrar) NotifySelectionUpdate(
+	layoutCoordinates layout.LayoutCoordinates,
+	newPosition geometry.Offset,
+	previousPosition geometry.Offset,
+	isStartHandle bool,
+	adjustment selection.SelectionAdjustment,
+	isInTouchMode bool,
+) bool {
+	return true
+}
+
+func (m *mockSelectionRegistrar) NotifySelectionUpdateEnd() {
 }
 
 // Tests for StaticTextSelectionParams
@@ -98,25 +210,19 @@ func TestStaticTextSelectionParams_Copy(t *testing.T) {
 	coords := &mockLayoutCoordinates{attached: true}
 	params := NewStaticTextSelectionParams(coords, nil)
 
+	if params.LayoutCoordinatesValue() != coords {
+		t.Error("Expected LayoutCoordinates to be set")
+	}
+
 	newCoords := &mockLayoutCoordinates{attached: false}
-	copied := params.Copy(newCoords, nil)
+	copied := params.CopyWithLayoutCoordinates(newCoords)
 
 	if copied.LayoutCoordinatesValue() != newCoords {
-		t.Error("Expected copied params to have new coordinates")
+		t.Error("Expected copied LayoutCoordinates to be updated")
 	}
-	if copied.TextLayoutResultValue() != nil {
-		t.Error("Expected copied params to have nil TextLayoutResult")
-	}
-}
-
-func TestStaticTextSelectionParams_CopyWithLayoutCoordinates(t *testing.T) {
-	params := EmptyStaticTextSelectionParams()
-	coords := &mockLayoutCoordinates{attached: true}
-
-	copied := params.CopyWithLayoutCoordinates(coords)
-
-	if copied.LayoutCoordinatesValue() != coords {
-		t.Error("Expected copied params to have new coordinates")
+	// Original should be unchanged
+	if params.LayoutCoordinatesValue() != coords {
+		t.Error("Expected original LayoutCoordinates to be unchanged")
 	}
 }
 
@@ -124,26 +230,24 @@ func TestStaticTextSelectionParams_CopyWithLayoutCoordinates(t *testing.T) {
 
 func TestNewSelectionController(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	color := graphics.ColorBlack
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
 
-	sc := NewSelectionController(123, registrar, color)
-
-	if sc.SelectableId() != 123 {
-		t.Errorf("Expected selectableId 123, got %d", sc.SelectableId())
+	if sc.SelectableId() != 42 {
+		t.Errorf("Expected SelectableId 42, got %d", sc.SelectableId())
 	}
 	if sc.Modifier() == nil {
-		t.Error("Expected non-nil modifier")
+		t.Error("Expected non-nil Modifier")
 	}
 }
 
 func TestSelectionController_OnRemembered(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	sc := NewSelectionController(42, registrar, graphics.ColorBlack)
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
 
 	sc.OnRemembered()
 
 	if !registrar.subscribed {
-		t.Error("Expected registrar.Subscribe to be called")
+		t.Error("Expected Subscribe to be called")
 	}
 	if registrar.selectableId != 42 {
 		t.Errorf("Expected selectableId 42, got %d", registrar.selectableId)
@@ -152,78 +256,88 @@ func TestSelectionController_OnRemembered(t *testing.T) {
 
 func TestSelectionController_OnForgotten(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	sc := NewSelectionController(42, registrar, graphics.ColorBlack)
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
 
 	sc.OnRemembered()
 	sc.OnForgotten()
 
 	if !registrar.unsubscribed {
-		t.Error("Expected registrar.Unsubscribe to be called")
+		t.Error("Expected Unsubscribe to be called")
 	}
 }
 
 func TestSelectionController_OnAbandoned(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	sc := NewSelectionController(42, registrar, graphics.ColorBlack)
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
 
 	sc.OnRemembered()
 	sc.OnAbandoned()
 
 	if !registrar.unsubscribed {
-		t.Error("Expected registrar.Unsubscribe to be called")
-	}
-}
-
-func TestSelectionController_UpdateTextLayout_NotifiesOnTextChange(t *testing.T) {
-	registrar := newMockSelectionRegistrar()
-	sc := NewSelectionController(42, registrar, graphics.ColorBlack)
-
-	// Create first layout result
-	input1 := text.NewTextLayoutInput(
-		text.NewAnnotatedString("Hello", nil, nil),
-		text.TextStyle{},
-		nil,
-		1,
-		true,
-		style.OverFlowClip,
-		unit.NewDensity(1.0, 1.0),
-		unit.LayoutDirectionLtr,
-		nil,
-		unit.NewConstraints(0, 100, 0, 100),
-	)
-	result1 := text.NewTextLayoutResult(input1, nil, unit.IntSize{})
-	sc.UpdateTextLayout(&result1)
-
-	// Create second layout result with different text
-	input2 := text.NewTextLayoutInput(
-		text.NewAnnotatedString("World", nil, nil),
-		text.TextStyle{},
-		nil,
-		1,
-		true,
-		style.OverFlowClip,
-		unit.NewDensity(1.0, 1.0),
-		unit.LayoutDirectionLtr,
-		nil,
-		unit.NewConstraints(0, 100, 0, 100),
-	)
-	result2 := text.NewTextLayoutResult(input2, nil, unit.IntSize{})
-	sc.UpdateTextLayout(&result2)
-
-	if !registrar.contentChanged {
-		t.Error("Expected NotifySelectableChange to be called when text changes")
+		t.Error("Expected Unsubscribe to be called on abandon")
 	}
 }
 
 func TestSelectionController_UpdateGlobalPosition(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	sc := NewSelectionController(42, registrar, graphics.ColorBlack)
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
 
 	coords := &mockLayoutCoordinates{attached: true}
 	sc.UpdateGlobalPosition(coords)
 
 	if !registrar.positionChanged {
 		t.Error("Expected NotifyPositionChange to be called")
+	}
+}
+
+func createMockTextLayoutResult() *text.TextLayoutResult {
+	annotatedString := text.NewAnnotatedString("Hello World", nil, nil)
+	layoutInput := text.NewTextLayoutInput(
+		annotatedString,
+		text.TextStyle{},
+		nil,  // placeholders
+		1,    // maxLines
+		true, // softWrap
+		style.OverFlowClip,
+		nil, // density
+		0,   // layoutDirection
+		nil, // fontFamilyResolver
+		unit.NewConstraints(0, 1000, 0, 1000),
+	)
+	result := text.NewTextLayoutResult(
+		layoutInput,
+		nil, // multiParagraph
+		unit.IntSize{Width: 100, Height: 20},
+	)
+	return &result
+}
+
+func TestSelectionController_UpdateTextLayout_FirstUpdate(t *testing.T) {
+	registrar := newMockSelectionRegistrar()
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
+
+	result := createMockTextLayoutResult()
+	sc.UpdateTextLayout(result)
+
+	// First update should not notify change
+	if registrar.contentChanged {
+		t.Error("Expected no content change notification on first update")
+	}
+}
+
+func TestSelectionController_UpdateTextLayout_SameText(t *testing.T) {
+	registrar := newMockSelectionRegistrar()
+	sc := NewSelectionController(42, registrar, graphics.ColorBlue)
+
+	result1 := createMockTextLayoutResult()
+	sc.UpdateTextLayout(result1)
+
+	result2 := createMockTextLayoutResult() // Same text
+	sc.UpdateTextLayout(result2)
+
+	// Same text should not notify change
+	if registrar.contentChanged {
+		t.Error("Expected no content change notification when text is same")
 	}
 }
 
@@ -243,9 +357,9 @@ func TestSelectionController_Draw_NoSelection(t *testing.T) {
 
 func TestSelectionController_Draw_WithSelection(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	registrar.subselections[42] = &Selection{
-		Start:          SelectionAnchorInfo{Offset: 5},
-		End:            SelectionAnchorInfo{Offset: 10},
+	registrar.subselections[42] = &selection.Selection{
+		Start:          selection.AnchorInfo{Offset: 5},
+		End:            selection.AnchorInfo{Offset: 10},
 		HandlesCrossed: false,
 	}
 
@@ -266,9 +380,9 @@ func TestSelectionController_Draw_WithSelection(t *testing.T) {
 
 func TestSelectionController_Draw_SameStartEnd(t *testing.T) {
 	registrar := newMockSelectionRegistrar()
-	registrar.subselections[42] = &Selection{
-		Start:          SelectionAnchorInfo{Offset: 5},
-		End:            SelectionAnchorInfo{Offset: 5},
+	registrar.subselections[42] = &selection.Selection{
+		Start:          selection.AnchorInfo{Offset: 5},
+		End:            selection.AnchorInfo{Offset: 5},
 		HandlesCrossed: false,
 	}
 

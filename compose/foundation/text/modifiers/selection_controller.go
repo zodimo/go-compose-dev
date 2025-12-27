@@ -59,17 +59,16 @@ func (sc *SelectionController) SelectableId() int64 {
 // OnRemembered is called when the controller is remembered in composition.
 // It subscribes to the selection registrar.
 func (sc *SelectionController) OnRemembered() {
-	sc.selectable = sc.selectionRegistrar.Subscribe(
-		MultiWidgetSelectionDelegate{
-			SelectableId: sc.selectableId,
-			CoordinatesCallback: func() LayoutCoordinates {
-				return sc.params.LayoutCoordinatesValue()
-			},
-			LayoutResultCallback: func() *text.TextLayoutResult {
-				return sc.params.TextLayoutResultValue()
-			},
+	delegate := NewMultiWidgetSelectionDelegate(
+		sc.selectableId,
+		func() LayoutCoordinates {
+			return sc.params.LayoutCoordinatesValue()
+		},
+		func() *text.TextLayoutResult {
+			return sc.params.TextLayoutResultValue()
 		},
 	)
+	sc.selectable = sc.selectionRegistrar.Subscribe(delegate)
 }
 
 // OnForgotten is called when the controller is no longer remembered.
