@@ -1,42 +1,27 @@
 package text
 
 import (
-	"gioui.org/font"
-	"gioui.org/text"
-	"gioui.org/unit"
-
-	"github.com/zodimo/go-compose/theme"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
+	"github.com/zodimo/go-compose/compose/ui/text"
+	"github.com/zodimo/go-compose/compose/ui/text/style"
 )
 
 type TextOptions struct {
 	Modifier Modifier
 
-	// Alignment specifies the text alignment.
-	Alignment Alignment
-	// MaxLines limits the number of lines. Zero means no limit.
+	TextStyle *text.TextStyle
+
+	OnTextLayout func(text.TextLayoutResult)
+	OverFlow     style.TextOverFlow
+	SoftWrap     bool
+
 	MaxLines int
-	// Truncator is the text that will be shown at the end of the final
-	// line if MaxLines is exceeded. Defaults to "…" if empty.
-	Truncator string
-	// WrapPolicy configures how displayed text will be broken into lines.
-	WrapPolicy WrapPolicy
-	// LineHeight controls the distance between the baselines of lines of text.
-	// If zero, a sensible default will be used.
-	LineHeight unit.Sp
-	// LineHeightScale applies a scaling factor to the LineHeight. If zero, a
-	// sensible default will be used.
-	LineHeightScale float32
+	MinLines int
 
-	// Shaper is the text shaper used to display this labe. This field is automatically
-	// set using by all constructor functions. If constructing a LabelStyle literal, you
-	// must provide a Shaper or displaying text will panic.
-	Shaper *text.Shaper
+	InlineContent map[string]InlineTextContent
 
-	// Selectable provides text selection state for the label. If not set, the label cannot
-	// be selected or copied interactively.
-	Selectable bool
-
-	TextStyleOptions *TextStyleOptions
+	Color    graphics.ColorProducer
+	AutoSize TextAutoSize
 }
 
 type TextOption func(*TextOptions)
@@ -47,9 +32,26 @@ func WithModifier(m Modifier) TextOption {
 	}
 }
 
-func WithAlignment(alignment Alignment) TextOption {
+func WithTextStyle(ts *text.TextStyle) TextOption {
 	return func(o *TextOptions) {
-		o.Alignment = alignment
+		o.TextStyle = ts
+	}
+}
+
+func WithOnTextLayout(onTextLayout func(text.TextLayoutResult)) TextOption {
+	return func(o *TextOptions) {
+		o.OnTextLayout = onTextLayout
+	}
+}
+
+func WithOverFlow(overFlow style.TextOverFlow) TextOption {
+	return func(o *TextOptions) {
+		o.OverFlow = overFlow
+	}
+}
+func WithSoftWrap(softWrap bool) TextOption {
+	return func(o *TextOptions) {
+		o.SoftWrap = softWrap
 	}
 }
 
@@ -59,99 +61,19 @@ func WithMaxLines(maxLines int) TextOption {
 	}
 }
 
-func WithTruncator(truncator string) TextOption {
+func WithMinLines(minLines int) TextOption {
 	return func(o *TextOptions) {
-		o.Truncator = truncator
+		o.MinLines = minLines
 	}
 }
 
-func WithWrapPolicy(wrapPolicy WrapPolicy) TextOption {
-
+func WithColor(color graphics.ColorProducer) TextOption {
 	return func(o *TextOptions) {
-		o.WrapPolicy = wrapPolicy
-	}
-}
-
-func WithLineHeight(lineHeightInSP float32) TextOption {
-
-	return func(o *TextOptions) {
-		o.LineHeight = unit.Sp(lineHeightInSP)
-	}
-}
-
-func WithLineHeightScale(lineHeightScale float32) TextOption {
-
-	return func(o *TextOptions) {
-		o.LineHeightScale = lineHeightScale
-	}
-}
-
-func WithShaper(shaper *text.Shaper) TextOption {
-
-	return func(o *TextOptions) {
-		o.Shaper = shaper
-	}
-}
-
-func WithTextStyleOptions(textStyleOptions ...TextStyleOption) TextOption {
-	return func(o *TextOptions) {
-		for _, textStyleOption := range textStyleOptions {
-			textStyleOption(o.TextStyleOptions)
-		}
-	}
-}
-
-// TextSelectable sets the text to be selectable.
-// stores *widget.Selectable in runtime memoization
-func Selectable() TextOption {
-	return func(o *TextOptions) {
-		o.Selectable = true
-	}
-}
-
-type TextStyleOptions struct {
-	// Face defines the text style.
-	Font font.Font
-	// Color is the text color.
-	Color theme.ColorDescriptor
-	// SelectionColor is the color of the background for selected text.
-	SelectionColor theme.ColorDescriptor
-	// TextSize determines the size of the text glyphs.
-	TextSize unit.Sp
-	// Strikethrough draws a line through the text when true.
-	Strikethrough bool
-}
-
-type TextStyleOption func(*TextStyleOptions)
-
-func StyleWithFont(font font.Font) TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.Font = font
-	}
-}
-
-func StyleWithColor(color theme.ColorDescriptor) TextStyleOption {
-	return func(o *TextStyleOptions) {
 		o.Color = color
 	}
 }
-
-// StyleWithSelectionColor sets the selection highlight color.
-func StyleWithSelectionColor(color theme.ColorDescriptor) TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.SelectionColor = color
-	}
-}
-
-func StyleWithTextSize(sizeInSP float32) TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.TextSize = unit.Sp(sizeInSP)
-	}
-}
-
-// StyleWithStrikethrough enables strikethrough text decoration.
-func StyleWithStrikethrough() TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.Strikethrough = true
+func WithAutoSize(autoSize TextAutoSize) TextOption {
+	return func(o *TextOptions) {
+		o.AutoSize = autoSize
 	}
 }
