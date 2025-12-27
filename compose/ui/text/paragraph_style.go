@@ -262,7 +262,7 @@ func ResolveParagraphStyleDefaults(s *ParagraphStyle, direction unit.LayoutDirec
 
 	textIndent := s.TextIndent
 	if textIndent == nil {
-		textIndent = &style.TextIndentNone
+		textIndent = style.TextIndentNone
 	}
 
 	lineBreak := s.LineBreak

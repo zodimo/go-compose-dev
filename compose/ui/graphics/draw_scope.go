@@ -1,5 +1,7 @@
 package graphics
 
+var DrawStyleFill DrawStyle = &drawStyle{}
+
 // DrawStyle defines a way to draw something.
 type DrawStyle interface {
 }
@@ -14,3 +16,5 @@ func TakeOrElseDrawStyle(a, b DrawStyle) DrawStyle {
 	}
 	return b
 }
+
+type drawStyle struct{}

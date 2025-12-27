@@ -6,6 +6,7 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/text/intl"
 	"github.com/zodimo/go-compose/compose/ui/text/style"
 	"github.com/zodimo/go-compose/compose/ui/unit"
+	"github.com/zodimo/go-compose/pkg/sentinel"
 )
 
 var TextStyleUnspecified *TextStyle = &TextStyle{
@@ -233,4 +234,51 @@ func CoalesceTextStyle(ptr, def *TextStyle) *TextStyle {
 		return def
 	}
 	return ptr
+}
+
+func TextStyleResolveDefaults(ts *TextStyle, direction unit.LayoutDirection) *TextStyle {
+	ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+
+	return &TextStyle{
+		spanStyle:      SpanStyleResolveDefaults(ts.spanStyle),
+		paragraphStyle: ParagraphStyleResolveDefaults(ts.paragraphStyle, direction),
+		platformStyle:  ts.platformStyle,
+	}
+}
+
+func SpanStyleResolveDefaults(ss *SpanStyle) *SpanStyle {
+	ss = CoalesceSpanStyle(ss, SpanStyleUnspecified)
+	return &SpanStyle{
+		textForegroundStyle:    style.TakeOrElseTextForegroundStyle(ss.textForegroundStyle, DefaultColorForegroundStyle),
+		FontSize:               ss.FontSize.TakeOrElse(DefaultFontSize),
+		FontWeight:             ss.FontWeight.TakeOrElse(font.FontWeightNormal),
+		FontStyle:              ss.FontStyle.TakeOrElse(font.FontStyleNormal),
+		FontSynthesis:          font.TakeOrElseFontSynthesis(ss.FontSynthesis, font.FontSynthesisAll),
+		FontFamily:             font.TakeOrElseFontFamily(ss.FontFamily, font.FontFamilyDefault),
+		FontFeatureSettings:    sentinel.TakeOrElseString(ss.FontFeatureSettings, ""),
+		LetterSpacing:          ss.LetterSpacing.TakeOrElse(DefaultLetterSpacing),
+		BaselineShift:          style.TakeOrElseBaselineShift(ss.BaselineShift, style.BaselineShiftNone),
+		TextGeometricTransform: style.TakeOrElseTextGeometricTransform(ss.TextGeometricTransform, style.TextGeometricTransformNone),
+		LocaleList:             intl.TakeOrElseLocaleList(ss.LocaleList, nil), //LocaleList.Current - local provider
+		Background:             ss.Background.TakeOrElse(DefaultBackgroundColor),
+		TextDecoration:         style.TakeOrElseTextDecoration(ss.TextDecoration, style.TextDecorationNone),
+		Shadow:                 graphics.TakeOrElseShadow(ss.Shadow, graphics.ShadowNone),
+		PlatformStyle:          ss.PlatformStyle,
+		DrawStyle:              graphics.TakeOrElseDrawStyle(ss.DrawStyle, graphics.DrawStyleFill),
+	}
+}
+
+func ParagraphStyleResolveDefaults(ps *ParagraphStyle, direction unit.LayoutDirection) *ParagraphStyle {
+	ps = CoalesceParagraphStyle(ps, ParagraphStyleUnspecified)
+	return &ParagraphStyle{
+		TextAlign:       ps.TextAlign.TakeOrElse(style.TextAlignStart),
+		TextDirection:   style.ResolveTextDirection(direction, ps.TextDirection),
+		LineHeight:      ps.LineHeight.TakeOrElse(unit.TextUnitUnspecified),
+		TextIndent:      style.TakeOrElseTextIndent(ps.TextIndent, style.TextIndentNone),
+		PlatformStyle:   ps.PlatformStyle,
+		LineHeightStyle: ps.LineHeightStyle,
+		LineBreak:       ps.LineBreak.TakeOrElse(style.LineBreakSimple),
+		Hyphens:         ps.Hyphens.TakeOrElse(style.HyphensNone),
+		TextMotion:      style.TakeOrElseTextMotion(ps.TextMotion, style.TextMotionStatic),
+	}
 }

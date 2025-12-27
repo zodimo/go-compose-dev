@@ -19,7 +19,7 @@ type TextIndent struct {
 }
 
 // TextIndentNone is a constant for no text indent.
-var TextIndentNone = TextIndent{FirstLine: unit.Sp(0), RestLine: unit.Sp(0)}
+var TextIndentNone = &TextIndent{FirstLine: unit.Sp(0), RestLine: unit.Sp(0)}
 
 // NewTextIndent creates a new TextIndent with the given first line and rest line indentation.
 func NewTextIndent(firstLine, restLine unit.TextUnit) *TextIndent {
