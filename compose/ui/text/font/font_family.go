@@ -221,3 +221,10 @@ func StringFontFamily(f FontFamily) string {
 		panic("unknown font family type")
 	}
 }
+
+func CoalesceFontFamily(ptr, def FontFamily) FontFamily {
+	if ptr == nil {
+		return def
+	}
+	return ptr
+}
