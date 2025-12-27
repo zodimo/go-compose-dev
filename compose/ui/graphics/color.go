@@ -424,3 +424,7 @@ func ColorToNRGBA(c Color) color.NRGBA {
 		A: uint8(c.Alpha() * 255),
 	}
 }
+
+func FromNRGBA(c color.NRGBA) Color {
+	return NewColorSrgb(int(c.R), int(c.G), int(c.B), int(c.A))
+}
