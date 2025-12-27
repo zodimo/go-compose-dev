@@ -1,13 +1,12 @@
 package main
 
 import (
-	"image/color"
-
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/foundation/material3/badge"
 	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/theme"
 )
@@ -55,7 +54,7 @@ func UI() api.Composable {
 						badge.BadgedBox(
 							badge.Badge(
 								badge.WithText("!"),
-								badge.WithContainerColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0, G: 200, B: 0, A: 255})),
+								badge.WithContainerColor(theme.ColorHelper.SpecificColor(graphics.NewColorSrgb(0, 200, 0, 255))),
 							),
 							text.Text("📦", text.TypestyleHeadlineMedium),
 						),
