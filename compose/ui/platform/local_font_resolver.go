@@ -7,5 +7,5 @@ import (
 
 // LocalFontFamilyResolver is a CompositionLocal that provides the FontFamilyResolver to the composition.
 var LocalFontFamilyResolver = compose.StaticCompositionLocalOf[font.FontFamilyResolver](func() font.FontFamilyResolver {
-	panic("CompositionLocal LocalFontFamilyResolver not present")
+	return font.NewDefaultFontFamilyResolver()
 })
