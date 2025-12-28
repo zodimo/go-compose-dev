@@ -83,7 +83,6 @@ func Outlined(
 		tracker := trackerState.Get().(*TextFieldStateTracker)
 
 		// Update static properties
-		// Update static properties
 		outWidget.Editor.SingleLine = opts.SingleLine
 		outWidget.Editor.Submit = opts.OnSubmit != nil
 		// outWidget.CharLimit = opts.CharLimit
@@ -99,7 +98,7 @@ func Outlined(
 		})
 
 		// Constructor
-		c.SetWidgetConstructor(outlinedTextFieldWidgetConstructor(outWidget, value, opts.Label, opts, handlerWrapper, onSubmitWrapper, tracker))
+		c.SetWidgetConstructor(outlinedTextFieldWidgetConstructor(outWidget, value, opts, handlerWrapper, onSubmitWrapper, tracker))
 
 		return c.EndBlock()
 	}
@@ -108,7 +107,6 @@ func Outlined(
 func outlinedTextFieldWidgetConstructor(
 	w *OutlinedTextFieldWidget,
 	value string,
-	label string,
 	opts TextFieldOptions,
 	handler *HandlerWrapper,
 	onSubmitHandler *OnSubmitWrapper,
@@ -150,7 +148,7 @@ func outlinedTextFieldWidgetConstructor(
 
 			w.Colors = opts.Colors
 
-			return w.Layout(gtx, th, label)
+			return w.Layout(gtx, th, opts.Label)
 		}
 	})
 }
