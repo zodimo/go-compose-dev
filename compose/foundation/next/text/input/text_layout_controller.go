@@ -7,6 +7,7 @@ package input
 import (
 	"gioui.org/font"
 	"gioui.org/layout"
+	gioOp "gioui.org/op"
 	gioText "gioui.org/text"
 	"gioui.org/unit"
 
@@ -116,9 +117,19 @@ func (c *TextLayoutController) Layout(gtx layout.Context, shaper *gioText.Shaper
 	return c.view.Dimensions()
 }
 
-// PaintText paints the text glyphs.
-func (c *TextLayoutController) PaintText(gtx layout.Context, textMaterial layout.Widget) {
-	// For now, we use the simple approach - in the future integrate with text painting
+// PaintText clips and paints the text glyphs using the provided material.
+func (c *TextLayoutController) PaintText(gtx layout.Context, textMaterial gioOp.CallOp) {
+	c.view.PaintText(gtx, textMaterial)
+}
+
+// LayoutAndPaint performs layout and paints the text in one call.
+// This is the main entry point for rendering text.
+func (c *TextLayoutController) LayoutAndPaint(gtx layout.Context, shaper *gioText.Shaper, textMaterial gioOp.CallOp) layout.Dimensions {
+	gioFont := c.GetFont()
+	size := c.GetFontSize()
+	c.view.Layout(gtx, shaper, gioFont, size)
+	c.PaintText(gtx, textMaterial)
+	return c.view.Dimensions()
 }
 
 // Len returns the length of the text in runes.

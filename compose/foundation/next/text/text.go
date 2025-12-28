@@ -7,9 +7,9 @@ import (
 	"gioui.org/op/paint"
 
 	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/foundation/next/text/input"
 	"github.com/zodimo/go-compose/compose/foundation/next/text/modifiers"
 	"github.com/zodimo/go-compose/compose/foundation/next/text/selection"
-	"github.com/zodimo/go-compose/compose/foundation/next/text/widget"
 	"github.com/zodimo/go-compose/compose/ui/geometry"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/platform"
@@ -23,7 +23,6 @@ import (
 	"github.com/zodimo/go-ternary"
 
 	gioText "gioui.org/text"
-	gioUnit "gioui.org/unit"
 )
 
 const BasicTextNodeID = "BasicText"
@@ -174,53 +173,49 @@ func textWithLinksAndInlineContentConstructor(constructorArgs BasicTextConstruct
 }
 
 func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {
+	// Create the bridge adapter from the annotated string
+	textString := constructorArgs.annotatedString.Text()
+	sourceAdapter := input.NewTextSourceAdapterFromString(textString)
+
+	// Create the layout controller
+	controller := input.NewTextLayoutController(sourceAdapter)
+
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-
-			// where to find the theme?
+			// Get theme and shaper
 			materialTheme := GetThemeManager().MaterialTheme()
 			tm := theme.GetThemeManager()
 
-			textString := constructorArgs.annotatedString.Text()
-
-			// resolve color and style from local theme provider
-
+			// Resolve text style with defaults
 			textStyle := text.TextStyleResolveDefaults(constructorArgs.style, constructorArgs.layoutDirection)
 
+			// Configure the controller from the text style
+			controller.SetTextStyle(textStyle)
+			controller.ConfigureFromTextStyle(textStyle)
+			controller.SetMaxLines(constructorArgs.maxLines)
+			controller.SetTruncator("...")
+			controller.SetLineHeightScale(1)
+
+			// Resolve text color
 			var textColorDescriptor theme.ColorDescriptor
 			if constructorArgs.color != nil {
 				textColorDescriptor = theme.ColorHelper.SpecificColor(constructorArgs.color())
 			} else {
 				textColorDescriptor = theme.ColorHelper.SpecificColor(textStyle.Color())
 			}
-
-			// Resolve ColorDescriptors to NRGBA
 			resolvedTextColor := tm.ResolveColorDescriptor(textColorDescriptor).AsNRGBA()
 
+			// Create text color material
 			textColorMacro := op.Record(gtx.Ops)
 			paint.ColorOp{Color: resolvedTextColor}.Add(gtx.Ops)
 			textColor := textColorMacro.Stop()
 
-			dims := widget.Label{
-				Alignment:       textAlignToGioAlign(textStyle.TextAlign()),
-				MaxLines:        constructorArgs.maxLines,
-				Truncator:       "...",
-				WrapPolicy:      lineBreakToGioWrapPolicy(textStyle.LineBreak()),
-				LineHeight:      gioUnit.Sp(textStyle.LineHeight().Value()), // TODO: check this, we didnt to unit check
-				LineHeightScale: 1,
-			}.Layout(
-				gtx,
-				materialTheme.Shaper,
-				font.ToGioFont(textStyle.FontFamily(), textStyle.FontWeight(), textStyle.FontStyle()),
-				gioUnit.Sp(textStyle.FontSize().Value()), // TODO: check this, we didnt to unit check
-				textString,
-				textColor,
-			)
+			// Use the controller to layout and paint the text
+			dims := controller.LayoutAndPaint(gtx, materialTheme.Shaper, textColor)
 
 			return dims
 		}
 	})
-
 }
 
 func validateMinMaxLines(minLines int, maxLines int) {
