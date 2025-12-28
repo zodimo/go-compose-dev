@@ -15,6 +15,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/material3/slider"
 	mswitch "github.com/zodimo/go-compose/compose/foundation/material3/switch"
 	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/theme"
@@ -101,7 +102,7 @@ func SelectionScreen(c api.Composer) api.Composable {
 							},
 							options[i],
 							getShapeForIndex(i, len(options)),
-							segmentedbutton.WithSelectedColor(theme.ColorHelper.SpecificColor(color.NRGBA{R: 0xE8, G: 0xDE, B: 0xF8, A: 0xFF})),
+							segmentedbutton.WithSelectedColor(theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 0xE8, G: 0xDE, B: 0xF8, A: 0xFF}))),
 							segmentedbutton.WithSelectedIcon(checkIcon),
 						)
 					}),
