@@ -1,22 +1,22 @@
 package textfield
 
 import (
+	"github.com/zodimo/go-compose/compose/foundation/next/text"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/pkg/sentinel"
-	"github.com/zodimo/go-maybe"
 )
 
 type TextFieldOptions struct {
 	Modifier       Modifier
 	Enabled        bool
 	ReadOnly       bool
-	TextStyle      interface{}
+	TextStyle      *text.TextStyle
 	Label          string //maybe.Maybe[api.Composable]
 	Placeholder    string //maybe.Maybe[api.Composable]
-	LeadingIcon    maybe.Maybe[api.Composable]
-	TrailingIcon   maybe.Maybe[api.Composable]
-	Prefix         maybe.Maybe[api.Composable]
-	Suffix         maybe.Maybe[api.Composable]
+	LeadingIcon    api.Composable
+	TrailingIcon   api.Composable
+	Prefix         api.Composable
+	Suffix         api.Composable
 	SupportingText string //maybe.Maybe[api.Composable]
 	IsError        bool
 	SingleLine     bool
@@ -61,14 +61,14 @@ func DefaultTextFieldOptions() TextFieldOptions {
 		Modifier:       EmptyModifier,
 		Enabled:        true,
 		ReadOnly:       false,
-		TextStyle:      DefaultTextFieldColors().TextColor,
-		Label:          sentinel.StringUnspecified, //maybe.None[api.Composable](),
-		Placeholder:    sentinel.StringUnspecified, //maybe.None[api.Composable](),
-		LeadingIcon:    maybe.None[api.Composable](),
-		TrailingIcon:   maybe.None[api.Composable](),
-		Prefix:         maybe.None[api.Composable](),
-		Suffix:         maybe.None[api.Composable](),
-		SupportingText: sentinel.StringUnspecified, //maybe.None[api.Composable](),
+		TextStyle:      nil,
+		Label:          sentinel.StringUnspecified,
+		Placeholder:    sentinel.StringUnspecified,
+		LeadingIcon:    nil,
+		TrailingIcon:   nil,
+		Prefix:         nil,
+		Suffix:         nil,
+		SupportingText: sentinel.StringUnspecified,
 		IsError:        false,
 		SingleLine:     true,
 		MaxLines:       1,
@@ -98,7 +98,7 @@ func WithReadOnly(readOnly bool) TextFieldOption {
 	}
 }
 
-func WithTextStyle(textStyle interface{}) TextFieldOption {
+func WithTextStyle(textStyle *text.TextStyle) TextFieldOption {
 	return func(o *TextFieldOptions) {
 		o.TextStyle = textStyle
 	}
@@ -118,25 +118,25 @@ func WithPlaceholder(placeholder string) TextFieldOption {
 
 func WithLeadingIcon(icon Composable) TextFieldOption {
 	return func(o *TextFieldOptions) {
-		o.LeadingIcon = maybe.Some(icon)
+		o.LeadingIcon = icon
 	}
 }
 
 func WithTrailingIcon(icon Composable) TextFieldOption {
 	return func(o *TextFieldOptions) {
-		o.TrailingIcon = maybe.Some(icon)
+		o.TrailingIcon = icon
 	}
 }
 
 func WithPrefix(prefix Composable) TextFieldOption {
 	return func(o *TextFieldOptions) {
-		o.Prefix = maybe.Some(prefix)
+		o.Prefix = prefix
 	}
 }
 
 func WithSuffix(suffix Composable) TextFieldOption {
 	return func(o *TextFieldOptions) {
-		o.Suffix = maybe.Some(suffix)
+		o.Suffix = suffix
 	}
 }
 
