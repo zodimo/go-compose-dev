@@ -15,8 +15,8 @@ This workflow guides you through adding Material 3 reference links to component 
    - Note the component name and the M3 Web/Specs URLs.
 
 2. **Navigate to Component Directory**
-   - Go to `compose/foundation/material3/{component}`.
-   - Example: For `button`, go to `compose/foundation/material3/button`.
+   - Go to `compose/material3/{component}`.
+   - Example: For `button`, go to `compose/material3/button`.
 
 3. **Locate or Create Documentation File**
    - Look for `doc.go` in the component directory.

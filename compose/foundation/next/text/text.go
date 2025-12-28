@@ -41,21 +41,6 @@ func BasicText(
 	}
 
 	validateMinMaxLines(opts.MinLines, opts.MaxLines)
-	// val selectionRegistrar = LocalSelectionRegistrar.current
-	//  val selectionController =
-	//     if (selectionRegistrar != null) {
-	//         val backgroundSelectionColor = LocalTextSelectionColors.current.backgroundColor
-	//         val selectableId =
-	//             rememberSaveable(selectionRegistrar, saver = selectionIdSaver(selectionRegistrar)) {
-	//                 selectionRegistrar.nextSelectableId()
-	//             }
-	//         remember(selectableId, selectionRegistrar, backgroundSelectionColor) {
-	//             SelectionController(selectableId, selectionRegistrar, backgroundSelectionColor)
-	//         }
-	//     } else {
-	//         null
-	//     }
-
 	hasInlineContent := annotatedString.HasInlineContent()
 	hasLinks := annotatedString.HasLinks()
 

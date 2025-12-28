@@ -12,9 +12,9 @@ import (
 
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
-	"github.com/zodimo/go-compose/compose/foundation/material3/button"
-	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
-	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/material3/button"
+	"github.com/zodimo/go-compose/compose/material3/scaffold"
+	"github.com/zodimo/go-compose/compose/material3/text"
 	"github.com/zodimo/go-compose/compose/navigation"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/runtime"

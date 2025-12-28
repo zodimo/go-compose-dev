@@ -12,9 +12,9 @@ This document tracks the status of Jetpack Compose components within `github.com
 
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
-| **Button** | ✅ Implemented | `widget/button` | `compose/foundation/material3/button` |
+| **Button** | ✅ Implemented | `widget/button` | `compose/material3/button` |
 | **Floating Action Button** | ✅ Implemented | `widget/button` | Can be derived from Button or typically styled in `gio-mw`. |
-| **Icon Button** | ✅ Implemented | `widget/button` | `compose/foundation/material3/iconbutton` |
+| **Icon Button** | ✅ Implemented | `widget/button` | `compose/material3/iconbutton` |
 | **Segmented Button** | ❌ Missing | - | |
 | **Extended FAB** | ❌ Missing | - | |
 
@@ -22,23 +22,23 @@ This document tracks the status of Jetpack Compose components within `github.com
 
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
-| **Badges** | ✅ Implemented | `compose/foundation/material3/badge` | |
-| **Progress Indicators** | ✅ Implemented | `widget/indicator` | `compose/foundation/material3/progress`. Includes `LoadingIndicator` (indeterminate). |
-| **Snackbar** | ✅ Implemented | `widget/snackbar` | `compose/foundation/material3/snackbar` |
-| **Tooltips** | ✅ Implemented | `widget/tooltip` | `compose/foundation/material3/tooltip` |
+| **Badges** | ✅ Implemented | `compose/material3/badge` | |
+| **Progress Indicators** | ✅ Implemented | `widget/indicator` | `compose/material3/progress`. Includes `LoadingIndicator` (indeterminate). |
+| **Snackbar** | ✅ Implemented | `widget/snackbar` | `compose/material3/snackbar` |
+| **Tooltips** | ✅ Implemented | `widget/tooltip` | `compose/material3/tooltip` |
 
 ## Containment
 
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
-| **Bottom Sheets** | ✅ Implemented | `widget/sheet` | `compose/foundation/material3/bottomsheet`. Modal Bottom Sheet implemented. |
-| **Cards** | ✅ Implemented | `widget/card` | `compose/foundation/material3/card` |
+| **Bottom Sheets** | ✅ Implemented | `widget/sheet` | `compose/material3/bottomsheet`. Modal Bottom Sheet implemented. |
+| **Cards** | ✅ Implemented | `widget/card` | `compose/material3/card` |
 | **Carousel** | ❌ Missing | - | |
-| **Dialogs** | ✅ Implemented | `widget/dialog` | `compose/foundation/material3/dialog` |
-| **Dividers** | ✅ Implemented | `widget/divider` | `compose/foundation/material3/divider` |
+| **Dialogs** | ✅ Implemented | `widget/dialog` | `compose/material3/dialog` |
+| **Dividers** | ✅ Implemented | `widget/divider` | `compose/material3/divider` |
 | **Lists** | ✅ Implemented | Core Gio | Implemented `LazyColumn` and `LazyRow` wrappers (Eager composition, Lazy layout). |
-| **Scaffold** | ✅ Implemented | `compose/foundation/material3/scaffold` | High priority for app structure. |
-| **Surface** | ✅ Implemented | - | `compose/foundation/material3/surface`. Fundamental building block. |
+| **Scaffold** | ✅ Implemented | `compose/material3/scaffold` | High priority for app structure. |
+| **Surface** | ✅ Implemented | - | `compose/material3/surface`. Fundamental building block. |
 
 ## Navigation
 
@@ -47,20 +47,20 @@ This document tracks the status of Jetpack Compose components within `github.com
 | **App Bars** | ✅ Implemented | - | Top and Bottom App Bars implemented. |
 | **Navigation Bar** | ✅ Implemented | - | Bottom Navigation (`navigationbar`). |
 | **Navigation Drawer** | ✅ Implemented | - | - [x] Navigation Drawer (Modal) - [x] Navigation Drawer Item |
-| **Navigation Rail** | ✅ Implemented | `widget/rail` | `compose/foundation/material3/navigationrail` (Prototype Implemented) |
-| Tabs | 🟢 Implemented | `widget.tab` (Basic) | `compose/foundation/material3/tab` |
+| **Navigation Rail** | ✅ Implemented | `widget/rail` | `compose/material3/navigationrail` (Prototype Implemented) |
+| Tabs | 🟢 Implemented | `widget.tab` (Basic) | `compose/material3/tab` |
 
 ## Selection
 
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
-| **Checkbox** | ✅ Implemented | `widget/checkbox` | `compose/foundation/material3/checkbox` |
-| **Chips** | ✅ Implemented | `compose/foundation/material3/chip` | Assist, Filter, Input, Suggestion chips. |
+| **Checkbox** | ✅ Implemented | `widget/checkbox` | `compose/material3/checkbox` |
+| **Chips** | ✅ Implemented | `compose/material3/chip` | Assist, Filter, Input, Suggestion chips. |
 | **Date Picker** | ❌ Missing | - | |
-| [Menu](https://m3.material.io/components/menus/overview) | ✅ Implemented | `compose/foundation/material3/menu` | |
-| **Radio Button** | ✅ Implemented | `widget/radio` | `compose/foundation/material3/radiobutton` |
-| **Sliders** | ✅ Implemented | `widget/slider` | `compose/foundation/material3/slider` |
-| **Switch** | ✅ Implemented | `widget/toggle` | `compose/foundation/material3/switch` |
+| [Menu](https://m3.material.io/components/menus/overview) | ✅ Implemented | `compose/material3/menu` | |
+| **Radio Button** | ✅ Implemented | `widget/radio` | `compose/material3/radiobutton` |
+| **Sliders** | ✅ Implemented | `widget/slider` | `compose/material3/slider` |
+| **Switch** | ✅ Implemented | `widget/toggle` | `compose/material3/switch` |
 | **Time Pickers** | ❌ Missing | - | |
 
 ## Text Inputs
@@ -68,8 +68,8 @@ This document tracks the status of Jetpack Compose components within `github.com
 | Component | Status | `gio-mw` | Notes |
 | :--- | :--- | :--- | :--- |
 | **Search** | 📦 Available | `widget/search` | |
-| **Text Fields** | ✅ Implemented | `widget/input` | `compose/foundation/material3/textfield` |
-| **Text** | ✅ Implemented | - | `compose/foundation/material3/text`. Renders text with typography. |
+| **Text Fields** | ✅ Implemented | `widget/input` | `compose/material3/textfield` |
+| **Text** | ✅ Implemented | - | `compose/material3/text`. Renders text with typography. |
 
 ## Summary
 - **Strong Foundation**: Core inputs (Text, Checkbox, Radio, Switch), containers (Card, Surface, Dialog, Scaffold), and navigation (App Bars, Navigation Bar, Drawer) are ready.

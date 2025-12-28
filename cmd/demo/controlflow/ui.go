@@ -5,10 +5,10 @@ import (
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
-	m3Button "github.com/zodimo/go-compose/compose/foundation/material3/button"
-	m3Divider "github.com/zodimo/go-compose/compose/foundation/material3/divider"
-	m3Text "github.com/zodimo/go-compose/compose/foundation/material3/text"
 	"github.com/zodimo/go-compose/compose/foundation/text"
+	m3Button "github.com/zodimo/go-compose/compose/material3/button"
+	m3Divider "github.com/zodimo/go-compose/compose/material3/divider"
+	m3Text "github.com/zodimo/go-compose/compose/material3/text"
 
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"

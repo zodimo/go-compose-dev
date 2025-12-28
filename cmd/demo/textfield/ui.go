@@ -6,8 +6,8 @@ import (
 	"gioui.org/unit"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
-	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
-	"github.com/zodimo/go-compose/compose/foundation/material3/textfield"
+	m3text "github.com/zodimo/go-compose/compose/material3/text"
+	"github.com/zodimo/go-compose/compose/material3/textfield"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 

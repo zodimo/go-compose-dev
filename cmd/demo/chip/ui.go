@@ -6,8 +6,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
-	"github.com/zodimo/go-compose/compose/foundation/material3/chip"
-	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/material3/chip"
+	"github.com/zodimo/go-compose/compose/material3/text"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 

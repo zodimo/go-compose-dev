@@ -11,13 +11,13 @@ This workflow guides you through implementing a new UI component in `github.com/
 2. Check `docs/component_inventory.md` (if available) to see existing gap analysis.
 3. Search the codebase for similar components or prior art (e.g., in `gio-mw` or other packages).
 4. Create an `implementation_plan.md` artifact detailing:
-   - Target package (usually `compose/foundation/material3/[component]`).
+   - Target package (usually `compose/material3/[component]`).
    - Planned API (Composables, Modifiers, Colors).
    - Demo verification plan.
 
 ## 2. Implementation
 1. **Create Component Package**:
-   - Create `compose/foundation/material3/[component]/[component].go`.
+   - Create `compose/material3/[component]/[component].go`.
    - Define the main Composable function (e.g., `func MyComponent(...)`).
    - Implement logic using `gioui.org` primitives or `gio-mw` helpers.
 2. **Define Styles & Defaults**:

@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
-	"github.com/zodimo/go-compose/compose/foundation/material3/appbar"
-	"github.com/zodimo/go-compose/compose/foundation/material3/progress"
-	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
-	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/material3/appbar"
+	"github.com/zodimo/go-compose/compose/material3/progress"
+	"github.com/zodimo/go-compose/compose/material3/scaffold"
+	"github.com/zodimo/go-compose/compose/material3/text"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 )

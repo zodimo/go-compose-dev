@@ -6,10 +6,10 @@ import (
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
-	"github.com/zodimo/go-compose/compose/foundation/material3/button"
-	"github.com/zodimo/go-compose/compose/foundation/material3/surface"
-	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
 	"github.com/zodimo/go-compose/compose/foundation/text"
+	"github.com/zodimo/go-compose/compose/material3/button"
+	"github.com/zodimo/go-compose/compose/material3/surface"
+	m3text "github.com/zodimo/go-compose/compose/material3/text"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/padding"

@@ -6,9 +6,9 @@ import (
 
 	"github.com/zodimo/go-compose/compose/foundation/icon"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
-	"github.com/zodimo/go-compose/compose/foundation/material3/floatingactionbutton"
-	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
-	"github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/material3/floatingactionbutton"
+	"github.com/zodimo/go-compose/compose/material3/scaffold"
+	"github.com/zodimo/go-compose/compose/material3/text"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"

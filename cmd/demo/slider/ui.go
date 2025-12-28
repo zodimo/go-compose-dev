@@ -6,9 +6,9 @@ import (
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
-	"github.com/zodimo/go-compose/compose/foundation/material3/scaffold"
-	"github.com/zodimo/go-compose/compose/foundation/material3/slider"
-	m3text "github.com/zodimo/go-compose/compose/foundation/material3/text"
+	"github.com/zodimo/go-compose/compose/material3/scaffold"
+	"github.com/zodimo/go-compose/compose/material3/slider"
+	m3text "github.com/zodimo/go-compose/compose/material3/text"
 	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
