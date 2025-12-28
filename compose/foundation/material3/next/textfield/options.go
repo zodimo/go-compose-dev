@@ -1,0 +1,189 @@
+package textfield
+
+import (
+	"github.com/zodimo/go-compose/compose/foundation/next/text"
+	"github.com/zodimo/go-compose/pkg/api"
+	"github.com/zodimo/go-compose/pkg/sentinel"
+)
+
+type TextFieldOptions struct {
+	Modifier       Modifier
+	Enabled        bool
+	ReadOnly       bool
+	TextStyle      *text.TextStyle
+	Label          string //maybe.Maybe[api.Composable]
+	Placeholder    string //maybe.Maybe[api.Composable]
+	LeadingIcon    api.Composable
+	TrailingIcon   api.Composable
+	Prefix         api.Composable
+	Suffix         api.Composable
+	SupportingText string //maybe.Maybe[api.Composable]
+	IsError        bool
+	SingleLine     bool
+	MaxLines       int
+	MinLines       int
+
+	// VisualTransformation interface{}
+	// KeyboardOptions      interface{}
+	// KeyboardActions      interface{}
+	// InteractionSource    interface{}
+
+	Shape  interface{}
+	Colors TextFieldColors
+
+	OnSubmit func() // Called when Enter is pressed (SingleLine mode)
+
+	// modifier: Modifier = Modifier,
+	// enabled: Boolean = true,
+	// readOnly: Boolean = false,
+	// textStyle: TextStyle = LocalTextStyle.current,
+	// label: (@Composable () -> Unit)? = null,
+	// placeholder: (@Composable () -> Unit)? = null,
+	// leadingIcon: (@Composable () -> Unit)? = null,
+	// trailingIcon: (@Composable () -> Unit)? = null,
+	// prefix: (@Composable () -> Unit)? = null,
+	// suffix: (@Composable () -> Unit)? = null,
+	// supportingText: (@Composable () -> Unit)? = null,
+	// isError: Boolean = false,
+	// visualTransformation: VisualTransformation = VisualTransformation.None,
+	// keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+	// keyboardActions: KeyboardActions = KeyboardActions.Default,
+	// singleLine: Boolean = false,
+	// maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
+	// minLines: Int = 1,
+	// interactionSource: MutableInteractionSource? = null,
+	// shape: Shape = TextFieldDefaults.shape,
+	// colors: TextFieldColors = TextFieldDefaults.colors()
+}
+
+func DefaultTextFieldOptions() TextFieldOptions {
+	return TextFieldOptions{
+		Modifier:       EmptyModifier,
+		Enabled:        true,
+		ReadOnly:       false,
+		TextStyle:      nil,
+		Label:          sentinel.StringUnspecified,
+		Placeholder:    sentinel.StringUnspecified,
+		LeadingIcon:    nil,
+		TrailingIcon:   nil,
+		Prefix:         nil,
+		Suffix:         nil,
+		SupportingText: sentinel.StringUnspecified,
+		IsError:        false,
+		SingleLine:     true,
+		MaxLines:       1,
+		MinLines:       1,
+
+		Colors: DefaultTextFieldColors(),
+	}
+}
+
+type TextFieldOption func(*TextFieldOptions)
+
+func WithModifier(m Modifier) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Modifier = m
+	}
+}
+
+func WithEnabled(enabled bool) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Enabled = enabled
+	}
+}
+
+func WithReadOnly(readOnly bool) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.ReadOnly = readOnly
+	}
+}
+
+func WithTextStyle(textStyle *text.TextStyle) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.TextStyle = textStyle
+	}
+}
+
+func WithLabel(label string) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Label = label
+	}
+}
+
+func WithPlaceholder(placeholder string) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Placeholder = placeholder
+	}
+}
+
+func WithLeadingIcon(icon Composable) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.LeadingIcon = icon
+	}
+}
+
+func WithTrailingIcon(icon Composable) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.TrailingIcon = icon
+	}
+}
+
+func WithPrefix(prefix Composable) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Prefix = prefix
+	}
+}
+
+func WithSuffix(suffix Composable) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Suffix = suffix
+	}
+}
+
+func WithSupportingText(text string) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.SupportingText = text
+	}
+}
+
+func WithError(isError bool) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.IsError = isError
+	}
+}
+
+func WithSingleLine(singleLine bool) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.SingleLine = singleLine
+	}
+}
+
+func WithMaxLines(maxLines int) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.MaxLines = maxLines
+	}
+}
+
+func WithMinLines(minLines int) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.MinLines = minLines
+	}
+}
+
+func WithShape(shape interface{}) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Shape = shape
+	}
+}
+
+func WithColors(colors TextFieldColors) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Colors = colors
+	}
+}
+
+func WithOnSubmit(onSubmit func()) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.OnSubmit = onSubmit
+	}
+}
