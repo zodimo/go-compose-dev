@@ -1,5 +1,10 @@
 package material3
 
+import (
+	"git.sr.ht/~schnwalter/gio-mw/token"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
+)
+
 var ColorSetUnspecified = &ColorSet{
 	Color:   ColorUnspecified,
 	OnColor: ColorUnspecified,
@@ -8,6 +13,13 @@ var ColorSetUnspecified = &ColorSet{
 type ColorSet struct {
 	Color   Color
 	OnColor Color
+}
+
+func (c *ColorSet) ToTokens() token.MatColorSet {
+	return token.MatColorSet{
+		Color:   ColorToToken(c.Color),
+		OnColor: ColorToToken(c.OnColor),
+	}
 }
 
 func CoalesceColorSet(ptr, def *ColorSet) *ColorSet {
@@ -73,5 +85,12 @@ func MergeColorSet(a, b *ColorSet) *ColorSet {
 	return &ColorSet{
 		Color:   b.Color.TakeOrElse(a.Color),
 		OnColor: b.OnColor.TakeOrElse(a.OnColor),
+	}
+}
+
+func ColorSetFromTokens(token token.MatColorSet) *ColorSet {
+	return &ColorSet{
+		Color:   graphics.FromNRGBA(token.Color.AsNRGBA()),
+		OnColor: graphics.FromNRGBA(token.OnColor.AsNRGBA()),
 	}
 }
