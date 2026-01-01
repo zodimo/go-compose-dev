@@ -83,6 +83,14 @@ func (ts TextStyle) ToString() string {
 	panic("ToString not implemented")
 }
 
+func (ts TextStyle) Copy(options ...TextStyleOption) *TextStyle {
+	copy := ts
+	for _, option := range options {
+		option(&copy)
+	}
+	return &copy
+}
+
 func TextStyleResolveDefaults(ts *TextStyle, direction unit.LayoutDirection) *TextStyle {
 	ts = CoalesceTextStyle(ts, TextStyleUnspecified)
 	return &TextStyle{
