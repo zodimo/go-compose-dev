@@ -21,7 +21,7 @@ func UI(c api.Composer) api.LayoutNode {
 
 			// 1. Display default value
 			val1 := LocalString.Current(c)
-			m3text.Text(fmt.Sprintf("1. Outer Value: %s", val1), m3text.TypestyleBodyLarge)(c)
+			m3text.TextWithStyle(fmt.Sprintf("1. Outer Value: %s", val1), m3text.TypestyleBodyLarge)(c)
 
 			spacer.Height(int(unit.Dp(16)))(c)
 
@@ -30,7 +30,7 @@ func UI(c api.Composer) api.LayoutNode {
 				[]api.ProvidedValue{LocalString.Provides("Scoped Value")},
 				func(c api.Composer) api.Composer {
 					val2 := LocalString.Current(c)
-					m3text.Text(fmt.Sprintf("2. Inner Value: %s", val2), m3text.TypestyleBodyLarge)(c)
+					m3text.TextWithStyle(fmt.Sprintf("2. Inner Value: %s", val2), m3text.TypestyleBodyLarge)(c)
 
 					spacer.Height(int(unit.Dp(16)))(c)
 
@@ -39,7 +39,7 @@ func UI(c api.Composer) api.LayoutNode {
 						[]api.ProvidedValue{LocalString.Provides("Nested Scoped Value")},
 						func(c api.Composer) api.Composer {
 							val3 := LocalString.Current(c)
-							m3text.Text(fmt.Sprintf("3. Nested Value: %s", val3), m3text.TypestyleBodyLarge)(c)
+							m3text.TextWithStyle(fmt.Sprintf("3. Nested Value: %s", val3), m3text.TypestyleBodyLarge)(c)
 							return c
 						},
 					)(c)
@@ -52,7 +52,7 @@ func UI(c api.Composer) api.LayoutNode {
 
 			// 4. Verify value is back to default
 			val4 := LocalString.Current(c)
-			m3text.Text(fmt.Sprintf("4. Outer Again: %s", val4), m3text.TypestyleBodyLarge)(c)
+			m3text.TextWithStyle(fmt.Sprintf("4. Outer Again: %s", val4), m3text.TypestyleBodyLarge)(c)
 
 			return c
 		},

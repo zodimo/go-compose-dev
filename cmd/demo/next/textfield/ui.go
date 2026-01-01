@@ -32,11 +32,11 @@ func UI() api.Composable {
 		return column.Column(
 			c.Sequence(
 				// Title
-				text.Text("BasicTextField Demo (Next)", text.TypestyleHeadlineMedium),
+				text.TextWithStyle("BasicTextField Demo (Next)", text.TypestyleHeadlineMedium),
 				spacer.Height(24),
 
 				// Section: Basic Text Field
-				text.Text("Basic TextField", text.TypestyleTitleMedium),
+				text.TextWithStyle("Basic TextField", text.TypestyleTitleMedium),
 				spacer.Height(8),
 				foundationTextField.BasicTextField(
 					basicState,
@@ -48,7 +48,7 @@ func UI() api.Composable {
 				spacer.Height(16),
 
 				// Section: Single Line
-				text.Text("Single Line TextField", text.TypestyleTitleMedium),
+				text.TextWithStyle("Single Line TextField", text.TypestyleTitleMedium),
 				spacer.Height(8),
 				foundationTextField.BasicTextField(
 					singleLineState,
@@ -61,7 +61,7 @@ func UI() api.Composable {
 				spacer.Height(16),
 
 				// Section: Max Length (10 chars)
-				text.Text("Max Length (10 chars)", text.TypestyleTitleMedium),
+				text.TextWithStyle("Max Length (10 chars)", text.TypestyleTitleMedium),
 				spacer.Height(8),
 				foundationTextField.BasicTextField(
 					maxLengthState,
@@ -74,7 +74,7 @@ func UI() api.Composable {
 				spacer.Height(16),
 
 				// Section: Digits Only
-				text.Text("Digits Only", text.TypestyleTitleMedium),
+				text.TextWithStyle("Digits Only", text.TypestyleTitleMedium),
 				spacer.Height(8),
 				foundationTextField.BasicTextField(
 					digitsOnlyState,
@@ -87,7 +87,7 @@ func UI() api.Composable {
 				spacer.Height(24),
 
 				// Footer
-				text.Text("✓ Using TextFieldState + EditableTextLayoutController", text.TypestyleBodySmall),
+				text.TextWithStyle("✓ Using TextFieldState + EditableTextLayoutController", text.TypestyleBodySmall),
 			),
 		)(c)
 	}

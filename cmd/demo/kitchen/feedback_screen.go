@@ -74,12 +74,12 @@ func FeedbackScreen(c api.Composer, showDialog DialogState, snackbarHostState *S
 				spacer.Height(8),
 				row.Row(c.Sequence(
 					badge.BadgedBox(
-						badge.Badge(badge.WithContent(m3text.Text("5", m3text.TypestyleLabelSmall))),
+						badge.Badge(badge.WithContent(m3text.TextWithStyle("5", m3text.TypestyleLabelSmall))),
 						icon.Icon(mdicons.SocialNotifications),
 					),
 					spacer.Width(24),
 					badge.BadgedBox(
-						badge.Badge(badge.WithContent(m3text.Text("99", m3text.TypestyleLabelSmall))),
+						badge.Badge(badge.WithContent(m3text.TextWithStyle("99", m3text.TypestyleLabelSmall))),
 						icon.Icon(mdicons.CommunicationEmail),
 					),
 					spacer.Width(24),

@@ -108,9 +108,9 @@ func UI() Composable {
 }
 
 func Label(txt string) Composable {
-	return m3text.Text(txt, m3text.TypestyleBodyLarge)
+	return m3text.TextWithStyle(txt, m3text.TypestyleBodyLarge)
 }
 
 func ValueText(val float32) Composable {
-	return m3text.Text(fmt.Sprintf("Value: %.2f", val), m3text.TypestyleBodyMedium)
+	return m3text.TextWithStyle(fmt.Sprintf("Value: %.2f", val), m3text.TypestyleBodyMedium)
 }

@@ -27,7 +27,7 @@ func UI() api.Composable {
 			// Content
 			func(c api.Composer) api.Composer {
 				return box.Box(
-					text.Text(
+					text.TextWithStyle(
 						fmt.Sprintf("FAB Clicked: %d", count.Get().(int)),
 						text.TypestyleBodyLarge, // Added Typestyle
 					),

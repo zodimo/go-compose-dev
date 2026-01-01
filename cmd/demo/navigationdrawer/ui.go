@@ -45,7 +45,7 @@ func UI() api.Composable {
 		drawerContent := func(c api.Composer) api.Composer {
 			return column.Column(
 				func(c api.Composer) api.Composer {
-					text.Text("GoCompose Mail", text.TypestyleTitleMedium, ftext.WithModifier(padding.Padding(24, 24, 24, 12)))(c)
+					text.TextWithStyle("GoCompose Mail", text.TypestyleTitleMedium, ftext.WithModifier(padding.Padding(24, 24, 24, 12)))(c)
 
 					items := []string{"Inbox", "Outbox", "Favorites", "Trash"}
 					for _, item := range items {
@@ -54,7 +54,7 @@ func UI() api.Composable {
 							func() { setSelectedItem(item); setIsOpen(false) }, // Close drawer on selection for Modal
 							nil, // Icon
 							func(c api.Composer) api.Composer {
-								text.Text(item, text.TypestyleBodyMedium)(c)
+								text.TextWithStyle(item, text.TypestyleBodyMedium)(c)
 								return c
 							},
 							ui.EmptyModifier,
@@ -73,7 +73,7 @@ func UI() api.Composable {
 					// Header with Toggle
 					row.Row(
 						func(c api.Composer) api.Composer {
-							text.Text("Navigation Drawer Demo", text.TypestyleHeadlineSmall)(c)
+							text.TextWithStyle("Navigation Drawer Demo", text.TypestyleHeadlineSmall)(c)
 							spacer.Width(16)(c)
 							// Toggle Button (only meaningful for Modal/Dismissible)
 							button.Filled(
@@ -118,7 +118,7 @@ func UI() api.Composable {
 
 					spacer.Height(24)(c)
 
-					text.Text("Current Selection: "+selectedItem, text.TypestyleBodyLarge)(c)
+					text.TextWithStyle("Current Selection: "+selectedItem, text.TypestyleBodyLarge)(c)
 
 					return c
 				},

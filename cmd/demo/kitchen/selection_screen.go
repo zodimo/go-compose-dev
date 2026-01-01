@@ -39,7 +39,7 @@ func SelectionScreen(c api.Composer) api.Composable {
 					isChecked.Set(b)
 				}),
 				spacer.Width(8),
-				m3text.Text(fmt.Sprintf("Checked: %v", isChecked.Get().(bool)), m3text.TypestyleBodyMedium),
+				m3text.TextWithStyle(fmt.Sprintf("Checked: %v", isChecked.Get().(bool)), m3text.TypestyleBodyMedium),
 			), row.WithAlignment(row.Middle)),
 
 			spacer.Height(16),
@@ -50,7 +50,7 @@ func SelectionScreen(c api.Composer) api.Composable {
 					isSwitched.Set(b)
 				}),
 				spacer.Width(8),
-				m3text.Text(fmt.Sprintf("On: %v", isSwitched.Get().(bool)), m3text.TypestyleBodyMedium),
+				m3text.TextWithStyle(fmt.Sprintf("On: %v", isSwitched.Get().(bool)), m3text.TypestyleBodyMedium),
 			), row.WithAlignment(row.Middle)),
 
 			spacer.Height(16),
@@ -60,17 +60,17 @@ func SelectionScreen(c api.Composer) api.Composable {
 				row.Row(c.Sequence(
 					radiobutton.RadioButton(radioOption.Get().(int) == 0, func() { radioOption.Set(0) }),
 					spacer.Width(8),
-					m3text.Text("Option A", m3text.TypestyleBodyMedium),
+					m3text.TextWithStyle("Option A", m3text.TypestyleBodyMedium),
 				), row.WithAlignment(row.Middle)),
 				row.Row(c.Sequence(
 					radiobutton.RadioButton(radioOption.Get().(int) == 1, func() { radioOption.Set(1) }),
 					spacer.Width(8),
-					m3text.Text("Option B", m3text.TypestyleBodyMedium),
+					m3text.TextWithStyle("Option B", m3text.TypestyleBodyMedium),
 				), row.WithAlignment(row.Middle)),
 				row.Row(c.Sequence(
 					radiobutton.RadioButton(radioOption.Get().(int) == 2, func() { radioOption.Set(2) }),
 					spacer.Width(8),
-					m3text.Text("Option C", m3text.TypestyleBodyMedium),
+					m3text.TextWithStyle("Option C", m3text.TypestyleBodyMedium),
 				), row.WithAlignment(row.Middle)),
 			)),
 
@@ -81,7 +81,7 @@ func SelectionScreen(c api.Composer) api.Composable {
 				sliderValue.Get().(float32),
 				func(v float32) { sliderValue.Set(v) },
 			),
-			m3text.Text(fmt.Sprintf("Value: %.2f", sliderValue.Get().(float32)), m3text.TypestyleBodySmall),
+			m3text.TextWithStyle(fmt.Sprintf("Value: %.2f", sliderValue.Get().(float32)), m3text.TypestyleBodySmall),
 
 			spacer.Height(24),
 			SectionTitle("Segmented Button"),

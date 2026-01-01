@@ -16,11 +16,11 @@ func UI() api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
 			func(c api.Composer) api.Composer {
-				text.Text("Tooltip Demo", text.TypestyleHeadlineMedium)(c)
+				text.TextWithStyle("Tooltip Demo", text.TypestyleHeadlineMedium)(c)
 				spacer.Height(24)(c)
 
 				// Example 1: Tooltip on a button
-				text.Text("Button with Tooltip", text.TypestyleTitleSmall)(c)
+				text.TextWithStyle("Button with Tooltip", text.TypestyleTitleSmall)(c)
 				spacer.Height(8)(c)
 				tooltip.Tooltip(
 					"Click to submit",
@@ -30,34 +30,34 @@ func UI() api.Composable {
 				spacer.Height(24)(c)
 
 				// Example 2: Tooltip on an icon
-				text.Text("Icon with Tooltip", text.TypestyleTitleSmall)(c)
+				text.TextWithStyle("Icon with Tooltip", text.TypestyleTitleSmall)(c)
 				spacer.Height(8)(c)
 				tooltip.Tooltip(
 					"Notifications",
-					text.Text("🔔", text.TypestyleHeadlineMedium),
+					text.TextWithStyle("🔔", text.TypestyleHeadlineMedium),
 				)(c)
 
 				spacer.Height(24)(c)
 
 				// Example 3: Multiple tooltips in a row
-				text.Text("Multiple Tooltips", text.TypestyleTitleSmall)(c)
+				text.TextWithStyle("Multiple Tooltips", text.TypestyleTitleSmall)(c)
 				spacer.Height(8)(c)
 				row.Row(func(c api.Composer) api.Composer {
 					tooltip.Tooltip(
 						"Home",
-						text.Text("🏠", text.TypestyleHeadlineMedium),
+						text.TextWithStyle("🏠", text.TypestyleHeadlineMedium),
 					)(c)
 					spacer.Width(16)(c)
 
 					tooltip.Tooltip(
 						"Settings",
-						text.Text("⚙️", text.TypestyleHeadlineMedium),
+						text.TextWithStyle("⚙️", text.TypestyleHeadlineMedium),
 					)(c)
 					spacer.Width(16)(c)
 
 					tooltip.Tooltip(
 						"Profile",
-						text.Text("👤", text.TypestyleHeadlineMedium),
+						text.TextWithStyle("👤", text.TypestyleHeadlineMedium),
 					)(c)
 
 					return c

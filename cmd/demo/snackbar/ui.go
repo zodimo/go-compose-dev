@@ -26,10 +26,10 @@ func UI(c api.Composer) api.LayoutNode {
 			column.Column(
 				func(c compose.Composer) compose.Composer {
 					// Headline
-					m3Text.Text("Snackbars!", m3Text.TypestyleHeadlineLarge)(c)
+					m3Text.TextWithStyle("Snackbars!", m3Text.TypestyleHeadlineLarge)(c)
 
 					// Body
-					m3Text.Text("This is a simple body message, click for debug info.", m3Text.TypestyleBodyLarge)(c)
+					m3Text.TextWithStyle("This is a simple body message, click for debug info.", m3Text.TypestyleBodyLarge)(c)
 
 					// Button
 					button.Elevated(func() {

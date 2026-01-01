@@ -20,7 +20,7 @@ func UI() api.Composable {
 		return column.Column(
 			func(c api.Composer) api.Composer {
 				// Title
-				text.Text(
+				text.TextWithStyle(
 					"Chip Components",
 					text.TypestyleHeadlineMedium,
 				)(c)
@@ -34,7 +34,7 @@ func UI() api.Composable {
 						spacer.Width(16)(c)
 						chip.AssistChip(func() { fmt.Println("Assist with Icon") }, "With Icon",
 							chip.WithLeadingIcon(func(c api.Composer) api.Composer {
-								return text.Text("★", text.TypestyleBodyMedium)(c)
+								return text.TextWithStyle("★", text.TypestyleBodyMedium)(c)
 							}),
 						)(c)
 						return c
@@ -53,7 +53,7 @@ func UI() api.Composable {
 
 						var leadingIcon api.Composable
 						if selected {
-							leadingIcon = func(c api.Composer) api.Composer { return text.Text("✓", text.TypestyleBodyMedium)(c) }
+							leadingIcon = func(c api.Composer) api.Composer { return text.TextWithStyle("✓", text.TypestyleBodyMedium)(c) }
 						}
 
 						chip.FilterChip(
@@ -73,7 +73,7 @@ func UI() api.Composable {
 					func(c api.Composer) api.Composer {
 						chip.InputChip(func() { fmt.Println("Input Clicked") }, "Input Chip",
 							chip.WithTrailingIcon(func(c api.Composer) api.Composer {
-								return text.Text("×", text.TypestyleBodyMedium)(c)
+								return text.TextWithStyle("×", text.TypestyleBodyMedium)(c)
 							}),
 						)(c)
 						return c

@@ -38,7 +38,7 @@ func UI() api.Composable {
 				// Content Area
 				box.Box(
 					func(c api.Composer) api.Composer {
-						return m3text.Text(
+						return m3text.TextWithStyle(
 							fmt.Sprintf("Selected: %s", items[selectedIdx].Label),
 							m3text.TypestyleDisplayMedium,
 						)(c)
@@ -61,7 +61,7 @@ func UI() api.Composable {
 									return icon.Icon(item.Icon)(c)
 								},
 								func(c api.Composer) api.Composer {
-									return m3text.Text(item.Label, m3text.TypestyleLabelMedium)(c)
+									return m3text.TextWithStyle(item.Label, m3text.TypestyleLabelMedium)(c)
 								},
 							)(c)
 						}

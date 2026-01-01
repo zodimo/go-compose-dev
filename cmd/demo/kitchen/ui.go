@@ -67,7 +67,7 @@ func UI(c api.Composer) api.LayoutNode {
 				),
 				scaffold.WithTopBar(
 					appbar.TopAppBar(
-						m3text.Text(
+						m3text.TextWithStyle(
 							"Component Showcase",
 							m3text.TypestyleTitleLarge,
 						),
@@ -85,7 +85,7 @@ func UI(c api.Composer) api.LayoutNode {
 										return icon.Icon(item.Icon)(c)
 									},
 									func(c api.Composer) api.Composer {
-										return m3text.Text(item.Label, m3text.TypestyleLabelMedium)(c)
+										return m3text.TextWithStyle(item.Label, m3text.TypestyleLabelMedium)(c)
 									},
 								)(c)
 							}
@@ -125,7 +125,7 @@ func UI(c api.Composer) api.LayoutNode {
 
 // SectionTitle is a helper for section headers
 func SectionTitle(title string) api.Composable {
-	return m3text.Text(title, m3text.TypestyleTitleMedium)
+	return m3text.TextWithStyle(title, m3text.TypestyleTitleMedium)
 }
 
 // DialogState is passed to FeedbackScreen

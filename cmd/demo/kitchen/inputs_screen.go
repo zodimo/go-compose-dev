@@ -45,11 +45,11 @@ func InputsScreen(c api.Composer) api.Composable {
 
 				SectionTitle("Typography"),
 				spacer.Height(8),
-				m3text.Text("Display Large", m3text.TypestyleDisplayLarge),
-				m3text.Text("Headline Medium", m3text.TypestyleHeadlineMedium),
-				m3text.Text("Title Small", m3text.TypestyleTitleSmall),
-				m3text.Text("Body Medium", m3text.TypestyleBodyMedium),
-				m3text.Text("Label Small", m3text.TypestyleLabelSmall),
+				m3text.TextWithStyle("Display Large", m3text.TypestyleDisplayLarge),
+				m3text.TextWithStyle("Headline Medium", m3text.TypestyleHeadlineMedium),
+				m3text.TextWithStyle("Title Small", m3text.TypestyleTitleSmall),
+				m3text.TextWithStyle("Body Medium", m3text.TypestyleBodyMedium),
+				m3text.TextWithStyle("Label Small", m3text.TypestyleLabelSmall),
 
 				spacer.Height(24),
 				SectionTitle("Card"),
@@ -60,9 +60,9 @@ func InputsScreen(c api.Composer) api.Composable {
 							box.Box(
 								func(c api.Composer) api.Composer {
 									column.Column(c.Sequence(
-										m3text.Text("Card Title", m3text.TypestyleTitleMedium),
+										m3text.TextWithStyle("Card Title", m3text.TypestyleTitleMedium),
 										spacer.Height(8),
-										m3text.Text("This is card content demonstrating the Card surface component.", m3text.TypestyleBodyMedium),
+										m3text.TextWithStyle("This is card content demonstrating the Card surface component.", m3text.TypestyleBodyMedium),
 									))(c)
 									return c
 								},

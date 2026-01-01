@@ -15,7 +15,7 @@ func UI(c api.Composer) api.LayoutNode {
 		func(c api.Composer) api.Composer {
 			return column.Column(
 				func(c api.Composer) api.Composer {
-					text.Text("Default Loading Indicator", text.TypestyleBodyLarge)(c)
+					text.TextWithStyle("Default Loading Indicator", text.TypestyleBodyLarge)(c)
 					progress.LoadingIndicator()(c)
 					return c
 				},
@@ -26,7 +26,7 @@ func UI(c api.Composer) api.LayoutNode {
 		},
 		scaffold.WithTopBar(
 			appbar.TopAppBar(
-				text.Text("Loading Demo", text.TypestyleTitleMedium),
+				text.TextWithStyle("Loading Demo", text.TypestyleTitleMedium),
 			),
 		),
 	)(c).Build()

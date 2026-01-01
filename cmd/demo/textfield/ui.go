@@ -34,8 +34,8 @@ func UI(c api.Composer) api.LayoutNode {
 			),
 			spacer.Height(int(unit.Dp(16))),
 			// Display values
-			m3text.Text(fmt.Sprintf("Filled value: %s", filledText.Get().(string)), m3text.TypestyleBodyLarge),
-			m3text.Text(fmt.Sprintf("Outlined value: %s", outlinedText.Get().(string)), m3text.TypestyleBodyLarge),
+			m3text.TextWithStyle(fmt.Sprintf("Filled value: %s", filledText.Get().(string)), m3text.TypestyleBodyLarge),
+			m3text.TextWithStyle(fmt.Sprintf("Outlined value: %s", outlinedText.Get().(string)), m3text.TypestyleBodyLarge),
 		),
 	)
 

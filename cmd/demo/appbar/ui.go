@@ -23,13 +23,13 @@ func UI() api.Composable {
 				c.Sequence(
 					// 1. Simple TopAppBar
 					appbar.TopAppBar(
-						text.Text("Simple TopAppBar", text.TypestyleTitleLarge),
+						text.TextWithStyle("Simple TopAppBar", text.TypestyleTitleLarge),
 					),
 					spacer.Height(16),
 
 					// 2. TopAppBar with Navigation Icon
 					appbar.TopAppBar(
-						text.Text("With Nav Icon", text.TypestyleTitleLarge),
+						text.TextWithStyle("With Nav Icon", text.TypestyleTitleLarge),
 						appbar.WithNavigationIcon(
 							iconbutton.Standard(
 								func() {},
@@ -42,7 +42,7 @@ func UI() api.Composable {
 
 					// 3. TopAppBar with Actions
 					appbar.TopAppBar(
-						text.Text("With Actions", text.TypestyleTitleLarge),
+						text.TextWithStyle("With Actions", text.TypestyleTitleLarge),
 						appbar.WithActions(
 							iconbutton.Standard(
 								func() {},
@@ -65,7 +65,7 @@ func UI() api.Composable {
 
 					// 4. Center Aligned TopAppBar
 					appbar.CenterAlignedTopAppBar(
-						text.Text("Center Aligned", text.TypestyleTitleLarge),
+						text.TextWithStyle("Center Aligned", text.TypestyleTitleLarge),
 						appbar.WithNavigationIcon(
 							iconbutton.Standard(
 								func() {},
@@ -85,7 +85,7 @@ func UI() api.Composable {
 
 					// 5. Medium TopAppBar
 					appbar.MediumTopAppBar(
-						text.Text("Medium TopAppBar", text.TypestyleHeadlineSmall),
+						text.TextWithStyle("Medium TopAppBar", text.TypestyleHeadlineSmall),
 						appbar.WithNavigationIcon(
 							iconbutton.Standard(
 								func() {},
@@ -105,7 +105,7 @@ func UI() api.Composable {
 
 					// 6. Large TopAppBar
 					appbar.LargeTopAppBar(
-						text.Text("Large TopAppBar", text.TypestyleHeadlineMedium),
+						text.TextWithStyle("Large TopAppBar", text.TypestyleHeadlineMedium),
 						appbar.WithNavigationIcon(
 							iconbutton.Standard(
 								func() {},
@@ -130,7 +130,7 @@ func UI() api.Composable {
 
 					// 7. Custom Colors - Primary Theme
 					appbar.TopAppBar(
-						text.Text("Custom Colors", text.TypestyleTitleLarge),
+						text.TextWithStyle("Custom Colors", text.TypestyleTitleLarge),
 						appbar.WithNavigationIcon(
 							iconbutton.Standard(
 								func() {},

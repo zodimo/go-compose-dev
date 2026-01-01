@@ -37,7 +37,7 @@ func UI(c api.Composer) api.LayoutNode {
 			// Title
 			scope.Item("title", column.Column(
 				c.Sequence(
-					m3text.Text("Card Component Demo", m3text.TypestyleHeadlineMedium),
+					m3text.TextWithStyle("Card Component Demo", m3text.TypestyleHeadlineMedium),
 					spacer.Height(24),
 				),
 			))
@@ -123,7 +123,7 @@ func UI(c api.Composer) api.LayoutNode {
 			scope.Item("cover", column.Column(
 				c.Sequence(
 					SectionTitle("Card with ContentCover"),
-					m3text.Text("ContentCover provides full-bleed content without padding", m3text.TypestyleBodySmall),
+					m3text.TextWithStyle("ContentCover provides full-bleed content without padding", m3text.TypestyleBodySmall),
 					spacer.Height(8),
 					card.Elevated(
 						card.CardContents(
@@ -149,7 +149,7 @@ func UI(c api.Composer) api.LayoutNode {
 			scope.Item("multiple", column.Column(
 				c.Sequence(
 					SectionTitle("Card with Multiple Sections"),
-					m3text.Text("Cards can have multiple Content sections", m3text.TypestyleBodySmall),
+					m3text.TextWithStyle("Cards can have multiple Content sections", m3text.TypestyleBodySmall),
 					spacer.Height(8),
 					card.Filled(
 						card.CardContents(
@@ -173,7 +173,7 @@ func UI(c api.Composer) api.LayoutNode {
 			scope.Item("image", column.Column(
 				c.Sequence(
 					SectionTitle("Card with Image"),
-					m3text.Text("Using go-compose Image within ContentCover", m3text.TypestyleBodySmall),
+					m3text.TextWithStyle("Using go-compose Image within ContentCover", m3text.TypestyleBodySmall),
 					spacer.Height(8),
 					card.Elevated(
 						card.CardContents(
@@ -203,7 +203,7 @@ func UI(c api.Composer) api.LayoutNode {
 			scope.Item("clickable", column.Column(
 				c.Sequence(
 					SectionTitle("Clickable Cards (Hover Effect Demo)"),
-					m3text.Text("Cards with onClick show hover effect clipped to rounded corners", m3text.TypestyleBodySmall),
+					m3text.TextWithStyle("Cards with onClick show hover effect clipped to rounded corners", m3text.TypestyleBodySmall),
 					spacer.Height(8),
 					row.Row(
 						c.Sequence(
@@ -279,7 +279,7 @@ func UI(c api.Composer) api.LayoutNode {
 
 // SectionTitle creates a section heading
 func SectionTitle(title string) api.Composable {
-	return m3text.Text(title, m3text.TypestyleTitleMedium)
+	return m3text.TextWithStyle(title, m3text.TypestyleTitleMedium)
 }
 
 // CardContent creates a standard card content with title and description
@@ -287,9 +287,9 @@ func CardContent(title, description string) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
 			c.Sequence(
-				m3text.Text(title, m3text.TypestyleTitleMedium),
+				m3text.TextWithStyle(title, m3text.TypestyleTitleMedium),
 				spacer.Height(8),
-				m3text.Text(description, m3text.TypestyleBodyMedium),
+				m3text.TextWithStyle(description, m3text.TypestyleBodyMedium),
 			),
 		)(c)
 	}
@@ -299,7 +299,7 @@ func CardContent(title, description string) api.Composable {
 func SmallCardContent(title string) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return box.Box(
-			m3text.Text(title, m3text.TypestyleTitleSmall),
+			m3text.TextWithStyle(title, m3text.TypestyleTitleSmall),
 			box.WithAlignment(layout.Center),
 		)(c)
 	}
@@ -310,9 +310,9 @@ func InteractiveCardContent(inputValue api.MutableValue) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
 			c.Sequence(
-				m3text.Text("Interactive Form", m3text.TypestyleTitleMedium),
+				m3text.TextWithStyle("Interactive Form", m3text.TypestyleTitleMedium),
 				spacer.Height(12),
-				m3text.Text("Tab between fields works correctly:", m3text.TypestyleBodySmall),
+				m3text.TextWithStyle("Tab between fields works correctly:", m3text.TypestyleBodySmall),
 				spacer.Height(12),
 				textfield.TextField(
 					inputValue.Get().(string),
@@ -342,8 +342,8 @@ func CoverBanner(title, subtitle string) api.Composable {
 
 		return column.Column(
 			c.Sequence(
-				m3text.Text(title, m3text.TypestyleHeadlineSmall),
-				m3text.Text(subtitle, m3text.TypestyleBodySmall),
+				m3text.TextWithStyle(title, m3text.TypestyleHeadlineSmall),
+				m3text.TextWithStyle(subtitle, m3text.TypestyleBodySmall),
 			),
 			column.WithModifier(
 				background.Background(theme.ColorHelper.ColorSelector().PrimaryRoles.Container).

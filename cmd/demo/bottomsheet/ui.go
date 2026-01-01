@@ -22,9 +22,9 @@ func UI(c api.Composer) api.LayoutNode {
 		func(c api.Composer) api.Composer {
 			return column.Column(
 				func(c api.Composer) api.Composer {
-					text.Text("Bottom Sheet Title", text.TypestyleTitleLarge)(c)
+					text.TextWithStyle("Bottom Sheet Title", text.TypestyleTitleLarge)(c)
 					spacer.Height(16)(c)
-					text.Text("This is the content of the bottom sheet. It slides up from the bottom.", text.TypestyleBodyMedium)(c)
+					text.TextWithStyle("This is the content of the bottom sheet. It slides up from the bottom.", text.TypestyleBodyMedium)(c)
 					spacer.Height(16)(c)
 					button.Filled(
 						func() {
@@ -44,7 +44,7 @@ func UI(c api.Composer) api.LayoutNode {
 				func(c api.Composer) api.Composer {
 					return column.Column(
 						func(c api.Composer) api.Composer {
-							text.Text("Main Screen Content", text.TypestyleBodyMedium)(c)
+							text.TextWithStyle("Main Screen Content", text.TypestyleBodyMedium)(c)
 							spacer.Height(16)(c)
 							button.Filled(
 								func() {

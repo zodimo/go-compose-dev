@@ -22,14 +22,14 @@ func UI() api.Composable {
 					func(scope lazy.LazyListScope) {
 						// Header
 						scope.Item(nil, func(c api.Composer) api.Composer {
-							text.Text("Lazy List Demo", text.TypestyleHeadlineMedium, ftext.WithModifier(padding.All(16)))(c)
+							text.TextWithStyle("Lazy List Demo", text.TypestyleHeadlineMedium, ftext.WithModifier(padding.All(16)))(c)
 							return c
 						})
 
 						// 100 items
 						scope.Items(100, nil, func(index int) api.Composable {
 							return func(c api.Composer) api.Composer {
-								text.Text(fmt.Sprintf("Item %d", index), text.TypestyleBodyLarge, ftext.WithModifier(padding.All(8)))(c)
+								text.TextWithStyle(fmt.Sprintf("Item %d", index), text.TypestyleBodyLarge, ftext.WithModifier(padding.All(8)))(c)
 								return c
 							}
 						})

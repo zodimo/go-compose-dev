@@ -28,7 +28,7 @@ func UI(c api.Composer) api.LayoutNode {
 			func(c api.Composer) api.Composer {
 				return column.Column(
 					func(c api.Composer) api.Composer {
-						m3text.Text("Scaffold Content Area", m3text.TypestyleBodyLarge)(c)
+						m3text.TextWithStyle("Scaffold Content Area", m3text.TypestyleBodyLarge)(c)
 						button.Filled(func() {
 							snackbarHostState.ShowSnackbar("Content area button clicked!")
 						}, "Click Me")(c)
@@ -45,7 +45,7 @@ func UI(c api.Composer) api.LayoutNode {
 			return surface.Surface(
 				func(c api.Composer) api.Composer {
 					return box.Box(
-						m3text.Text("Top Bar", m3text.TypestyleTitleLarge),
+						m3text.TextWithStyle("Top Bar", m3text.TypestyleTitleLarge),
 						box.WithModifier(padding_modifier.All(16)),
 					)(c)
 				},
@@ -60,7 +60,7 @@ func UI(c api.Composer) api.LayoutNode {
 				func(c api.Composer) api.Composer {
 					return box.Box(
 						func(c api.Composer) api.Composer {
-							m3text.Text("Bottom Bar", m3text.TypestyleBodyMedium)(c)
+							m3text.TextWithStyle("Bottom Bar", m3text.TypestyleBodyMedium)(c)
 							return c
 						},
 						box.WithModifier(padding_modifier.All(16)),

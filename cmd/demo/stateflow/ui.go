@@ -43,8 +43,8 @@ func UI(c api.Composer) api.Composer {
 
 			return column.Column(
 				c.Sequence(
-					m3text.Text("StateFlow Integration Demo", m3text.TypestyleHeadlineMedium),
-					m3text.Text(fmt.Sprintf("Current Count (from flow): %d", count), m3text.TypestyleBodyLarge),
+					m3text.TextWithStyle("StateFlow Integration Demo", m3text.TypestyleHeadlineMedium),
+					m3text.TextWithStyle(fmt.Sprintf("Current Count (from flow): %d", count), m3text.TypestyleBodyLarge),
 					row.Row(
 						c.Sequence(
 							button.Filled(func() {

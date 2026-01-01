@@ -33,7 +33,7 @@ func UI() api.Composable {
 		return column.Column(
 			func(c api.Composer) api.Composer {
 				// 1. Basic Image (Fit)
-				text.Text("ContentScale: Fit", text.TypestyleBodyLarge)(c)
+				text.TextWithStyle("ContentScale: Fit", text.TypestyleBodyLarge)(c)
 				spacer.Height(8)(c)
 				surface.Surface(
 					fImage.Image(
@@ -54,7 +54,7 @@ func UI() api.Composable {
 				spacer.Height(16)(c)
 
 				// 2. Crop
-				text.Text("ContentScale: Crop", text.TypestyleBodyLarge)(c)
+				text.TextWithStyle("ContentScale: Crop", text.TypestyleBodyLarge)(c)
 				spacer.Height(8)(c)
 				surface.Surface(
 					fImage.Image(
@@ -74,7 +74,7 @@ func UI() api.Composable {
 				spacer.Height(16)(c)
 
 				// 3. Alignment (BottomEnd) + Alpha
-				text.Text("Alignment: BottomEnd + Alpha 0.5", text.TypestyleBodyLarge)(c)
+				text.TextWithStyle("Alignment: BottomEnd + Alpha 0.5", text.TypestyleBodyLarge)(c)
 				spacer.Height(8)(c)
 				surface.Surface(
 					fImage.Image(

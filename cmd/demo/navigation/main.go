@@ -89,7 +89,7 @@ func HomeScreen(navController *navigation.NavController) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
 			c.Sequence(
-				text.Text("Home Screen", text.TypestyleBodyLarge),
+				text.TextWithStyle("Home Screen", text.TypestyleBodyLarge),
 				button.Filled(
 					func() {
 						navController.Navigate("details")
@@ -107,7 +107,7 @@ func DetailsScreen(navController *navigation.NavController) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
 			c.Sequence(
-				text.Text("Details Screen", text.TypestyleBodyLarge),
+				text.TextWithStyle("Details Screen", text.TypestyleBodyLarge),
 				button.Filled(
 					func() {
 						navController.PopBackStack()
