@@ -13,7 +13,7 @@ type TextStyleOption func(ts *TextStyle)
 
 func WithColor(color graphics.Color) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.color = color
 		})
@@ -22,7 +22,7 @@ func WithColor(color graphics.Color) TextStyleOption {
 
 func WithFontSize(size unit.TextUnit) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.fontSize = size
 		})
@@ -31,7 +31,7 @@ func WithFontSize(size unit.TextUnit) TextStyleOption {
 
 func WithFontWeight(weight font.FontWeight) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.fontWeight = weight
 		})
@@ -40,7 +40,7 @@ func WithFontWeight(weight font.FontWeight) TextStyleOption {
 
 func WithFontStyle(style font.FontStyle) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.fontStyle = style
 		})
@@ -49,7 +49,7 @@ func WithFontStyle(style font.FontStyle) TextStyleOption {
 
 func WithFontFamily(family font.FontFamily) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.fontFamily = family
 		})
@@ -58,7 +58,7 @@ func WithFontFamily(family font.FontFamily) TextStyleOption {
 
 func WithLetterSpacing(spacing unit.TextUnit) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.letterSpacing = spacing
 		})
@@ -67,7 +67,7 @@ func WithLetterSpacing(spacing unit.TextUnit) TextStyleOption {
 
 func WithBackground(color graphics.Color) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.background = color
 		})
@@ -76,7 +76,7 @@ func WithBackground(color graphics.Color) TextStyleOption {
 
 func WithTextDecoration(decoration *style.TextDecoration) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.textDecoration = decoration
 		})
@@ -85,7 +85,7 @@ func WithTextDecoration(decoration *style.TextDecoration) TextStyleOption {
 
 func WithShadow(shadow *graphics.Shadow) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.spanStyle = CopySpanStyle(ts.spanStyle, func(s *SpanStyle) {
 			s.shadow = shadow
 		})
@@ -96,7 +96,7 @@ func WithShadow(shadow *graphics.Shadow) TextStyleOption {
 
 func WithTextAlign(textAlign style.TextAlign) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.paragraphStyle = CopyParagraphStyle(ts.paragraphStyle, func(s *ParagraphStyle) {
 			s.textAlign = textAlign
 		})
@@ -105,7 +105,7 @@ func WithTextAlign(textAlign style.TextAlign) TextStyleOption {
 
 func WithTextDirection(textDirection style.TextDirection) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.paragraphStyle = CopyParagraphStyle(ts.paragraphStyle, func(s *ParagraphStyle) {
 			s.textDirection = textDirection
 		})
@@ -114,7 +114,7 @@ func WithTextDirection(textDirection style.TextDirection) TextStyleOption {
 
 func WithLineHeight(lineHeight unit.TextUnit) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.paragraphStyle = CopyParagraphStyle(ts.paragraphStyle, func(s *ParagraphStyle) {
 			s.lineHeight = lineHeight
 		})
@@ -123,7 +123,7 @@ func WithLineHeight(lineHeight unit.TextUnit) TextStyleOption {
 
 func WithLineBreak(lineBreak style.LineBreak) TextStyleOption {
 	return func(ts *TextStyle) {
-		ts = CoalesceTextStyle(ts, TextStyleUnspecified)
+		ensureMutableTextStyle(ts)
 		ts.paragraphStyle = CopyParagraphStyle(ts.paragraphStyle, func(s *ParagraphStyle) {
 			s.lineBreak = lineBreak
 		})

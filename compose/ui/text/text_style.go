@@ -69,8 +69,24 @@ func StringTextStyle(ts *TextStyle) string {
 	)
 }
 
+// ensureMutableTextStyle panics if ts is a sentinel value.
+// Call this at the start of any function that mutates a TextStyle to fail-fast on misuse.
+func ensureMutableTextStyle(ts *TextStyle) {
+	if !IsSpecifiedTextStyle(ts) {
+		panic("attempt to mutate sentinel TextStyleUnspecified; use CopyTextStyle first")
+	}
+}
+
 func CopyTextStyle(ts *TextStyle, options ...TextStyleOption) *TextStyle {
-	copy := *ts
+	// Deep copy to protect sentinel values from mutation.
+	// We copy the nested styles so that later option applications
+	// don't mutate the original spanStyle/paragraphStyle pointers.
+	spanCopy := *ts.spanStyle
+	paraCopy := *ts.paragraphStyle
+	copy := TextStyle{
+		spanStyle:      &spanCopy,
+		paragraphStyle: &paraCopy,
+	}
 	for _, option := range options {
 		option(&copy)
 	}
