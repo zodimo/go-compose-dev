@@ -1,42 +1,52 @@
 package text
 
 import (
-	"gioui.org/font"
-	"gioui.org/text"
 	"gioui.org/unit"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
+	"github.com/zodimo/go-compose/compose/ui/text"
+	"github.com/zodimo/go-maybe"
 
-	"github.com/zodimo/go-compose/theme"
+	gioFont "gioui.org/font"
 )
 
 type TextOptions struct {
 	Modifier Modifier
 
-	// Alignment specifies the text alignment.
-	Alignment Alignment
-	// MaxLines limits the number of lines. Zero means no limit.
+	TextStyle *text.TextStyle
+
 	MaxLines int
 	// Truncator is the text that will be shown at the end of the final
 	// line if MaxLines is exceeded. Defaults to "…" if empty.
 	Truncator string
+
+	Color graphics.Color
+
+	//BACKWARDS COMPATIBILITY
+
+	// Alignment specifies the text alignment.
+	Alignment maybe.Maybe[Alignment]
+
 	// WrapPolicy configures how displayed text will be broken into lines.
-	WrapPolicy WrapPolicy
+	WrapPolicy maybe.Maybe[WrapPolicy]
 	// LineHeight controls the distance between the baselines of lines of text.
 	// If zero, a sensible default will be used.
-	LineHeight unit.Sp
+	LineHeight maybe.Maybe[unit.Sp]
 	// LineHeightScale applies a scaling factor to the LineHeight. If zero, a
 	// sensible default will be used.
-	LineHeightScale float32
-
-	// Shaper is the text shaper used to display this labe. This field is automatically
-	// set using by all constructor functions. If constructing a LabelStyle literal, you
-	// must provide a Shaper or displaying text will panic.
-	Shaper *text.Shaper
+	LineHeightScale maybe.Maybe[float32]
 
 	// Selectable provides text selection state for the label. If not set, the label cannot
 	// be selected or copied interactively.
-	Selectable bool
+	Selectable maybe.Maybe[bool]
 
-	TextStyleOptions *TextStyleOptions
+	// Face defines the text style.
+	Font maybe.Maybe[gioFont.Font]
+	// SelectionColor is the color of the background for selected text.
+	SelectionColor graphics.Color
+	// TextSize determines the size of the text glyphs.
+	TextSize maybe.Maybe[unit.Sp]
+	// Strikethrough draws a line through the text when true.
+	Strikethrough maybe.Maybe[bool]
 }
 
 type TextOption func(*TextOptions)
@@ -47,9 +57,25 @@ func WithModifier(m Modifier) TextOption {
 	}
 }
 
+func WithTextStyle(ts *text.TextStyle) TextOption {
+	return func(o *TextOptions) {
+		o.TextStyle = ts
+	}
+}
+
+func WithTextStyleOptions(options ...text.TextStyleOption) TextOption {
+	return func(o *TextOptions) {
+		textStyle := text.CoalesceTextStyle(o.TextStyle, text.TextStyleUnspecified)
+		for _, option := range options {
+			option(textStyle)
+		}
+		o.TextStyle = textStyle
+	}
+}
+
 func WithAlignment(alignment Alignment) TextOption {
 	return func(o *TextOptions) {
-		o.Alignment = alignment
+		o.Alignment = maybe.Some(alignment)
 	}
 }
 
@@ -65,39 +91,30 @@ func WithTruncator(truncator string) TextOption {
 	}
 }
 
+// @deprecated use TextStyle
 func WithWrapPolicy(wrapPolicy WrapPolicy) TextOption {
-
 	return func(o *TextOptions) {
-		o.WrapPolicy = wrapPolicy
+		o.WrapPolicy = maybe.Some(wrapPolicy)
 	}
 }
 
+// @deprecated use TextStyle
 func WithLineHeight(lineHeightInSP float32) TextOption {
-
 	return func(o *TextOptions) {
-		o.LineHeight = unit.Sp(lineHeightInSP)
+		o.LineHeight = maybe.Some(unit.Sp(lineHeightInSP))
 	}
 }
 
 func WithLineHeightScale(lineHeightScale float32) TextOption {
 
 	return func(o *TextOptions) {
-		o.LineHeightScale = lineHeightScale
+		o.LineHeightScale = maybe.Some(lineHeightScale)
 	}
 }
 
-func WithShaper(shaper *text.Shaper) TextOption {
-
+func WithColor(color graphics.Color) TextOption {
 	return func(o *TextOptions) {
-		o.Shaper = shaper
-	}
-}
-
-func WithTextStyleOptions(textStyleOptions ...TextStyleOption) TextOption {
-	return func(o *TextOptions) {
-		for _, textStyleOption := range textStyleOptions {
-			textStyleOption(o.TextStyleOptions)
-		}
+		o.Color = color
 	}
 }
 
@@ -105,53 +122,42 @@ func WithTextStyleOptions(textStyleOptions ...TextStyleOption) TextOption {
 // stores *widget.Selectable in runtime memoization
 func Selectable() TextOption {
 	return func(o *TextOptions) {
-		o.Selectable = true
+		o.Selectable = maybe.Some(true)
 	}
 }
 
-type TextStyleOptions struct {
-	// Face defines the text style.
-	Font font.Font
-	// Color is the text color.
-	Color theme.ColorDescriptor
-	// SelectionColor is the color of the background for selected text.
-	SelectionColor theme.ColorDescriptor
-	// TextSize determines the size of the text glyphs.
-	TextSize unit.Sp
-	// Strikethrough draws a line through the text when true.
-	Strikethrough bool
-}
-
-type TextStyleOption func(*TextStyleOptions)
-
-func StyleWithFont(font font.Font) TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.Font = font
+func StyleWithFont(font gioFont.Font) TextOption {
+	return func(o *TextOptions) {
+		o.Font = maybe.Some(font)
 	}
 }
 
-func StyleWithColor(color theme.ColorDescriptor) TextStyleOption {
-	return func(o *TextStyleOptions) {
+// @deprecated use TextStyle
+func StyleWithColor(color graphics.Color) TextOption {
+	return func(o *TextOptions) {
 		o.Color = color
 	}
 }
 
 // StyleWithSelectionColor sets the selection highlight color.
-func StyleWithSelectionColor(color theme.ColorDescriptor) TextStyleOption {
-	return func(o *TextStyleOptions) {
+// @deprecated use TextStyle
+func StyleWithSelectionColor(color graphics.Color) TextOption {
+	return func(o *TextOptions) {
 		o.SelectionColor = color
 	}
 }
 
-func StyleWithTextSize(sizeInSP float32) TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.TextSize = unit.Sp(sizeInSP)
+// @deprecated use TextStyle
+func StyleWithTextSize(sizeInSP float32) TextOption {
+	return func(o *TextOptions) {
+		o.TextSize = maybe.Some(unit.Sp(sizeInSP))
 	}
 }
 
 // StyleWithStrikethrough enables strikethrough text decoration.
-func StyleWithStrikethrough() TextStyleOption {
-	return func(o *TextStyleOptions) {
-		o.Strikethrough = true
+// @deprecated use TextStyle
+func StyleWithStrikethrough() TextOption {
+	return func(o *TextOptions) {
+		o.Strikethrough = maybe.Some(true)
 	}
 }
