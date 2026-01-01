@@ -412,6 +412,10 @@ func maxf(a, b float32) float32 {
 	return b
 }
 
+func SetOpacity(c Color, opacity float32) Color {
+	return c.Copy(opacity, c.Red(), c.Green(), c.Blue())
+}
+
 // ColorProducer is a functional interface that produces a Color.
 // Useful for avoiding boxing in performance-critical code.
 type ColorProducer func() Color
