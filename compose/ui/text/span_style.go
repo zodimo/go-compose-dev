@@ -200,6 +200,7 @@ func LerpSpanStyle(width, start, stop *SpanStyle, fraction float32) *SpanStyle {
 func SpanStyleResolveDefaults(s *SpanStyle) *SpanStyle {
 	s = CoalesceSpanStyle(s, SpanStyleUnspecified)
 	return &SpanStyle{
+		color:          s.color.TakeOrElse(DefaultColor),
 		fontSize:       s.fontSize.TakeOrElse(DefaultFontSize),
 		fontWeight:     s.fontWeight.TakeOrElse(DefaultFontWeight),
 		fontStyle:      s.fontStyle.TakeOrElse(DefaultFontStyle),
