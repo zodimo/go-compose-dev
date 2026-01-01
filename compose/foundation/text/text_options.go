@@ -19,8 +19,6 @@ type TextOptions struct {
 	// line if MaxLines is exceeded. Defaults to "…" if empty.
 	Truncator string
 
-	Color graphics.Color
-
 	//BACKWARDS COMPATIBILITY
 
 	// Alignment specifies the text alignment.
@@ -65,10 +63,11 @@ func WithTextStyle(ts *text.TextStyle) TextOption {
 
 func WithTextStyleOptions(options ...text.TextStyleOption) TextOption {
 	return func(o *TextOptions) {
-		textStyle := text.CoalesceTextStyle(o.TextStyle, text.TextStyleUnspecified)
-		for _, option := range options {
-			option(textStyle)
-		}
+		// Use CopyTextStyle to avoid mutating the shared TextStyleUnspecified singleton
+		textStyle := text.CopyTextStyle(
+			text.CoalesceTextStyle(o.TextStyle, text.TextStyleUnspecified),
+			options...,
+		)
 		o.TextStyle = textStyle
 	}
 }
@@ -114,7 +113,7 @@ func WithLineHeightScale(lineHeightScale float32) TextOption {
 
 func WithColor(color graphics.Color) TextOption {
 	return func(o *TextOptions) {
-		o.Color = color
+
 	}
 }
 
@@ -134,9 +133,7 @@ func StyleWithFont(font gioFont.Font) TextOption {
 
 // @deprecated use TextStyle
 func StyleWithColor(color graphics.Color) TextOption {
-	return func(o *TextOptions) {
-		o.Color = color
-	}
+	return WithTextStyleOptions(text.WithColor(color))
 }
 
 // StyleWithSelectionColor sets the selection highlight color.
