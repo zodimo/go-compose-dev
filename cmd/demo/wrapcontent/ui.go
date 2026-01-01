@@ -7,6 +7,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
+	uiText "github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/modifiers/background"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
@@ -25,8 +26,7 @@ func UI(c api.Composer) api.LayoutNode {
 						c.Sequence(
 							text.Text("Wrap Content (Default)",
 								text.WithTextStyleOptions(
-									text.StyleWithColor(
-										theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255}))),
+									uiText.WithColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255})),
 								),
 							),
 						),
@@ -42,8 +42,7 @@ func UI(c api.Composer) api.LayoutNode {
 						c.Sequence(
 							text.Text("Top Start",
 								text.WithTextStyleOptions(
-									text.StyleWithColor(
-										theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255}))),
+									uiText.WithColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255})),
 								),
 							),
 						),
@@ -69,8 +68,7 @@ func UI(c api.Composer) api.LayoutNode {
 						c.Sequence(
 							text.Text("Bottom End Aligned",
 								text.WithTextStyleOptions(
-									text.StyleWithColor(
-										theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 0, G: 0, B: 0, A: 255}))),
+									uiText.WithColor(graphics.FromNRGBA(color.NRGBA{R: 0, G: 0, B: 0, A: 255})),
 								),
 							),
 						),

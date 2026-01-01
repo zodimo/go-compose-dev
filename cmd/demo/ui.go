@@ -13,6 +13,8 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/theme"
 
+	uiText "github.com/zodimo/go-compose/compose/ui/text"
+
 	"image/color"
 
 	"github.com/zodimo/go-compose/compose/foundation/text"
@@ -34,10 +36,12 @@ func UI(c api.Composer) api.LayoutNode {
 			row.Row(c.Sequence(
 				column.Column(
 					c.Sequence(
-						text.Text(fmt.Sprintf("state=%v", counterCell.Get()),
+						text.Text(
+							fmt.Sprintf("state=%v", counterCell.Get()),
 							text.WithTextStyleOptions(
-								text.StyleWithColor(
-									theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255}))),
+								uiText.WithColor(
+									graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255}),
+								),
 							),
 						),
 					),
