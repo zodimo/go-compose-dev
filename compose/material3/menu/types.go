@@ -1,36 +1,37 @@
 package menu
 
 import (
-	"github.com/zodimo/go-compose/theme"
+	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 type DropdownMenuColors struct {
-	ContainerColor theme.ColorDescriptor
+	ContainerColor graphics.Color
 }
 
 type DropdownMenuItemColors struct {
-	TextColor                 theme.ColorDescriptor
-	LeadingIconColor          theme.ColorDescriptor
-	TrailingIconColor         theme.ColorDescriptor
-	DisabledTextColor         theme.ColorDescriptor
-	DisabledLeadingIconColor  theme.ColorDescriptor
-	DisabledTrailingIconColor theme.ColorDescriptor
+	TextColor                 graphics.Color
+	LeadingIconColor          graphics.Color
+	TrailingIconColor         graphics.Color
+	DisabledTextColor         graphics.Color
+	DisabledLeadingIconColor  graphics.Color
+	DisabledTrailingIconColor graphics.Color
 }
 
-func DefaultDropdownMenuColors() DropdownMenuColors {
+func DefaultDropdownMenuColors(c Composer) DropdownMenuColors {
 	return DropdownMenuColors{
-		ContainerColor: theme.ColorHelper.ColorSelector().SurfaceRoles.Container, // Elevation Level 2 default
+		ContainerColor: material3.Theme(c).ColorScheme().SurfaceContainer, //theme.ColorHelper.ColorSelector().SurfaceRoles.Container, // Elevation Level 2 default
 	}
 }
 
-func DefaultDropdownMenuItemColors() DropdownMenuItemColors {
+func DefaultDropdownMenuItemColors(c Composer) DropdownMenuItemColors {
 
 	return DropdownMenuItemColors{
-		TextColor:                 theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,                  // m3.Scheme.Surface.OnColor,
-		LeadingIconColor:          theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,                  //m3.Scheme.SurfaceVariant.OnColor,
-		TrailingIconColor:         theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,                  //m3.Scheme.SurfaceVariant.OnColor,
-		DisabledTextColor:         theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
-		DisabledLeadingIconColor:  theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
-		DisabledTrailingIconColor: theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
+		TextColor:                 material3.Theme(c).ColorScheme().Surface.OnColor,                            //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,                  // m3.Scheme.Surface.OnColor,
+		LeadingIconColor:          material3.Theme(c).ColorScheme().SurfaceVariant.OnColor,                     //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,                  //m3.Scheme.SurfaceVariant.OnColor,
+		TrailingIconColor:         material3.Theme(c).ColorScheme().SurfaceVariant.OnColor,                     // theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,                  //m3.Scheme.SurfaceVariant.OnColor,
+		DisabledTextColor:         graphics.SetOpacity(material3.Theme(c).ColorScheme().Surface.OnColor, 0.38), //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
+		DisabledLeadingIconColor:  graphics.SetOpacity(material3.Theme(c).ColorScheme().Surface.OnColor, 0.38), //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
+		DisabledTrailingIconColor: graphics.SetOpacity(material3.Theme(c).ColorScheme().Surface.OnColor, 0.38), // theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
 	}
 }

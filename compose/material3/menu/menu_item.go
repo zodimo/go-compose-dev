@@ -3,8 +3,9 @@ package menu
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
-	baseText "github.com/zodimo/go-compose/compose/foundation/text"
+	fText "github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/compose/material3/text"
+	uiText "github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/padding"
@@ -18,7 +19,7 @@ func DropdownMenuItem(
 	onClick func(),
 	options ...DropdownMenuItemOption,
 ) api.Composable {
-	return func(c api.Composer) api.Composer {
+	return func(c Composer) Composer {
 		opts := DefaultDropdownMenuItemOptions()
 		for _, option := range options {
 			if option == nil {
@@ -27,7 +28,7 @@ func DropdownMenuItem(
 			option(&opts)
 		}
 
-		colors := DefaultDropdownMenuItemColors()
+		colors := DefaultDropdownMenuItemColors(c)
 
 		// Determine colors based on enabled state
 		textColor := colors.TextColor
@@ -38,9 +39,9 @@ func DropdownMenuItem(
 		// TODO: Apply ripple info in Clickable when available
 
 		return box.Box(
-			func(c api.Composer) api.Composer {
+			func(c Composer) Composer {
 				return row.Row(
-					func(c api.Composer) api.Composer {
+					func(c Composer) Composer {
 						// Leading Icon
 						// Fix alignment manually via Box around icon if Padding modifier acts weird.
 						// But let's try Padding(NotSet, NotSet, 12, NotSet) for End padding.
@@ -58,10 +59,11 @@ func DropdownMenuItem(
 						// M3 spec: Label Large
 						// We wrap text in Box to allow weight/grow if needed, but Row handles simple layout well.
 						// Text
-						text.Text(
+						text.LabelLarge(
 							textStr,
-							text.TypestyleLabelLarge, // Correct usage
-							baseText.WithTextStyleOptions(baseText.StyleWithColor(textColor)),
+							fText.WithTextStyleOptions(
+								uiText.WithColor(textColor),
+							),
 						)(c)
 
 						// Spacer to push trailing icon?
