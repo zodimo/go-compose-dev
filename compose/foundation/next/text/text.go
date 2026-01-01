@@ -14,6 +14,8 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/next/platform"
 	"github.com/zodimo/go-compose/compose/ui/next/text"
+	uiText "github.com/zodimo/go-compose/compose/ui/text"
+
 	"github.com/zodimo/go-compose/compose/ui/next/text/font"
 	"github.com/zodimo/go-compose/compose/ui/next/text/style"
 	"github.com/zodimo/go-compose/compose/ui/unit"
@@ -167,7 +169,7 @@ type BasicTextConstructorArgs struct {
 	autoSize            TextAutoSize
 	layoutDirection     unit.LayoutDirection
 
-	textShaper *text.TextShaper
+	textShaper *uiText.TextShaper
 }
 
 func textWithLinksAndInlineContentConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.LayoutNodeWidgetConstructor {

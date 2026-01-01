@@ -10,6 +10,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/next/text/input"
 	"github.com/zodimo/go-compose/compose/ui/next/text"
 	"github.com/zodimo/go-compose/compose/ui/platform"
+	uiText "github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -133,7 +134,7 @@ type BasicTextFieldConstructorArgs struct {
 	fontFamilyResolver   interface{} // font.FontFamilyResolver
 	// cursorColor          interface{} // graphics.ColorProducer
 	layoutDirection unit.LayoutDirection
-	textShaper      *text.TextShaper
+	textShaper      *uiText.TextShaper
 	onValueChange   *onValueChangeWrapper
 }
 
