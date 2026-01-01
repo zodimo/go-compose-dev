@@ -54,8 +54,8 @@ func SingleRowTopAppBar(
 							}
 							return c
 						},
-						box.WithModifier(weight.Weight(1). // Occupy remaining space
-											Then(padding.Horizontal(16, 16)), // Horizontal(16, 16)
+						box.WithModifier(size.WrapContentWidth().
+							Then(padding.Horizontal(16, 16)), // Horizontal(16, 16)
 						),
 						box.WithAlignment(layout.W), // Align text to start
 
@@ -71,8 +71,9 @@ func SingleRowTopAppBar(
 						),
 					),
 				),
-				row.WithModifier(size.FillMaxWidth().
-					Then(size.Height(64)), // Standard Height
+				row.WithModifier(
+					size.FillMaxWidth().
+						Then(size.Height(64)), // Standard Height
 				),
 				row.WithAlignment(row.Middle), // Vertical Alignment
 			),

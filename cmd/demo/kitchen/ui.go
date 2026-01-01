@@ -67,7 +67,10 @@ func UI(c api.Composer) api.LayoutNode {
 				),
 				scaffold.WithTopBar(
 					appbar.TopAppBar(
-						m3text.Text("Component Showcase", m3text.TypestyleTitleLarge),
+						m3text.Text(
+							"Component Showcase",
+							m3text.TypestyleTitleLarge,
+						),
 					),
 				),
 				scaffold.WithBottomBar(
