@@ -249,47 +249,17 @@ func lerpPlatformParagraphStyle(start, stop *PlatformParagraphStyle, fraction fl
 }
 
 func ResolveParagraphStyleDefaults(s *ParagraphStyle, direction unit.LayoutDirection) *ParagraphStyle {
-	textAlign := s.TextAlign
-	if textAlign == style.TextAlignUnspecified {
-		textAlign = style.TextAlignStart
-	}
-
-	textDirection := style.ResolveTextDirection(direction, s.TextDirection)
-
-	lineHeight := s.LineHeight
-	if lineHeight.IsUnspecified() {
-		lineHeight = unit.TextUnitUnspecified
-	}
-
-	textIndent := s.TextIndent
-	if textIndent == nil {
-		textIndent = style.TextIndentNone
-	}
-
-	lineBreak := s.LineBreak
-	if lineBreak == style.LineBreakUnspecified {
-		lineBreak = style.LineBreakSimple
-	}
-
-	hyphens := s.Hyphens
-	if hyphens == style.HyphensUnspecified {
-		hyphens = style.HyphensNone
-	}
-
-	textMotion := s.TextMotion
-	if textMotion == nil {
-		textMotion = style.TextMotionStatic
-	}
+	s = CoalesceParagraphStyle(s, ParagraphStyleUnspecified)
 
 	return &ParagraphStyle{
-		TextAlign:       textAlign,
-		TextDirection:   textDirection,
-		LineHeight:      lineHeight,
-		TextIndent:      textIndent,
+		TextAlign:       s.TextAlign.TakeOrElse(DefaultTextAlign),
+		TextDirection:   style.ResolveTextDirection(direction, s.TextDirection),
+		LineHeight:      s.LineHeight.TakeOrElse(DefaultLineHeight),
+		TextIndent:      style.TakeOrElseTextIndent(s.TextIndent, DefaultTextIndent),
 		PlatformStyle:   s.PlatformStyle,
 		LineHeightStyle: s.LineHeightStyle,
-		LineBreak:       lineBreak,
-		Hyphens:         hyphens,
-		TextMotion:      textMotion,
+		LineBreak:       s.LineBreak.TakeOrElse(DefaultLineBreak),
+		Hyphens:         s.Hyphens.TakeOrElse(DefaultHyphens),
+		TextMotion:      style.TakeOrElseTextMotion(s.TextMotion, DefaultTextMotion),
 	}
 }

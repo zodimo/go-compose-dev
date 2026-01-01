@@ -3,7 +3,7 @@ package text
 import (
 	"fmt"
 
-	"github.com/zodimo/go-compose/compose/ui/next/text/style"
+	"github.com/zodimo/go-compose/compose/ui/text/style"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
@@ -144,8 +144,20 @@ func LerpParagraphStyle(width, start, stop *ParagraphStyle, fraction float32) *P
 	return &ParagraphStyle{
 		textAlign:     lerp.LerpDiscrete(start.textAlign, stop.textAlign, fraction),
 		textDirection: lerp.LerpDiscrete(start.textDirection, stop.textDirection, fraction),
-		lineHeight:    style.LerpTextUnitInheritable(start.lineHeight, stop.lineHeight, fraction),
+		lineHeight:    unit.LerpTextUnitInheritable(start.lineHeight, stop.lineHeight, fraction),
 		lineBreak:     lerp.LerpDiscrete(start.lineBreak, stop.lineBreak, fraction),
+	}
+
+}
+
+func ParagraphStyleResolveDefaults(s *ParagraphStyle, direction unit.LayoutDirection) *ParagraphStyle {
+	s = CoalesceParagraphStyle(s, ParagraphStyleUnspecified)
+
+	return &ParagraphStyle{
+		textAlign:     s.textAlign.TakeOrElse(DefaultTextAlign),
+		textDirection: style.ResolveTextDirection(direction, s.textDirection),
+		lineHeight:    s.lineHeight.TakeOrElse(DefaultLineHeight),
+		lineBreak:     s.lineBreak.TakeOrElse(style.LineBreakParagraph),
 	}
 
 }

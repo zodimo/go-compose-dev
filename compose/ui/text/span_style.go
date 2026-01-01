@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/zodimo/go-compose/compose/ui/graphics"
-	"github.com/zodimo/go-compose/compose/ui/next/text/style"
 	"github.com/zodimo/go-compose/compose/ui/text/font"
+	"github.com/zodimo/go-compose/compose/ui/text/style"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
@@ -207,4 +207,18 @@ func LerpSpanStyle(width, start, stop *SpanStyle, fraction float32) *SpanStyle {
 		shadow:         graphics.LerpShadow(start.shadow, stop.shadow, fraction),
 	}
 
+}
+
+func SpanStyleResolveDefaults(s *SpanStyle) *SpanStyle {
+	s = CoalesceSpanStyle(s, SpanStyleUnspecified)
+	return &SpanStyle{
+		fontSize:       s.fontSize.TakeOrElse(DefaultFontSize),
+		fontWeight:     s.fontWeight.TakeOrElse(DefaultFontWeight),
+		fontStyle:      s.fontStyle.TakeOrElse(DefaultFontStyle),
+		fontFamily:     font.TakeOrElseFontFamily(s.fontFamily, DefaultFontFamily),
+		letterSpacing:  s.letterSpacing.TakeOrElse(DefaultLetterSpacing),
+		background:     s.background.TakeOrElse(DefaultBackgroundColor),
+		textDecoration: style.TakeOrElseTextDecoration(s.textDecoration, DefaultTextDecoration),
+		shadow:         graphics.TakeOrElseShadow(s.shadow, DefaultShadow),
+	}
 }
