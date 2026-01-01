@@ -12,10 +12,8 @@ type TextStyleInterface interface {
 	Background() graphics.Color
 	Color() graphics.Color
 	FontFamily() font.FontFamily
-	FontFeatureSettings() string
 	FontSize() unit.TextUnit
 	FontStyle() font.FontStyle
-	FontSynthesis() *font.FontSynthesis
 	FontWeight() font.FontWeight
 	LetterSpacing() unit.TextUnit
 	LineBreak() style.LineBreak
@@ -23,5 +21,4 @@ type TextStyleInterface interface {
 	TextAlign() style.TextAlign
 	TextDecoration() *style.TextDecoration
 	TextDirection() style.TextDirection
-	ToString() string
 }

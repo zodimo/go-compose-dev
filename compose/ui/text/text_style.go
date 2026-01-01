@@ -8,83 +8,60 @@ import (
 )
 
 var TextStyleUnspecified *TextStyle = &TextStyle{
-	lineBreak: style.LineBreakUnspecified,
+	spanStyle:      SpanStyleUnspecified,
+	paragraphStyle: ParagraphStyleUnspecified,
 }
 
 var _ TextStyleInterface = (*TextStyle)(nil)
 
 type TextStyle struct {
-	font       font.Font
-	fontSize   unit.TextUnit
-	fontWeight font.FontWeight
-	fontStyle  font.FontStyle
-
-	fontFamily font.FontFamily
-
-	textDecoration *style.TextDecoration
-	letterSpacing  unit.TextUnit
-
-	textAlign     style.TextAlign
-	textDirection style.TextDirection
-
-	color      graphics.Color
-	background graphics.Color
-	lineHeight unit.TextUnit
-	lineBreak  style.LineBreak
+	spanStyle      *SpanStyle
+	paragraphStyle *ParagraphStyle
 }
 
 func (ts TextStyle) Alpha() float32 {
-	return ts.color.Alpha()
+	return ts.spanStyle.Color().Alpha()
 }
 func (ts TextStyle) Background() graphics.Color {
-	return ts.background
+	return ts.spanStyle.Background()
 }
 func (ts TextStyle) Color() graphics.Color {
-	return ts.color
+	return ts.spanStyle.Color()
 }
 func (ts TextStyle) FontFamily() font.FontFamily {
-	return ts.fontFamily
-}
-func (ts TextStyle) FontFeatureSettings() string {
-	panic("FontFeatureSettings not implemented")
+	return ts.spanStyle.FontFamily()
 }
 func (ts TextStyle) FontSize() unit.TextUnit {
-	return ts.fontSize
+	return ts.spanStyle.FontSize()
 }
 func (ts TextStyle) FontStyle() font.FontStyle {
-	return ts.fontStyle
-}
-func (ts TextStyle) FontSynthesis() *font.FontSynthesis {
-	panic("FontSynthesis not implemented")
+	return ts.spanStyle.FontStyle()
 }
 func (ts TextStyle) FontWeight() font.FontWeight {
-	return ts.fontWeight
+	return ts.spanStyle.FontWeight()
 }
 func (ts TextStyle) LetterSpacing() unit.TextUnit {
-	return ts.letterSpacing
+	return ts.spanStyle.LetterSpacing()
 }
 
 func (ts TextStyle) LineBreak() style.LineBreak {
-	return ts.lineBreak
+	return ts.paragraphStyle.LineBreak()
 }
 func (ts TextStyle) LineHeight() unit.TextUnit {
-	return ts.lineHeight
+	return ts.paragraphStyle.LineHeight()
 }
 func (ts TextStyle) TextAlign() style.TextAlign {
-	return ts.textAlign
+	return ts.paragraphStyle.TextAlign()
 }
 func (ts TextStyle) TextDecoration() *style.TextDecoration {
-	return ts.textDecoration
+	return ts.spanStyle.TextDecoration()
 }
 func (ts TextStyle) TextDirection() style.TextDirection {
-	return ts.textDirection
-}
-func (ts TextStyle) ToString() string {
-	panic("ToString not implemented")
+	return ts.paragraphStyle.TextDirection()
 }
 
-func (ts TextStyle) Copy(options ...TextStyleOption) *TextStyle {
-	copy := ts
+func TextStyleCopy(ts *TextStyle, options ...TextStyleOption) *TextStyle {
+	copy := *ts
 	for _, option := range options {
 		option(&copy)
 	}
@@ -94,32 +71,8 @@ func (ts TextStyle) Copy(options ...TextStyleOption) *TextStyle {
 func TextStyleResolveDefaults(ts *TextStyle, direction unit.LayoutDirection) *TextStyle {
 	ts = CoalesceTextStyle(ts, TextStyleUnspecified)
 	return &TextStyle{
-
-		fontSize:   ts.FontSize().TakeOrElse(DefaultFontSize),
-		fontWeight: ts.FontWeight().TakeOrElse(font.FontWeightNormal),
-		fontStyle:  ts.FontStyle().TakeOrElse(font.FontStyleNormal),
-		// FontSynthesis:          font.TakeOrElseFontSynthesis(ss.FontSynthesis, font.FontSynthesisAll),
-		fontFamily: font.TakeOrElseFontFamily(ts.FontFamily(), font.FontFamilyDefault),
-		// FontFeatureSettings:    sentinel.TakeOrElseString(ss.FontFeatureSettings, ""),
-		letterSpacing: ts.LetterSpacing().TakeOrElse(DefaultLetterSpacing),
-		// BaselineShift:          style.TakeOrElseBaselineShift(ss.BaselineShift, style.BaselineShiftNone),
-		// TextGeometricTransform: style.TakeOrElseTextGeometricTransform(ss.TextGeometricTransform, style.TextGeometricTransformNone),
-		// LocaleList:             intl.TakeOrElseLocaleList(ss.LocaleList, nil), //LocaleList.Current - local provider
-		background:     ts.Background().TakeOrElse(DefaultBackgroundColor),
-		textDecoration: style.TakeOrElseTextDecoration(ts.TextDecoration(), style.TextDecorationNone),
-		// Shadow:                 graphics.TakeOrElseShadow(ss.Shadow, graphics.ShadowNone),
-		// PlatformStyle:          ss.PlatformStyle,
-		// DrawStyle:              graphics.TakeOrElseDrawStyle(ss.DrawStyle, graphics.DrawStyleFill),
-
-		textAlign:     ts.TextAlign().TakeOrElse(style.TextAlignStart),
-		textDirection: style.ResolveTextDirection(direction, ts.TextDirection()),
-		lineHeight:    ts.LineHeight().TakeOrElse(unit.TextUnitUnspecified),
-		// TextIndent:      style.TakeOrElseTextIndent(ps.TextIndent, style.TextIndentNone),
-		// PlatformStyle:   ps.PlatformStyle,
-		// LineHeightStyle: ps.LineHeightStyle,
-		lineBreak: ts.LineBreak().TakeOrElse(style.LineBreakSimple),
-		// Hyphens:         ps.Hyphens.TakeOrElse(style.HyphensNone),
-		// TextMotion:      style.TakeOrElseTextMotion(ps.TextMotion, style.TextMotionStatic),
+		spanStyle:      SpanStyleResolveDefaults(ts.spanStyle),
+		paragraphStyle: ParagraphStyleResolveDefaults(ts.paragraphStyle, direction),
 	}
 }
 
@@ -131,6 +84,24 @@ func TakeOrElseTextStyle(s, def *TextStyle) *TextStyle {
 		return def
 	}
 	return s
+}
+
+func MergeTextStyle(a, b *TextStyle) *TextStyle {
+	a = CoalesceTextStyle(a, TextStyleUnspecified)
+	b = CoalesceTextStyle(b, TextStyleUnspecified)
+
+	if a == TextStyleUnspecified {
+		return b
+	}
+	if b == TextStyleUnspecified {
+		return a
+	}
+
+	// Both are custom: allocate new merged style
+	return &TextStyle{
+		spanStyle:      MergeSpanStyle(a.spanStyle, b.spanStyle),
+		paragraphStyle: MergeParagraphStyle(a.paragraphStyle, b.paragraphStyle),
+	}
 }
 
 func CoalesceTextStyle(ptr, def *TextStyle) *TextStyle {
