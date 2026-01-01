@@ -3,6 +3,7 @@ package text
 import (
 	"github.com/zodimo/go-compose/compose/ui/next/text/style"
 	"github.com/zodimo/go-compose/compose/ui/unit"
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
 var ParagraphStyleUnspecified *ParagraphStyle = &ParagraphStyle{
@@ -226,15 +227,15 @@ func CoalesceParagraphStyle(ptr, def *ParagraphStyle) *ParagraphStyle {
 // LerpParagraphStyle interpolates between two ParagraphStyles.
 func LerpParagraphStyle(start, stop *ParagraphStyle, fraction float32) *ParagraphStyle {
 	return &ParagraphStyle{
-		TextAlign:       lerpDiscrete(start.TextAlign, stop.TextAlign, fraction),
-		TextDirection:   lerpDiscrete(start.TextDirection, stop.TextDirection, fraction),
+		TextAlign:       lerp.LerpDiscrete(start.TextAlign, stop.TextAlign, fraction),
+		TextDirection:   lerp.LerpDiscrete(start.TextDirection, stop.TextDirection, fraction),
 		LineHeight:      style.LerpTextUnitInheritable(start.LineHeight, stop.LineHeight, fraction),
 		TextIndent:      style.LerpTextIndent(start.TextIndent, stop.TextIndent, fraction),
 		PlatformStyle:   lerpPlatformParagraphStyle(start.PlatformStyle, stop.PlatformStyle, fraction),
-		LineHeightStyle: lerpDiscrete(start.LineHeightStyle, stop.LineHeightStyle, fraction),
-		LineBreak:       lerpDiscrete(start.LineBreak, stop.LineBreak, fraction),
-		Hyphens:         lerpDiscrete(start.Hyphens, stop.Hyphens, fraction),
-		TextMotion:      lerpDiscrete(start.TextMotion, stop.TextMotion, fraction),
+		LineHeightStyle: lerp.LerpDiscrete(start.LineHeightStyle, stop.LineHeightStyle, fraction),
+		LineBreak:       lerp.LerpDiscrete(start.LineBreak, stop.LineBreak, fraction),
+		Hyphens:         lerp.LerpDiscrete(start.Hyphens, stop.Hyphens, fraction),
+		TextMotion:      lerp.LerpDiscrete(start.TextMotion, stop.TextMotion, fraction),
 	}
 }
 
@@ -244,7 +245,7 @@ func lerpPlatformParagraphStyle(start, stop *PlatformParagraphStyle, fraction fl
 	}
 	startNonNull := TakeOrElsePlatformParagraphStyle(start, PlatformParagraphStyleUnspecified)
 	stopNonNull := TakeOrElsePlatformParagraphStyle(stop, PlatformParagraphStyleUnspecified)
-	return lerpDiscrete(startNonNull, stopNonNull, fraction)
+	return lerp.LerpDiscrete(startNonNull, stopNonNull, fraction)
 }
 
 func ResolveParagraphStyleDefaults(s *ParagraphStyle, direction unit.LayoutDirection) *ParagraphStyle {
