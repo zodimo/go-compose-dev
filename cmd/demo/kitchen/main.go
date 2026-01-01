@@ -22,7 +22,7 @@ func main() {
 		w := new(app.Window)
 		w.Option(
 			app.Title("Component Showcase"),
-			app.Size(unit.Dp(400), unit.Dp(700)),
+			app.Size(unit.Dp(1024), unit.Dp(768)),
 		)
 
 		if err := Run(w); err != nil {

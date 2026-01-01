@@ -20,10 +20,11 @@ import (
 
 // Navigation categories
 const (
-	CategoryActions   = 0
-	CategorySelection = 1
-	CategoryFeedback  = 2
-	CategoryInputs    = 3
+	CategoryActions    = 0
+	CategorySelection  = 1
+	CategoryFeedback   = 2
+	CategoryInputs     = 3
+	CategoryTypography = 4
 )
 
 func UI(c api.Composer) api.LayoutNode {
@@ -45,6 +46,7 @@ func UI(c api.Composer) api.LayoutNode {
 		{"Selection", mdicons.ToggleCheckBox},
 		{"Feedback", mdicons.ActionFeedback},
 		{"Inputs", mdicons.ActionInput},
+		{"Typography", mdicons.ActionLabel},
 	}
 
 	c = c.Sequence(
@@ -60,6 +62,7 @@ func UI(c api.Composer) api.LayoutNode {
 								c.When(currentCategory == CategorySelection, SelectionScreen(c)),
 								c.When(currentCategory == CategoryFeedback, FeedbackScreen(c, showDialog, snackbarHostState)),
 								c.When(currentCategory == CategoryInputs, InputsScreen(c)),
+								c.When(currentCategory == CategoryTypography, TypographyScreen(c)),
 							)(c)
 						})
 					},
@@ -125,7 +128,7 @@ func UI(c api.Composer) api.LayoutNode {
 
 // SectionTitle is a helper for section headers
 func SectionTitle(title string) api.Composable {
-	return m3text.TextWithStyle(title, m3text.TypestyleTitleMedium)
+	return m3text.TitleLarge(title)
 }
 
 // DialogState is passed to FeedbackScreen

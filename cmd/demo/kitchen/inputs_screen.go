@@ -42,15 +42,6 @@ func InputsScreen(c api.Composer) api.Composable {
 					textfield.WithLabel("Outlined Text Field"),
 					textfield.WithSingleLine(true),
 				),
-
-				SectionTitle("Typography"),
-				spacer.Height(8),
-				m3text.TextWithStyle("Display Large", m3text.TypestyleDisplayLarge),
-				m3text.TextWithStyle("Headline Medium", m3text.TypestyleHeadlineMedium),
-				m3text.TextWithStyle("Title Small", m3text.TypestyleTitleSmall),
-				m3text.TextWithStyle("Body Medium", m3text.TypestyleBodyMedium),
-				m3text.TextWithStyle("Label Small", m3text.TypestyleLabelSmall),
-
 				spacer.Height(24),
 				SectionTitle("Card"),
 				spacer.Height(8),
