@@ -17,9 +17,9 @@ import (
 	"git.sr.ht/~schnwalter/gio-mw/wdk"
 )
 
-// Text displays text with the given style from the Material Theme.
+// TextWithStyle displays text with the given style from the Material Theme.
 // It retrieves the theme from the layout context at runtime.
-func Text(value string, tokenStyle Typestyle, options ...text.TextOption) api.Composable {
+func TextWithStyle(value string, tokenStyle Typestyle, options ...text.TextOption) api.Composable {
 	return func(c api.Composer) api.Composer {
 		// Resolve options
 		opts := text.DefaultTextOptions()
@@ -55,9 +55,9 @@ func Text(value string, tokenStyle Typestyle, options ...text.TextOption) api.Co
 				// Map options to LabelStyle
 				labelStyle := wdk.LabelStyle{
 					Typestyle:  tokenStyle,
-					Alignment:  opts.TextStyle.TextAlign().ToGioTextAlignment(style.TextAlignStart),
+					Alignment:  style.TextAlignToGioTextAlignment(opts.TextStyle.TextAlign()),
 					MaxLines:   opts.MaxLines,
-					WrapPolicy: opts.TextStyle.LineBreak().ToGioWrapPolicy(style.LineBreakParagraph),
+					WrapPolicy: style.LineBreakToGioWrapPolicy(opts.TextStyle.LineBreak()),
 				}
 
 				// Resolve ColorDescriptor to NRGBA, then to MatColor
