@@ -15,9 +15,14 @@
 > 9. `EqualT` – semantic equality, package-level function
 > 10. `CopyT` – copy, package-level function
 
-> No other public symbols are required. All verification commands are in Section 8.
+> No other public symbols are required. All verification commands are in Section 9.
 
 ---
+
+## Comments on MergeT and CopyT
+- They have the same logic, but different levelt of granularity
+- MergeT is used for composition, CopyT is used for mutation
+- Prefer incoming Specified values over current values
 
 ## 0. Quick Glance Cheat-Sheet
 
@@ -275,9 +280,9 @@ func CopyTextStyle(ts *TextStyle, options ...TextStyleOption) *TextStyle {
 		option(&opt)
 	}
 	return &TextStyle{
-		color:      TakeOrElseColor(ts.color, opt.color),
-		fontSize:   TakeOrElseDp(ts.fontSize, opt.fontSize),
-		fontWeight: TakeOrElseFontWeight(ts.fontWeight, opt.fontWeight),
+		color:      TakeOrElseColor(opt.color, ts.color),
+		fontSize:   TakeOrElseDp(opt.fontSize, ts.fontSize),
+		fontWeight: TakeOrElseFontWeight(opt.fontWeight, ts.fontWeight),
 	}
 }
 
