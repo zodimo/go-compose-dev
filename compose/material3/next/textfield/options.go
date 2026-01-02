@@ -1,7 +1,7 @@
 package textfield
 
 import (
-	"github.com/zodimo/go-compose/compose/foundation/next/text"
+	"github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/pkg/sentinel"
 )
