@@ -10,12 +10,17 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
+var CutCornerShapeUnspecified = &CutCornerShape{
+	Radius: unit.DpUnspecified,
+}
+var _ Shape = (*CutCornerShape)(nil)
+
 // CutCornerShape
 type CutCornerShape struct {
 	Radius unit.Dp
 }
 
-func (c CutCornerShape) CreateOutline(size image.Point, metric gioUnit.Metric) Outline {
+func (c *CutCornerShape) CreateOutline(size image.Point, metric gioUnit.Metric) Outline {
 	radius := float32(c.Radius) * metric.PxPerDp
 	if radius <= 0 {
 		return rectOutline{clip.Rect{Max: size}}
@@ -25,6 +30,43 @@ func (c CutCornerShape) CreateOutline(size image.Point, metric gioUnit.Metric) O
 		size:   size,
 		radius: radius,
 	}
+}
+
+// Sentinel private functions
+func (c *CutCornerShape) mergeShape(other Shape) Shape {
+	if otherCutCorner, ok := other.(*CutCornerShape); ok {
+		return &CutCornerShape{
+			Radius: otherCutCorner.Radius.TakeOrElse(c.Radius),
+		}
+
+	}
+
+	// should we panic here ?
+	return &CutCornerShape{
+		Radius: c.Radius,
+	}
+}
+func (c *CutCornerShape) sameShape(other Shape) bool {
+	if _, ok := other.(*CutCornerShape); ok {
+		return true
+	}
+	return false
+}
+func (c *CutCornerShape) semanticEqualShape(other Shape) bool {
+	if otherShape, ok := other.(*CutCornerShape); ok {
+		return otherShape.Radius == c.Radius
+	}
+	return false
+}
+func (c *CutCornerShape) copyShape(options ...ShapeOption) Shape {
+	copy := *c
+	for _, option := range options {
+		option(&copy)
+	}
+	return &copy
+}
+func (c *CutCornerShape) stringShape() string {
+	return "CutCornerShape{Radius: " + c.Radius.String() + "}"
 }
 
 type cutCornerOutline struct {

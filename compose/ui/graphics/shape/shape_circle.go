@@ -9,16 +9,47 @@ import (
 )
 
 // Deprecated: Use CircleShape instead
-var ShapeCircle Shape = circleShape{}
+var ShapeCircle Shape = &circleShape{}
 
 // CircleShape is a shape describing a circle.
-var CircleShape Shape = circleShape{}
+var CircleShape Shape = &circleShape{}
 
 // CircleShape
 type circleShape struct{}
 
-func (c circleShape) CreateOutline(size image.Point, metric gioUnit.Metric) Outline {
+func (c *circleShape) CreateOutline(size image.Point, metric gioUnit.Metric) Outline {
 	return ellipseOutline{clip.Ellipse{Max: size}}
+}
+
+// Sentinel Private methods
+func (c *circleShape) mergeShape(other Shape) Shape {
+	if otherCircle, ok := other.(*circleShape); ok {
+		return otherCircle
+	}
+	return c
+}
+func (c *circleShape) sameShape(other Shape) bool {
+	if _, ok := other.(*circleShape); ok {
+		return true
+	}
+	return false
+}
+func (c *circleShape) semanticEqualShape(other Shape) bool {
+	if _, ok := other.(*circleShape); ok {
+		return true
+	}
+	return false
+}
+func (c *circleShape) copyShape(options ...ShapeOption) Shape {
+	copy := *c
+	if len(options) > 0 {
+		// should we panic here ?
+		return &copy
+	}
+	return &copy
+}
+func (c *circleShape) stringShape() string {
+	return "CircleShape"
 }
 
 type ellipseOutline struct {
