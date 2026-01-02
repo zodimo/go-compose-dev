@@ -44,8 +44,6 @@ type TextOptions struct {
 	SelectionColor graphics.Color
 	// TextSize determines the size of the text glyphs.
 	TextSize maybe.Maybe[gioUnit.Sp]
-	// Strikethrough draws a line through the text when true.
-	Strikethrough maybe.Maybe[bool]
 }
 
 type TextOption func(*TextOptions)
@@ -157,7 +155,5 @@ func StyleWithTextSize(sizeInSP float32) TextOption {
 // StyleWithStrikethrough enables strikethrough text decoration.
 // @deprecated use TextStyle
 func StyleWithStrikethrough() TextOption {
-	return func(o *TextOptions) {
-		o.Strikethrough = maybe.Some(true)
-	}
+	return WithTextStyleOptions(text.WithTextDecoration(style.TextDecorationLineThrough))
 }

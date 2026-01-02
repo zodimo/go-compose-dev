@@ -25,6 +25,5 @@ func DefaultTextOptions() TextOptions {
 		Selectable:      maybe.None[bool](),
 		SelectionColor:  graphics.ColorUnspecified,
 		TextSize:        maybe.None[gioUnit.Sp](),
-		Strikethrough:   maybe.None[bool](),
 	}
 }
