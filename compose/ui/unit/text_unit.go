@@ -152,7 +152,7 @@ func (tu TextUnit) Compare(other TextUnit) int {
 }
 
 func (tu TextUnit) AsGioSp() gioUnit.Sp {
-	if tu.IsUnspecified() {
+	if !tu.IsSpecified() {
 		return gioUnit.Sp(0)
 	}
 	if tu.IsEm() {
