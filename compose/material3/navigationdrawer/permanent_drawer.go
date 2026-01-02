@@ -32,7 +32,7 @@ func PermanentNavigationDrawer(
 					// unless it's a specific variant, but M3 defaults often show 0 radius or small radius.
 					// We'll stick to a standard square edge or small radius if needed.
 					// M3: "Permanent navigation drawers are co-planar with the content."
-					surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(0)}),
+					surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(0)}),
 					surface.WithModifier(
 						modifier.
 							Then(size.Width(360)).

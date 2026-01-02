@@ -127,7 +127,7 @@ func ModalBottomSheet(
 																SurfaceRoles.
 																OnVariant.
 																SetOpacity(token.OpacityLevel(0.4)),
-															shape.RoundedCornerShape{Radius: unit.Dp(2)},
+															&shape.RoundedCornerShape{Radius: unit.Dp(2)},
 														),
 														),
 												),
@@ -155,7 +155,7 @@ func ModalBottomSheet(
 								// Let's use `shape.RoundedCornerShape{Radius: sheetShape.Size}` assuming uniform for now,
 								// or better, make a Custom shape if possible.
 								// The `drawer.go` used `unit.Dp(16)`.
-								surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(sheetShape.Size)}),
+								surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(sheetShape.Size)}),
 								surface.WithModifier(
 									animMod.AnimatedHeight(anim, 0). // Animate height from 0 (or slide up)
 														Then(size.FillMaxWidth()),

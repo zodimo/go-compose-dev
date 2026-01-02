@@ -96,7 +96,7 @@ func ModalNavigationDrawer(
 					surface.Surface(
 						drawerContent,
 						surface.WithColor(drawerContainerColor),
-						surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(16)}),
+						surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(16)}),
 						surface.WithModifier(
 							animMod.AnimatedWidth(anim, 360). // Animate width
 												Then(size.FillMaxHeight()),

@@ -33,7 +33,7 @@ type Modifier = modifier.Modifier
 func DefaultChipOptions() ChipOptions {
 	return ChipOptions{
 		Modifier:    modifier.EmptyModifier,
-		Shape:       shape.RoundedCornerShape{Radius: unit.Dp(8)},           // Material 3 small rounding usually
+		Shape:       &shape.RoundedCornerShape{Radius: unit.Dp(8)},          // Material 3 small rounding usually
 		Color:       theme.ColorHelper.ColorSelector().SurfaceRoles.Surface, // Default to Surface
 		BorderWidth: unit.Dp(1),
 		BorderColor: theme.ColorHelper.ColorSelector().OutlineRoles.OutlineVariant, // Outline variant

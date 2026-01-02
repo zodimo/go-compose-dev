@@ -56,7 +56,7 @@ func DismissibleNavigationDrawer(
 						return surface.Surface(
 							drawerContent,
 							surface.WithColor(drawerContainerColor),
-							surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(0)}),
+							surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(0)}),
 							surface.WithModifier(
 								size.Width(360). // Inner content fits 360
 											Then(size.FillMaxHeight()),

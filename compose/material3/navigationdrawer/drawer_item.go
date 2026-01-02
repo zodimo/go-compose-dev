@@ -82,12 +82,12 @@ func NavigationDrawerItem(
 				)(c)
 			},
 			surface.WithColor(containerColor),
-			surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(28)}), // Stadium shape (height 56 / 2)
+			surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(28)}), // Stadium shape (height 56 / 2)
 			surface.WithModifier(
 				m.
 					Then(size.FillMaxWidth()).
 					Then(size.Height(56)).
-					Then(clip.Clip(shape.RoundedCornerShape{Radius: unit.Dp(28)})).
+					Then(clip.Clip(&shape.RoundedCornerShape{Radius: unit.Dp(28)})).
 					Then(clickable.OnClick(func() {
 						if onClick != nil {
 							onClick()

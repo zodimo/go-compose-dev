@@ -77,12 +77,12 @@ func NavigationBarItem(
 							theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer,
 							colors.ContentColor,
 						)),
-						surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(16)}),
+						surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(16)}),
 						surface.WithModifier(
 							EmptyModifier.
 								Then(size.Width(64)).
 								Then(size.Height(32)).
-								Then(clip.Clip(shape.RoundedCornerShape{Radius: unit.Dp(16)})),
+								Then(clip.Clip(&shape.RoundedCornerShape{Radius: unit.Dp(16)})),
 						),
 						surface.WithAlignment(layout.Center),
 					),

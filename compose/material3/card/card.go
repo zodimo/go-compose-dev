@@ -18,7 +18,7 @@ import (
 )
 
 // Card corner radius (Material 3 Medium = 12dp)
-var cardCornerShape = shape.RoundedCornerShape{Radius: unit.Dp(12)}
+var cardCornerShape = &shape.RoundedCornerShape{Radius: unit.Dp(12)}
 
 func Elevated(contents CardContentContainer, options ...CardOption) Composable {
 	return cardComposable(cardElevated, contents, options...)

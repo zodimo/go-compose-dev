@@ -151,7 +151,7 @@ func GetSegmentShape(radius unit.Dp, position SegmentShape) shape.Shape {
 	switch position {
 	case SegmentShapeStart:
 		// Left segment: TopStart (NW) and BottomStart (SW) rounded
-		return shape.RoundedCornerShape{
+		return &shape.RoundedCornerShape{
 			TopStart:    radius,
 			TopEnd:      0,
 			BottomEnd:   0,
@@ -159,7 +159,7 @@ func GetSegmentShape(radius unit.Dp, position SegmentShape) shape.Shape {
 		}
 	case SegmentShapeEnd:
 		// Right segment: TopEnd (NE) and BottomEnd (SE) rounded
-		return shape.RoundedCornerShape{
+		return &shape.RoundedCornerShape{
 			TopStart:    0,
 			TopEnd:      radius,
 			BottomEnd:   radius,
@@ -167,9 +167,9 @@ func GetSegmentShape(radius unit.Dp, position SegmentShape) shape.Shape {
 		}
 	case SegmentShapeOnly:
 		// Single segment: all corners rounded (use uniform Radius)
-		return shape.RoundedCornerShape{Radius: radius}
+		return &shape.RoundedCornerShape{Radius: radius}
 	default: // SegmentShapeMiddle
 		// Middle segment: no rounded corners
-		return shape.RoundedCornerShape{Radius: 0}
+		return &shape.RoundedCornerShape{Radius: 0}
 	}
 }

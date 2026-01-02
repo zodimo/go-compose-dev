@@ -15,11 +15,11 @@ type Shapes struct {
 
 // Default shapes for Material 3
 var (
-	ShapeExtraSmall = shape.RoundedCornerShape{Radius: unit.Dp(4)}
-	ShapeSmall      = shape.RoundedCornerShape{Radius: unit.Dp(8)}
-	ShapeMedium     = shape.RoundedCornerShape{Radius: unit.Dp(12)}
-	ShapeLarge      = shape.RoundedCornerShape{Radius: unit.Dp(16)}
-	ShapeExtraLarge = shape.RoundedCornerShape{Radius: unit.Dp(28)}
+	ShapeExtraSmall = &shape.RoundedCornerShape{Radius: unit.Dp(4)}
+	ShapeSmall      = &shape.RoundedCornerShape{Radius: unit.Dp(8)}
+	ShapeMedium     = &shape.RoundedCornerShape{Radius: unit.Dp(12)}
+	ShapeLarge      = &shape.RoundedCornerShape{Radius: unit.Dp(16)}
+	ShapeExtraLarge = &shape.RoundedCornerShape{Radius: unit.Dp(28)}
 )
 
 func DefaultShapes() *Shapes {

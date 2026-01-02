@@ -45,7 +45,7 @@ func DropdownMenu(
 				},
 				// M3 Menu Spec
 				// Shape: Extra Small (4dp)
-				surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(4)}),
+				surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(4)}),
 				// Container Color: Surface (default)
 				// Elevation: Level 2 (3.dp)
 				surface.WithShadowElevation(3),

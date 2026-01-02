@@ -61,12 +61,12 @@ func NavigationRailItem(
 						colors.SecondaryRoles.Container,
 						specificColor(graphics.ColorTransparent), // Transparent
 					)),
-					surface.WithShape(shape.RoundedCornerShape{Radius: unit.Dp(12)}), // Pill shape (approx)
+					surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(12)}), // Pill shape (approx)
 					surface.WithModifier(
 						size.FillMaxWidth().
 							Then(size.Height(32)).
-							Then(clip.Clip(shape.RoundedCornerShape{Radius: unit.Dp(12)})). // Clip to pill shape
-							Then(padding.Padding(4, 4, 4, 4)),                              // Padding inside indicator? Or just center icon.
+							Then(clip.Clip(&shape.RoundedCornerShape{Radius: unit.Dp(12)})). // Clip to pill shape
+							Then(padding.Padding(4, 4, 4, 4)),                               // Padding inside indicator? Or just center icon.
 					),
 					surface.WithAlignment(box.Center),
 				)(c)
