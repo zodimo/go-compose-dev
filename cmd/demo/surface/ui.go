@@ -64,7 +64,7 @@ func UI(c api.Composer) api.LayoutNode {
 					),
 				),
 				surface.WithColor(theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 251, B: 254, A: 255}))), // Surface
-				surface.WithShape(shape.CutCornerShape{Radius: unit.Dp(28)}),                                                        // TopEnd chamfer in demo usually, here simplified to all cut
+				surface.WithShape(&shape.CutCornerShape{Radius: unit.Dp(28)}),                                                       // TopEnd chamfer in demo usually, here simplified to all cut
 				surface.WithShadowElevation(0), // Root usually flat?
 				surface.WithModifier(size.FillMax()),
 			),
@@ -96,28 +96,28 @@ func RecursiveSurface(level int, active bool) api.Composable {
 		case 0: // Primary Container
 			bgColor = material3.Theme(c).ColorScheme().PrimaryContainer.Color     //theme.ColorHelper.ColorSelector().PrimaryRoles.Container
 			textColor = material3.Theme(c).ColorScheme().PrimaryContainer.OnColor // theme.ColorHelper.ColorSelector().PrimaryRoles.OnContainer
-			currentShape = shape.CutCornerShape{Radius: unit.Dp(20)}
+			currentShape = &shape.CutCornerShape{Radius: unit.Dp(20)}
 			if active {
 				elevation = unit.Dp(1)
 			}
 		case 1: // Secondary Container
 			bgColor = material3.Theme(c).ColorScheme().SecondaryContainer.Color     //theme.ColorHelper.ColorSelector().SecondaryRoles.Container
 			textColor = material3.Theme(c).ColorScheme().SecondaryContainer.OnColor // theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
-			currentShape = shape.RoundedCornerShape{Radius: unit.Dp(16)}
+			currentShape = &shape.RoundedCornerShape{Radius: unit.Dp(16)}
 			if active {
 				elevation = unit.Dp(3)
 			}
 		case 2: // Tertiary Container
 			bgColor = material3.Theme(c).ColorScheme().TertiaryContainer.Color     //theme.ColorHelper.ColorSelector().TertiaryRoles.Container
 			textColor = material3.Theme(c).ColorScheme().TertiaryContainer.OnColor // theme.ColorHelper.ColorSelector().TertiaryRoles.OnContainer
-			currentShape = shape.CutCornerShape{Radius: unit.Dp(12)}
+			currentShape = &shape.CutCornerShape{Radius: unit.Dp(12)}
 			if active {
 				elevation = unit.Dp(6)
 			}
 		case 3: // Inverse Surface
 			bgColor = material3.Theme(c).ColorScheme().InverseSurface.Color     //theme.ColorHelper.ColorSelector().InverseRoles.Surface
 			textColor = material3.Theme(c).ColorScheme().InverseSurface.OnColor // theme.ColorHelper.ColorSelector().InverseRoles.OnSurface
-			currentShape = shape.RoundedCornerShape{Radius: unit.Dp(8)}
+			currentShape = &shape.RoundedCornerShape{Radius: unit.Dp(8)}
 			if active {
 				elevation = unit.Dp(8)
 			}
