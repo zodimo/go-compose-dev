@@ -3,6 +3,7 @@ package text
 import (
 	"math"
 
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/next/text/style"
 )
 
@@ -17,7 +18,7 @@ func DefaultTextOptions() TextOptions {
 		MaxLines:      math.MaxInt32,
 		MinLines:      1,
 		InlineContent: map[string]InlineTextContent{},
-		Color:         nil,
+		Color:         graphics.ColorUnspecified,
 		AutoSize:      nil,
 	}
 }

@@ -20,7 +20,7 @@ type TextOptions struct {
 
 	InlineContent map[string]InlineTextContent
 
-	Color    graphics.ColorProducer
+	Color    graphics.Color
 	AutoSize TextAutoSize
 }
 
@@ -67,7 +67,7 @@ func WithMinLines(minLines int) TextOption {
 	}
 }
 
-func WithColor(color graphics.ColorProducer) TextOption {
+func WithColor(color graphics.Color) TextOption {
 	return func(o *TextOptions) {
 		o.Color = color
 	}

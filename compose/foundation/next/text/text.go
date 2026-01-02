@@ -21,7 +21,6 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
-	"github.com/zodimo/go-compose/theme"
 	"github.com/zodimo/go-ternary"
 )
 
@@ -164,7 +163,7 @@ type BasicTextConstructorArgs struct {
 	placeholders        []text.Range[text.Placeholder]
 	onPlaceholderLayout func([]geometry.Rect)
 	selectionController *modifiers.SelectionController
-	color               graphics.ColorProducer
+	color               graphics.Color
 	onShowTranslation   func(modifiers.TextSubstitutionValue)
 	autoSize            TextAutoSize
 	layoutDirection     unit.LayoutDirection
@@ -203,17 +202,11 @@ func textWidgetConstructor(constructorArgs BasicTextConstructorArgs) layoutnode.
 			controller.SetLineHeightScale(1)
 
 			// Resolve text color
-			var textColorDescriptor theme.ColorDescriptor
-			if constructorArgs.color != nil {
-				textColorDescriptor = theme.ColorHelper.SpecificColor(constructorArgs.color())
-			} else {
-				textColorDescriptor = theme.ColorHelper.SpecificColor(textStyle.Color())
-			}
-			resolvedTextColor := theme.GetThemeManager().ResolveColorDescriptor(textColorDescriptor).AsNRGBA()
+			resolvedTextColor := constructorArgs.color.TakeOrElse(textStyle.Color())
 
 			// Create text color material
 			textColorMacro := op.Record(gtx.Ops)
-			paint.ColorOp{Color: resolvedTextColor}.Add(gtx.Ops)
+			paint.ColorOp{Color: graphics.ColorToNRGBA(resolvedTextColor)}.Add(gtx.Ops)
 			textColor := textColorMacro.Stop()
 
 			// Use the controller to layout and paint the text
