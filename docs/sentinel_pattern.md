@@ -220,12 +220,12 @@ func Em(value float32) TextUnit {
 	return TextUnit{packed: packRaw(int64(TextUnitTypeEm), value)}
 }
 
-// 2. `IsSpecified` – predicate (method is OK for value types)
+// 2. `IsSpecified` – predicate (method on value receiver)
 func (tu TextUnit) IsSpecified() bool {
 	return tu.rawType() != int64(TextUnitTypeUnspecified)
 }
 
-// 3. `TakeOrElse` – 2-param fallback (method is OK for value types)
+// 3. `TakeOrElse` – 2-param fallback (method on value receiver)
 func (tu TextUnit) TakeOrElse(def TextUnit) TextUnit {
 	if tu.IsSpecified() {
 		return tu
@@ -233,15 +233,16 @@ func (tu TextUnit) TakeOrElse(def TextUnit) TextUnit {
 	return def
 }
 
-// 4. `Merge` – composition merge
-func MergeTextUnit(a, b TextUnit) TextUnit {
-	if b.IsSpecified() {
-		return b
+// 4. `Merge` – implementation-dependent (see note below)
+// For atomic packed types (like TextUnit), use whole-value replacement:
+func (tu TextUnit) Merge(other TextUnit) TextUnit {
+	if other.IsSpecified() {
+		return other
 	}
-	return a
+	return tu
 }
 
-// 5. `String` – stringification
+// 5. `String` – stringification (method on value receiver)
 func (tu TextUnit) String() string {
 	if !tu.IsSpecified() {
 		return "TextUnit{Unspecified}"
@@ -251,29 +252,45 @@ func (tu TextUnit) String() string {
 
 // 6. `Coalesce` – N/A for value types (no nil possible)
 
-// 7. `Same` – identity (bit-exact comparison)
-func SameTextUnit(a, b TextUnit) bool {
-	return a.packed == b.packed
-}
-
-// 8. `SemanticEqual` – semantic equality
-func SemanticEqualTextUnit(a, b TextUnit) bool {
-	return a.Equals(b)
-}
-
-// 9. `Equal` – equality (identity first, then semantic)
-func EqualTextUnit(a, b TextUnit) bool {
-	if SameTextUnit(a, b) {
-		return true
+// 7-9. Equality – use == operator for value types, or Equals method
+func (tu TextUnit) Equals(other TextUnit) bool {
+	if tu.Type() != other.Type() {
+		return false
 	}
-	return SemanticEqualTextUnit(a, b)
+	if tu.IsUnspecified() {
+		return other.IsUnspecified()
+	}
+	return floatutils.Float32Equals(tu.Value(), other.Value(), floatutils.Float32EqualityThreshold)
 }
 
-// 10. `Copy` – copy (identity for immutable value types)
-func CopyTextUnit(tu TextUnit) TextUnit {
-	return tu
-}
+// 10. `Copy` – identity for immutable value types (just use assignment)
 ```
+
+> [!NOTE]
+> **Merge and Copy are implementation-dependent.** The packed value may contain multiple logical components. Choose the pattern that matches your type's semantics:
+>
+> **Option A: Whole-value replacement** (for atomic types like `TextUnit`)
+> ```go
+> func (tu TextUnit) Merge(other TextUnit) TextUnit {
+>     if other.IsSpecified() { return other }
+>     return tu
+> }
+> // Copy: just use assignment `b := a`
+> ```
+>
+> **Option B: Struct options pattern** (for component types like `Color`)
+> ```go
+> func (c Color) Copy(opts ...ColorCopyOption) Color {
+>     o := ColorCopyOptions{Alpha: Unspecified, Red: Unspecified, ...}
+>     for _, opt := range opts { opt(&o) }
+>     return NewColor(
+>         floatutils.TakeOrElse(o.Alpha, c.Alpha()),
+>         floatutils.TakeOrElse(o.Red, c.Red()),
+>         ...
+>     )
+> }
+> // Merge: use Copy to overlay components
+> ```
 
 **Key differences from Pattern 1-A/1-B**:
 - Uses `struct { packed T }` instead of `type T primitive`
@@ -283,7 +300,7 @@ func CopyTextUnit(tu TextUnit) TextUnit {
 **Key differences from Pattern 1-C**:
 - Passed by **value**, not pointer
 - Sentinel is a **value**, not a pointer singleton
-- Methods on value receiver are OK (no nil receiver issue)
+- **All helpers are methods** on value receiver (no package-level functions needed)
 - `Coalesce` is not needed (no nil possible)
 
 **Guarantees**: Same as Pattern 1-A - lives in registers/stack → **zero heap bytes**.
