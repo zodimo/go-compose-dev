@@ -13,8 +13,6 @@ github.com/go-text/typesetting-utils v0.0.0-20250618110550-c820a94c77b8 h1:4KCsc
 github.com/go-text/typesetting-utils v0.0.0-20250618110550-c820a94c77b8/go.mod h1:3/62I4La/HBRX9TcTpBj4eipLiwzf+vhI+7whTc9V7o=
 github.com/google/go-cmp v0.6.0 h1:ofyhxvXcZhMsU5ulbFiLKl/XBFqE1GSq7atu8tAmTRI=
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
-github.com/zodimo/gio-skia v0.1.2 h1:cRQ8xpAO38t6beDSorfQbwQPxMZPjshdv41X3AGJMpA=
-github.com/zodimo/gio-skia v0.1.2/go.mod h1:YHYQmJs0zmFQXLAE55tsbCqwquT1rYgWrlxGvrwJqmY=
 github.com/zodimo/go-lazy v0.1.0 h1:kuAFEi5w4xfFeTAdSRhtCrC3cRe5dh7aAs2qwZEXIA0=
 github.com/zodimo/go-lazy v0.1.0/go.mod h1:+GKplxvAWyHv/XirM6KZwdHDvXBQDGGjCRpbUGlrZyg=
 github.com/zodimo/go-maybe v0.1.3 h1:wEGtaSPkhTza+b0S+7J8C5nzkEB8KOoUK2dnQqA4ZEE=

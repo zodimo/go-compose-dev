@@ -48,7 +48,7 @@ var LocalColorScheme = compose.CompositionLocalOf(func() *ColorScheme {
 })
 
 var LocalTypography = compose.CompositionLocalOf(func() *Typography {
-	return TypographyUnspecified
+	return DefaultTypography()
 })
 
 var LocalShapes = compose.CompositionLocalOf(func() *Shapes {
