@@ -8,6 +8,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3/button"
 	"github.com/zodimo/go-compose/compose/material3/iconbutton"
+	m3NextButton "github.com/zodimo/go-compose/compose/material3/next/button"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
 
@@ -25,6 +26,8 @@ func ActionsScreen(c api.Composer) api.Composable {
 					button.Filled(func() { fmt.Println("Filled clicked") }, "Filled"),
 					spacer.Width(8),
 					button.Outlined(func() { fmt.Println("Outlined clicked") }, "Outlined"),
+					spacer.Width(8),
+					m3NextButton.Outlined(func() { fmt.Println("Outlined Next clicked") }, "Outlined Next"),
 				)),
 				spacer.Height(8),
 				row.Row(c.Sequence(

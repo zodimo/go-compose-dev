@@ -1,6 +1,7 @@
 package border
 
 import (
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
@@ -45,8 +46,10 @@ func NewBorderNode(element BorderElement) *BorderNode {
 					// Shape logic uses CreateOutline(size, metric)
 					// The generic generic Outline interface now supports Path(ops *op.Ops) clip.PathSpec.
 
+					if !shape.IsSpecifiedShape(n.borderData.Shape) {
+						panic("BorderNode: Shape is not specified")
+					}
 					outline := n.borderData.Shape.CreateOutline(dims.Size, gtx.Metric)
-
 					macro := op.Record(gtx.Ops)
 
 					strokeWidth := float32(gtx.Metric.Dp(unit.DpToGioUnit(width)))
