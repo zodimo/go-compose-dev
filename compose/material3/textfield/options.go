@@ -22,6 +22,7 @@ type TextFieldOptions struct {
 	SingleLine     bool
 	MaxLines       int
 	MinLines       int
+	Mask           rune
 
 	// VisualTransformation interface{}
 	// KeyboardOptions      interface{}
@@ -185,5 +186,11 @@ func WithColors(colors TextFieldColors) TextFieldOption {
 func WithOnSubmit(onSubmit func()) TextFieldOption {
 	return func(o *TextFieldOptions) {
 		o.OnSubmit = onSubmit
+	}
+}
+
+func WithMask(mask rune) TextFieldOption {
+	return func(o *TextFieldOptions) {
+		o.Mask = mask
 	}
 }

@@ -88,6 +88,7 @@ func Outlined(
 		// Update static properties
 		outWidget.Editor.SingleLine = opts.SingleLine
 		outWidget.Editor.Submit = opts.OnSubmit != nil
+		outWidget.Editor.Mask = opts.Mask
 		// outWidget.CharLimit = opts.CharLimit
 		// outWidget.Prefix = opts.Prefix
 		// outWidget.Suffix = opts.Suffix

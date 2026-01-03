@@ -22,6 +22,7 @@ type TextFieldColors struct {
 	DisabledTrailingIconColor   graphics.Color
 	LabelColor                  graphics.Color
 	UnfocusedLabelColor         graphics.Color
+	FocusedLabelColor           graphics.Color // Added
 	DisabledLabelColor          graphics.Color
 	ErrorLabelColor             graphics.Color
 	PlaceholderColor            graphics.Color
@@ -29,6 +30,8 @@ type TextFieldColors struct {
 	SupportingTextColor         graphics.Color
 	DisabledSupportingTextColor graphics.Color
 	ErrorSupportingTextColor    graphics.Color
+	ContainerColor              graphics.Color // Added
+	DisabledContainerColor      graphics.Color // Added
 }
 
 func DefaultTextFieldColors() TextFieldColors {
@@ -38,17 +41,18 @@ func DefaultTextFieldColors() TextFieldColors {
 		CursorColor:                 graphics.ColorUnspecified,
 		ErrorCursorColor:            graphics.ColorUnspecified,
 		SelectionColor:              graphics.ColorUnspecified,
-		FocusedIndicatorColor:       graphics.ColorUnspecified, // Active
-		UnfocusedIndicatorColor:     graphics.ColorUnspecified, // Inactive
+		FocusedIndicatorColor:       graphics.ColorUnspecified,
+		UnfocusedIndicatorColor:     graphics.ColorUnspecified,
 		DisabledIndicatorColor:      graphics.ColorUnspecified,
 		ErrorIndicatorColor:         graphics.ColorUnspecified,
-		HoveredIndicatorColor:       graphics.ColorUnspecified, // Actually M3 says OnSurface for Outline variant hovered? Or just Outline token. Let's use OnSurface for high contrast hover.
+		HoveredIndicatorColor:       graphics.ColorUnspecified,
 		LeadingIconColor:            graphics.ColorUnspecified,
 		TrailingIconColor:           graphics.ColorUnspecified,
 		DisabledLeadingIconColor:    graphics.ColorUnspecified,
 		DisabledTrailingIconColor:   graphics.ColorUnspecified,
-		LabelColor:                  graphics.ColorUnspecified, // Focused Label
+		LabelColor:                  graphics.ColorUnspecified,
 		UnfocusedLabelColor:         graphics.ColorUnspecified,
+		FocusedLabelColor:           graphics.ColorUnspecified, // Added
 		DisabledLabelColor:          graphics.ColorUnspecified,
 		ErrorLabelColor:             graphics.ColorUnspecified,
 		PlaceholderColor:            graphics.ColorUnspecified,
@@ -56,6 +60,8 @@ func DefaultTextFieldColors() TextFieldColors {
 		SupportingTextColor:         graphics.ColorUnspecified,
 		DisabledSupportingTextColor: graphics.ColorUnspecified,
 		ErrorSupportingTextColor:    graphics.ColorUnspecified,
+		ContainerColor:              graphics.ColorUnspecified, // Added
+		DisabledContainerColor:      graphics.ColorUnspecified, // Added
 	}
 }
 
@@ -63,28 +69,31 @@ func ResolveTextFieldColors(c Composer, colors TextFieldColors) TextFieldColors 
 
 	theme := material3.Theme(c)
 	return TextFieldColors{
-		TextColor:                   colors.TextColor.TakeOrElse(theme.ColorScheme().Surface.OnColor),                                              // selector.SurfaceRoles.OnSurface),
-		DisabledTextColor:           colors.DisabledTextColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),           //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		CursorColor:                 colors.CursorColor.TakeOrElse(theme.ColorScheme().Primary.Color),                                              //, selector.PrimaryRoles.Primary),
-		ErrorCursorColor:            colors.ErrorCursorColor.TakeOrElse(theme.ColorScheme().Error.Color),                                           //, selector.ErrorRoles.Error),
-		SelectionColor:              colors.SelectionColor.TakeOrElse(theme.ColorScheme().Primary.Color),                                           //, selector.PrimaryRoles.Primary),
-		FocusedIndicatorColor:       colors.FocusedIndicatorColor.TakeOrElse(theme.ColorScheme().Primary.Color),                                    //, selector.PrimaryRoles.Primary),   // Active
-		UnfocusedIndicatorColor:     colors.UnfocusedIndicatorColor.TakeOrElse(theme.ColorScheme().Outline),                                        //, selector.OutlineRoles.Outline), // Inactive
-		DisabledIndicatorColor:      colors.DisabledIndicatorColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.12)),      //, selector.SurfaceRoles.OnSurface.SetOpacity(0.12)),
-		ErrorIndicatorColor:         colors.ErrorIndicatorColor.TakeOrElse(theme.ColorScheme().Error.Color),                                        //, selector.ErrorRoles.Error),
-		HoveredIndicatorColor:       colors.HoveredIndicatorColor.TakeOrElse(theme.ColorScheme().Surface.OnColor),                                  //, selector.SurfaceRoles.OnSurface), // Actually M3 says OnSurface for Outline variant hovered? Or just Outline token. Let's use OnSurface for high contrast hover.
-		LeadingIconColor:            colors.LeadingIconColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),                                //, selector.SurfaceRoles.OnVariant),
-		TrailingIconColor:           colors.TrailingIconColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),                               //, selector.SurfaceRoles.OnVariant),
-		DisabledLeadingIconColor:    colors.DisabledLeadingIconColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),    //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		DisabledTrailingIconColor:   colors.DisabledTrailingIconColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),   //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		LabelColor:                  colors.LabelColor.TakeOrElse(theme.ColorScheme().Primary.Color),                                               //, selector.PrimaryRoles.Primary), // Focused Label
-		UnfocusedLabelColor:         colors.UnfocusedLabelColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),                             //, selector.SurfaceRoles.OnVariant),
-		DisabledLabelColor:          colors.DisabledLabelColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),          //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		ErrorLabelColor:             colors.ErrorLabelColor.TakeOrElse(theme.ColorScheme().Error.Color),                                            //, selector.ErrorRoles.Error),
-		PlaceholderColor:            colors.PlaceholderColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),                                //, selector.SurfaceRoles.OnVariant),
-		DisabledPlaceholderColor:    colors.DisabledPlaceholderColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),    //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		SupportingTextColor:         colors.SupportingTextColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),                             //, selector.SurfaceRoles.OnVariant),
-		DisabledSupportingTextColor: colors.DisabledSupportingTextColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)), //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		ErrorSupportingTextColor:    colors.ErrorSupportingTextColor.TakeOrElse(theme.ColorScheme().Error.Color),                                   //, selector.ErrorRoles.Error),
+		TextColor:                   colors.TextColor.TakeOrElse(theme.ColorScheme().Surface.OnColor),
+		DisabledTextColor:           colors.DisabledTextColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),
+		CursorColor:                 colors.CursorColor.TakeOrElse(theme.ColorScheme().Primary.Color),
+		ErrorCursorColor:            colors.ErrorCursorColor.TakeOrElse(theme.ColorScheme().Error.Color),
+		SelectionColor:              colors.SelectionColor.TakeOrElse(theme.ColorScheme().Primary.Color),
+		FocusedIndicatorColor:       colors.FocusedIndicatorColor.TakeOrElse(theme.ColorScheme().Primary.Color),
+		UnfocusedIndicatorColor:     colors.UnfocusedIndicatorColor.TakeOrElse(theme.ColorScheme().Outline),
+		DisabledIndicatorColor:      colors.DisabledIndicatorColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.12)),
+		ErrorIndicatorColor:         colors.ErrorIndicatorColor.TakeOrElse(theme.ColorScheme().Error.Color),
+		HoveredIndicatorColor:       colors.HoveredIndicatorColor.TakeOrElse(theme.ColorScheme().Surface.OnColor),
+		LeadingIconColor:            colors.LeadingIconColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),
+		TrailingIconColor:           colors.TrailingIconColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),
+		DisabledLeadingIconColor:    colors.DisabledLeadingIconColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),
+		DisabledTrailingIconColor:   colors.DisabledTrailingIconColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),
+		LabelColor:                  colors.LabelColor.TakeOrElse(theme.ColorScheme().Primary.Color), // Focused Label default?
+		UnfocusedLabelColor:         colors.UnfocusedLabelColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),
+		FocusedLabelColor:           colors.FocusedLabelColor.TakeOrElse(theme.ColorScheme().Primary.Color), // Added
+		DisabledLabelColor:          colors.DisabledLabelColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),
+		ErrorLabelColor:             colors.ErrorLabelColor.TakeOrElse(theme.ColorScheme().Error.Color),
+		PlaceholderColor:            colors.PlaceholderColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),
+		DisabledPlaceholderColor:    colors.DisabledPlaceholderColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),
+		SupportingTextColor:         colors.SupportingTextColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.OnColor),
+		DisabledSupportingTextColor: colors.DisabledSupportingTextColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),
+		ErrorSupportingTextColor:    colors.ErrorSupportingTextColor.TakeOrElse(theme.ColorScheme().Error.Color),
+		ContainerColor:              colors.ContainerColor.TakeOrElse(theme.ColorScheme().SurfaceVariant.Color),                               // Added - default for filled
+		DisabledContainerColor:      colors.DisabledContainerColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.12)), // Added - approximate default? Or SurfaceVariant with opacity
 	}
 }
