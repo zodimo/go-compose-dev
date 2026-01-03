@@ -2,8 +2,9 @@ package iconbutton
 
 import (
 	"fmt"
-	"image/color"
 
+	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/layout"
@@ -44,6 +45,8 @@ func iconButtonComposable(material3Button *button.Button, onClick func(), icon [
 			option(&opts)
 		}
 
+		contentColor := material3.LocalContentColor.Current(c)
+
 		if opts.Button == nil {
 			key := c.GenerateID()
 			path := c.GetPath()
@@ -52,6 +55,11 @@ func iconButtonComposable(material3Button *button.Button, onClick func(), icon [
 			buttonValue := c.State(buttonStatePath, func() any { return material3Button })
 			opts.Button = buttonValue.Get().(*button.Button)
 		}
+
+		opts.Button.WithColorScheme(&button.AlternativeColorScheme{
+			EnabledLabelColor: token.MatColor(graphics.ColorToNRGBA(contentColor)),
+			EnabledIconColor:  token.MatColor(graphics.ColorToNRGBA(contentColor)),
+		})
 
 		constructorArgs := IconButtonConstructorArgs{
 			Button:      opts.Button,
@@ -95,7 +103,7 @@ func iconButtonWidgetConstructor(_ IconButtonOptions, constructorArgs IconButton
 			}
 
 			mwIconWidget := func(gtx layout.Context, c token.MatColor) layout.Dimensions {
-				return iconWidget.Layout(gtx, color.NRGBA(c))
+				return iconWidget.Layout(gtx, c.AsNRGBA())
 			}
 
 			return button.LayoutIconOnly(gtx, constructorArgs.Description, mwIconWidget)
