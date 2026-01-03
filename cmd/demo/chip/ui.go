@@ -26,61 +26,51 @@ func UI() api.Composable {
 				spacer.Height(16),
 				// Assist Chip Row
 				row.Row(
-					func(c api.Composer) api.Composer {
-						chip.AssistChip(func() { fmt.Println("Assist Chip Clicked") }, "Assist Chip")(c)
-						spacer.Width(16)(c)
+					c.Sequence(
+						chip.AssistChip(func() { fmt.Println("Assist Chip Clicked") }, "Assist Chip"),
+						spacer.Width(16),
 						chip.AssistChip(func() { fmt.Println("Assist with Icon") }, "With Icon",
 							chip.WithLeadingIcon(func(c api.Composer) api.Composer {
 								return text.TextWithStyle("★", text.TypestyleBodyMedium)(c)
 							}),
-						)(c)
-						return c
-					},
+						),
+					),
 				),
 				spacer.Height(16),
 				// Filter Chip Row
 				row.Row(
-					func(c api.Composer) api.Composer {
-						label := "Filter Chip"
-						if selected {
-							label = "Selected"
-						}
-
-						var leadingIcon api.Composable
-						if selected {
-							leadingIcon = func(c api.Composer) api.Composer { return text.TextWithStyle("✓", text.TypestyleBodyMedium)(c) }
-						}
-
-						chip.FilterChip(
-							func() { selectedState.Set(!selected) },
-							label,
-							chip.WithSelected(selected),
-							chip.WithLeadingIcon(leadingIcon),
-						)(c)
-						return c
-					},
+					c.Sequence(
+						c.If(
+							selected,
+							chip.FilterChip(
+								func() { selectedState.Set(!selected) },
+								"Selected",
+								chip.WithSelected(selected),
+								chip.WithLeadingIcon(text.TextWithStyle("✓", text.TypestyleBodyMedium)),
+							),
+							chip.FilterChip(
+								func() { selectedState.Set(!selected) },
+								"Filter Chip",
+								chip.WithSelected(selected),
+							),
+						),
+					),
 				),
 				spacer.Height(16),
 				// Input Chip
-				row.Row(
-					func(c api.Composer) api.Composer {
-						chip.InputChip(func() { fmt.Println("Input Clicked") }, "Input Chip",
-							chip.WithTrailingIcon(func(c api.Composer) api.Composer {
-								return text.TextWithStyle("×", text.TypestyleBodyMedium)(c)
-							}),
-						)(c)
-						return c
-					},
+				chip.InputChip(func() { fmt.Println("Input Clicked") }, "Input Chip",
+					chip.WithTrailingIcon(func(c api.Composer) api.Composer {
+						return text.TextWithStyle("×", text.TypestyleBodyMedium)(c)
+					}),
 				),
 				spacer.Height(16),
 				// Suggestion Chip
 				row.Row(
-					func(c api.Composer) api.Composer {
-						chip.SuggestionChip(func() { fmt.Println("Suggestion 1") }, "Suggestion 1")(c)
-						spacer.Width(8)(c)
-						chip.SuggestionChip(func() { fmt.Println("Suggestion 2") }, "Suggestion 2")(c)
-						return c
-					},
+					c.Sequence(
+						chip.SuggestionChip(func() { fmt.Println("Suggestion 1") }, "Suggestion 1"),
+						spacer.Width(8),
+						chip.SuggestionChip(func() { fmt.Println("Suggestion 2") }, "Suggestion 2"),
+					),
 				),
 			),
 		)(c)
