@@ -1,6 +1,7 @@
 package surface
 
 import (
+	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
@@ -9,6 +10,7 @@ import (
 	"github.com/zodimo/go-compose/modifiers/border"
 	"github.com/zodimo/go-compose/modifiers/clip"
 	"github.com/zodimo/go-compose/modifiers/shadow"
+	"github.com/zodimo/go-compose/pkg/api"
 )
 
 // Surface is a layout composable that represents a Material surface.
@@ -50,7 +52,10 @@ func Surface(
 			Then(border.Border(opts.BorderWidth, opts.BorderColor, opts.Shape)).
 			Then(opts.Modifier)
 
-		// Use Box to hold content and apply modifiers
-		return box.Box(content, box.WithModifier(surfaceModifier), box.WithAlignment(opts.Alignment))(c)
+		return compose.CompositionLocalProvider(
+			[]api.ProvidedValue{material3.LocalContentColor.Provides(opts.ContentColor)},
+			box.Box(content, box.WithModifier(surfaceModifier), box.WithAlignment(opts.Alignment)),
+		)(c)
+
 	}
 }
