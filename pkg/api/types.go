@@ -65,3 +65,5 @@ type TreeBuilderComposer interface {
 type GioLayoutNodeAwareComposer interface {
 	SetWidgetConstructor(constructor layoutnode.LayoutNodeWidgetConstructor)
 }
+
+var EmptyModifier = modifier.EmptyModifier
