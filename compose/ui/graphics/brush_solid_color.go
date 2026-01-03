@@ -12,11 +12,11 @@ func (s SolidColor) isBrush() {}
 func (s SolidColor) ApplyTo(size geometry.Size, p *Paint, alpha float32) {
 	p.Alpha = 1.0 // DefaultAlpha
 	// In Kotlin: if (alpha != DefaultAlpha) value.copy(alpha = value.alpha * alpha) else value
-	// For now, we just pass the color. Handling alpha on ColorDescriptor might require AppendUpdate.
+	// For now, we just pass the color. Handling alpha on Color can use the Copy receiver or graphics.SetOpacity api
 	// Since we don't have full Color logic validation yet, we'll set Paint fields.
 	p.Color = s.Value
 	if alpha != 1.0 {
-		// p.Color = p.Color.SetOpacity(alpha)? This depends on ColorDescriptor interface.
+		// p.Color = p.Color.SetOpacity(alpha)? This depends on graphics.Color interface.
 		// For now we set Paint.Alpha which might be used by the renderer.
 		p.Alpha = alpha
 	}
