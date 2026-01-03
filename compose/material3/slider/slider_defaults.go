@@ -2,7 +2,7 @@ package slider
 
 import (
 	gioUnit "gioui.org/unit"
-	"github.com/zodimo/go-compose/theme"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 // SliderDefaults holds default values for the Slider component.
@@ -13,20 +13,21 @@ type sliderDefaults struct{}
 // Colors returns the default SliderColors.
 func (d sliderDefaults) Colors() SliderColors {
 	return SliderColors{
-		ThumbColor:            theme.ColorHelper.UnspecifiedColor(),
-		ActiveTrackColor:      theme.ColorHelper.UnspecifiedColor(),
-		ActiveTickColor:       theme.ColorHelper.UnspecifiedColor(),
-		InactiveTrackColor:    theme.ColorHelper.UnspecifiedColor(),
-		InactiveTickColor:     theme.ColorHelper.UnspecifiedColor(),
-		DisabledThumbColor:    theme.ColorHelper.UnspecifiedColor(),
-		DisabledActiveTrack:   theme.ColorHelper.UnspecifiedColor(),
-		DisabledActiveTick:    theme.ColorHelper.UnspecifiedColor(),
-		DisabledInactiveTrack: theme.ColorHelper.UnspecifiedColor(),
-		DisabledInactiveTick:  theme.ColorHelper.UnspecifiedColor(),
+		ThumbColor:            graphics.ColorUnspecified,
+		ActiveTrackColor:      graphics.ColorUnspecified,
+		ActiveTickColor:       graphics.ColorUnspecified,
+		InactiveTrackColor:    graphics.ColorUnspecified,
+		InactiveTickColor:     graphics.ColorUnspecified,
+		DisabledThumbColor:    graphics.ColorUnspecified,
+		DisabledActiveTrack:   graphics.ColorUnspecified,
+		DisabledActiveTick:    graphics.ColorUnspecified,
+		DisabledInactiveTrack: graphics.ColorUnspecified,
+		DisabledInactiveTick:  graphics.ColorUnspecified,
 	}
 }
 
 // Dimensions constants
+// @TODO this should be compose.ui.unit
 var (
 	TrackHeight     = gioUnit.Dp(4)
 	ThumbSize       = gioUnit.Dp(20)

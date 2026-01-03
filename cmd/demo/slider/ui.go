@@ -13,7 +13,6 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
-	"github.com/zodimo/go-compose/theme"
 )
 
 type Composable = api.Composable
@@ -74,16 +73,16 @@ func UI() Composable {
 							customColorValue.Get().(float32),
 							func(v float32) { customColorValue.Set(v) },
 							slider.WithColors(slider.SliderColors{
-								ThumbColor:            theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 255, A: 255})),
-								ActiveTrackColor:      theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 200, G: 50, B: 50, A: 255})),
-								InactiveTrackColor:    theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 200, G: 200, B: 200, A: 255})),
-								ActiveTickColor:       theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255})),
-								InactiveTickColor:     theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 0, G: 0, B: 0, A: 255})),
-								DisabledThumbColor:    theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 100, G: 100, B: 100, A: 255})),
-								DisabledActiveTrack:   theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 100, G: 100, B: 100, A: 255})),
-								DisabledActiveTick:    theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 100, G: 100, B: 100, A: 255})),
-								DisabledInactiveTrack: theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 220, G: 220, B: 220, A: 255})),
-								DisabledInactiveTick:  theme.ColorHelper.SpecificColor(graphics.FromNRGBA(color.NRGBA{R: 220, G: 220, B: 220, A: 255})),
+								ThumbColor:            graphics.FromNRGBA(color.NRGBA{R: 255, A: 255}),
+								ActiveTrackColor:      graphics.FromNRGBA(color.NRGBA{R: 200, G: 50, B: 50, A: 255}),
+								InactiveTrackColor:    graphics.FromNRGBA(color.NRGBA{R: 200, G: 200, B: 200, A: 255}),
+								ActiveTickColor:       graphics.FromNRGBA(color.NRGBA{R: 255, G: 255, B: 255, A: 255}),
+								InactiveTickColor:     graphics.FromNRGBA(color.NRGBA{R: 0, G: 0, B: 0, A: 255}),
+								DisabledThumbColor:    graphics.FromNRGBA(color.NRGBA{R: 100, G: 100, B: 100, A: 255}),
+								DisabledActiveTrack:   graphics.FromNRGBA(color.NRGBA{R: 100, G: 100, B: 100, A: 255}),
+								DisabledActiveTick:    graphics.FromNRGBA(color.NRGBA{R: 100, G: 100, B: 100, A: 255}),
+								DisabledInactiveTrack: graphics.FromNRGBA(color.NRGBA{R: 220, G: 220, B: 220, A: 255}),
+								DisabledInactiveTick:  graphics.FromNRGBA(color.NRGBA{R: 220, G: 220, B: 220, A: 255}),
 							}),
 						)(c)
 

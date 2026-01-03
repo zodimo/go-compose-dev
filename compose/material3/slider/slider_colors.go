@@ -3,25 +3,25 @@ package slider
 import (
 	"gioui.org/layout"
 
-	"github.com/zodimo/go-compose/theme"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 // SliderColors represents the colors used by a Slider in different states.
 type SliderColors struct {
-	ThumbColor            theme.ColorDescriptor
-	ActiveTrackColor      theme.ColorDescriptor
-	ActiveTickColor       theme.ColorDescriptor
-	InactiveTrackColor    theme.ColorDescriptor
-	InactiveTickColor     theme.ColorDescriptor
-	DisabledThumbColor    theme.ColorDescriptor
-	DisabledActiveTrack   theme.ColorDescriptor
-	DisabledActiveTick    theme.ColorDescriptor
-	DisabledInactiveTrack theme.ColorDescriptor
-	DisabledInactiveTick  theme.ColorDescriptor
+	ThumbColor            graphics.Color
+	ActiveTrackColor      graphics.Color
+	ActiveTickColor       graphics.Color
+	InactiveTrackColor    graphics.Color
+	InactiveTickColor     graphics.Color
+	DisabledThumbColor    graphics.Color
+	DisabledActiveTrack   graphics.Color
+	DisabledActiveTick    graphics.Color
+	DisabledInactiveTrack graphics.Color
+	DisabledInactiveTick  graphics.Color
 }
 
 // ThumbColor returns the color of the thumb based on the enabled state.
-func (c SliderColors) Thumb(enabled bool) theme.ColorDescriptor {
+func (c SliderColors) Thumb(enabled bool) graphics.Color {
 	if enabled {
 		return c.ThumbColor
 	}
@@ -29,7 +29,7 @@ func (c SliderColors) Thumb(enabled bool) theme.ColorDescriptor {
 }
 
 // TrackColor returns the color of the track based on the enabled and active state.
-func (c SliderColors) Track(enabled, active bool) theme.ColorDescriptor {
+func (c SliderColors) Track(enabled, active bool) graphics.Color {
 	if enabled {
 		if active {
 			return c.ActiveTrackColor
@@ -43,7 +43,7 @@ func (c SliderColors) Track(enabled, active bool) theme.ColorDescriptor {
 }
 
 // TickColor returns the color of the ticks based on the enabled and active state.
-func (c SliderColors) Tick(enabled, active bool) theme.ColorDescriptor {
+func (c SliderColors) Tick(enabled, active bool) graphics.Color {
 	if enabled {
 		if active {
 			return c.ActiveTickColor

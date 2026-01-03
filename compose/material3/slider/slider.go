@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"image"
 
+	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/theme"
 
 	"gioui.org/layout"
 	"gioui.org/op"
@@ -30,9 +31,9 @@ func Slider(value float32, onValueChange func(float32), options ...SliderOption)
 		opt(&opts)
 	}
 
-	opts.Colors = resolveSliderColors(opts.Colors)
-
 	return func(c Composer) Composer {
+
+		opts.Colors = resolveSliderColors(c, opts.Colors)
 
 		// Calculate mapped value [0, 1] for internal widget
 		rangeDiff := opts.ValueRange.Max - opts.ValueRange.Min
@@ -77,19 +78,19 @@ func Slider(value float32, onValueChange func(float32), options ...SliderOption)
 	}
 }
 
-func resolveSliderColors(colors SliderColors) SliderColors {
-	selector := theme.ColorHelper.ColorSelector()
+func resolveSliderColors(c Composer, colors SliderColors) SliderColors {
+	theme := material3.Theme(c)
 	return SliderColors{
-		ThumbColor:            theme.TakeOrElseColor(colors.ThumbColor, selector.PrimaryRoles.Primary),
-		ActiveTrackColor:      theme.TakeOrElseColor(colors.ActiveTrackColor, selector.PrimaryRoles.Primary),
-		ActiveTickColor:       theme.TakeOrElseColor(colors.ActiveTickColor, selector.PrimaryRoles.OnPrimary.SetOpacity(0.38)),
-		InactiveTrackColor:    theme.TakeOrElseColor(colors.InactiveTrackColor, selector.SurfaceRoles.ContainerHighest),
-		InactiveTickColor:     theme.TakeOrElseColor(colors.InactiveTickColor, selector.SurfaceRoles.OnVariant.SetOpacity(0.38)),
-		DisabledThumbColor:    theme.TakeOrElseColor(colors.DisabledThumbColor, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		DisabledActiveTrack:   theme.TakeOrElseColor(colors.DisabledActiveTrack, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		DisabledActiveTick:    theme.TakeOrElseColor(colors.DisabledActiveTick, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
-		DisabledInactiveTrack: theme.TakeOrElseColor(colors.DisabledInactiveTrack, selector.SurfaceRoles.OnSurface.SetOpacity(0.12)),
-		DisabledInactiveTick:  theme.TakeOrElseColor(colors.DisabledInactiveTick, selector.SurfaceRoles.OnSurface.SetOpacity(0.12)),
+		ThumbColor:            colors.ThumbColor.TakeOrElse(theme.ColorScheme().Primary.Color),                                            //, selector.PrimaryRoles.Primary),
+		ActiveTrackColor:      colors.ActiveTrackColor.TakeOrElse(theme.ColorScheme().Primary.Color),                                      //, selector.PrimaryRoles.Primary),
+		ActiveTickColor:       colors.ActiveTickColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Primary.OnColor, 0.38)),          //, selector.PrimaryRoles.OnPrimary.SetOpacity(0.38)),
+		InactiveTrackColor:    colors.InactiveTrackColor.TakeOrElse(theme.ColorScheme().SurfaceContainerHighest),                          //, selector.SurfaceRoles.ContainerHighest),
+		InactiveTickColor:     colors.InactiveTickColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().SurfaceVariant.OnColor, 0.38)), //, selector.SurfaceRoles.OnVariant.SetOpacity(0.38)),
+		DisabledThumbColor:    colors.DisabledThumbColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),       //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
+		DisabledActiveTrack:   colors.DisabledActiveTrack.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),      //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
+		DisabledActiveTick:    colors.DisabledActiveTick.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.38)),       //, selector.SurfaceRoles.OnSurface.SetOpacity(0.38)),
+		DisabledInactiveTrack: colors.DisabledInactiveTrack.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.12)),    //, selector.SurfaceRoles.OnSurface.SetOpacity(0.12)),
+		DisabledInactiveTick:  colors.DisabledInactiveTick.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, 0.12)),     //, selector.SurfaceRoles.OnSurface.SetOpacity(0.12)),
 	}
 }
 
@@ -171,41 +172,36 @@ func sliderWidgetConstructor(args sliderConstructorArgs) layoutnode.LayoutNodeWi
 			inactiveTrackRect := image.Rect(0, trackY, trackWidth, trackY+trackHeight)
 			roundedCorners := trackHeight / 2
 
-			tm := theme.GetThemeManager()
-			trackColorDesc := args.Colors.Track(args.Enabled, false)
-			trackColor := tm.ResolveColorDescriptor(trackColorDesc)
+			trackColor := graphics.ColorToNRGBA(args.Colors.Track(args.Enabled, false))
 
 			// Using Clip/Paint
 			inactiveTrackClip := clip.RRect{
 				Rect: inactiveTrackRect,
 				SE:   roundedCorners, SW: roundedCorners, NW: roundedCorners, NE: roundedCorners,
 			}.Push(gtx.Ops)
-			paint.ColorOp{Color: trackColor.AsNRGBA()}.Add(gtx.Ops)
+			paint.ColorOp{Color: trackColor}.Add(gtx.Ops)
 			paint.PaintOp{}.Add(gtx.Ops)
 			inactiveTrackClip.Pop()
 
 			// Active Track (Overlay)
 			if activeTrackWidth > 0 {
 				activeTrackRect := image.Rect(0, trackY, activeTrackWidth, trackY+trackHeight)
-				activeColorDesc := args.Colors.Track(args.Enabled, true)
-				activeColor := tm.ResolveColorDescriptor(activeColorDesc)
+				activeColor := graphics.ColorToNRGBA(args.Colors.Track(args.Enabled, true))
 
 				activeTrackClip := clip.RRect{
 					Rect: activeTrackRect,
 					SE:   roundedCorners, SW: roundedCorners, NW: roundedCorners, NE: roundedCorners,
 				}.Push(gtx.Ops)
-				paint.ColorOp{Color: activeColor.AsNRGBA()}.Add(gtx.Ops)
+				paint.ColorOp{Color: activeColor}.Add(gtx.Ops)
 				paint.PaintOp{}.Add(gtx.Ops)
 				activeTrackClip.Pop()
 			}
 
 			// Ticks
 			if args.Steps > 0 {
-				tickColorDesc := args.Colors.Tick(args.Enabled, true) // Active part
-				tickColor := tm.ResolveColorDescriptor(tickColorDesc)
+				tickColor := graphics.ColorToNRGBA(args.Colors.Tick(args.Enabled, true))
 
-				inactiveTickColorDesc := args.Colors.Tick(args.Enabled, false)
-				inactiveTickColor := tm.ResolveColorDescriptor(inactiveTickColorDesc)
+				inactiveTickColor := graphics.ColorToNRGBA(args.Colors.Tick(args.Enabled, false))
 
 				tickSizePx := gtx.Dp(TickSize)
 				stepSizePx := float32(trackWidth) / float32(args.Steps+1)
@@ -228,7 +224,7 @@ func sliderWidgetConstructor(args sliderConstructorArgs) layoutnode.LayoutNodeWi
 						Max: tickRect.Max,
 					}
 					tickClip := tickCircle.Push(gtx.Ops)
-					paint.ColorOp{Color: c.AsNRGBA()}.Add(gtx.Ops)
+					paint.ColorOp{Color: c}.Add(gtx.Ops)
 					paint.PaintOp{}.Add(gtx.Ops)
 					tickClip.Pop()
 				}
@@ -238,14 +234,13 @@ func sliderWidgetConstructor(args sliderConstructorArgs) layoutnode.LayoutNodeWi
 			thumbX := int(float32(trackWidth) * fraction)
 			thumbRect := image.Rect(thumbX-thumbSize/2, 0, thumbX+thumbSize/2, thumbSize)
 
-			thumbColorDesc := args.Colors.Thumb(args.Enabled)
-			thumbColor := tm.ResolveColorDescriptor(thumbColorDesc)
+			thumbColor := graphics.ColorToNRGBA(args.Colors.Thumb(args.Enabled))
 
 			thumbClip := clip.Ellipse{
 				Min: thumbRect.Min,
 				Max: thumbRect.Max,
 			}.Push(gtx.Ops)
-			paint.ColorOp{Color: thumbColor.AsNRGBA()}.Add(gtx.Ops)
+			paint.ColorOp{Color: thumbColor}.Add(gtx.Ops)
 			paint.PaintOp{}.Add(gtx.Ops)
 			thumbClip.Pop()
 
