@@ -48,7 +48,10 @@ func Surface(
 		surfaceModifier := modifier.EmptyModifier.
 			Then(shadow.Simple(opts.ShadowElevation, opts.Shape)).
 			Then(clip.Clip(opts.Shape)).
-			Then(background.Background(opts.Color, func(o *background.BackgroundOptions) { o.Shape = opts.Shape })).
+			Then(background.Background(
+				opts.Color,
+				background.WithShape(opts.Shape),
+			)).
 			Then(border.Border(opts.BorderWidth, opts.BorderColor, opts.Shape)).
 			Then(opts.Modifier)
 
