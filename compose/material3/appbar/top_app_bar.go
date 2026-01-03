@@ -1,15 +1,18 @@
 package appbar
 
 import (
+	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/surface"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/modifiers/weight"
+	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
 )
@@ -63,10 +66,13 @@ func SingleRowTopAppBar(
 					// Actions
 					c.When(
 						len(actions) > 0,
-						row.Row(
-							c.Sequence(actions...),
-							row.WithAlignment(row.Middle),
-							row.WithModifier(padding.Padding(0, 0, 4, 0)), // End(4)
+						compose.CompositionLocalProvider(
+							[]api.ProvidedValue{material3.LocalContentColor.Provides(colors.ActionIconContentColor)},
+							row.Row(
+								c.Sequence(actions...),
+								row.WithAlignment(row.Middle),
+								row.WithModifier(padding.Padding(0, 0, 4, 0)), // End(4)
+							),
 						),
 					),
 				),
