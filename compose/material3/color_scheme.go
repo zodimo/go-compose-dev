@@ -5,6 +5,7 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
+// Deprecated
 type ColorScheme struct {
 	Primary             *ColorSet
 	PrimaryContainer    *ColorSet
