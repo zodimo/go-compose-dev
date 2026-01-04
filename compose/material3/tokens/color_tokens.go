@@ -1,0 +1,54 @@
+package tokens
+
+import "github.com/zodimo/go-compose/compose/ui/graphics"
+
+type ColorTokens struct {
+	Background              graphics.Color
+	Error                   graphics.Color
+	ErrorContainer          graphics.Color
+	InverseOnSurface        graphics.Color
+	InversePrimary          graphics.Color
+	InverseSurface          graphics.Color
+	OnBackground            graphics.Color
+	OnError                 graphics.Color
+	OnErrorContainer        graphics.Color
+	OnPrimary               graphics.Color
+	OnPrimaryContainer      graphics.Color
+	OnPrimaryFixed          graphics.Color
+	OnPrimaryFixedVariant   graphics.Color
+	OnSecondary             graphics.Color
+	OnSecondaryContainer    graphics.Color
+	OnSecondaryFixed        graphics.Color
+	OnSecondaryFixedVariant graphics.Color
+	OnSurface               graphics.Color
+	OnSurfaceVariant        graphics.Color
+	OnTertiary              graphics.Color
+	OnTertiaryContainer     graphics.Color
+	OnTertiaryFixed         graphics.Color
+	OnTertiaryFixedVariant  graphics.Color
+	Outline                 graphics.Color
+	OutlineVariant          graphics.Color
+	Primary                 graphics.Color
+	PrimaryContainer        graphics.Color
+	PrimaryFixed            graphics.Color
+	PrimaryFixedDim         graphics.Color
+	Scrim                   graphics.Color
+	Secondary               graphics.Color
+	SecondaryContainer      graphics.Color
+	SecondaryFixed          graphics.Color
+	SecondaryFixedDim       graphics.Color
+	Surface                 graphics.Color
+	SurfaceBright           graphics.Color
+	SurfaceContainer        graphics.Color
+	SurfaceContainerHigh    graphics.Color
+	SurfaceContainerHighest graphics.Color
+	SurfaceContainerLow     graphics.Color
+	SurfaceContainerLowest  graphics.Color
+	SurfaceDim              graphics.Color
+	SurfaceTint             graphics.Color
+	SurfaceVariant          graphics.Color
+	Tertiary                graphics.Color
+	TertiaryContainer       graphics.Color
+	TertiaryFixed           graphics.Color
+	TertiaryFixedDim        graphics.Color
+}
