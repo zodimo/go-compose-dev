@@ -2,161 +2,262 @@ package tokens
 
 // ColorSchemeKeyToken represents a key for a color in the Material 3 color scheme.
 // These keys are used to look up specific color roles.
-type ColorSchemeKeyToken int
+type ColorSchemeTokenKey int
 
 const (
 	// ColorSchemeKeyUnspecified is the zero value, representing no specific color key.
-	ColorSchemeKeyUnspecified ColorSchemeKeyToken = iota
-
-	ColorSchemeKeyBackground
-	ColorSchemeKeyError
-	ColorSchemeKeyErrorContainer
-	ColorSchemeKeyInverseOnSurface
-	ColorSchemeKeyInversePrimary
-	ColorSchemeKeyInverseSurface
-	ColorSchemeKeyOnBackground
-	ColorSchemeKeyOnError
-	ColorSchemeKeyOnErrorContainer
-	ColorSchemeKeyOnPrimary
-	ColorSchemeKeyOnPrimaryContainer
-	ColorSchemeKeyOnPrimaryFixed
-	ColorSchemeKeyOnPrimaryFixedVariant
-	ColorSchemeKeyOnSecondary
-	ColorSchemeKeyOnSecondaryContainer
-	ColorSchemeKeyOnSecondaryFixed
-	ColorSchemeKeyOnSecondaryFixedVariant
-	ColorSchemeKeyOnSurface
-	ColorSchemeKeyOnSurfaceVariant
-	ColorSchemeKeyOnTertiary
-	ColorSchemeKeyOnTertiaryContainer
-	ColorSchemeKeyOnTertiaryFixed
-	ColorSchemeKeyOnTertiaryFixedVariant
-	ColorSchemeKeyOutline
-	ColorSchemeKeyOutlineVariant
-	ColorSchemeKeyPrimary
-	ColorSchemeKeyPrimaryContainer
-	ColorSchemeKeyPrimaryFixed
-	ColorSchemeKeyPrimaryFixedDim
-	ColorSchemeKeyScrim
-	ColorSchemeKeySecondary
-	ColorSchemeKeySecondaryContainer
-	ColorSchemeKeySecondaryFixed
-	ColorSchemeKeySecondaryFixedDim
-	ColorSchemeKeySurface
-	ColorSchemeKeySurfaceBright
-	ColorSchemeKeySurfaceContainer
-	ColorSchemeKeySurfaceContainerHigh
-	ColorSchemeKeySurfaceContainerHighest
-	ColorSchemeKeySurfaceContainerLow
-	ColorSchemeKeySurfaceContainerLowest
-	ColorSchemeKeySurfaceDim
-	ColorSchemeKeySurfaceTint
-	ColorSchemeKeySurfaceVariant
-	ColorSchemeKeyTertiary
-	ColorSchemeKeyTertiaryContainer
-	ColorSchemeKeyTertiaryFixed
-	ColorSchemeKeyTertiaryFixedDim
+	ColorSchemeTokenKeyUnspecified ColorSchemeTokenKey = iota
+	ColorSchemeTokenKeyBackground
+	ColorSchemeTokenKeyError
+	ColorSchemeTokenKeyErrorContainer
+	ColorSchemeTokenKeyInverseOnSurface
+	ColorSchemeTokenKeyInversePrimary
+	ColorSchemeTokenKeyInverseSurface
+	ColorSchemeTokenKeyOnBackground
+	ColorSchemeTokenKeyOnError
+	ColorSchemeTokenKeyOnErrorContainer
+	ColorSchemeTokenKeyOnPrimary
+	ColorSchemeTokenKeyOnPrimaryContainer
+	ColorSchemeTokenKeyOnPrimaryFixed
+	ColorSchemeTokenKeyOnPrimaryFixedVariant
+	ColorSchemeTokenKeyOnSecondary
+	ColorSchemeTokenKeyOnSecondaryContainer
+	ColorSchemeTokenKeyOnSecondaryFixed
+	ColorSchemeTokenKeyOnSecondaryFixedVariant
+	ColorSchemeTokenKeyOnSurface
+	ColorSchemeTokenKeyOnSurfaceVariant
+	ColorSchemeTokenKeyOnTertiary
+	ColorSchemeTokenKeyOnTertiaryContainer
+	ColorSchemeTokenKeyOnTertiaryFixed
+	ColorSchemeTokenKeyOnTertiaryFixedVariant
+	ColorSchemeTokenKeyOutline
+	ColorSchemeTokenKeyOutlineVariant
+	ColorSchemeTokenKeyPrimary
+	ColorSchemeTokenKeyPrimaryContainer
+	ColorSchemeTokenKeyPrimaryFixed
+	ColorSchemeTokenKeyPrimaryFixedDim
+	ColorSchemeTokenKeyScrim
+	ColorSchemeTokenKeySecondary
+	ColorSchemeTokenKeySecondaryContainer
+	ColorSchemeTokenKeySecondaryFixed
+	ColorSchemeTokenKeySecondaryFixedDim
+	ColorSchemeTokenKeySurface
+	ColorSchemeTokenKeySurfaceBright
+	ColorSchemeTokenKeySurfaceContainer
+	ColorSchemeTokenKeySurfaceContainerHigh
+	ColorSchemeTokenKeySurfaceContainerHighest
+	ColorSchemeTokenKeySurfaceContainerLow
+	ColorSchemeTokenKeySurfaceContainerLowest
+	ColorSchemeTokenKeySurfaceDim
+	ColorSchemeTokenKeySurfaceTint
+	ColorSchemeTokenKeySurfaceVariant
+	ColorSchemeTokenKeyTertiary
+	ColorSchemeTokenKeyTertiaryContainer
+	ColorSchemeTokenKeyTertiaryFixed
+	ColorSchemeTokenKeyTertiaryFixedDim
 )
 
-func (c ColorSchemeKeyToken) String() string {
+func (c ColorSchemeTokenKey) String() string {
 	switch c {
-	case ColorSchemeKeyBackground:
+	case ColorSchemeTokenKeyBackground:
 		return "Background"
-	case ColorSchemeKeyError:
+	case ColorSchemeTokenKeyError:
 		return "Error"
-	case ColorSchemeKeyErrorContainer:
+	case ColorSchemeTokenKeyErrorContainer:
 		return "ErrorContainer"
-	case ColorSchemeKeyInverseOnSurface:
+	case ColorSchemeTokenKeyInverseOnSurface:
 		return "InverseOnSurface"
-	case ColorSchemeKeyInversePrimary:
+	case ColorSchemeTokenKeyInversePrimary:
 		return "InversePrimary"
-	case ColorSchemeKeyInverseSurface:
+	case ColorSchemeTokenKeyInverseSurface:
 		return "InverseSurface"
-	case ColorSchemeKeyOnBackground:
+	case ColorSchemeTokenKeyOnBackground:
 		return "OnBackground"
-	case ColorSchemeKeyOnError:
+	case ColorSchemeTokenKeyOnError:
 		return "OnError"
-	case ColorSchemeKeyOnErrorContainer:
+	case ColorSchemeTokenKeyOnErrorContainer:
 		return "OnErrorContainer"
-	case ColorSchemeKeyOnPrimary:
+	case ColorSchemeTokenKeyOnPrimary:
 		return "OnPrimary"
-	case ColorSchemeKeyOnPrimaryContainer:
+	case ColorSchemeTokenKeyOnPrimaryContainer:
 		return "OnPrimaryContainer"
-	case ColorSchemeKeyOnPrimaryFixed:
+	case ColorSchemeTokenKeyOnPrimaryFixed:
 		return "OnPrimaryFixed"
-	case ColorSchemeKeyOnPrimaryFixedVariant:
+	case ColorSchemeTokenKeyOnPrimaryFixedVariant:
 		return "OnPrimaryFixedVariant"
-	case ColorSchemeKeyOnSecondary:
+	case ColorSchemeTokenKeyOnSecondary:
 		return "OnSecondary"
-	case ColorSchemeKeyOnSecondaryContainer:
+	case ColorSchemeTokenKeyOnSecondaryContainer:
 		return "OnSecondaryContainer"
-	case ColorSchemeKeyOnSecondaryFixed:
+	case ColorSchemeTokenKeyOnSecondaryFixed:
 		return "OnSecondaryFixed"
-	case ColorSchemeKeyOnSecondaryFixedVariant:
+	case ColorSchemeTokenKeyOnSecondaryFixedVariant:
 		return "OnSecondaryFixedVariant"
-	case ColorSchemeKeyOnSurface:
+	case ColorSchemeTokenKeyOnSurface:
 		return "OnSurface"
-	case ColorSchemeKeyOnSurfaceVariant:
+	case ColorSchemeTokenKeyOnSurfaceVariant:
 		return "OnSurfaceVariant"
-	case ColorSchemeKeyOnTertiary:
+	case ColorSchemeTokenKeyOnTertiary:
 		return "OnTertiary"
-	case ColorSchemeKeyOnTertiaryContainer:
+	case ColorSchemeTokenKeyOnTertiaryContainer:
 		return "OnTertiaryContainer"
-	case ColorSchemeKeyOnTertiaryFixed:
+	case ColorSchemeTokenKeyOnTertiaryFixed:
 		return "OnTertiaryFixed"
-	case ColorSchemeKeyOnTertiaryFixedVariant:
+	case ColorSchemeTokenKeyOnTertiaryFixedVariant:
 		return "OnTertiaryFixedVariant"
-	case ColorSchemeKeyOutline:
+	case ColorSchemeTokenKeyOutline:
 		return "Outline"
-	case ColorSchemeKeyOutlineVariant:
+	case ColorSchemeTokenKeyOutlineVariant:
 		return "OutlineVariant"
-	case ColorSchemeKeyPrimary:
+	case ColorSchemeTokenKeyPrimary:
 		return "Primary"
-	case ColorSchemeKeyPrimaryContainer:
+	case ColorSchemeTokenKeyPrimaryContainer:
 		return "PrimaryContainer"
-	case ColorSchemeKeyPrimaryFixed:
+	case ColorSchemeTokenKeyPrimaryFixed:
 		return "PrimaryFixed"
-	case ColorSchemeKeyPrimaryFixedDim:
+	case ColorSchemeTokenKeyPrimaryFixedDim:
 		return "PrimaryFixedDim"
-	case ColorSchemeKeyScrim:
+	case ColorSchemeTokenKeyScrim:
 		return "Scrim"
-	case ColorSchemeKeySecondary:
+	case ColorSchemeTokenKeySecondary:
 		return "Secondary"
-	case ColorSchemeKeySecondaryContainer:
+	case ColorSchemeTokenKeySecondaryContainer:
 		return "SecondaryContainer"
-	case ColorSchemeKeySecondaryFixed:
+	case ColorSchemeTokenKeySecondaryFixed:
 		return "SecondaryFixed"
-	case ColorSchemeKeySecondaryFixedDim:
+	case ColorSchemeTokenKeySecondaryFixedDim:
 		return "SecondaryFixedDim"
-	case ColorSchemeKeySurface:
+	case ColorSchemeTokenKeySurface:
 		return "Surface"
-	case ColorSchemeKeySurfaceBright:
+	case ColorSchemeTokenKeySurfaceBright:
 		return "SurfaceBright"
-	case ColorSchemeKeySurfaceContainer:
+	case ColorSchemeTokenKeySurfaceContainer:
 		return "SurfaceContainer"
-	case ColorSchemeKeySurfaceContainerHigh:
+	case ColorSchemeTokenKeySurfaceContainerHigh:
 		return "SurfaceContainerHigh"
-	case ColorSchemeKeySurfaceContainerHighest:
+	case ColorSchemeTokenKeySurfaceContainerHighest:
 		return "SurfaceContainerHighest"
-	case ColorSchemeKeySurfaceContainerLow:
+	case ColorSchemeTokenKeySurfaceContainerLow:
 		return "SurfaceContainerLow"
-	case ColorSchemeKeySurfaceContainerLowest:
+	case ColorSchemeTokenKeySurfaceContainerLowest:
 		return "SurfaceContainerLowest"
-	case ColorSchemeKeySurfaceDim:
+	case ColorSchemeTokenKeySurfaceDim:
 		return "SurfaceDim"
-	case ColorSchemeKeySurfaceTint:
+	case ColorSchemeTokenKeySurfaceTint:
 		return "SurfaceTint"
-	case ColorSchemeKeySurfaceVariant:
+	case ColorSchemeTokenKeySurfaceVariant:
 		return "SurfaceVariant"
-	case ColorSchemeKeyTertiary:
+	case ColorSchemeTokenKeyTertiary:
 		return "Tertiary"
-	case ColorSchemeKeyTertiaryContainer:
+	case ColorSchemeTokenKeyTertiaryContainer:
 		return "TertiaryContainer"
-	case ColorSchemeKeyTertiaryFixed:
+	case ColorSchemeTokenKeyTertiaryFixed:
 		return "TertiaryFixed"
-	case ColorSchemeKeyTertiaryFixedDim:
+	case ColorSchemeTokenKeyTertiaryFixedDim:
 		return "TertiaryFixedDim"
 	default:
 		return "Unspecified"
 	}
+}
+
+var ColorSchemeKeyTokens = ColorSchemeKeyTokensData{
+	Background:              ColorSchemeTokenKeyBackground,
+	Error:                   ColorSchemeTokenKeyError,
+	ErrorContainer:          ColorSchemeTokenKeyErrorContainer,
+	InverseOnSurface:        ColorSchemeTokenKeyInverseOnSurface,
+	InversePrimary:          ColorSchemeTokenKeyInversePrimary,
+	InverseSurface:          ColorSchemeTokenKeyInverseSurface,
+	OnBackground:            ColorSchemeTokenKeyOnBackground,
+	OnError:                 ColorSchemeTokenKeyOnError,
+	OnErrorContainer:        ColorSchemeTokenKeyOnErrorContainer,
+	OnPrimary:               ColorSchemeTokenKeyOnPrimary,
+	OnPrimaryContainer:      ColorSchemeTokenKeyOnPrimaryContainer,
+	OnPrimaryFixed:          ColorSchemeTokenKeyOnPrimaryFixed,
+	OnPrimaryFixedVariant:   ColorSchemeTokenKeyOnPrimaryFixedVariant,
+	OnSecondary:             ColorSchemeTokenKeyOnSecondary,
+	OnSecondaryContainer:    ColorSchemeTokenKeyOnSecondaryContainer,
+	OnSecondaryFixed:        ColorSchemeTokenKeyOnSecondaryFixed,
+	OnSecondaryFixedVariant: ColorSchemeTokenKeyOnSecondaryFixedVariant,
+	OnSurface:               ColorSchemeTokenKeyOnSurface,
+	OnSurfaceVariant:        ColorSchemeTokenKeyOnSurfaceVariant,
+	OnTertiary:              ColorSchemeTokenKeyOnTertiary,
+	OnTertiaryContainer:     ColorSchemeTokenKeyOnTertiaryContainer,
+	OnTertiaryFixed:         ColorSchemeTokenKeyOnTertiaryFixed,
+	OnTertiaryFixedVariant:  ColorSchemeTokenKeyOnTertiaryFixedVariant,
+	Outline:                 ColorSchemeTokenKeyOutline,
+	OutlineVariant:          ColorSchemeTokenKeyOutlineVariant,
+	Primary:                 ColorSchemeTokenKeyPrimary,
+	PrimaryContainer:        ColorSchemeTokenKeyPrimaryContainer,
+	PrimaryFixed:            ColorSchemeTokenKeyPrimaryFixed,
+	PrimaryFixedDim:         ColorSchemeTokenKeyPrimaryFixedDim,
+	Scrim:                   ColorSchemeTokenKeyScrim,
+	Secondary:               ColorSchemeTokenKeySecondary,
+	SecondaryContainer:      ColorSchemeTokenKeySecondaryContainer,
+	SecondaryFixed:          ColorSchemeTokenKeySecondaryFixed,
+	SecondaryFixedDim:       ColorSchemeTokenKeySecondaryFixedDim,
+	Surface:                 ColorSchemeTokenKeySurface,
+	SurfaceBright:           ColorSchemeTokenKeySurfaceBright,
+	SurfaceContainer:        ColorSchemeTokenKeySurfaceContainer,
+	SurfaceContainerHigh:    ColorSchemeTokenKeySurfaceContainerHigh,
+	SurfaceContainerHighest: ColorSchemeTokenKeySurfaceContainerHighest,
+	SurfaceContainerLow:     ColorSchemeTokenKeySurfaceContainerLow,
+	SurfaceContainerLowest:  ColorSchemeTokenKeySurfaceContainerLowest,
+	SurfaceDim:              ColorSchemeTokenKeySurfaceDim,
+	SurfaceTint:             ColorSchemeTokenKeySurfaceTint,
+	SurfaceVariant:          ColorSchemeTokenKeySurfaceVariant,
+	Tertiary:                ColorSchemeTokenKeyTertiary,
+	TertiaryContainer:       ColorSchemeTokenKeyTertiaryContainer,
+	TertiaryFixed:           ColorSchemeTokenKeyTertiaryFixed,
+	TertiaryFixedDim:        ColorSchemeTokenKeyTertiaryFixedDim,
+}
+
+type ColorSchemeKeyTokensData struct {
+	Background              ColorSchemeTokenKey
+	Error                   ColorSchemeTokenKey
+	ErrorContainer          ColorSchemeTokenKey
+	InverseOnSurface        ColorSchemeTokenKey
+	InversePrimary          ColorSchemeTokenKey
+	InverseSurface          ColorSchemeTokenKey
+	OnBackground            ColorSchemeTokenKey
+	OnError                 ColorSchemeTokenKey
+	OnErrorContainer        ColorSchemeTokenKey
+	OnPrimary               ColorSchemeTokenKey
+	OnPrimaryContainer      ColorSchemeTokenKey
+	OnPrimaryFixed          ColorSchemeTokenKey
+	OnPrimaryFixedVariant   ColorSchemeTokenKey
+	OnSecondary             ColorSchemeTokenKey
+	OnSecondaryContainer    ColorSchemeTokenKey
+	OnSecondaryFixed        ColorSchemeTokenKey
+	OnSecondaryFixedVariant ColorSchemeTokenKey
+	OnSurface               ColorSchemeTokenKey
+	OnSurfaceVariant        ColorSchemeTokenKey
+	OnTertiary              ColorSchemeTokenKey
+	OnTertiaryContainer     ColorSchemeTokenKey
+	OnTertiaryFixed         ColorSchemeTokenKey
+	OnTertiaryFixedVariant  ColorSchemeTokenKey
+	Outline                 ColorSchemeTokenKey
+	OutlineVariant          ColorSchemeTokenKey
+	Primary                 ColorSchemeTokenKey
+	PrimaryContainer        ColorSchemeTokenKey
+	PrimaryFixed            ColorSchemeTokenKey
+	PrimaryFixedDim         ColorSchemeTokenKey
+	Scrim                   ColorSchemeTokenKey
+	Secondary               ColorSchemeTokenKey
+	SecondaryContainer      ColorSchemeTokenKey
+	SecondaryFixed          ColorSchemeTokenKey
+	SecondaryFixedDim       ColorSchemeTokenKey
+	Surface                 ColorSchemeTokenKey
+	SurfaceBright           ColorSchemeTokenKey
+	SurfaceContainer        ColorSchemeTokenKey
+	SurfaceContainerHigh    ColorSchemeTokenKey
+	SurfaceContainerHighest ColorSchemeTokenKey
+	SurfaceContainerLow     ColorSchemeTokenKey
+	SurfaceContainerLowest  ColorSchemeTokenKey
+	SurfaceDim              ColorSchemeTokenKey
+	SurfaceTint             ColorSchemeTokenKey
+	SurfaceVariant          ColorSchemeTokenKey
+	Tertiary                ColorSchemeTokenKey
+	TertiaryContainer       ColorSchemeTokenKey
+	TertiaryFixed           ColorSchemeTokenKey
+	TertiaryFixedDim        ColorSchemeTokenKey
 }
