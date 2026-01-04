@@ -6,7 +6,9 @@ import (
 )
 
 type ThemeInterface interface {
+	// Deprecated: use ColorSchemeNext
 	ColorScheme() *ColorScheme
+	ColorSchemeNext() *ColorSchemeNext
 	Typography() *Typography
 	// Shapes() *Shapes
 	MotionScheme() *MotionScheme
@@ -22,6 +24,7 @@ type themeImpl struct {
 	composer compose.Composer
 }
 
+// Deprecated: use ColorSchemeNext
 func (t themeImpl) ColorScheme() *ColorScheme {
 	return LocalColorScheme.Current(t.composer)
 }

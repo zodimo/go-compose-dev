@@ -202,6 +202,7 @@ func ColorToToken(color Color) token.MatColor {
 	return token.MatColor(graphics.ColorToNRGBA(color))
 }
 
+// Deprecated: use LocalColorSchemeNext
 var LocalColorScheme = compose.CompositionLocalOf(func() *ColorScheme {
 	return ColorSchemeFromTokens(schemes.SchemeBaselineLight())
 })

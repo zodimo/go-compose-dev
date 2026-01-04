@@ -91,12 +91,12 @@ func WithTruncator(truncator string) TextOption {
 	}
 }
 
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func WithWrapPolicy(wrapPolicy WrapPolicy) TextOption {
 	return WithTextStyleOptions(text.WithLineBreak(style.GioWrapPolicyToLineBreak(wrapPolicy)))
 }
 
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func WithLineHeight(lineHeightInSP float32) TextOption {
 	return WithTextStyleOptions(text.WithLineHeight(unit.Sp(lineHeightInSP)))
 
@@ -123,31 +123,31 @@ func Selectable() TextOption {
 	}
 }
 
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func StyleWithFont(font gioFont.Font) TextOption {
 	return WithAdditionalTextStyle(text.TextStyleFromGioFont(font))
 }
 
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func StyleWithColor(color graphics.Color) TextOption {
 	return WithTextStyleOptions(text.WithColor(color))
 }
 
 // StyleWithSelectionColor sets the selection highlight color.
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func StyleWithSelectionColor(color graphics.Color) TextOption {
 	return func(o *TextOptions) {
 		o.SelectionColor = color
 	}
 }
 
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func StyleWithTextSize(sizeInSP float32) TextOption {
 	return WithTextStyleOptions(text.WithFontSize(unit.Sp(sizeInSP)))
 }
 
 // StyleWithStrikethrough enables strikethrough text decoration.
-// Deprecated use TextStyle
+// Deprecated: use WithTextStyle, WithAdditionalTextStyle or WithTextStyleOptions
 func StyleWithStrikethrough() TextOption {
 	return WithTextStyleOptions(text.WithTextDecoration(style.TextDecorationLineThrough))
 }

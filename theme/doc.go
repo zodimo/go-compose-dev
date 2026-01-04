@@ -1,3 +1,3 @@
 package theme
 
-// Deprecated use local / localized  theme providers
+// Deprecated: use local / localized  theme providers
