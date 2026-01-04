@@ -2,10 +2,10 @@ package graphics
 
 import (
 	"fmt"
-	"image/color"
 
 	"github.com/zodimo/go-compose/compose/ui/graphics/colorspace"
 	"github.com/zodimo/go-compose/compose/ui/util"
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 )
 
 // Color is a 64-bit value representing a color.
@@ -334,18 +334,13 @@ func Lerp(start, stop Color, fraction float32) Color {
 	t := util.FastCoerceIn(fraction, 0.0, 1.0)
 
 	interpolated := UncheckedColor(
-		lerpFloat(startL, endL, t),
-		lerpFloat(startA, endA, t),
-		lerpFloat(startB, endB, t),
-		lerpFloat(startAlpha, endAlpha, t),
+		lerp.Between32(startL, endL, t),
+		lerp.Between32(startA, endA, t),
+		lerp.Between32(startB, endB, t),
+		lerp.Between32(startAlpha, endAlpha, t),
 		oklab,
 	)
 	return interpolated.Convert(stop.ColorSpace())
-}
-
-// lerpFloat linearly interpolates between two float32 values.
-func lerpFloat(start, stop, fraction float32) float32 {
-	return start + (stop-start)*fraction
 }
 
 // Hsv creates a color from HSV (Hue, Saturation, Value) representation.
@@ -405,23 +400,6 @@ func maxf(a, b float32) float32 {
 	return b
 }
 
-func SetOpacity(c Color, opacity float32) Color {
-	return c.Copy(CopyWithAlpha(opacity))
-}
-
 // ColorProducer is a functional interface that produces a Color.
 // Useful for avoiding boxing in performance-critical code.
 type ColorProducer func() Color
-
-func ColorToNRGBA(c Color) color.NRGBA {
-	return color.NRGBA{
-		R: uint8(c.Red() * 255),
-		G: uint8(c.Green() * 255),
-		B: uint8(c.Blue() * 255),
-		A: uint8(c.Alpha() * 255),
-	}
-}
-
-func FromNRGBA(c color.NRGBA) Color {
-	return NewColorSrgb(int(c.R), int(c.G), int(c.B), int(c.A))
-}
