@@ -1,9 +1,9 @@
 package material3
 
 import (
+	"github.com/zodimo/go-compose/compose/material3/tokens"
 	"github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/compose/ui/text/font"
-	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
 var (
@@ -56,114 +56,36 @@ var TypographyUnspecified = &Typography{
 // DefaultTypography returns the standard Material 3 type scale.
 func DefaultTypography() *Typography {
 	return &Typography{
-		DisplayLarge: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(57)),
-			text.WithLineHeight(unit.Sp(64)),
-			text.WithLetterSpacing(unit.Sp(-0.25)),
-		),
-		DisplayMedium: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(45)),
-			text.WithLineHeight(unit.Sp(52)),
-			text.WithLetterSpacing(unit.Sp(0)),
-		),
-		DisplaySmall: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(36)),
-			text.WithLineHeight(unit.Sp(44)),
-			text.WithLetterSpacing(unit.Sp(0)),
-		),
+		DisplayLarge:   tokens.DisplayLarge,
+		DisplayMedium:  tokens.DisplayMedium,
+		DisplaySmall:   tokens.DisplaySmall,
+		HeadlineLarge:  tokens.HeadlineLarge,
+		HeadlineMedium: tokens.HeadlineMedium,
+		HeadlineSmall:  tokens.HeadlineSmall,
+		TitleLarge:     tokens.TitleLarge,
+		TitleMedium:    tokens.TitleMedium,
+		TitleSmall:     tokens.TitleSmall,
+		BodyLarge:      tokens.BodyLarge,
+		BodyMedium:     tokens.BodyMedium,
+		BodySmall:      tokens.BodySmall,
+		LabelLarge:     tokens.LabelLarge,
+		LabelMedium:    tokens.LabelMedium,
+		LabelSmall:     tokens.LabelSmall,
 
-		HeadlineLarge: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(32)),
-			text.WithLineHeight(unit.Sp(40)),
-			text.WithLetterSpacing(unit.Sp(0)),
-		),
-		HeadlineMedium: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(28)),
-			text.WithLineHeight(unit.Sp(36)),
-			text.WithLetterSpacing(unit.Sp(0)),
-		),
-		HeadlineSmall: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(24)),
-			text.WithLineHeight(unit.Sp(32)),
-			text.WithLetterSpacing(unit.Sp(0)),
-		),
-
-		TitleLarge: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(22)),
-			text.WithLineHeight(unit.Sp(28)),
-			text.WithLetterSpacing(unit.Sp(0)),
-		),
-		TitleMedium: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightMedium), // 500
-			text.WithFontSize(unit.Sp(16)),
-			text.WithLineHeight(unit.Sp(24)),
-			text.WithLetterSpacing(unit.Sp(0.15)),
-		),
-		TitleSmall: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightMedium), // 500
-			text.WithFontSize(unit.Sp(14)),
-			text.WithLineHeight(unit.Sp(20)),
-			text.WithLetterSpacing(unit.Sp(0.1)),
-		),
-
-		LabelLarge: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightMedium), // 500
-			text.WithFontSize(unit.Sp(14)),
-			text.WithLineHeight(unit.Sp(20)),
-			text.WithLetterSpacing(unit.Sp(0.1)),
-		),
-		LabelMedium: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightMedium), // 500
-			text.WithFontSize(unit.Sp(12)),
-			text.WithLineHeight(unit.Sp(16)),
-			text.WithLetterSpacing(unit.Sp(0.5)),
-		),
-		LabelSmall: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightMedium), // 500
-			text.WithFontSize(unit.Sp(11)),
-			text.WithLineHeight(unit.Sp(16)),
-			text.WithLetterSpacing(unit.Sp(0.5)),
-		),
-
-		BodyLarge: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(16)),
-			text.WithLineHeight(unit.Sp(24)),
-			text.WithLetterSpacing(unit.Sp(0.5)),
-		),
-		BodyMedium: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(14)),
-			text.WithLineHeight(unit.Sp(20)),
-			text.WithLetterSpacing(unit.Sp(0.25)),
-		),
-		BodySmall: text.TextStyleFromOptions(
-			text.WithFontFamily(defaultFontFamily),
-			text.WithFontWeight(font.FontWeightNormal), // 400
-			text.WithFontSize(unit.Sp(12)),
-			text.WithLineHeight(unit.Sp(16)),
-			text.WithLetterSpacing(unit.Sp(0.4)),
-		),
+		DisplayLargeEmphasized:   tokens.DisplayLargeEmphasized,
+		DisplayMediumEmphasized:  tokens.DisplayMediumEmphasized,
+		DisplaySmallEmphasized:   tokens.DisplaySmallEmphasized,
+		HeadlineLargeEmphasized:  tokens.HeadlineLargeEmphasized,
+		HeadlineMediumEmphasized: tokens.HeadlineMediumEmphasized,
+		HeadlineSmallEmphasized:  tokens.HeadlineSmallEmphasized,
+		TitleLargeEmphasized:     tokens.TitleLargeEmphasized,
+		TitleMediumEmphasized:    tokens.TitleMediumEmphasized,
+		TitleSmallEmphasized:     tokens.TitleSmallEmphasized,
+		BodyLargeEmphasized:      tokens.BodyLargeEmphasized,
+		BodyMediumEmphasized:     tokens.BodyMediumEmphasized,
+		BodySmallEmphasized:      tokens.BodySmallEmphasized,
+		LabelLargeEmphasized:     tokens.LabelLargeEmphasized,
+		LabelMediumEmphasized:    tokens.LabelMediumEmphasized,
+		LabelSmallEmphasized:     tokens.LabelSmallEmphasized,
 	}
 }
