@@ -83,7 +83,7 @@ func ResolveTextFieldColors(c Composer, colors TextFieldColors) TextFieldColors 
 		TrailingIconColor:           colors.TrailingIconColor.TakeOrElse(theme.ColorScheme().OnSurfaceVariant),
 		DisabledLeadingIconColor:    colors.DisabledLeadingIconColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().OnSurface, 0.38)),
 		DisabledTrailingIconColor:   colors.DisabledTrailingIconColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().OnSurface, 0.38)),
-		LabelColor:                  colors.LabelColor.TakeOrElse(theme.ColorScheme().Primary), // Focused Label default?
+		LabelColor:                  colors.LabelColor.TakeOrElse(theme.ColorScheme().OnSurfaceVariant),
 		UnfocusedLabelColor:         colors.UnfocusedLabelColor.TakeOrElse(theme.ColorScheme().OnSurfaceVariant),
 		FocusedLabelColor:           colors.FocusedLabelColor.TakeOrElse(theme.ColorScheme().Primary), // Added
 		DisabledLabelColor:          colors.DisabledLabelColor.TakeOrElse(graphics.SetOpacity(theme.ColorScheme().OnSurface, 0.38)),
