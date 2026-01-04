@@ -2,52 +2,88 @@ package material3
 
 import "github.com/zodimo/go-compose/compose/ui/text"
 
-type Typography struct {
-	DisplaySmall  *text.TextStyle
-	DisplayMedium *text.TextStyle
-	DisplayLarge  *text.TextStyle
+var TypographyUnspecified = &Typography{
+	BodyLarge:  text.TextStyleUnspecified,
+	BodyMedium: text.TextStyleUnspecified,
+	BodySmall:  text.TextStyleUnspecified,
 
-	HeadlineSmall  *text.TextStyle
-	HeadlineMedium *text.TextStyle
-	HeadlineLarge  *text.TextStyle
+	DisplayLarge:  text.TextStyleUnspecified,
+	DisplayMedium: text.TextStyleUnspecified,
+	DisplaySmall:  text.TextStyleUnspecified,
 
-	TitleSmall  *text.TextStyle
-	TitleMedium *text.TextStyle
-	TitleLarge  *text.TextStyle
+	HeadlineLarge:  text.TextStyleUnspecified,
+	HeadlineMedium: text.TextStyleUnspecified,
+	HeadlineSmall:  text.TextStyleUnspecified,
 
-	BodySmall  *text.TextStyle
-	BodyMedium *text.TextStyle
-	BodyLarge  *text.TextStyle
+	LabelLarge:  text.TextStyleUnspecified,
+	LabelMedium: text.TextStyleUnspecified,
+	LabelSmall:  text.TextStyleUnspecified,
 
-	LabelSmall  *text.TextStyle
-	LabelMedium *text.TextStyle
-	LabelLarge  *text.TextStyle
+	TitleLarge:  text.TextStyleUnspecified,
+	TitleMedium: text.TextStyleUnspecified,
+	TitleSmall:  text.TextStyleUnspecified,
 
-	DisplaySmallEmphasized  *text.TextStyle
-	DisplayMediumEmphasized *text.TextStyle
-	DisplayLargeEmphasized  *text.TextStyle
+	// Emphasized
+	BodyLargeEmphasized:  text.TextStyleUnspecified,
+	BodyMediumEmphasized: text.TextStyleUnspecified,
+	BodySmallEmphasized:  text.TextStyleUnspecified,
 
-	HeadlineSmallEmphasized  *text.TextStyle
-	HeadlineMediumEmphasized *text.TextStyle
-	HeadlineLargeEmphasized  *text.TextStyle
+	DisplayLargeEmphasized:  text.TextStyleUnspecified,
+	DisplayMediumEmphasized: text.TextStyleUnspecified,
+	DisplaySmallEmphasized:  text.TextStyleUnspecified,
 
-	TitleSmallEmphasized  *text.TextStyle
-	TitleMediumEmphasized *text.TextStyle
-	TitleLargeEmphasized  *text.TextStyle
+	HeadlineLargeEmphasized:  text.TextStyleUnspecified,
+	HeadlineMediumEmphasized: text.TextStyleUnspecified,
+	HeadlineSmallEmphasized:  text.TextStyleUnspecified,
 
-	BodySmallEmphasized  *text.TextStyle
-	BodyMediumEmphasized *text.TextStyle
-	BodyLargeEmphasized  *text.TextStyle
+	LabelLargeEmphasized:  text.TextStyleUnspecified,
+	LabelMediumEmphasized: text.TextStyleUnspecified,
+	LabelSmallEmphasized:  text.TextStyleUnspecified,
 
-	LabelSmallEmphasized  *text.TextStyle
-	LabelMediumEmphasized *text.TextStyle
-	LabelLargeEmphasized  *text.TextStyle
+	TitleLargeEmphasized:  text.TextStyleUnspecified,
+	TitleMediumEmphasized: text.TextStyleUnspecified,
+	TitleSmallEmphasized:  text.TextStyleUnspecified,
 }
 
-func (t *Typography) Copy(options ...TypographyOption) *Typography {
-	copy := *t
-	for _, option := range options {
-		option(&copy)
-	}
-	return &copy
+type Typography struct {
+	BodyLarge  *text.TextStyle
+	BodyMedium *text.TextStyle
+	BodySmall  *text.TextStyle
+
+	DisplayLarge  *text.TextStyle
+	DisplayMedium *text.TextStyle
+	DisplaySmall  *text.TextStyle
+
+	HeadlineLarge  *text.TextStyle
+	HeadlineMedium *text.TextStyle
+	HeadlineSmall  *text.TextStyle
+
+	LabelLarge  *text.TextStyle
+	LabelMedium *text.TextStyle
+	LabelSmall  *text.TextStyle
+
+	TitleLarge  *text.TextStyle
+	TitleMedium *text.TextStyle
+	TitleSmall  *text.TextStyle
+
+	// Emphasized
+	BodyLargeEmphasized  *text.TextStyle
+	BodyMediumEmphasized *text.TextStyle
+	BodySmallEmphasized  *text.TextStyle
+
+	DisplayLargeEmphasized  *text.TextStyle
+	DisplayMediumEmphasized *text.TextStyle
+	DisplaySmallEmphasized  *text.TextStyle
+
+	HeadlineLargeEmphasized  *text.TextStyle
+	HeadlineMediumEmphasized *text.TextStyle
+	HeadlineSmallEmphasized  *text.TextStyle
+
+	LabelLargeEmphasized  *text.TextStyle
+	LabelMediumEmphasized *text.TextStyle
+	LabelSmallEmphasized  *text.TextStyle
+
+	TitleLargeEmphasized  *text.TextStyle
+	TitleMediumEmphasized *text.TextStyle
+	TitleSmallEmphasized  *text.TextStyle
 }
