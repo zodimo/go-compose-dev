@@ -4,216 +4,275 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/text"
 )
 
-var (
-	BodyLarge = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleBodyLargeFont),
-		text.WithFontWeight(TypeScaleBodyLargeWeight),
-		text.WithFontSize(TypeScaleBodyLargeSize),
-		text.WithLineHeight(TypeScaleBodyLargeLineHeight),
-		text.WithLetterSpacing(TypeScaleBodyLargeTracking),
-	)
-	BodyMedium = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleBodyMediumFont),
-		text.WithFontWeight(TypeScaleBodyMediumWeight),
-		text.WithFontSize(TypeScaleBodyMediumSize),
-		text.WithLineHeight(TypeScaleBodyMediumLineHeight),
-		text.WithLetterSpacing(TypeScaleBodyMediumTracking),
-	)
-	BodySmall = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleBodySmallFont),
-		text.WithFontWeight(TypeScaleBodySmallWeight),
-		text.WithFontSize(TypeScaleBodySmallSize),
-		text.WithLineHeight(TypeScaleBodySmallLineHeight),
-		text.WithLetterSpacing(TypeScaleBodySmallTracking),
-	)
-	DisplayLarge = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleDisplayLargeFont),
-		text.WithFontWeight(TypeScaleDisplayLargeWeight),
-		text.WithFontSize(TypeScaleDisplayLargeSize),
-		text.WithLineHeight(TypeScaleDisplayLargeLineHeight),
-		text.WithLetterSpacing(TypeScaleDisplayLargeTracking),
-	)
-	DisplayMedium = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleDisplayMediumFont),
-		text.WithFontWeight(TypeScaleDisplayMediumWeight),
-		text.WithFontSize(TypeScaleDisplayMediumSize),
-		text.WithLineHeight(TypeScaleDisplayMediumLineHeight),
-		text.WithLetterSpacing(TypeScaleDisplayMediumTracking),
-	)
-	DisplaySmall = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleDisplaySmallFont),
-		text.WithFontWeight(TypeScaleDisplaySmallWeight),
-		text.WithFontSize(TypeScaleDisplaySmallSize),
-		text.WithLineHeight(TypeScaleDisplaySmallLineHeight),
-		text.WithLetterSpacing(TypeScaleDisplaySmallTracking),
-	)
-	HeadlineLarge = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleHeadlineLargeFont),
-		text.WithFontWeight(TypeScaleHeadlineLargeWeight),
-		text.WithFontSize(TypeScaleHeadlineLargeSize),
-		text.WithLineHeight(TypeScaleHeadlineLargeLineHeight),
-		text.WithLetterSpacing(TypeScaleHeadlineLargeTracking),
-	)
-	HeadlineMedium = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleHeadlineMediumFont),
-		text.WithFontWeight(TypeScaleHeadlineMediumWeight),
-		text.WithFontSize(TypeScaleHeadlineMediumSize),
-		text.WithLineHeight(TypeScaleHeadlineMediumLineHeight),
-		text.WithLetterSpacing(TypeScaleHeadlineMediumTracking),
-	)
-	HeadlineSmall = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleHeadlineSmallFont),
-		text.WithFontWeight(TypeScaleHeadlineSmallWeight),
-		text.WithFontSize(TypeScaleHeadlineSmallSize),
-		text.WithLineHeight(TypeScaleHeadlineSmallLineHeight),
-		text.WithLetterSpacing(TypeScaleHeadlineSmallTracking),
-	)
-	LabelLarge = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleLabelLargeFont),
-		text.WithFontWeight(TypeScaleLabelLargeWeight),
-		text.WithFontSize(TypeScaleLabelLargeSize),
-		text.WithLineHeight(TypeScaleLabelLargeLineHeight),
-		text.WithLetterSpacing(TypeScaleLabelLargeTracking),
-	)
-	LabelMedium = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleLabelMediumFont),
-		text.WithFontWeight(TypeScaleLabelMediumWeight),
-		text.WithFontSize(TypeScaleLabelMediumSize),
-		text.WithLineHeight(TypeScaleLabelMediumLineHeight),
-		text.WithLetterSpacing(TypeScaleLabelMediumTracking),
-	)
-	LabelSmall = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleLabelSmallFont),
-		text.WithFontWeight(TypeScaleLabelSmallWeight),
-		text.WithFontSize(TypeScaleLabelSmallSize),
-		text.WithLineHeight(TypeScaleLabelSmallLineHeight),
-		text.WithLetterSpacing(TypeScaleLabelSmallTracking),
-	)
-	TitleLarge = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleTitleLargeFont),
-		text.WithFontWeight(TypeScaleTitleLargeWeight),
-		text.WithFontSize(TypeScaleTitleLargeSize),
-		text.WithLineHeight(TypeScaleTitleLargeLineHeight),
-		text.WithLetterSpacing(TypeScaleTitleLargeTracking),
-	)
-	TitleMedium = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleTitleMediumFont),
-		text.WithFontWeight(TypeScaleTitleMediumWeight),
-		text.WithFontSize(TypeScaleTitleMediumSize),
-		text.WithLineHeight(TypeScaleTitleMediumLineHeight),
-		text.WithLetterSpacing(TypeScaleTitleMediumTracking),
-	)
-	TitleSmall = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleTitleSmallFont),
-		text.WithFontWeight(TypeScaleTitleSmallWeight),
-		text.WithFontSize(TypeScaleTitleSmallSize),
-		text.WithLineHeight(TypeScaleTitleSmallLineHeight),
-		text.WithLetterSpacing(TypeScaleTitleSmallTracking),
-	)
+var defaultTextStyle *text.TextStyle = text.TextStyleUnspecified
+
+type TypographyTokensData struct {
+	BodyLarge  *text.TextStyle
+	BodyMedium *text.TextStyle
+	BodySmall  *text.TextStyle
+
+	DisplayLarge  *text.TextStyle
+	DisplayMedium *text.TextStyle
+	DisplaySmall  *text.TextStyle
+
+	HeadlineLarge  *text.TextStyle
+	HeadlineMedium *text.TextStyle
+	HeadlineSmall  *text.TextStyle
+
+	LabelLarge  *text.TextStyle
+	LabelMedium *text.TextStyle
+	LabelSmall  *text.TextStyle
+
+	TitleLarge  *text.TextStyle
+	TitleMedium *text.TextStyle
+	TitleSmall  *text.TextStyle
+
 	// Emphasized
-	BodyLargeEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleBodyLargeEmphasizedFont),
-		text.WithFontWeight(TypeScaleBodyLargeEmphasizedWeight),
-		text.WithFontSize(TypeScaleBodyLargeEmphasizedSize),
-		text.WithLineHeight(TypeScaleBodyLargeEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleBodyLargeEmphasizedTracking),
-	)
-	BodyMediumEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleBodyMediumEmphasizedFont),
-		text.WithFontWeight(TypeScaleBodyMediumEmphasizedWeight),
-		text.WithFontSize(TypeScaleBodyMediumEmphasizedSize),
-		text.WithLineHeight(TypeScaleBodyMediumEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleBodyMediumEmphasizedTracking),
-	)
-	BodySmallEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleBodySmallEmphasizedFont),
-		text.WithFontWeight(TypeScaleBodySmallEmphasizedWeight),
-		text.WithFontSize(TypeScaleBodySmallEmphasizedSize),
-		text.WithLineHeight(TypeScaleBodySmallEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleBodySmallEmphasizedTracking),
-	)
-	DisplayLargeEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleDisplayLargeEmphasizedFont),
-		text.WithFontWeight(TypeScaleDisplayLargeEmphasizedWeight),
-		text.WithFontSize(TypeScaleDisplayLargeEmphasizedSize),
-		text.WithLineHeight(TypeScaleDisplayLargeEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleDisplayLargeEmphasizedTracking),
-	)
-	DisplayMediumEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleDisplayMediumEmphasizedFont),
-		text.WithFontWeight(TypeScaleDisplayMediumEmphasizedWeight),
-		text.WithFontSize(TypeScaleDisplayMediumEmphasizedSize),
-		text.WithLineHeight(TypeScaleDisplayMediumEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleDisplayMediumEmphasizedTracking),
-	)
-	DisplaySmallEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleDisplaySmallEmphasizedFont),
-		text.WithFontWeight(TypeScaleDisplaySmallEmphasizedWeight),
-		text.WithFontSize(TypeScaleDisplaySmallEmphasizedSize),
-		text.WithLineHeight(TypeScaleDisplaySmallEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleDisplaySmallEmphasizedTracking),
-	)
-	HeadlineLargeEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleHeadlineLargeEmphasizedFont),
-		text.WithFontWeight(TypeScaleHeadlineLargeEmphasizedWeight),
-		text.WithFontSize(TypeScaleHeadlineLargeEmphasizedSize),
-		text.WithLineHeight(TypeScaleHeadlineLargeEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleHeadlineLargeEmphasizedTracking),
-	)
-	HeadlineMediumEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleHeadlineMediumEmphasizedFont),
-		text.WithFontWeight(TypeScaleHeadlineMediumEmphasizedWeight),
-		text.WithFontSize(TypeScaleHeadlineMediumEmphasizedSize),
-		text.WithLineHeight(TypeScaleHeadlineMediumEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleHeadlineMediumEmphasizedTracking),
-	)
-	HeadlineSmallEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleHeadlineSmallEmphasizedFont),
-		text.WithFontWeight(TypeScaleHeadlineSmallEmphasizedWeight),
-		text.WithFontSize(TypeScaleHeadlineSmallEmphasizedSize),
-		text.WithLineHeight(TypeScaleHeadlineSmallEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleHeadlineSmallEmphasizedTracking),
-	)
-	LabelLargeEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleLabelLargeEmphasizedFont),
-		text.WithFontWeight(TypeScaleLabelLargeEmphasizedWeight),
-		text.WithFontSize(TypeScaleLabelLargeEmphasizedSize),
-		text.WithLineHeight(TypeScaleLabelLargeEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleLabelLargeEmphasizedTracking),
-	)
-	LabelMediumEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleLabelMediumEmphasizedFont),
-		text.WithFontWeight(TypeScaleLabelMediumEmphasizedWeight),
-		text.WithFontSize(TypeScaleLabelMediumEmphasizedSize),
-		text.WithLineHeight(TypeScaleLabelMediumEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleLabelMediumEmphasizedTracking),
-	)
-	LabelSmallEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleLabelSmallEmphasizedFont),
-		text.WithFontWeight(TypeScaleLabelSmallEmphasizedWeight),
-		text.WithFontSize(TypeScaleLabelSmallEmphasizedSize),
-		text.WithLineHeight(TypeScaleLabelSmallEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleLabelSmallEmphasizedTracking),
-	)
-	TitleLargeEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleTitleLargeEmphasizedFont),
-		text.WithFontWeight(TypeScaleTitleLargeEmphasizedWeight),
-		text.WithFontSize(TypeScaleTitleLargeEmphasizedSize),
-		text.WithLineHeight(TypeScaleTitleLargeEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleTitleLargeEmphasizedTracking),
-	)
-	TitleMediumEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleTitleMediumEmphasizedFont),
-		text.WithFontWeight(TypeScaleTitleMediumEmphasizedWeight),
-		text.WithFontSize(TypeScaleTitleMediumEmphasizedSize),
-		text.WithLineHeight(TypeScaleTitleMediumEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleTitleMediumEmphasizedTracking),
-	)
-	TitleSmallEmphasized = text.TextStyleFromOptions(
-		text.WithFontFamily(TypeScaleTitleSmallEmphasizedFont),
-		text.WithFontWeight(TypeScaleTitleSmallEmphasizedWeight),
-		text.WithFontSize(TypeScaleTitleSmallEmphasizedSize),
-		text.WithLineHeight(TypeScaleTitleSmallEmphasizedLineHeight),
-		text.WithLetterSpacing(TypeScaleTitleSmallEmphasizedTracking),
-	)
-)
+	BodyLargeEmphasized  *text.TextStyle
+	BodyMediumEmphasized *text.TextStyle
+	BodySmallEmphasized  *text.TextStyle
+
+	DisplayLargeEmphasized  *text.TextStyle
+	DisplayMediumEmphasized *text.TextStyle
+	DisplaySmallEmphasized  *text.TextStyle
+
+	HeadlineLargeEmphasized  *text.TextStyle
+	HeadlineMediumEmphasized *text.TextStyle
+	HeadlineSmallEmphasized  *text.TextStyle
+
+	LabelLargeEmphasized  *text.TextStyle
+	LabelMediumEmphasized *text.TextStyle
+	LabelSmallEmphasized  *text.TextStyle
+
+	TitleLargeEmphasized  *text.TextStyle
+	TitleMediumEmphasized *text.TextStyle
+	TitleSmallEmphasized  *text.TextStyle
+}
+
+var TypographyTokens = TypographyTokensData{
+	BodyLarge: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.BodyLargeFont),
+		text.WithFontWeight(TypeScaleTokens.BodyLargeWeight),
+		text.WithFontSize(TypeScaleTokens.BodyLargeSize),
+		text.WithLineHeight(TypeScaleTokens.BodyLargeLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.BodyLargeTracking),
+	),
+
+	BodyMedium: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.BodyMediumFont),
+		text.WithFontWeight(TypeScaleTokens.BodyMediumWeight),
+		text.WithFontSize(TypeScaleTokens.BodyMediumSize),
+		text.WithLineHeight(TypeScaleTokens.BodyMediumLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.BodyMediumTracking),
+	),
+
+	BodySmall: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.BodySmallFont),
+		text.WithFontWeight(TypeScaleTokens.BodySmallWeight),
+		text.WithFontSize(TypeScaleTokens.BodySmallSize),
+		text.WithLineHeight(TypeScaleTokens.BodySmallLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.BodySmallTracking),
+	),
+
+	DisplayLarge: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.DisplayLargeFont),
+		text.WithFontWeight(TypeScaleTokens.DisplayLargeWeight),
+		text.WithFontSize(TypeScaleTokens.DisplayLargeSize),
+		text.WithLineHeight(TypeScaleTokens.DisplayLargeLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.DisplayLargeTracking),
+	),
+
+	DisplayMedium: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.DisplayMediumFont),
+		text.WithFontWeight(TypeScaleTokens.DisplayMediumWeight),
+		text.WithFontSize(TypeScaleTokens.DisplayMediumSize),
+		text.WithLineHeight(TypeScaleTokens.DisplayMediumLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.DisplayMediumTracking),
+	),
+
+	DisplaySmall: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.DisplaySmallFont),
+		text.WithFontWeight(TypeScaleTokens.DisplaySmallWeight),
+		text.WithFontSize(TypeScaleTokens.DisplaySmallSize),
+		text.WithLineHeight(TypeScaleTokens.DisplaySmallLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.DisplaySmallTracking),
+	),
+
+	HeadlineLarge: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.HeadlineLargeFont),
+		text.WithFontWeight(TypeScaleTokens.HeadlineLargeWeight),
+		text.WithFontSize(TypeScaleTokens.HeadlineLargeSize),
+		text.WithLineHeight(TypeScaleTokens.HeadlineLargeLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.HeadlineLargeTracking),
+	),
+	HeadlineMedium: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.HeadlineMediumFont),
+		text.WithFontWeight(TypeScaleTokens.HeadlineMediumWeight),
+		text.WithFontSize(TypeScaleTokens.HeadlineMediumSize),
+		text.WithLineHeight(TypeScaleTokens.HeadlineMediumLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.HeadlineMediumTracking),
+	),
+	HeadlineSmall: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.HeadlineSmallFont),
+		text.WithFontWeight(TypeScaleTokens.HeadlineSmallWeight),
+		text.WithFontSize(TypeScaleTokens.HeadlineSmallSize),
+		text.WithLineHeight(TypeScaleTokens.HeadlineSmallLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.HeadlineSmallTracking),
+	),
+
+	LabelLarge: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.LabelLargeFont),
+		text.WithFontWeight(TypeScaleTokens.LabelLargeWeight),
+		text.WithFontSize(TypeScaleTokens.LabelLargeSize),
+		text.WithLineHeight(TypeScaleTokens.LabelLargeLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.LabelLargeTracking),
+	),
+	LabelMedium: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.LabelMediumFont),
+		text.WithFontWeight(TypeScaleTokens.LabelMediumWeight),
+		text.WithFontSize(TypeScaleTokens.LabelMediumSize),
+		text.WithLineHeight(TypeScaleTokens.LabelMediumLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.LabelMediumTracking),
+	),
+	LabelSmall: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.LabelSmallFont),
+		text.WithFontWeight(TypeScaleTokens.LabelSmallWeight),
+		text.WithFontSize(TypeScaleTokens.LabelSmallSize),
+		text.WithLineHeight(TypeScaleTokens.LabelSmallLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.LabelSmallTracking),
+	),
+
+	TitleLarge: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.TitleLargeFont),
+		text.WithFontWeight(TypeScaleTokens.TitleLargeWeight),
+		text.WithFontSize(TypeScaleTokens.TitleLargeSize),
+		text.WithLineHeight(TypeScaleTokens.TitleLargeLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.TitleLargeTracking),
+	),
+	TitleMedium: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.TitleMediumFont),
+		text.WithFontWeight(TypeScaleTokens.TitleMediumWeight),
+		text.WithFontSize(TypeScaleTokens.TitleMediumSize),
+		text.WithLineHeight(TypeScaleTokens.TitleMediumLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.TitleMediumTracking),
+	),
+	TitleSmall: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.TitleSmallFont),
+		text.WithFontWeight(TypeScaleTokens.TitleSmallWeight),
+		text.WithFontSize(TypeScaleTokens.TitleSmallSize),
+		text.WithLineHeight(TypeScaleTokens.TitleSmallLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.TitleSmallTracking),
+	),
+
+	//Emphasized
+
+	BodyLargeEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.BodyLargeEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.BodyLargeEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.BodyLargeEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.BodyLargeEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.BodyLargeEmphasizedTracking),
+	),
+	BodyMediumEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.BodyMediumEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.BodyMediumEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.BodyMediumEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.BodyMediumEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.BodyMediumEmphasizedTracking),
+	),
+	BodySmallEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.BodySmallEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.BodySmallEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.BodySmallEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.BodySmallEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.BodySmallEmphasizedTracking),
+	),
+
+	DisplayLargeEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.DisplayLargeEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.DisplayLargeEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.DisplayLargeEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.DisplayLargeEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.DisplayLargeEmphasizedTracking),
+	),
+	DisplayMediumEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.DisplayMediumEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.DisplayMediumEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.DisplayMediumEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.DisplayMediumEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.DisplayMediumEmphasizedTracking),
+	),
+	DisplaySmallEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.DisplaySmallEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.DisplaySmallEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.DisplaySmallEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.DisplaySmallEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.DisplaySmallEmphasizedTracking),
+	),
+
+	HeadlineLargeEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.HeadlineLargeEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.HeadlineLargeEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.HeadlineLargeEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.HeadlineLargeEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.HeadlineLargeEmphasizedTracking),
+	),
+	HeadlineMediumEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.HeadlineMediumEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.HeadlineMediumEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.HeadlineMediumEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.HeadlineMediumEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.HeadlineMediumEmphasizedTracking),
+	),
+	HeadlineSmallEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.HeadlineSmallEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.HeadlineSmallEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.HeadlineSmallEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.HeadlineSmallEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.HeadlineSmallEmphasizedTracking),
+	),
+
+	LabelLargeEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.LabelLargeEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.LabelLargeEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.LabelLargeEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.LabelLargeEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.LabelLargeEmphasizedTracking),
+	),
+	LabelMediumEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.LabelMediumEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.LabelMediumEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.LabelMediumEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.LabelMediumEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.LabelMediumEmphasizedTracking),
+	),
+	LabelSmallEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.LabelSmallEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.LabelSmallEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.LabelSmallEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.LabelSmallEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.LabelSmallEmphasizedTracking),
+	),
+
+	TitleLargeEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.TitleLargeEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.TitleLargeEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.TitleLargeEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.TitleLargeEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.TitleLargeEmphasizedTracking),
+	),
+	TitleMediumEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.TitleMediumEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.TitleMediumEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.TitleMediumEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.TitleMediumEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.TitleMediumEmphasizedTracking),
+	),
+	TitleSmallEmphasized: text.CopyTextStyle(defaultTextStyle,
+		text.WithFontFamily(TypeScaleTokens.TitleSmallEmphasizedFont),
+		text.WithFontWeight(TypeScaleTokens.TitleSmallEmphasizedWeight),
+		text.WithFontSize(TypeScaleTokens.TitleSmallEmphasizedSize),
+		text.WithLineHeight(TypeScaleTokens.TitleSmallEmphasizedLineHeight),
+		text.WithLetterSpacing(TypeScaleTokens.TitleSmallEmphasizedTracking),
+	),
+}

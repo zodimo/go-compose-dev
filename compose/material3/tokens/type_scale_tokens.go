@@ -1,186 +1,372 @@
 package tokens
 
-import "github.com/zodimo/go-compose/compose/ui/unit"
+import (
+	"github.com/zodimo/go-compose/compose/ui/text/font"
+	"github.com/zodimo/go-compose/compose/ui/unit"
+)
 
-var (
-	TypeScaleBodyLargeFont       = TypefacePlain
-	TypeScaleBodyLargeLineHeight = unit.Sp(24.0)
-	TypeScaleBodyLargeSize       = unit.Sp(16)
-	TypeScaleBodyLargeTracking   = unit.Sp(0.5)
-	TypeScaleBodyLargeWeight     = TypefaceWeightRegular
+var TypeScaleTokens = TypeScaleTokensData{
+	BodyLargeFont:       TypefaceTokens.Plain,
+	BodyLargeLineHeight: unit.Sp(24.0),
+	BodyLargeSize:       unit.Sp(16),
+	BodyLargeTracking:   unit.Sp(0.5),
+	BodyLargeWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleBodyMediumFont       = TypefacePlain
-	TypeScaleBodyMediumLineHeight = unit.Sp(20.0)
-	TypeScaleBodyMediumSize       = unit.Sp(14)
-	TypeScaleBodyMediumTracking   = unit.Sp(0.25)
-	TypeScaleBodyMediumWeight     = TypefaceWeightRegular
+	BodyMediumFont:       TypefaceTokens.Plain,
+	BodyMediumLineHeight: unit.Sp(20.0),
+	BodyMediumSize:       unit.Sp(14),
+	BodyMediumTracking:   unit.Sp(0.25),
+	BodyMediumWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleBodySmallFont       = TypefacePlain
-	TypeScaleBodySmallLineHeight = unit.Sp(16.0)
-	TypeScaleBodySmallSize       = unit.Sp(12)
-	TypeScaleBodySmallTracking   = unit.Sp(0.4)
-	TypeScaleBodySmallWeight     = TypefaceWeightRegular
+	BodySmallFont:       TypefaceTokens.Plain,
+	BodySmallLineHeight: unit.Sp(16.0),
+	BodySmallSize:       unit.Sp(12),
+	BodySmallTracking:   unit.Sp(0.4),
+	BodySmallWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleDisplayLargeFont       = TypefaceBrand
-	TypeScaleDisplayLargeLineHeight = unit.Sp(64.0)
-	TypeScaleDisplayLargeSize       = unit.Sp(57)
-	TypeScaleDisplayLargeTracking   = unit.Sp(-0.25)
-	TypeScaleDisplayLargeWeight     = TypefaceWeightRegular
+	DisplayLargeFont:       TypefaceTokens.Brand,
+	DisplayLargeLineHeight: unit.Sp(64.0),
+	DisplayLargeSize:       unit.Sp(57),
+	DisplayLargeTracking:   unit.Sp(-0.25),
+	DisplayLargeWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleDisplayMediumFont       = TypefaceBrand
-	TypeScaleDisplayMediumLineHeight = unit.Sp(52.0)
-	TypeScaleDisplayMediumSize       = unit.Sp(45)
-	TypeScaleDisplayMediumTracking   = unit.Sp(0.0)
-	TypeScaleDisplayMediumWeight     = TypefaceWeightRegular
+	DisplayMediumFont:       TypefaceTokens.Brand,
+	DisplayMediumLineHeight: unit.Sp(52.0),
+	DisplayMediumSize:       unit.Sp(45),
+	DisplayMediumTracking:   unit.Sp(0.0),
+	DisplayMediumWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleDisplaySmallFont       = TypefaceBrand
-	TypeScaleDisplaySmallLineHeight = unit.Sp(44.0)
-	TypeScaleDisplaySmallSize       = unit.Sp(36)
-	TypeScaleDisplaySmallTracking   = unit.Sp(0.0)
-	TypeScaleDisplaySmallWeight     = TypefaceWeightRegular
+	DisplaySmallFont:       TypefaceTokens.Brand,
+	DisplaySmallLineHeight: unit.Sp(44.0),
+	DisplaySmallSize:       unit.Sp(36),
+	DisplaySmallTracking:   unit.Sp(0.0),
+	DisplaySmallWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleHeadlineLargeFont       = TypefaceBrand
-	TypeScaleHeadlineLargeLineHeight = unit.Sp(40.0)
-	TypeScaleHeadlineLargeSize       = unit.Sp(32)
-	TypeScaleHeadlineLargeTracking   = unit.Sp(0.0)
-	TypeScaleHeadlineLargeWeight     = TypefaceWeightRegular
+	HeadlineLargeFont:       TypefaceTokens.Brand,
+	HeadlineLargeLineHeight: unit.Sp(40.0),
+	HeadlineLargeSize:       unit.Sp(32),
+	HeadlineLargeTracking:   unit.Sp(0.0),
+	HeadlineLargeWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleHeadlineMediumFont       = TypefaceBrand
-	TypeScaleHeadlineMediumLineHeight = unit.Sp(36.0)
-	TypeScaleHeadlineMediumSize       = unit.Sp(28)
-	TypeScaleHeadlineMediumTracking   = unit.Sp(0.0)
-	TypeScaleHeadlineMediumWeight     = TypefaceWeightRegular
+	HeadlineMediumFont:       TypefaceTokens.Brand,
+	HeadlineMediumLineHeight: unit.Sp(36.0),
+	HeadlineMediumSize:       unit.Sp(28),
+	HeadlineMediumTracking:   unit.Sp(0.0),
+	HeadlineMediumWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleHeadlineSmallFont       = TypefaceBrand
-	TypeScaleHeadlineSmallLineHeight = unit.Sp(32.0)
-	TypeScaleHeadlineSmallSize       = unit.Sp(24)
-	TypeScaleHeadlineSmallTracking   = unit.Sp(0.0)
-	TypeScaleHeadlineSmallWeight     = TypefaceWeightRegular
+	HeadlineSmallFont:       TypefaceTokens.Brand,
+	HeadlineSmallLineHeight: unit.Sp(32.0),
+	HeadlineSmallSize:       unit.Sp(24),
+	HeadlineSmallTracking:   unit.Sp(0.0),
+	HeadlineSmallWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleLabelLargeFont       = TypefacePlain
-	TypeScaleLabelLargeLineHeight = unit.Sp(20.0)
-	TypeScaleLabelLargeSize       = unit.Sp(14)
-	TypeScaleLabelLargeTracking   = unit.Sp(0.1)
-	TypeScaleLabelLargeWeight     = TypefaceWeightMedium
+	LabelLargeFont:       TypefaceTokens.Plain,
+	LabelLargeLineHeight: unit.Sp(20.0),
+	LabelLargeSize:       unit.Sp(14),
+	LabelLargeTracking:   unit.Sp(0.1),
+	LabelLargeWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleLabelMediumFont       = TypefacePlain
-	TypeScaleLabelMediumLineHeight = unit.Sp(16.0)
-	TypeScaleLabelMediumSize       = unit.Sp(12)
-	TypeScaleLabelMediumTracking   = unit.Sp(0.5)
-	TypeScaleLabelMediumWeight     = TypefaceWeightMedium
+	LabelMediumFont:       TypefaceTokens.Plain,
+	LabelMediumLineHeight: unit.Sp(16.0),
+	LabelMediumSize:       unit.Sp(12),
+	LabelMediumTracking:   unit.Sp(0.5),
+	LabelMediumWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleLabelSmallFont       = TypefacePlain
-	TypeScaleLabelSmallLineHeight = unit.Sp(16.0)
-	TypeScaleLabelSmallSize       = unit.Sp(11)
-	TypeScaleLabelSmallTracking   = unit.Sp(0.5)
-	TypeScaleLabelSmallWeight     = TypefaceWeightMedium
+	LabelSmallFont:       TypefaceTokens.Plain,
+	LabelSmallLineHeight: unit.Sp(16.0),
+	LabelSmallSize:       unit.Sp(11),
+	LabelSmallTracking:   unit.Sp(0.5),
+	LabelSmallWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleTitleLargeFont       = TypefaceBrand
-	TypeScaleTitleLargeLineHeight = unit.Sp(28.0)
-	TypeScaleTitleLargeSize       = unit.Sp(22)
-	TypeScaleTitleLargeTracking   = unit.Sp(0.0)
-	TypeScaleTitleLargeWeight     = TypefaceWeightRegular
+	TitleLargeFont:       TypefaceTokens.Brand,
+	TitleLargeLineHeight: unit.Sp(28.0),
+	TitleLargeSize:       unit.Sp(22),
+	TitleLargeTracking:   unit.Sp(0.0),
+	TitleLargeWeight:     TypefaceTokens.WeightRegular,
 
-	TypeScaleTitleMediumFont       = TypefacePlain
-	TypeScaleTitleMediumLineHeight = unit.Sp(24.0)
-	TypeScaleTitleMediumSize       = unit.Sp(16)
-	TypeScaleTitleMediumTracking   = unit.Sp(0.15)
-	TypeScaleTitleMediumWeight     = TypefaceWeightMedium
+	TitleMediumFont:       TypefaceTokens.Plain,
+	TitleMediumLineHeight: unit.Sp(24.0),
+	TitleMediumSize:       unit.Sp(16),
+	TitleMediumTracking:   unit.Sp(0.15),
+	TitleMediumWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleTitleSmallFont       = TypefacePlain
-	TypeScaleTitleSmallLineHeight = unit.Sp(20.0)
-	TypeScaleTitleSmallSize       = unit.Sp(14)
-	TypeScaleTitleSmallTracking   = unit.Sp(0.1)
-	TypeScaleTitleSmallWeight     = TypefaceWeightMedium
+	TitleSmallFont:       TypefaceTokens.Plain,
+	TitleSmallLineHeight: unit.Sp(20.0),
+	TitleSmallSize:       unit.Sp(14),
+	TitleSmallTracking:   unit.Sp(0.1),
+	TitleSmallWeight:     TypefaceTokens.WeightMedium,
 
 	// Emphasized tokens
-	TypeScaleBodyLargeEmphasizedFont       = TypefacePlain
-	TypeScaleBodyLargeEmphasizedLineHeight = unit.Sp(24.0)
-	TypeScaleBodyLargeEmphasizedSize       = unit.Sp(16)
-	TypeScaleBodyLargeEmphasizedTracking   = unit.Sp(0.15)
-	TypeScaleBodyLargeEmphasizedWeight     = TypefaceWeightMedium
+	BodyLargeEmphasizedFont:       TypefaceTokens.Plain,
+	BodyLargeEmphasizedLineHeight: unit.Sp(24.0),
+	BodyLargeEmphasizedSize:       unit.Sp(16),
+	BodyLargeEmphasizedTracking:   unit.Sp(0.15),
+	BodyLargeEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleBodyMediumEmphasizedFont       = TypefacePlain
-	TypeScaleBodyMediumEmphasizedLineHeight = unit.Sp(20.0)
-	TypeScaleBodyMediumEmphasizedSize       = unit.Sp(14)
-	TypeScaleBodyMediumEmphasizedTracking   = unit.Sp(0.25)
-	TypeScaleBodyMediumEmphasizedWeight     = TypefaceWeightMedium
+	BodyMediumEmphasizedFont:       TypefaceTokens.Plain,
+	BodyMediumEmphasizedLineHeight: unit.Sp(20.0),
+	BodyMediumEmphasizedSize:       unit.Sp(14),
+	BodyMediumEmphasizedTracking:   unit.Sp(0.25),
+	BodyMediumEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleBodySmallEmphasizedFont       = TypefacePlain
-	TypeScaleBodySmallEmphasizedLineHeight = unit.Sp(16.0)
-	TypeScaleBodySmallEmphasizedSize       = unit.Sp(12)
-	TypeScaleBodySmallEmphasizedTracking   = unit.Sp(0.4)
-	TypeScaleBodySmallEmphasizedWeight     = TypefaceWeightMedium
+	BodySmallEmphasizedFont:       TypefaceTokens.Plain,
+	BodySmallEmphasizedLineHeight: unit.Sp(16.0),
+	BodySmallEmphasizedSize:       unit.Sp(12),
+	BodySmallEmphasizedTracking:   unit.Sp(0.4),
+	BodySmallEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleDisplayLargeEmphasizedFont       = TypefaceBrand
-	TypeScaleDisplayLargeEmphasizedLineHeight = unit.Sp(64.0)
-	TypeScaleDisplayLargeEmphasizedSize       = unit.Sp(57)
-	TypeScaleDisplayLargeEmphasizedTracking   = unit.Sp(0)
-	TypeScaleDisplayLargeEmphasizedWeight     = TypefaceWeightMedium
+	DisplayLargeEmphasizedFont:       TypefaceTokens.Brand,
+	DisplayLargeEmphasizedLineHeight: unit.Sp(64.0),
+	DisplayLargeEmphasizedSize:       unit.Sp(57),
+	DisplayLargeEmphasizedTracking:   unit.Sp(0),
+	DisplayLargeEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleDisplayMediumEmphasizedFont       = TypefaceBrand
-	TypeScaleDisplayMediumEmphasizedLineHeight = unit.Sp(52.0)
-	TypeScaleDisplayMediumEmphasizedSize       = unit.Sp(45)
-	TypeScaleDisplayMediumEmphasizedTracking   = unit.Sp(0)
-	TypeScaleDisplayMediumEmphasizedWeight     = TypefaceWeightMedium
+	DisplayMediumEmphasizedFont:       TypefaceTokens.Brand,
+	DisplayMediumEmphasizedLineHeight: unit.Sp(52.0),
+	DisplayMediumEmphasizedSize:       unit.Sp(45),
+	DisplayMediumEmphasizedTracking:   unit.Sp(0),
+	DisplayMediumEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleDisplaySmallEmphasizedFont       = TypefaceBrand
-	TypeScaleDisplaySmallEmphasizedLineHeight = unit.Sp(44.0)
-	TypeScaleDisplaySmallEmphasizedSize       = unit.Sp(36)
-	TypeScaleDisplaySmallEmphasizedTracking   = unit.Sp(0)
-	TypeScaleDisplaySmallEmphasizedWeight     = TypefaceWeightMedium
+	DisplaySmallEmphasizedFont:       TypefaceTokens.Brand,
+	DisplaySmallEmphasizedLineHeight: unit.Sp(44.0),
+	DisplaySmallEmphasizedSize:       unit.Sp(36),
+	DisplaySmallEmphasizedTracking:   unit.Sp(0),
+	DisplaySmallEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleHeadlineLargeEmphasizedFont       = TypefaceBrand
-	TypeScaleHeadlineLargeEmphasizedLineHeight = unit.Sp(40.0)
-	TypeScaleHeadlineLargeEmphasizedSize       = unit.Sp(32)
-	TypeScaleHeadlineLargeEmphasizedTracking   = unit.Sp(0)
-	TypeScaleHeadlineLargeEmphasizedWeight     = TypefaceWeightMedium
+	HeadlineLargeEmphasizedFont:       TypefaceTokens.Brand,
+	HeadlineLargeEmphasizedLineHeight: unit.Sp(40.0),
+	HeadlineLargeEmphasizedSize:       unit.Sp(32),
+	HeadlineLargeEmphasizedTracking:   unit.Sp(0),
+	HeadlineLargeEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleHeadlineMediumEmphasizedFont       = TypefaceBrand
-	TypeScaleHeadlineMediumEmphasizedLineHeight = unit.Sp(36.0)
-	TypeScaleHeadlineMediumEmphasizedSize       = unit.Sp(28)
-	TypeScaleHeadlineMediumEmphasizedTracking   = unit.Sp(0)
-	TypeScaleHeadlineMediumEmphasizedWeight     = TypefaceWeightMedium
+	HeadlineMediumEmphasizedFont:       TypefaceTokens.Brand,
+	HeadlineMediumEmphasizedLineHeight: unit.Sp(36.0),
+	HeadlineMediumEmphasizedSize:       unit.Sp(28),
+	HeadlineMediumEmphasizedTracking:   unit.Sp(0),
+	HeadlineMediumEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleHeadlineSmallEmphasizedFont       = TypefaceBrand
-	TypeScaleHeadlineSmallEmphasizedLineHeight = unit.Sp(32.0)
-	TypeScaleHeadlineSmallEmphasizedSize       = unit.Sp(24)
-	TypeScaleHeadlineSmallEmphasizedTracking   = unit.Sp(0)
-	TypeScaleHeadlineSmallEmphasizedWeight     = TypefaceWeightMedium
+	HeadlineSmallEmphasizedFont:       TypefaceTokens.Brand,
+	HeadlineSmallEmphasizedLineHeight: unit.Sp(32.0),
+	HeadlineSmallEmphasizedSize:       unit.Sp(24),
+	HeadlineSmallEmphasizedTracking:   unit.Sp(0),
+	HeadlineSmallEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleLabelLargeEmphasizedFont       = TypefacePlain
-	TypeScaleLabelLargeEmphasizedLineHeight = unit.Sp(20.0)
-	TypeScaleLabelLargeEmphasizedSize       = unit.Sp(14)
-	TypeScaleLabelLargeEmphasizedTracking   = unit.Sp(0.1)
-	TypeScaleLabelLargeEmphasizedWeight     = TypefaceWeightBold
+	LabelLargeEmphasizedFont:       TypefaceTokens.Plain,
+	LabelLargeEmphasizedLineHeight: unit.Sp(20.0),
+	LabelLargeEmphasizedSize:       unit.Sp(14),
+	LabelLargeEmphasizedTracking:   unit.Sp(0.1),
+	LabelLargeEmphasizedWeight:     TypefaceTokens.WeightBold,
 
-	TypeScaleLabelMediumEmphasizedFont       = TypefacePlain
-	TypeScaleLabelMediumEmphasizedLineHeight = unit.Sp(16.0)
-	TypeScaleLabelMediumEmphasizedSize       = unit.Sp(12)
-	TypeScaleLabelMediumEmphasizedTracking   = unit.Sp(0.5)
-	TypeScaleLabelMediumEmphasizedWeight     = TypefaceWeightBold
+	LabelMediumEmphasizedFont:       TypefaceTokens.Plain,
+	LabelMediumEmphasizedLineHeight: unit.Sp(16.0),
+	LabelMediumEmphasizedSize:       unit.Sp(12),
+	LabelMediumEmphasizedTracking:   unit.Sp(0.5),
+	LabelMediumEmphasizedWeight:     TypefaceTokens.WeightBold,
 
-	TypeScaleLabelSmallEmphasizedFont       = TypefacePlain
-	TypeScaleLabelSmallEmphasizedLineHeight = unit.Sp(16.0)
-	TypeScaleLabelSmallEmphasizedSize       = unit.Sp(11)
-	TypeScaleLabelSmallEmphasizedTracking   = unit.Sp(0.5)
-	TypeScaleLabelSmallEmphasizedWeight     = TypefaceWeightBold
+	LabelSmallEmphasizedFont:       TypefaceTokens.Plain,
+	LabelSmallEmphasizedLineHeight: unit.Sp(16.0),
+	LabelSmallEmphasizedSize:       unit.Sp(11),
+	LabelSmallEmphasizedTracking:   unit.Sp(0.5),
+	LabelSmallEmphasizedWeight:     TypefaceTokens.WeightBold,
 
-	TypeScaleTitleLargeEmphasizedFont       = TypefaceBrand
-	TypeScaleTitleLargeEmphasizedLineHeight = unit.Sp(28.0)
-	TypeScaleTitleLargeEmphasizedSize       = unit.Sp(22)
-	TypeScaleTitleLargeEmphasizedTracking   = unit.Sp(0)
-	TypeScaleTitleLargeEmphasizedWeight     = TypefaceWeightMedium
+	TitleLargeEmphasizedFont:       TypefaceTokens.Brand,
+	TitleLargeEmphasizedLineHeight: unit.Sp(28.0),
+	TitleLargeEmphasizedSize:       unit.Sp(22),
+	TitleLargeEmphasizedTracking:   unit.Sp(0),
+	TitleLargeEmphasizedWeight:     TypefaceTokens.WeightMedium,
 
-	TypeScaleTitleMediumEmphasizedFont       = TypefacePlain
-	TypeScaleTitleMediumEmphasizedLineHeight = unit.Sp(24.0)
-	TypeScaleTitleMediumEmphasizedSize       = unit.Sp(16)
-	TypeScaleTitleMediumEmphasizedTracking   = unit.Sp(0.15)
-	TypeScaleTitleMediumEmphasizedWeight     = TypefaceWeightBold
+	TitleMediumEmphasizedFont:       TypefaceTokens.Plain,
+	TitleMediumEmphasizedLineHeight: unit.Sp(24.0),
+	TitleMediumEmphasizedSize:       unit.Sp(16),
+	TitleMediumEmphasizedTracking:   unit.Sp(0.15),
+	TitleMediumEmphasizedWeight:     TypefaceTokens.WeightBold,
 
-	TypeScaleTitleSmallEmphasizedFont       = TypefacePlain
-	TypeScaleTitleSmallEmphasizedLineHeight = unit.Sp(20.0)
-	TypeScaleTitleSmallEmphasizedSize       = unit.Sp(14)
-	TypeScaleTitleSmallEmphasizedTracking   = unit.Sp(0.1)
-	TypeScaleTitleSmallEmphasizedWeight     = TypefaceWeightBold
-)
+	TitleSmallEmphasizedFont:       TypefaceTokens.Plain,
+	TitleSmallEmphasizedLineHeight: unit.Sp(20.0),
+	TitleSmallEmphasizedSize:       unit.Sp(14),
+	TitleSmallEmphasizedTracking:   unit.Sp(0.1),
+	TitleSmallEmphasizedWeight:     TypefaceTokens.WeightBold,
+}
+
+type TypeScaleTokensData struct {
+	BodyLargeFont       font.FontFamily
+	BodyLargeLineHeight unit.TextUnit
+	BodyLargeSize       unit.TextUnit
+	BodyLargeTracking   unit.TextUnit
+	BodyLargeWeight     font.FontWeight
+
+	BodyMediumFont       font.FontFamily
+	BodyMediumLineHeight unit.TextUnit
+	BodyMediumSize       unit.TextUnit
+	BodyMediumTracking   unit.TextUnit
+	BodyMediumWeight     font.FontWeight
+
+	BodySmallFont       font.FontFamily
+	BodySmallLineHeight unit.TextUnit
+	BodySmallSize       unit.TextUnit
+	BodySmallTracking   unit.TextUnit
+	BodySmallWeight     font.FontWeight
+
+	DisplayLargeFont       font.FontFamily
+	DisplayLargeLineHeight unit.TextUnit
+	DisplayLargeSize       unit.TextUnit
+	DisplayLargeTracking   unit.TextUnit
+	DisplayLargeWeight     font.FontWeight
+
+	DisplayMediumFont       font.FontFamily
+	DisplayMediumLineHeight unit.TextUnit
+	DisplayMediumSize       unit.TextUnit
+	DisplayMediumTracking   unit.TextUnit
+	DisplayMediumWeight     font.FontWeight
+
+	DisplaySmallFont       font.FontFamily
+	DisplaySmallLineHeight unit.TextUnit
+	DisplaySmallSize       unit.TextUnit
+	DisplaySmallTracking   unit.TextUnit
+	DisplaySmallWeight     font.FontWeight
+
+	HeadlineLargeFont       font.FontFamily
+	HeadlineLargeLineHeight unit.TextUnit
+	HeadlineLargeSize       unit.TextUnit
+	HeadlineLargeTracking   unit.TextUnit
+	HeadlineLargeWeight     font.FontWeight
+
+	HeadlineMediumFont       font.FontFamily
+	HeadlineMediumLineHeight unit.TextUnit
+	HeadlineMediumSize       unit.TextUnit
+	HeadlineMediumTracking   unit.TextUnit
+	HeadlineMediumWeight     font.FontWeight
+
+	HeadlineSmallFont       font.FontFamily
+	HeadlineSmallLineHeight unit.TextUnit
+	HeadlineSmallSize       unit.TextUnit
+	HeadlineSmallTracking   unit.TextUnit
+	HeadlineSmallWeight     font.FontWeight
+
+	LabelLargeFont       font.FontFamily
+	LabelLargeLineHeight unit.TextUnit
+	LabelLargeSize       unit.TextUnit
+	LabelLargeTracking   unit.TextUnit
+	LabelLargeWeight     font.FontWeight
+
+	LabelMediumFont       font.FontFamily
+	LabelMediumLineHeight unit.TextUnit
+	LabelMediumSize       unit.TextUnit
+	LabelMediumTracking   unit.TextUnit
+	LabelMediumWeight     font.FontWeight
+
+	LabelSmallFont       font.FontFamily
+	LabelSmallLineHeight unit.TextUnit
+	LabelSmallSize       unit.TextUnit
+	LabelSmallTracking   unit.TextUnit
+	LabelSmallWeight     font.FontWeight
+
+	TitleLargeFont       font.FontFamily
+	TitleLargeLineHeight unit.TextUnit
+	TitleLargeSize       unit.TextUnit
+	TitleLargeTracking   unit.TextUnit
+	TitleLargeWeight     font.FontWeight
+
+	TitleMediumFont       font.FontFamily
+	TitleMediumLineHeight unit.TextUnit
+	TitleMediumSize       unit.TextUnit
+	TitleMediumTracking   unit.TextUnit
+	TitleMediumWeight     font.FontWeight
+
+	TitleSmallFont       font.FontFamily
+	TitleSmallLineHeight unit.TextUnit
+	TitleSmallSize       unit.TextUnit
+	TitleSmallTracking   unit.TextUnit
+	TitleSmallWeight     font.FontWeight
+
+	// Emphasized tokens
+	BodyLargeEmphasizedFont       font.FontFamily
+	BodyLargeEmphasizedLineHeight unit.TextUnit
+	BodyLargeEmphasizedSize       unit.TextUnit
+	BodyLargeEmphasizedTracking   unit.TextUnit
+	BodyLargeEmphasizedWeight     font.FontWeight
+
+	BodyMediumEmphasizedFont       font.FontFamily
+	BodyMediumEmphasizedLineHeight unit.TextUnit
+	BodyMediumEmphasizedSize       unit.TextUnit
+	BodyMediumEmphasizedTracking   unit.TextUnit
+	BodyMediumEmphasizedWeight     font.FontWeight
+
+	BodySmallEmphasizedFont       font.FontFamily
+	BodySmallEmphasizedLineHeight unit.TextUnit
+	BodySmallEmphasizedSize       unit.TextUnit
+	BodySmallEmphasizedTracking   unit.TextUnit
+	BodySmallEmphasizedWeight     font.FontWeight
+
+	DisplayLargeEmphasizedFont       font.FontFamily
+	DisplayLargeEmphasizedLineHeight unit.TextUnit
+	DisplayLargeEmphasizedSize       unit.TextUnit
+	DisplayLargeEmphasizedTracking   unit.TextUnit
+	DisplayLargeEmphasizedWeight     font.FontWeight
+
+	DisplayMediumEmphasizedFont       font.FontFamily
+	DisplayMediumEmphasizedLineHeight unit.TextUnit
+	DisplayMediumEmphasizedSize       unit.TextUnit
+	DisplayMediumEmphasizedTracking   unit.TextUnit
+	DisplayMediumEmphasizedWeight     font.FontWeight
+
+	DisplaySmallEmphasizedFont       font.FontFamily
+	DisplaySmallEmphasizedLineHeight unit.TextUnit
+	DisplaySmallEmphasizedSize       unit.TextUnit
+	DisplaySmallEmphasizedTracking   unit.TextUnit
+	DisplaySmallEmphasizedWeight     font.FontWeight
+
+	HeadlineLargeEmphasizedFont       font.FontFamily
+	HeadlineLargeEmphasizedLineHeight unit.TextUnit
+	HeadlineLargeEmphasizedSize       unit.TextUnit
+	HeadlineLargeEmphasizedTracking   unit.TextUnit
+	HeadlineLargeEmphasizedWeight     font.FontWeight
+
+	HeadlineMediumEmphasizedFont       font.FontFamily
+	HeadlineMediumEmphasizedLineHeight unit.TextUnit
+	HeadlineMediumEmphasizedSize       unit.TextUnit
+	HeadlineMediumEmphasizedTracking   unit.TextUnit
+	HeadlineMediumEmphasizedWeight     font.FontWeight
+
+	HeadlineSmallEmphasizedFont       font.FontFamily
+	HeadlineSmallEmphasizedLineHeight unit.TextUnit
+	HeadlineSmallEmphasizedSize       unit.TextUnit
+	HeadlineSmallEmphasizedTracking   unit.TextUnit
+	HeadlineSmallEmphasizedWeight     font.FontWeight
+
+	LabelLargeEmphasizedFont       font.FontFamily
+	LabelLargeEmphasizedLineHeight unit.TextUnit
+	LabelLargeEmphasizedSize       unit.TextUnit
+	LabelLargeEmphasizedTracking   unit.TextUnit
+	LabelLargeEmphasizedWeight     font.FontWeight
+
+	LabelMediumEmphasizedFont       font.FontFamily
+	LabelMediumEmphasizedLineHeight unit.TextUnit
+	LabelMediumEmphasizedSize       unit.TextUnit
+	LabelMediumEmphasizedTracking   unit.TextUnit
+	LabelMediumEmphasizedWeight     font.FontWeight
+
+	LabelSmallEmphasizedFont       font.FontFamily
+	LabelSmallEmphasizedLineHeight unit.TextUnit
+	LabelSmallEmphasizedSize       unit.TextUnit
+	LabelSmallEmphasizedTracking   unit.TextUnit
+	LabelSmallEmphasizedWeight     font.FontWeight
+
+	TitleLargeEmphasizedFont       font.FontFamily
+	TitleLargeEmphasizedLineHeight unit.TextUnit
+	TitleLargeEmphasizedSize       unit.TextUnit
+	TitleLargeEmphasizedTracking   unit.TextUnit
+	TitleLargeEmphasizedWeight     font.FontWeight
+
+	TitleMediumEmphasizedFont       font.FontFamily
+	TitleMediumEmphasizedLineHeight unit.TextUnit
+	TitleMediumEmphasizedSize       unit.TextUnit
+	TitleMediumEmphasizedTracking   unit.TextUnit
+	TitleMediumEmphasizedWeight     font.FontWeight
+
+	TitleSmallEmphasizedFont       font.FontFamily
+	TitleSmallEmphasizedLineHeight unit.TextUnit
+	TitleSmallEmphasizedSize       unit.TextUnit
+	TitleSmallEmphasizedTracking   unit.TextUnit
+	TitleSmallEmphasizedWeight     font.FontWeight
+}
