@@ -22,12 +22,10 @@ var (
 	ShapeExtraLarge = &shape.RoundedCornerShape{Radius: unit.Dp(28)}
 )
 
-func DefaultShapes() *Shapes {
-	return &Shapes{
-		ExtraSmall: ShapeExtraSmall,
-		Small:      ShapeSmall,
-		Medium:     ShapeMedium,
-		Large:      ShapeLarge,
-		ExtraLarge: ShapeExtraLarge,
-	}
+var DefaultShapes = &Shapes{
+	ExtraSmall: ShapeExtraSmall,
+	Small:      ShapeSmall,
+	Medium:     ShapeMedium,
+	Large:      ShapeLarge,
+	ExtraLarge: ShapeExtraLarge,
 }
