@@ -1,8 +1,12 @@
 package material3
 
 import (
+	"fmt"
+	"math"
+
 	"github.com/zodimo/go-compose/compose/material3/tokens"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
+	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
 // Immutable
@@ -116,6 +120,124 @@ func (c ColorSchemeNext) ContentFor(backgroundColor graphics.Color) graphics.Col
 	default:
 		return graphics.ColorUnspecified
 
+	}
+}
+
+func (c ColorSchemeNext) SurfaceColorAtElevation(elevation unit.Dp) graphics.Color {
+	if elevation == 0 {
+		return c.Surface
+	}
+
+	alpha := ((4.5 * math.Log(float64(elevation)+1)) + 2) / 100
+	return c.SurfaceTint.Copy(graphics.CopyWithAlpha(float32(alpha))).CompositeOver(c.Surface)
+}
+
+/**
+ * Helper function for component color tokens. Here is an example on how to use component color
+ * tokens: ``MaterialTheme.colorScheme.fromToken(ExtendedFabBranded.BrandedContainerColor)``
+ */
+func (c ColorSchemeNext) FromToken(value tokens.ColorSchemeTokenKey) graphics.Color {
+	switch value {
+	case tokens.ColorSchemeTokenKeyUnspecified:
+		return graphics.ColorUnspecified
+	case tokens.ColorSchemeTokenKeyBackground:
+		return c.Background
+	case tokens.ColorSchemeTokenKeyError:
+		return c.Error
+	case tokens.ColorSchemeTokenKeyErrorContainer:
+		return c.ErrorContainer
+	case tokens.ColorSchemeTokenKeyInverseOnSurface:
+		return c.InverseOnSurface
+	case tokens.ColorSchemeTokenKeyInversePrimary:
+		return c.InversePrimary
+	case tokens.ColorSchemeTokenKeyInverseSurface:
+		return c.InverseSurface
+	case tokens.ColorSchemeTokenKeyOnBackground:
+		return c.OnBackground
+	case tokens.ColorSchemeTokenKeyOnError:
+		return c.OnError
+	case tokens.ColorSchemeTokenKeyOnErrorContainer:
+		return c.OnErrorContainer
+	case tokens.ColorSchemeTokenKeyOnPrimary:
+		return c.OnPrimary
+	case tokens.ColorSchemeTokenKeyOnPrimaryContainer:
+		return c.OnPrimaryContainer
+	case tokens.ColorSchemeTokenKeyOnPrimaryFixed:
+		return c.OnPrimaryFixed
+	case tokens.ColorSchemeTokenKeyOnPrimaryFixedVariant:
+		return c.OnPrimaryFixedVariant
+	case tokens.ColorSchemeTokenKeyOnSecondary:
+		return c.OnSecondary
+	case tokens.ColorSchemeTokenKeyOnSecondaryContainer:
+		return c.OnSecondaryContainer
+	case tokens.ColorSchemeTokenKeyOnSecondaryFixed:
+		return c.OnSecondaryFixed
+	case tokens.ColorSchemeTokenKeyOnSecondaryFixedVariant:
+		return c.OnSecondaryFixedVariant
+	case tokens.ColorSchemeTokenKeyOnSurface:
+		return c.OnSurface
+	case tokens.ColorSchemeTokenKeyOnSurfaceVariant:
+		return c.OnSurfaceVariant
+	case tokens.ColorSchemeTokenKeyOnTertiary:
+		return c.OnTertiary
+	case tokens.ColorSchemeTokenKeyOnTertiaryContainer:
+		return c.OnTertiaryContainer
+	case tokens.ColorSchemeTokenKeyOnTertiaryFixed:
+		return c.OnTertiaryFixed
+	case tokens.ColorSchemeTokenKeyOnTertiaryFixedVariant:
+		return c.OnTertiaryFixedVariant
+	case tokens.ColorSchemeTokenKeyOutline:
+		return c.Outline
+	case tokens.ColorSchemeTokenKeyOutlineVariant:
+		return c.OutlineVariant
+	case tokens.ColorSchemeTokenKeyPrimary:
+		return c.Primary
+	case tokens.ColorSchemeTokenKeyPrimaryContainer:
+		return c.PrimaryContainer
+	case tokens.ColorSchemeTokenKeyPrimaryFixed:
+		return c.PrimaryFixed
+	case tokens.ColorSchemeTokenKeyPrimaryFixedDim:
+		return c.PrimaryFixedDim
+	case tokens.ColorSchemeTokenKeyScrim:
+		return c.Scrim
+	case tokens.ColorSchemeTokenKeySecondary:
+		return c.Secondary
+	case tokens.ColorSchemeTokenKeySecondaryContainer:
+		return c.SecondaryContainer
+	case tokens.ColorSchemeTokenKeySecondaryFixed:
+		return c.SecondaryFixed
+	case tokens.ColorSchemeTokenKeySecondaryFixedDim:
+		return c.SecondaryFixedDim
+	case tokens.ColorSchemeTokenKeySurface:
+		return c.Surface
+	case tokens.ColorSchemeTokenKeySurfaceBright:
+		return c.SurfaceBright
+	case tokens.ColorSchemeTokenKeySurfaceContainer:
+		return c.SurfaceContainer
+	case tokens.ColorSchemeTokenKeySurfaceContainerHigh:
+		return c.SurfaceContainerHigh
+	case tokens.ColorSchemeTokenKeySurfaceContainerHighest:
+		return c.SurfaceContainerHighest
+	case tokens.ColorSchemeTokenKeySurfaceContainerLow:
+		return c.SurfaceContainerLow
+	case tokens.ColorSchemeTokenKeySurfaceContainerLowest:
+		return c.SurfaceContainerLowest
+	case tokens.ColorSchemeTokenKeySurfaceDim:
+		return c.SurfaceDim
+	case tokens.ColorSchemeTokenKeySurfaceTint:
+		return c.SurfaceTint
+	case tokens.ColorSchemeTokenKeySurfaceVariant:
+		return c.SurfaceVariant
+	case tokens.ColorSchemeTokenKeyTertiary:
+		return c.Tertiary
+	case tokens.ColorSchemeTokenKeyTertiaryContainer:
+		return c.TertiaryContainer
+	case tokens.ColorSchemeTokenKeyTertiaryFixed:
+		return c.TertiaryFixed
+	case tokens.ColorSchemeTokenKeyTertiaryFixedDim:
+		return c.TertiaryFixedDim
+	default:
+		panic(fmt.Sprintf("unknown color scheme token key: %s", value))
 	}
 }
 
