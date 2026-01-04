@@ -76,7 +76,7 @@ func NavigationBarItem(
 						)),
 						surface.WithContentColor(ternary.Ternary(
 							selected,
-							theme.ColorScheme().SecondaryContainer.OnColor,
+							theme.ColorScheme().OnSecondaryContainer,
 							colors.ContentColor,
 						)),
 						surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(16)}),

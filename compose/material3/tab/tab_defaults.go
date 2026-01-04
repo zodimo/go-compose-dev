@@ -14,15 +14,15 @@ type tabRowDefaults struct{}
 type tabDefaults struct{}
 
 func (tabRowDefaults) ContainerColor(c Composer) graphics.Color {
-	return material3.Theme(c).ColorScheme().Surface.Color
+	return material3.Theme(c).ColorScheme().Surface
 }
 
 func (tabRowDefaults) ContentColor(c Composer) graphics.Color {
-	return material3.Theme(c).ColorScheme().Surface.OnColor
+	return material3.Theme(c).ColorScheme().OnSurface
 }
 
 func (tabRowDefaults) IndicatorColor(c Composer) graphics.Color {
-	return material3.Theme(c).ColorScheme().Primary.Color
+	return material3.Theme(c).ColorScheme().Primary
 }
 
 func (tabRowDefaults) IndicatorHeight() unit.Dp {
@@ -36,9 +36,9 @@ func (tabRowDefaults) Indicator() Composable {
 }
 
 func (tabDefaults) SelectedContentColor(c Composer) graphics.Color {
-	return material3.Theme(c).ColorScheme().Primary.Color
+	return material3.Theme(c).ColorScheme().Primary
 }
 
 func (tabDefaults) UnselectedContentColor(c Composer) graphics.Color {
-	return material3.Theme(c).ColorScheme().Surface.OnColor
+	return material3.Theme(c).ColorScheme().OnSurface
 }

@@ -34,7 +34,7 @@ func NavigationDrawerItem(
 		// Colors - use theme role selectors
 		var containerColor graphics.Color
 		if selected {
-			containerColor = theme.ColorScheme().SecondaryContainer.Color
+			containerColor = theme.ColorScheme().SecondaryContainer
 		} else {
 			containerColor = graphics.ColorTransparent
 		}

@@ -97,11 +97,11 @@ func SegmentedButton(
 	return func(c Composer) Composer {
 		theme := material3.Theme(c)
 
-		opts.SelectedColor = opts.SelectedColor.TakeOrElse(theme.ColorScheme().SecondaryContainer.Color)                 //, theme.ColorHelper.ColorSelector().SecondaryRoles.Container)
-		opts.UnselectedColor = opts.UnselectedColor.TakeOrElse(theme.ColorScheme().Surface.Color)                        //, theme.ColorHelper.ColorSelector().SurfaceRoles.Surface)
-		opts.SelectedContentColor = opts.SelectedContentColor.TakeOrElse(theme.ColorScheme().SecondaryContainer.OnColor) //, theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer)
-		opts.UnselectedContentColor = opts.UnselectedContentColor.TakeOrElse(theme.ColorScheme().Surface.OnColor)        //, theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface)
-		opts.BorderColor = opts.BorderColor.TakeOrElse(theme.ColorScheme().Outline)                                      //, theme.ColorHelper.ColorSelector().OutlineRoles.Outline)
+		opts.SelectedColor = opts.SelectedColor.TakeOrElse(theme.ColorScheme().SecondaryContainer)                 //, theme.ColorHelper.ColorSelector().SecondaryRoles.Container)
+		opts.UnselectedColor = opts.UnselectedColor.TakeOrElse(theme.ColorScheme().Surface)                        //, theme.ColorHelper.ColorSelector().SurfaceRoles.Surface)
+		opts.SelectedContentColor = opts.SelectedContentColor.TakeOrElse(theme.ColorScheme().OnSecondaryContainer) //, theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer)
+		opts.UnselectedContentColor = opts.UnselectedContentColor.TakeOrElse(theme.ColorScheme().OnSurface)        //, theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface)
+		opts.BorderColor = opts.BorderColor.TakeOrElse(theme.ColorScheme().Outline)                                //, theme.ColorHelper.ColorSelector().OutlineRoles.Outline)
 
 		// State for clickable
 		key := c.GenerateID()

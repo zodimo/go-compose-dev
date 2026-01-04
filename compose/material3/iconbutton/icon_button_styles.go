@@ -10,21 +10,21 @@ import (
 func StandardIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 	theme := material3.Theme(c)
 	return tokens.IconButtonTokens{
-		DisabledColor:   theme.ColorScheme().Surface.OnColor,
+		DisabledColor:   theme.ColorScheme().OnSurface,
 		DisabledOpacity: 0.38,
 
-		FocusedColor:           theme.ColorScheme().SurfaceVariant.OnColor,
-		HoveredColor:           theme.ColorScheme().SurfaceVariant.OnColor,
-		Color:                  theme.ColorScheme().SurfaceVariant.OnColor,
-		PressedColor:           theme.ColorScheme().SurfaceVariant.OnColor,
-		SelectedFocusedColor:   theme.ColorScheme().Primary.Color,
-		SelectedHoveredColor:   theme.ColorScheme().Primary.Color,
-		SelectedColor:          theme.ColorScheme().Primary.Color,
-		SelectedPressedColor:   theme.ColorScheme().Primary.Color,
-		UnselectedFocusedColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedHoveredColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedColor:        theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedPressedColor: theme.ColorScheme().SurfaceVariant.OnColor,
+		FocusedColor:           theme.ColorScheme().OnSurfaceVariant,
+		HoveredColor:           theme.ColorScheme().OnSurfaceVariant,
+		Color:                  theme.ColorScheme().OnSurfaceVariant,
+		PressedColor:           theme.ColorScheme().OnSurfaceVariant,
+		SelectedFocusedColor:   theme.ColorScheme().Primary,
+		SelectedHoveredColor:   theme.ColorScheme().Primary,
+		SelectedColor:          theme.ColorScheme().Primary,
+		SelectedPressedColor:   theme.ColorScheme().Primary,
+		UnselectedFocusedColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedHoveredColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedColor:        theme.ColorScheme().OnSurfaceVariant,
+		UnselectedPressedColor: theme.ColorScheme().OnSurfaceVariant,
 	}
 }
 
@@ -33,22 +33,22 @@ func StandardIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 func ElevatedIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 	theme := material3.Theme(c)
 	return tokens.IconButtonTokens{
-		DisabledColor:   theme.ColorScheme().Surface.OnColor,
+		DisabledColor:   theme.ColorScheme().OnSurface,
 		DisabledOpacity: 0.64,
 
-		FocusedColor: theme.ColorScheme().Primary.Color,
-		HoveredColor: theme.ColorScheme().Primary.Color,
-		Color:        theme.ColorScheme().Primary.Color,
-		PressedColor: theme.ColorScheme().Primary.Color,
+		FocusedColor: theme.ColorScheme().Primary,
+		HoveredColor: theme.ColorScheme().Primary,
+		Color:        theme.ColorScheme().Primary,
+		PressedColor: theme.ColorScheme().Primary,
 
-		SelectedFocusedColor:   theme.ColorScheme().Primary.Color,
-		SelectedHoveredColor:   theme.ColorScheme().Primary.Color,
-		SelectedColor:          theme.ColorScheme().Primary.Color,
-		SelectedPressedColor:   theme.ColorScheme().Primary.Color,
-		UnselectedFocusedColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedHoveredColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedColor:        theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedPressedColor: theme.ColorScheme().SurfaceVariant.OnColor,
+		SelectedFocusedColor:   theme.ColorScheme().Primary,
+		SelectedHoveredColor:   theme.ColorScheme().Primary,
+		SelectedColor:          theme.ColorScheme().Primary,
+		SelectedPressedColor:   theme.ColorScheme().Primary,
+		UnselectedFocusedColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedHoveredColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedColor:        theme.ColorScheme().OnSurfaceVariant,
+		UnselectedPressedColor: theme.ColorScheme().OnSurfaceVariant,
 	}
 }
 
@@ -57,22 +57,22 @@ func ElevatedIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 func FilledIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 	theme := material3.Theme(c)
 	return tokens.IconButtonTokens{
-		DisabledColor:   theme.ColorScheme().Surface.OnColor,
+		DisabledColor:   theme.ColorScheme().OnSurface,
 		DisabledOpacity: 0.64, // OpacityLevel9
 
-		FocusedColor: theme.ColorScheme().Primary.OnColor,
-		HoveredColor: theme.ColorScheme().Primary.OnColor,
-		Color:        theme.ColorScheme().Primary.OnColor,
-		PressedColor: theme.ColorScheme().Primary.OnColor,
+		FocusedColor: theme.ColorScheme().OnPrimary,
+		HoveredColor: theme.ColorScheme().OnPrimary,
+		Color:        theme.ColorScheme().OnPrimary,
+		PressedColor: theme.ColorScheme().OnPrimary,
 
-		SelectedFocusedColor:   theme.ColorScheme().Primary.OnColor,
-		SelectedHoveredColor:   theme.ColorScheme().Primary.OnColor,
-		SelectedColor:          theme.ColorScheme().Primary.OnColor,
-		SelectedPressedColor:   theme.ColorScheme().Primary.OnColor,
-		UnselectedFocusedColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedHoveredColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedColor:        theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedPressedColor: theme.ColorScheme().SurfaceVariant.OnColor,
+		SelectedFocusedColor:   theme.ColorScheme().OnPrimary,
+		SelectedHoveredColor:   theme.ColorScheme().OnPrimary,
+		SelectedColor:          theme.ColorScheme().OnPrimary,
+		SelectedPressedColor:   theme.ColorScheme().OnPrimary,
+		UnselectedFocusedColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedHoveredColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedColor:        theme.ColorScheme().OnSurfaceVariant,
+		UnselectedPressedColor: theme.ColorScheme().OnSurfaceVariant,
 	}
 }
 
@@ -81,22 +81,22 @@ func FilledIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 func FilledTonalIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 	theme := material3.Theme(c)
 	return tokens.IconButtonTokens{
-		DisabledColor:   theme.ColorScheme().Surface.OnColor,
+		DisabledColor:   theme.ColorScheme().OnSurface,
 		DisabledOpacity: 0.64, // OpacityLevel9
 
-		FocusedColor: theme.ColorScheme().SecondaryContainer.OnColor,
-		HoveredColor: theme.ColorScheme().SecondaryContainer.OnColor,
-		Color:        theme.ColorScheme().SecondaryContainer.OnColor,
-		PressedColor: theme.ColorScheme().SecondaryContainer.OnColor,
+		FocusedColor: theme.ColorScheme().OnSecondaryContainer,
+		HoveredColor: theme.ColorScheme().OnSecondaryContainer,
+		Color:        theme.ColorScheme().OnSecondaryContainer,
+		PressedColor: theme.ColorScheme().OnSecondaryContainer,
 
-		SelectedFocusedColor:   theme.ColorScheme().SecondaryContainer.OnColor,
-		SelectedHoveredColor:   theme.ColorScheme().SecondaryContainer.OnColor,
-		SelectedColor:          theme.ColorScheme().SecondaryContainer.OnColor,
-		SelectedPressedColor:   theme.ColorScheme().SecondaryContainer.OnColor,
-		UnselectedFocusedColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedHoveredColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedColor:        theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedPressedColor: theme.ColorScheme().SurfaceVariant.OnColor,
+		SelectedFocusedColor:   theme.ColorScheme().OnSecondaryContainer,
+		SelectedHoveredColor:   theme.ColorScheme().OnSecondaryContainer,
+		SelectedColor:          theme.ColorScheme().OnSecondaryContainer,
+		SelectedPressedColor:   theme.ColorScheme().OnSecondaryContainer,
+		UnselectedFocusedColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedHoveredColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedColor:        theme.ColorScheme().OnSurfaceVariant,
+		UnselectedPressedColor: theme.ColorScheme().OnSurfaceVariant,
 	}
 }
 
@@ -105,21 +105,21 @@ func FilledTonalIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 func OutlinedIconButtonTokens(c api.Composer) tokens.IconButtonTokens {
 	theme := material3.Theme(c)
 	return tokens.IconButtonTokens{
-		DisabledColor:   theme.ColorScheme().Surface.OnColor,
+		DisabledColor:   theme.ColorScheme().OnSurface,
 		DisabledOpacity: 0.64, // OpacityLevel9
 
-		FocusedColor: theme.ColorScheme().Primary.Color,
-		HoveredColor: theme.ColorScheme().Primary.Color,
-		Color:        theme.ColorScheme().Primary.Color,
-		PressedColor: theme.ColorScheme().Primary.Color,
+		FocusedColor: theme.ColorScheme().Primary,
+		HoveredColor: theme.ColorScheme().Primary,
+		Color:        theme.ColorScheme().Primary,
+		PressedColor: theme.ColorScheme().Primary,
 
-		SelectedFocusedColor:   theme.ColorScheme().InverseSurface.Color,
-		SelectedHoveredColor:   theme.ColorScheme().InverseSurface.Color,
-		SelectedColor:          theme.ColorScheme().InverseSurface.Color,
-		SelectedPressedColor:   theme.ColorScheme().InverseSurface.Color,
-		UnselectedFocusedColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedHoveredColor: theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedColor:        theme.ColorScheme().SurfaceVariant.OnColor,
-		UnselectedPressedColor: theme.ColorScheme().SurfaceVariant.OnColor,
+		SelectedFocusedColor:   theme.ColorScheme().InverseSurface,
+		SelectedHoveredColor:   theme.ColorScheme().InverseSurface,
+		SelectedColor:          theme.ColorScheme().InverseSurface,
+		SelectedPressedColor:   theme.ColorScheme().InverseSurface,
+		UnselectedFocusedColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedHoveredColor: theme.ColorScheme().OnSurfaceVariant,
+		UnselectedColor:        theme.ColorScheme().OnSurfaceVariant,
+		UnselectedPressedColor: theme.ColorScheme().OnSurfaceVariant,
 	}
 }

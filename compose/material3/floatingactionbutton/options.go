@@ -43,8 +43,8 @@ var DefaultFABElevation = token.ElevationLevel3
 func DefaultFloatingActionButtonOptions(c api.Composer) FloatingActionButtonOptions {
 	theme := material3.Theme(c)
 	return FloatingActionButtonOptions{
-		ContainerColor: theme.ColorScheme().PrimaryContainer.Color,
-		ContentColor:   theme.ColorScheme().PrimaryContainer.OnColor,
+		ContainerColor: theme.ColorScheme().PrimaryContainer,
+		ContentColor:   theme.ColorScheme().OnPrimaryContainer,
 		Elevation:      DefaultFABElevation,
 		Modifier:       modifier.EmptyModifier,
 		Shape:          shape.ShapeCircle,

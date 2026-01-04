@@ -51,10 +51,10 @@ func UI(c api.Composer) api.LayoutNode {
 					column.Column(
 						c.Sequence(
 							m3text.HeadlineLarge("Aloha!", text.WithTextStyleOptions(iuText.WithColor(
-								material3.Theme(c).ColorScheme().Surface.OnColor,
+								material3.Theme(c).ColorScheme().OnSurface,
 							))),
 							m3text.BodySmall("Level 1: 1", text.WithTextStyleOptions(iuText.WithColor(
-								material3.Theme(c).ColorScheme().Surface.OnColor,
+								material3.Theme(c).ColorScheme().OnSurface,
 							))),
 							// Start Recursion from Level 2
 							RecursiveSurface(2, active),
@@ -93,29 +93,29 @@ func RecursiveSurface(level int, active bool) api.Composable {
 		cycle := (level) % 4
 		switch cycle {
 		case 0: // Primary Container
-			bgColor = material3.Theme(c).ColorScheme().PrimaryContainer.Color     //theme.ColorHelper.ColorSelector().PrimaryRoles.Container
-			textColor = material3.Theme(c).ColorScheme().PrimaryContainer.OnColor // theme.ColorHelper.ColorSelector().PrimaryRoles.OnContainer
+			bgColor = material3.Theme(c).ColorScheme().PrimaryContainer     //theme.ColorHelper.ColorSelector().PrimaryRoles.Container
+			textColor = material3.Theme(c).ColorScheme().OnPrimaryContainer // theme.ColorHelper.ColorSelector().PrimaryRoles.OnContainer
 			currentShape = &shape.CutCornerShape{Radius: unit.Dp(20)}
 			if active {
 				elevation = unit.Dp(1)
 			}
 		case 1: // Secondary Container
-			bgColor = material3.Theme(c).ColorScheme().SecondaryContainer.Color     //theme.ColorHelper.ColorSelector().SecondaryRoles.Container
-			textColor = material3.Theme(c).ColorScheme().SecondaryContainer.OnColor // theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
+			bgColor = material3.Theme(c).ColorScheme().SecondaryContainer     //theme.ColorHelper.ColorSelector().SecondaryRoles.Container
+			textColor = material3.Theme(c).ColorScheme().OnSecondaryContainer // theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
 			currentShape = &shape.RoundedCornerShape{Radius: unit.Dp(16)}
 			if active {
 				elevation = unit.Dp(3)
 			}
 		case 2: // Tertiary Container
-			bgColor = material3.Theme(c).ColorScheme().TertiaryContainer.Color     //theme.ColorHelper.ColorSelector().TertiaryRoles.Container
-			textColor = material3.Theme(c).ColorScheme().TertiaryContainer.OnColor // theme.ColorHelper.ColorSelector().TertiaryRoles.OnContainer
+			bgColor = material3.Theme(c).ColorScheme().TertiaryContainer     //theme.ColorHelper.ColorSelector().TertiaryRoles.Container
+			textColor = material3.Theme(c).ColorScheme().OnTertiaryContainer // theme.ColorHelper.ColorSelector().TertiaryRoles.OnContainer
 			currentShape = &shape.CutCornerShape{Radius: unit.Dp(12)}
 			if active {
 				elevation = unit.Dp(6)
 			}
 		case 3: // Inverse Surface
-			bgColor = material3.Theme(c).ColorScheme().InverseSurface.Color     //theme.ColorHelper.ColorSelector().InverseRoles.Surface
-			textColor = material3.Theme(c).ColorScheme().InverseSurface.OnColor // theme.ColorHelper.ColorSelector().InverseRoles.OnSurface
+			bgColor = material3.Theme(c).ColorScheme().InverseSurface     //theme.ColorHelper.ColorSelector().InverseRoles.Surface
+			textColor = material3.Theme(c).ColorScheme().InverseOnSurface // theme.ColorHelper.ColorSelector().InverseRoles.OnSurface
 			currentShape = &shape.RoundedCornerShape{Radius: unit.Dp(8)}
 			if active {
 				elevation = unit.Dp(8)

@@ -347,9 +347,9 @@ func CoverBanner(title, subtitle string) api.Composable {
 				m3text.TextWithStyle(subtitle, m3text.TypestyleBodySmall),
 			),
 			column.WithModifier(
-				background.Background(theme.ColorScheme().PrimaryContainer.Color). //theme.ColorHelper.ColorSelector().PrimaryRoles.Container).
-													Then(size.FillMaxWidth()).
-													Then(padding.All(24)),
+				background.Background(theme.ColorScheme().PrimaryContainer). //theme.ColorHelper.ColorSelector().PrimaryRoles.Container).
+												Then(size.FillMaxWidth()).
+												Then(padding.All(24)),
 			),
 		)(c)
 	}

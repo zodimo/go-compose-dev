@@ -25,9 +25,9 @@ func (d navigationBarDefaults) Colors(c Composer) NavigationBarColors {
 		// Surface Container
 		ContainerColor: theme.ColorScheme().SurfaceContainer, //theme.ColorHelper.ColorSelector().SurfaceRoles.Container,
 		// On Surface Variant
-		ContentColor: theme.ColorScheme().SurfaceVariant.OnColor, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,
+		ContentColor: theme.ColorScheme().OnSurfaceVariant, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,
 		// Secondary Container
-		IndicatorColor: theme.ColorScheme().SecondaryContainer.Color, //theme.ColorHelper.ColorSelector().SecondaryRoles.Container,
+		IndicatorColor: theme.ColorScheme().SecondaryContainer, //theme.ColorHelper.ColorSelector().SecondaryRoles.Container,
 	}
 }
 

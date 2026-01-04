@@ -75,7 +75,7 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 		case cardElevated:
 			styleModifier = styleModifier.Then(background.Background(theme.ColorScheme().SurfaceContainerLow, background.WithShape(cardCornerShape)))
 		case cardOutlined:
-			styleModifier = styleModifier.Then(background.Background(theme.ColorScheme().Surface.Color, background.WithShape(cardCornerShape)))
+			styleModifier = styleModifier.Then(background.Background(theme.ColorScheme().Surface, background.WithShape(cardCornerShape)))
 			styleModifier = styleModifier.Then(border.Border(unit.Dp(1), theme.ColorScheme().OutlineVariant, cardCornerShape))
 		default: // Filled
 			styleModifier = styleModifier.Then(background.Background(theme.ColorScheme().SurfaceContainerHighest, background.WithShape(cardCornerShape)))

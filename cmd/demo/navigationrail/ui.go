@@ -83,12 +83,12 @@ func UI() api.Composable {
 									isSelected,
 									icon.Icon(
 										item.Icon,
-										icon.WithColor(theme.ColorScheme().SecondaryContainer.OnColor),
+										icon.WithColor(theme.ColorScheme().OnSecondaryContainer),
 										icon.WithModifier(size.Size(24, 24)),
 									),
 									icon.Icon(
 										item.Icon,
-										icon.WithColor(theme.ColorScheme().SurfaceVariant.OnColor),
+										icon.WithColor(theme.ColorScheme().OnSurfaceVariant),
 										icon.WithModifier(size.Size(24, 24)),
 									),
 								),
@@ -96,9 +96,9 @@ func UI() api.Composable {
 								func(c api.Composer) api.Composer {
 									var textColor graphics.Color
 									if isSelected {
-										textColor = theme.ColorScheme().SecondaryContainer.OnColor
+										textColor = theme.ColorScheme().OnSecondaryContainer
 									} else {
-										textColor = theme.ColorScheme().SurfaceVariant.OnColor
+										textColor = theme.ColorScheme().OnSurfaceVariant
 									}
 
 									return text.LabelMedium(
@@ -167,12 +167,12 @@ func UI() api.Composable {
 											isSelected,
 											icon.Icon(
 												item.Icon,
-												icon.WithColor(theme.ColorScheme().SecondaryContainer.OnColor),
+												icon.WithColor(theme.ColorScheme().OnSecondaryContainer),
 												icon.WithModifier(size.Size(24, 24)),
 											),
 											icon.Icon(
 												item.Icon,
-												icon.WithColor(theme.ColorScheme().SurfaceVariant.OnColor),
+												icon.WithColor(theme.ColorScheme().OnSurfaceVariant),
 												icon.WithModifier(size.Size(24, 24)),
 											),
 										),
@@ -180,9 +180,9 @@ func UI() api.Composable {
 										func(c api.Composer) api.Composer {
 											var textColor graphics.Color
 											if isSelected {
-												textColor = material3.Theme(c).ColorScheme().SecondaryContainer.OnColor // theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
+												textColor = material3.Theme(c).ColorScheme().OnSecondaryContainer // theme.ColorHelper.ColorSelector().SecondaryRoles.OnContainer
 											} else {
-												textColor = material3.Theme(c).ColorScheme().SurfaceVariant.OnColor // theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant
+												textColor = material3.Theme(c).ColorScheme().OnSurfaceVariant // theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant
 											}
 
 											return text.TextWithStyle(

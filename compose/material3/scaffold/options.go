@@ -29,8 +29,8 @@ func DefaultScaffoldOptions(c Composer) ScaffoldOptions {
 		SnackbarHost:                 nil,
 		FloatingActionButton:         nil,
 		FloatingActionButtonPosition: FabPositionEnd,
-		ContainerColor:               theme.ColorScheme().Surface.Color,   //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface,
-		ContentColor:                 theme.ColorScheme().Surface.OnColor, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
+		ContainerColor:               theme.ColorScheme().Surface,   //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface,
+		ContentColor:                 theme.ColorScheme().OnSurface, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
 	}
 }
 

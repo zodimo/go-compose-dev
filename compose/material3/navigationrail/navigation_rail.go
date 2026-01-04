@@ -23,8 +23,8 @@ func NavigationRail(
 	return func(c Composer) Composer {
 		theme := material3.Theme(c)
 		// Use theme role selectors directly
-		containerColor := theme.ColorScheme().Surface.Color //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface
-		contentColor := theme.ColorScheme().Surface.OnColor //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface
+		containerColor := theme.ColorScheme().Surface //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface
+		contentColor := theme.ColorScheme().OnSurface //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface
 
 		return surface.Surface(
 			func(c Composer) Composer {

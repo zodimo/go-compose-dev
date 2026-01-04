@@ -6,9 +6,7 @@ import (
 )
 
 type ThemeInterface interface {
-	// Deprecated: use ColorSchemeNext
-	ColorScheme() *ColorScheme
-	ColorSchemeNext() *ColorSchemeNext
+	ColorScheme() *ColorSchemeNext
 	Typography() *Typography
 	// Shapes() *Shapes
 	MotionScheme() *MotionScheme
@@ -24,11 +22,7 @@ type themeImpl struct {
 	composer compose.Composer
 }
 
-// Deprecated: use ColorSchemeNext
-func (t themeImpl) ColorScheme() *ColorScheme {
-	return LocalColorScheme.Current(t.composer)
-}
-func (t themeImpl) ColorSchemeNext() *ColorSchemeNext {
+func (t themeImpl) ColorScheme() *ColorSchemeNext {
 	return LocalColorSchemeNext.Current(t.composer)
 }
 
@@ -45,7 +39,7 @@ func (t themeImpl) MotionScheme() *MotionScheme {
 }
 
 func (t themeImpl) ContentColorFor(backgroundColor graphics.Color) graphics.Color {
-	return t.ColorScheme().ContentColorFor(backgroundColor)
+	return t.ColorScheme().ContentFor(backgroundColor)
 }
 
 var LocalShapes = compose.CompositionLocalOf(func() *Shapes {

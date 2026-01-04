@@ -35,7 +35,7 @@ func DefaultChipOptions(c Composer) ChipOptions {
 	return ChipOptions{
 		Modifier:    modifier.EmptyModifier,
 		Shape:       &shape.RoundedCornerShape{Radius: unit.Dp(8)}, // Material 3 small rounding usually
-		Color:       theme.ColorScheme().Surface.Color,             //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface, // Default to Surface
+		Color:       theme.ColorScheme().Surface,                   //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface, // Default to Surface
 		BorderWidth: unit.Dp(1),
 		BorderColor: theme.ColorScheme().OutlineVariant, //theme.ColorHelper.ColorSelector().OutlineRoles.OutlineVariant, // Outline variant
 		Height:      unit.Dp(32),

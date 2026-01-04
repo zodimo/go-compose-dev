@@ -125,7 +125,7 @@ func ModalBottomSheet(
 														Then(size.Height(4)).
 														Then(animMod.AnimatedBackground(
 															anim,
-															graphics.SetOpacity(theme.ColorScheme().SurfaceVariant.OnColor, 0.4),
+															graphics.SetOpacity(theme.ColorScheme().OnSurfaceVariant, 0.4),
 															&shape.RoundedCornerShape{Radius: unit.Dp(2)},
 														),
 														),

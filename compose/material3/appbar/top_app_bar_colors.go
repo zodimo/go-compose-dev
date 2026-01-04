@@ -25,15 +25,15 @@ func (d topAppBarDefaults) Colors(c api.Composer) TopAppBarColors {
 	theme := material3.Theme(c)
 	return TopAppBarColors{
 		// Surface
-		ContainerColor: theme.ColorScheme().Surface.Color, //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface,
+		ContainerColor: theme.ColorScheme().Surface, //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface,
 		// Surface Container
 		ScrolledContainerColor: theme.ColorScheme().SurfaceContainer, //theme.ColorHelper.ColorSelector().SurfaceRoles.Container,
 		// On Surface
-		NavigationIconContentColor: theme.ColorScheme().Surface.OnColor, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
+		NavigationIconContentColor: theme.ColorScheme().OnSurface, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
 		// On Surface
-		TitleContentColor: theme.ColorScheme().Surface.OnColor, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
+		TitleContentColor: theme.ColorScheme().OnSurface, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface,
 		// On Surface Variant
-		ActionIconContentColor: theme.ColorScheme().SurfaceVariant.OnColor, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,
+		ActionIconContentColor: theme.ColorScheme().OnSurfaceVariant, //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,
 	}
 }
 

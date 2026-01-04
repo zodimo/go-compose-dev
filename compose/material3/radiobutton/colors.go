@@ -23,9 +23,9 @@ type radioButtonDefaults struct{}
 func (d radioButtonDefaults) Colors(c Composer) RadioButtonColors {
 	theme := material3.Theme(c)
 	return RadioButtonColors{
-		SelectedColor:   theme.ColorScheme().Primary.Color,                                                      //theme.ColorHelper.ColorSelector().PrimaryRoles.Primary,
-		UnselectedColor: theme.ColorScheme().SurfaceVariant.OnColor,                                             //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,
-		DisabledColor:   graphics.SetOpacity(theme.ColorScheme().Surface.OnColor, float32(token.OpacityLevel5)), //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(token.OpacityLevel5),
+		SelectedColor:   theme.ColorScheme().Primary,                                                      //theme.ColorHelper.ColorSelector().PrimaryRoles.Primary,
+		UnselectedColor: theme.ColorScheme().OnSurfaceVariant,                                             //theme.ColorHelper.ColorSelector().SurfaceRoles.OnVariant,
+		DisabledColor:   graphics.SetOpacity(theme.ColorScheme().OnSurface, float32(token.OpacityLevel5)), //theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(token.OpacityLevel5),
 	}
 }
 

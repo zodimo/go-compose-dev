@@ -47,9 +47,9 @@ func (buttonDefaults) OutlinedButtonColors(c compose.Composer) *ButtonColors {
 	colorScheme := material3.Theme(c).ColorScheme()
 	return &ButtonColors{
 		ContainerColor:         outlinedButtonContainerColor,
-		ContentColor:           colorScheme.Primary.Color,
+		ContentColor:           colorScheme.Primary,
 		DisabledContainerColor: outlinedButtonDisabledContainerColor,
-		DisabledContentColor:   colorScheme.Surface.OnColor.Copy(graphics.CopyWithAlpha(0.38)),
+		DisabledContentColor:   colorScheme.OnSurface.Copy(graphics.CopyWithAlpha(0.38)),
 	}
 }
 

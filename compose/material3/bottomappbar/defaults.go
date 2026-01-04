@@ -22,7 +22,7 @@ func (d bottomAppBarDefaults) Colors(c Composer) BottomAppBarColors {
 	theme := material3.Theme(c)
 	return BottomAppBarColors{
 		ContainerColor: theme.ColorScheme().SurfaceContainer,
-		ContentColor:   theme.ColorScheme().SurfaceVariant.OnColor,
+		ContentColor:   theme.ColorScheme().OnSurfaceVariant,
 	}
 }
 

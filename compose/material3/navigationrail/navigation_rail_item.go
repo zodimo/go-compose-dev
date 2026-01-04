@@ -56,7 +56,7 @@ func NavigationRailItem(
 					icon,
 					surface.WithColor(ternary.Ternary(
 						selected,
-						theme.ColorScheme().SecondaryContainer.Color,
+						theme.ColorScheme().SecondaryContainer,
 						graphics.ColorTransparent,
 					)),
 					surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(12)}), // Pill shape (approx)
