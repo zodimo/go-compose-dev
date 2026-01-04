@@ -1,7 +1,6 @@
 package material3
 
 import (
-	"git.sr.ht/~schnwalter/gio-mw/defaults/schemes"
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
@@ -26,6 +25,9 @@ type themeImpl struct {
 func (t themeImpl) ColorScheme() *ColorScheme {
 	return LocalColorScheme.Current(t.composer)
 }
+func (t themeImpl) ColorSchemeNext() *ColorSchemeNext {
+	return LocalColorSchemeNext.Current(t.composer)
+}
 
 func (t themeImpl) Typography() *Typography {
 	return LocalTypography.Current(t.composer)
@@ -42,14 +44,6 @@ func (t themeImpl) MotionScheme() *MotionScheme {
 func (t themeImpl) ContentColorFor(backgroundColor graphics.Color) graphics.Color {
 	return t.ColorScheme().ContentColorFor(backgroundColor)
 }
-
-var LocalColorScheme = compose.CompositionLocalOf(func() *ColorScheme {
-	return ColorSchemeFromTokens(schemes.SchemeBaselineLight())
-})
-
-var LocalTypography = compose.CompositionLocalOf(func() *Typography {
-	return DefaultTypography
-})
 
 var LocalShapes = compose.CompositionLocalOf(func() *Shapes {
 	return DefaultShapes

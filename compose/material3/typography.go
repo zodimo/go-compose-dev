@@ -3,6 +3,7 @@ package material3
 import (
 	"fmt"
 
+	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/material3/tokens"
 	"github.com/zodimo/go-compose/compose/ui/text"
 )
@@ -161,3 +162,7 @@ func (t *Typography) FromToken(value tokens.TypographyTokenKey) *text.TextStyle 
 		panic(fmt.Sprintf("unknown typography token: %s", value))
 	}
 }
+
+var LocalTypography = compose.CompositionLocalOf(func() *Typography {
+	return DefaultTypography
+})

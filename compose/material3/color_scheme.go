@@ -1,7 +1,9 @@
 package material3
 
 import (
+	"git.sr.ht/~schnwalter/gio-mw/defaults/schemes"
 	"git.sr.ht/~schnwalter/gio-mw/token"
+	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
@@ -199,3 +201,7 @@ func ColorFromTokens(token token.MatColor) Color {
 func ColorToToken(color Color) token.MatColor {
 	return token.MatColor(graphics.ColorToNRGBA(color))
 }
+
+var LocalColorScheme = compose.CompositionLocalOf(func() *ColorScheme {
+	return ColorSchemeFromTokens(schemes.SchemeBaselineLight())
+})

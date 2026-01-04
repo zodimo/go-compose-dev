@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/material3/tokens"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/unit"
@@ -241,8 +242,8 @@ func (c ColorSchemeNext) FromToken(value tokens.ColorSchemeTokenKey) graphics.Co
 	}
 }
 
-func LightColorScheme() ColorSchemeNext {
-	return ColorSchemeNext{
+func LightColorScheme() *ColorSchemeNext {
+	return &ColorSchemeNext{
 		Primary:                 tokens.ColorLightTokens.Primary,
 		OnPrimary:               tokens.ColorLightTokens.OnPrimary,
 		PrimaryContainer:        tokens.ColorLightTokens.PrimaryContainer,
@@ -294,8 +295,8 @@ func LightColorScheme() ColorSchemeNext {
 	}
 }
 
-func DarkColorScheme() ColorSchemeNext {
-	return ColorSchemeNext{
+func DarkColorScheme() *ColorSchemeNext {
+	return &ColorSchemeNext{
 		Primary:                 tokens.ColorDarkTokens.Primary,
 		OnPrimary:               tokens.ColorDarkTokens.OnPrimary,
 		PrimaryContainer:        tokens.ColorDarkTokens.PrimaryContainer,
@@ -346,3 +347,7 @@ func DarkColorScheme() ColorSchemeNext {
 		OnTertiaryFixedVariant:  tokens.ColorDarkTokens.OnTertiaryFixedVariant,
 	}
 }
+
+var LocalColorSchemeNext = compose.CompositionLocalOf(func() *ColorSchemeNext {
+	return LightColorScheme()
+})
