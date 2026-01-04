@@ -17,7 +17,8 @@ const Material3IconButtonNodeID = "Material3IconButton"
 
 // Standard represents a standard text-based icon button (no background).
 func Standard(onClick func(), icon []byte, description string, options ...IconButtonOption) Composable {
-	return iconButtonComposable(button.Text(), onClick, icon, description, options...)
+
+	return iconButtonWithContentColorComposable(button.Text(), onClick, icon, description, options...)
 }
 
 // Filled represents a filled icon button (high emphasis).
@@ -35,7 +36,7 @@ func Outlined(onClick func(), icon []byte, description string, options ...IconBu
 	return iconButtonComposable(button.Outlined(), onClick, icon, description, options...)
 }
 
-func iconButtonComposable(material3Button *button.Button, onClick func(), icon []byte, description string, options ...IconButtonOption) Composable {
+func iconButtonWithContentColorComposable(material3Button *button.Button, onClick func(), icon []byte, description string, options ...IconButtonOption) Composable {
 	return func(c Composer) Composer {
 		opts := DefaultIconButtonOptions()
 		for _, option := range options {
@@ -60,6 +61,42 @@ func iconButtonComposable(material3Button *button.Button, onClick func(), icon [
 			EnabledLabelColor: token.MatColor(graphics.ColorToNRGBA(contentColor)),
 			EnabledIconColor:  token.MatColor(graphics.ColorToNRGBA(contentColor)),
 		})
+
+		constructorArgs := IconButtonConstructorArgs{
+			Button:      opts.Button,
+			OnClick:     onClick,
+			Icon:        icon,
+			Description: description,
+		}
+
+		c.StartBlock(Material3IconButtonNodeID)
+		c.Modifier(func(modifier Modifier) Modifier {
+			return modifier.Then(opts.Modifier)
+		})
+		c.SetWidgetConstructor(iconButtonWidgetConstructor(opts, constructorArgs))
+
+		return c.EndBlock()
+	}
+}
+
+func iconButtonComposable(material3Button *button.Button, onClick func(), icon []byte, description string, options ...IconButtonOption) Composable {
+	return func(c Composer) Composer {
+		opts := DefaultIconButtonOptions()
+		for _, option := range options {
+			if option == nil {
+				continue
+			}
+			option(&opts)
+		}
+
+		if opts.Button == nil {
+			key := c.GenerateID()
+			path := c.GetPath()
+
+			buttonStatePath := fmt.Sprintf("%d/%s/iconbutton", key, path)
+			buttonValue := c.State(buttonStatePath, func() any { return material3Button })
+			opts.Button = buttonValue.Get().(*button.Button)
+		}
 
 		constructorArgs := IconButtonConstructorArgs{
 			Button:      opts.Button,
