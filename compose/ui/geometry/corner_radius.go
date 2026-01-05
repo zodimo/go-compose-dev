@@ -9,7 +9,6 @@ import (
 
 // CornerRadius represents the radii for corners of a rounded rectangle.
 // It is a packed value where the x radius is in the high 32 bits and the y radius is in the low 32 bits.
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/ui/ui-graphics/src/commonMain/kotlin/androidx/compose/ui/graphics/CornerRadius.kt
 type CornerRadius int64
 
 // CornerRadiusZero is a CornerRadius with both x and y radii equal to zero (sharp corners).
@@ -23,6 +22,10 @@ var CornerRadiusUnspecified = NewCornerRadius(floatutils.Float32Unspecified, flo
 // y is the radius of the corners along the y-axis (defaults to x if you want circular corners).
 func NewCornerRadius(x, y float32) CornerRadius {
 	return CornerRadius(floatutils.PackFloats(x, y))
+}
+
+func NewCornerRadiusUniform(radius float32) CornerRadius {
+	return NewCornerRadius(radius, radius)
 }
 
 // NewCircularCornerRadius creates a CornerRadius with equal x and y radii (circular corners).

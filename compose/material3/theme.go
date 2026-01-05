@@ -42,10 +42,6 @@ func (t themeImpl) ContentColorFor(backgroundColor graphics.Color) graphics.Colo
 	return t.ColorScheme().ContentFor(backgroundColor)
 }
 
-var LocalShapes = compose.CompositionLocalOf(func() *Shapes {
-	return DefaultShapes
-})
-
 var LocalMotionScheme = compose.CompositionLocalOf(func() *MotionScheme {
 	return DefaultMotionScheme
 })

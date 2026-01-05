@@ -64,6 +64,10 @@ func (s Size) MaxDimension() float32 {
 	return float32(math.Max(math.Abs(float64(s.Width())), math.Abs(float64(s.Height()))))
 }
 
+func (s Size) ToRect() Rect {
+	return RectFromOffsetSize(OffsetZero, s)
+}
+
 // String returns a string representation of the object.
 func (s Size) String() string {
 	if s.IsSpecified() {

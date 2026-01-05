@@ -8,7 +8,9 @@ import (
 	gioUnit "gioui.org/unit"
 )
 
+// Deprecated: use RectangleShape
 var ShapeRectangle Shape = &rectangleShape{}
+var RectangleShape Shape = &rectangleShape{}
 
 // RectangleShape
 type rectangleShape struct{}
