@@ -17,8 +17,11 @@ go run ./cmd/go-compose  serve ./cmd/demo/kitchen/
 
 # Known issues
 This is a non exhaustive list of known issues:
+
 - the custom colors does not always propagate to the children
 - package level typography is not implemented
 - limit custom font support
 
 
+# License
+Distributed under the MIT License. See `LICENSE` for more information.
