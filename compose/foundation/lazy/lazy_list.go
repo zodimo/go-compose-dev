@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifier"
 
 	"gioui.org/layout"
 )
@@ -48,7 +48,7 @@ func lazyList(axis layout.Axis, content func(LazyListScope), options ...LazyList
 		}
 
 		c.StartBlock("LazyList")
-		c.Modifier(func(m modifier.Modifier) modifier.Modifier {
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			return m.Then(opts.Modifier)
 		})
 

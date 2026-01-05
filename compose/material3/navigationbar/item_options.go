@@ -1,12 +1,14 @@
 package navigationbar
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 type NavigationBarItemOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 }
 
 type NavigationBarItemOption func(*NavigationBarItemOptions)
 
-func ItemWithModifier(m Modifier) NavigationBarItemOption {
+func ItemWithModifier(m ui.Modifier) NavigationBarItemOption {
 	return func(o *NavigationBarItemOptions) {
 		o.Modifier = m
 	}

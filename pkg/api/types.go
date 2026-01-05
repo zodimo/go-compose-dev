@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -66,4 +67,5 @@ type GioLayoutNodeAwareComposer interface {
 	SetWidgetConstructor(constructor layoutnode.LayoutNodeWidgetConstructor)
 }
 
-var EmptyModifier = modifier.EmptyModifier
+// Deprecated: use ui.EmptyModifier
+var EmptyModifier = ui.EmptyModifier

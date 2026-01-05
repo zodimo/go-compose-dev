@@ -9,7 +9,6 @@ import (
 	"github.com/zodimo/go-compose/compose/material3/scaffold"
 	"github.com/zodimo/go-compose/compose/material3/slider"
 	m3text "github.com/zodimo/go-compose/compose/material3/text"
-	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
@@ -17,7 +16,6 @@ import (
 
 type Composable = api.Composable
 type Composer = api.Composer
-type Modifier = ui.Modifier
 
 func UI() Composable {
 	return func(c Composer) Composer {

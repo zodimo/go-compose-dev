@@ -1,8 +1,11 @@
 package weight
 
-import "github.com/zodimo/go-compose/internal/modifier"
+import (
+	"github.com/zodimo/go-compose/compose/ui"
+	"github.com/zodimo/go-compose/internal/modifier"
+)
 
-func Weight(weight int) Modifier {
+func Weight(weight int) ui.Modifier {
 
 	if weight < 0 {
 		panic("weight cannot be negative")

@@ -1,13 +1,14 @@
 package tab
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 // TabRowOptions holds the configuration for TabRow.
 type TabRowOptions struct {
-	Modifier       modifier.Modifier
+	Modifier       ui.Modifier
 	ContainerColor graphics.Color
 	ContentColor   graphics.Color
 	Indicator      Composable
@@ -15,7 +16,7 @@ type TabRowOptions struct {
 
 type TabRowOption func(options *TabRowOptions)
 
-func WithTabRowModifier(modifier modifier.Modifier) TabRowOption {
+func WithTabRowModifier(modifier ui.Modifier) TabRowOption {
 	return func(options *TabRowOptions) {
 		options.Modifier = options.Modifier.Then(modifier)
 	}
@@ -33,7 +34,7 @@ func DefaultTabRowOptions() TabRowOptions {
 
 // TabOptions holds the configuration for Tab.
 type TabOptions struct {
-	Modifier               modifier.Modifier
+	Modifier               ui.Modifier
 	Selected               bool
 	OnClick                func()
 	Enabled                bool
@@ -43,7 +44,7 @@ type TabOptions struct {
 
 type TabOption func(options *TabOptions)
 
-func WithModifier(m modifier.Modifier) TabOption {
+func WithModifier(m ui.Modifier) TabOption {
 	return func(options *TabOptions) {
 		options.Modifier = m
 	}

@@ -5,6 +5,7 @@ import (
 	"image"
 
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
@@ -70,7 +71,7 @@ func Slider(value float32, onValueChange func(float32), options ...SliderOption)
 		}
 
 		c.StartBlock(SliderNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(sliderWidgetConstructor(constructorArgs))

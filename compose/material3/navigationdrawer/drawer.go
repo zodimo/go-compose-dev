@@ -10,7 +10,6 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/animation"
-	"github.com/zodimo/go-compose/internal/modifier"
 	animMod "github.com/zodimo/go-compose/modifiers/animation"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/size"
@@ -19,7 +18,6 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
-type Modifier = modifier.Modifier
 type Composable = api.Composable
 type Composer = api.Composer
 

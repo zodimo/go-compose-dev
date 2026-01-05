@@ -7,4 +7,3 @@ import (
 
 type Node = node.Node
 type Element = modifier.Element
-type Modifier = modifier.Modifier

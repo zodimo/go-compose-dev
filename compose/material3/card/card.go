@@ -5,6 +5,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/modifiers/background"
@@ -103,12 +104,12 @@ func cardComposable(kind cardKind, contents CardContentContainer, options ...Car
 
 // partitionModifiers splits the modifier chain into outer (layout/constraints)
 // and inner (interaction/overlay) segments to ensure correct layering.
-func partitionModifiers(m Modifier) (outer, inner Modifier) {
+func partitionModifiers(m ui.Modifier) (outer, inner ui.Modifier) {
 	outer = modifier.EmptyModifier
 	inner = modifier.EmptyModifier
 
 	// FoldOut walks Head -> Tail (Left -> Right)
-	m.AsChain().FoldOut(nil, func(_ interface{}, elt Modifier) interface{} {
+	m.AsChain().FoldOut(nil, func(_ interface{}, elt ui.Modifier) interface{} {
 		if inspectable, ok := elt.(modifier.InspectableModifier); ok {
 			if inspectable.InspectorInfo().Name == "clickable" {
 				inner = inner.Then(elt)

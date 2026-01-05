@@ -3,6 +3,7 @@ package selection
 import (
 	"sync"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/geometry"
 	"github.com/zodimo/go-compose/compose/ui/layout"
 	"github.com/zodimo/go-compose/compose/ui/next/text"
@@ -110,7 +111,7 @@ type SelectionManager struct {
 	isLongPressOrClickSelection bool
 
 	// modifierCache stores the computed modifier.
-	modifierCache modifier.Modifier
+	modifierCache ui.Modifier
 }
 
 // NewSelectionManager creates a new SelectionManager with the given registrar.
@@ -256,7 +257,7 @@ func (m *SelectionManager) SetHasFocus(value bool) {
 }
 
 // Modifier returns the modifier for the selection container.
-func (m *SelectionManager) Modifier() modifier.Modifier {
+func (m *SelectionManager) Modifier() ui.Modifier {
 	// TODO: Build full modifier chain including:
 	// - onGloballyPositioned
 	// - focusRequester

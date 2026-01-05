@@ -6,6 +6,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/clickable"
@@ -27,7 +28,7 @@ func NavigationDrawerItem(
 	onClick func(),
 	icon Composable,
 	label Composable,
-	m Modifier,
+	m ui.Modifier,
 ) Composable {
 	return func(c Composer) Composer {
 		theme := material3.Theme(c)

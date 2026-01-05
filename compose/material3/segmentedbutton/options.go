@@ -1,6 +1,7 @@
 package segmentedbutton
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -12,11 +13,10 @@ import (
 // Type aliases for convenience
 type Composable = api.Composable
 type Composer = api.Composer
-type Modifier = modifier.Modifier
 
 // SegmentedButtonRowOptions configures the segmented button row container.
 type SegmentedButtonRowOptions struct {
-	Modifier modifier.Modifier
+	Modifier ui.Modifier
 	Space    unit.Dp // Overlap/space adjustment between segments
 }
 
@@ -31,7 +31,7 @@ func DefaultSegmentedButtonRowOptions() SegmentedButtonRowOptions {
 }
 
 // WithRowModifier sets a custom modifier for the row.
-func WithRowModifier(m Modifier) SegmentedButtonRowOption {
+func WithRowModifier(m ui.Modifier) SegmentedButtonRowOption {
 	return func(o *SegmentedButtonRowOptions) {
 		o.Modifier = m
 	}
@@ -46,7 +46,7 @@ func WithSpace(space unit.Dp) SegmentedButtonRowOption {
 
 // SegmentOptions configures an individual segment.
 type SegmentOptions struct {
-	Modifier               modifier.Modifier
+	Modifier               ui.Modifier
 	Icon                   Composable // Optional leading icon
 	SelectedIcon           Composable // Icon shown when selected (default: checkmark)
 	ShowSelectedIcon       bool       // Whether to show selected icon
@@ -78,7 +78,7 @@ func DefaultSegmentOptions() SegmentOptions {
 }
 
 // WithModifier sets a custom modifier for the segment.
-func WithModifier(m Modifier) SegmentOption {
+func WithModifier(m ui.Modifier) SegmentOption {
 	return func(o *SegmentOptions) {
 		o.Modifier = m
 	}

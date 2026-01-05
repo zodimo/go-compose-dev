@@ -3,6 +3,7 @@ package text
 import (
 	"github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/platform"
 	"github.com/zodimo/go-compose/compose/ui/text/style"
@@ -10,7 +11,6 @@ import (
 	uiText "github.com/zodimo/go-compose/compose/ui/text"
 
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"git.sr.ht/~schnwalter/gio-mw/token"
@@ -42,7 +42,7 @@ func TextWithStyle(value string, tokenStyle Typestyle, options ...text.TextOptio
 		opts.TextStyle = uiText.TextStyleResolveDefaults(opts.TextStyle, layoutDirection)
 
 		c.StartBlock("Material3Text")
-		c.Modifier(func(modifier modifier.Modifier) modifier.Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 

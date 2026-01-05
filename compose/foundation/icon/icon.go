@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
@@ -33,7 +34,7 @@ func Icon(iconByte []byte, options ...IconOption) Composable {
 		opts.Color = opts.Color.TakeOrElse(compose.LocalContentColor.Current(c))
 
 		c.StartBlock("Icon")
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 

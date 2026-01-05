@@ -1,6 +1,7 @@
 package layoutnode
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-maybe"
 )
 
@@ -13,7 +14,7 @@ type layoutNode struct {
 	memo                   Memo
 	state                  PersistentState
 	children               []LayoutNode
-	modifier               Modifier
+	modifier               ui.Modifier
 	innerWidgetConstructor LayoutNodeWidgetConstructor
 	layoutResult           maybe.Maybe[LayoutResult]
 	idManager              IdentityManager
@@ -42,13 +43,13 @@ func (ln *layoutNode) LayoutNodeChildren() []LayoutNode {
 func (ln *layoutNode) IsEmpty() bool {
 	return len(ln.children) == 0
 }
-func (ln *layoutNode) Modifier(apply func(modifier Modifier) Modifier) {
+func (ln *layoutNode) Modifier(apply func(modifier ui.Modifier) ui.Modifier) {
 	ln.modifier = apply(ln.modifier)
 }
 
-func (ln *layoutNode) UnwrapModifier() Modifier {
+func (ln *layoutNode) UnwrapModifier() ui.Modifier {
 	if ln.modifier == nil {
-		return EmptyModifier
+		return ui.EmptyModifier
 	}
 	return ln.modifier
 }

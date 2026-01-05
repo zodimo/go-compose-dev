@@ -1,15 +1,18 @@
 package progress
 
-import "git.sr.ht/~schnwalter/gio-mw/widget/indicator"
+import (
+	"git.sr.ht/~schnwalter/gio-mw/widget/indicator"
+	"github.com/zodimo/go-compose/compose/ui"
+)
 
 type IndicatorOptions struct {
-	Modifier  Modifier
+	Modifier  ui.Modifier
 	Indicator *indicator.Indicator
 }
 
 type IndicatorOption func(o *IndicatorOptions)
 
-func WithModifier(m Modifier) IndicatorOption {
+func WithModifier(m ui.Modifier) IndicatorOption {
 	return func(o *IndicatorOptions) {
 		o.Modifier = m
 	}
@@ -23,6 +26,6 @@ func WithIndicator(ind *indicator.Indicator) IndicatorOption {
 
 func DefaultIndicatorOptions() IndicatorOptions {
 	return IndicatorOptions{
-		Modifier: EmptyModifier,
+		Modifier: ui.EmptyModifier,
 	}
 }

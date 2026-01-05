@@ -1,6 +1,7 @@
 package row
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/modifiers/weight"
 
@@ -9,7 +10,7 @@ import (
 
 func DefaultRowOptions() RowOptions {
 	return RowOptions{
-		Modifier:  EmptyModifier,
+		Modifier:  ui.EmptyModifier,
 		Spacing:   SpaceEnd, // 0
 		Alignment: Start,    // 0
 	}
@@ -25,7 +26,7 @@ func Row(content Composable, options ...RowOption) Composable {
 	}
 	return func(c Composer) Composer {
 		c.StartBlock("Row")
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.WithComposable(content)

@@ -4,11 +4,12 @@ import (
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
 type DropdownMenuOptions struct {
-	Modifier modifier.Modifier
+	Modifier ui.Modifier
 	OffsetX  unit.Dp
 	OffsetY  unit.Dp
 }
@@ -23,7 +24,7 @@ func DefaultDropdownMenuOptions() DropdownMenuOptions {
 
 type DropdownMenuOption func(*DropdownMenuOptions)
 
-func WithModifier(m modifier.Modifier) DropdownMenuOption {
+func WithModifier(m ui.Modifier) DropdownMenuOption {
 	return func(opts *DropdownMenuOptions) {
 		opts.Modifier = m
 	}
@@ -39,7 +40,7 @@ func WithOffset(x, y unit.Dp) DropdownMenuOption {
 // DropdownMenuItemOptions
 
 type DropdownMenuItemOptions struct {
-	Modifier     modifier.Modifier
+	Modifier     ui.Modifier
 	LeadingIcon  api.Composable
 	TrailingIcon api.Composable
 	Enabled      bool
@@ -56,7 +57,7 @@ func DefaultDropdownMenuItemOptions() DropdownMenuItemOptions {
 
 type DropdownMenuItemOption func(*DropdownMenuItemOptions)
 
-func WithMenuItemModifier(mod modifier.Modifier) DropdownMenuItemOption {
+func WithMenuItemModifier(mod ui.Modifier) DropdownMenuItemOption {
 	return func(opts *DropdownMenuItemOptions) {
 		opts.Modifier = mod
 	}

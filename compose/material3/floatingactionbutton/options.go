@@ -2,6 +2,7 @@ package floatingactionbutton
 
 import (
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -30,7 +31,7 @@ type FloatingActionButtonOptions struct {
 	ContainerColor graphics.Color
 	ContentColor   graphics.Color
 	Elevation      token.ElevationLevel
-	Modifier       modifier.Modifier
+	Modifier       ui.Modifier
 	Shape          shape.Shape
 	Size           FabSize
 }
@@ -71,7 +72,7 @@ func WithElevation(elevation token.ElevationLevel) FloatingActionButtonOption {
 	}
 }
 
-func WithModifier(m modifier.Modifier) FloatingActionButtonOption {
+func WithModifier(m ui.Modifier) FloatingActionButtonOption {
 	return func(o *FloatingActionButtonOptions) {
 		o.Modifier = m
 	}

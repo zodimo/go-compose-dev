@@ -5,9 +5,9 @@ import (
 
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/layout"
@@ -29,7 +29,7 @@ func Badge(options ...BadgeOption) api.Composable {
 		}
 
 		c.StartBlock("Badge")
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 
@@ -146,14 +146,14 @@ func badgeWidgetConstructor(opts BadgeOptions) layoutnode.LayoutNodeWidgetConstr
 func BadgedBox(
 	badge api.Composable,
 	content api.Composable,
-	modifiers ...modifier.Modifier,
+	modifiers ...ui.Modifier,
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
 		c.StartBlock("BadgedBox")
 
 		// Apply modifiers
 		for _, m := range modifiers {
-			c.Modifier(func(old modifier.Modifier) modifier.Modifier {
+			c.Modifier(func(old ui.Modifier) ui.Modifier {
 				return old.Then(m)
 			})
 		}

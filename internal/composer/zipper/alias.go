@@ -27,7 +27,7 @@ var GetScopedIdentityManager = identity.GetScopedIdentityManager
 // compose-identifier.api.Identifier
 type Identifier = idApi.Identifier // Public API of the composer
 type NodePath = node.NodePath
-type Modifier = modifier.Modifier
+
 type Element = modifier.Element
 type MutableValue = state.MutableValue
 type RootNode = node.TreeNode

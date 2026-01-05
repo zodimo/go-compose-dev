@@ -3,6 +3,7 @@ package layoutnode
 import (
 	"image"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/immap"
 
 	"github.com/zodimo/go-maybe"
@@ -13,7 +14,7 @@ func NewLayoutNode(id NodeID, key string, slotStore immap.ImmutableMap[any], mem
 		id:           id,
 		key:          key,
 		children:     []LayoutNode{},
-		modifier:     EmptyModifier,
+		modifier:     ui.EmptyModifier,
 		slots:        slotStore,
 		memo:         memo,
 		state:        persistentState,

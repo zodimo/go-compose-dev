@@ -23,7 +23,6 @@ type DrawOp = op.CallOp
 
 type NodeID = node.NodeID
 
-type Modifier = modifier.Modifier
 type ModifierElement = modifier.ModifierElement
 type InspectableModifier = modifier.InspectableModifier
 
@@ -32,8 +31,6 @@ type Element = modifier.Element
 type ElementStore = modifier.ElementStore
 
 var EmptyElementStore = modifier.EmptyElementStore
-
-var EmptyModifier = modifier.EmptyModifier
 
 type Identifier = identity.Identifier
 type IdentityManager = identity.IdentityManager

@@ -1,6 +1,7 @@
 package modifiers
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/next/text"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -19,7 +20,7 @@ type SelectionController struct {
 	backgroundSelectionColor graphics.Color
 	params                   StaticTextSelectionParams
 	selectable               Selectable
-	modifier                 modifier.Modifier
+	modifier                 ui.Modifier
 }
 
 // NewSelectionController creates a new SelectionController.
@@ -47,7 +48,7 @@ func NewSelectionController(
 
 // Modifier returns the modifier for this selection controller.
 // This modifier should be applied to the text composable to enable selection.
-func (sc *SelectionController) Modifier() modifier.Modifier {
+func (sc *SelectionController) Modifier() ui.Modifier {
 	return sc.modifier
 }
 

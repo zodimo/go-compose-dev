@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
@@ -70,7 +71,7 @@ func iconButtonWithContentColorComposable(material3Button *button.Button, onClic
 		}
 
 		c.StartBlock(Material3IconButtonNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(iconButtonWidgetConstructor(opts, constructorArgs))
@@ -106,7 +107,7 @@ func iconButtonComposable(material3Button *button.Button, onClick func(), icon [
 		}
 
 		c.StartBlock(Material3IconButtonNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(iconButtonWidgetConstructor(opts, constructorArgs))

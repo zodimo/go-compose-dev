@@ -1,8 +1,8 @@
 package badge
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 
@@ -10,7 +10,7 @@ type BadgeOptions struct {
 	Content        api.Composable
 	ContainerColor graphics.Color
 	ContentColor   graphics.Color
-	Modifier       modifier.Modifier
+	Modifier       ui.Modifier
 }
 
 type BadgeOption func(*BadgeOptions)
@@ -44,7 +44,7 @@ func WithContentColor(c graphics.Color) BadgeOption {
 	}
 }
 
-func WithModifier(m Modifier) BadgeOption {
+func WithModifier(m ui.Modifier) BadgeOption {
 	return func(o *BadgeOptions) {
 		o.Modifier = m
 	}
@@ -52,7 +52,7 @@ func WithModifier(m Modifier) BadgeOption {
 
 func DefaultBadgeOptions() BadgeOptions {
 	return BadgeOptions{
-		Modifier: EmptyModifier,
+		Modifier: ui.EmptyModifier,
 
 		ContainerColor: graphics.ColorUnspecified,
 		ContentColor:   graphics.ColorUnspecified,

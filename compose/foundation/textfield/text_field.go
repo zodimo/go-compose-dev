@@ -8,6 +8,7 @@ import (
 
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/text/input"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/platform"
 	"github.com/zodimo/go-compose/compose/ui/text"
@@ -84,7 +85,7 @@ func BasicTextField(
 			maxLines = multiLine.MaxHeightInLines
 		}
 
-		c.Modifier(func(m modifier.Modifier) modifier.Modifier {
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			return m.Then(textFieldModifier().Then(opts.Modifier))
 		})
 
@@ -174,6 +175,6 @@ func textFieldWidgetConstructor(args BasicTextFieldConstructorArgs) layoutnode.L
 }
 
 // textFieldModifier returns the base modifier for text fields.
-func textFieldModifier() modifier.Modifier {
+func textFieldModifier() ui.Modifier {
 	return modifier.EmptyModifier
 }

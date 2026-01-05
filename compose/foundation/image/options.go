@@ -1,13 +1,14 @@
 package image
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	uilayout "github.com/zodimo/go-compose/compose/ui/layout"
 	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/modifiers/size"
 )
 
 type ImageOptions struct {
-	Modifier     modifier.Modifier
+	Modifier     ui.Modifier
 	Alignment    size.Alignment
 	ContentScale uilayout.ContentScale
 	Alpha        float32
@@ -25,7 +26,7 @@ func DefaultImageOptions() ImageOptions {
 
 type ImageOption func(*ImageOptions)
 
-func WithModifier(m modifier.Modifier) ImageOption {
+func WithModifier(m ui.Modifier) ImageOption {
 	return func(o *ImageOptions) {
 		o.Modifier = m
 	}

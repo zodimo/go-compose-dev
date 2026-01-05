@@ -1,6 +1,7 @@
 package bottomappbar
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
@@ -12,7 +13,7 @@ type PaddingValues struct {
 
 // BottomAppBarOptions configuration
 type BottomAppBarOptions struct {
-	Modifier             Modifier
+	Modifier             ui.Modifier
 	ContainerColor       graphics.Color
 	ContentColor         graphics.Color
 	TonalElevation       unit.Dp
@@ -28,7 +29,7 @@ func DefaultBottomAppBarOptions(c Composer) BottomAppBarOptions {
 
 	s, t, e, b := BottomAppBarDefaults.ContentPadding()
 	return BottomAppBarOptions{
-		Modifier:       EmptyModifier,
+		Modifier:       ui.EmptyModifier,
 		ContainerColor: BottomAppBarDefaults.Colors(c).ContainerColor,
 		ContentColor:   BottomAppBarDefaults.Colors(c).ContentColor,
 		TonalElevation: BottomAppBarDefaults.ContainerElevation(),
@@ -41,7 +42,7 @@ func DefaultBottomAppBarOptions(c Composer) BottomAppBarOptions {
 	}
 }
 
-func WithModifier(m Modifier) BottomAppBarOption {
+func WithModifier(m ui.Modifier) BottomAppBarOption {
 	return func(o *BottomAppBarOptions) {
 		o.Modifier = m
 	}

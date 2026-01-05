@@ -1,6 +1,7 @@
 package offset
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
@@ -13,7 +14,7 @@ type OffsetData struct {
 
 // Offset creates a modifier that translates the element by the given X and Y offset.
 // This is useful for creating overlapping layouts like profile cards with avatars.
-func Offset(x, y unit.Dp) modifier.Modifier {
+func Offset(x, y unit.Dp) ui.Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
 			&OffsetElement{
@@ -34,12 +35,12 @@ func Offset(x, y unit.Dp) modifier.Modifier {
 }
 
 // OffsetX creates a modifier that translates only horizontally.
-func OffsetX(x unit.Dp) modifier.Modifier {
+func OffsetX(x unit.Dp) ui.Modifier {
 	return Offset(x, 0)
 }
 
 // OffsetY creates a modifier that translates only vertically.
 // Negative values move the element up, positive values move it down.
-func OffsetY(y unit.Dp) modifier.Modifier {
+func OffsetY(y unit.Dp) ui.Modifier {
 	return Offset(0, y)
 }

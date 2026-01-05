@@ -1,11 +1,12 @@
 package icon
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 type IconOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 	Color    graphics.Color
 }
 
@@ -13,12 +14,12 @@ type IconOption func(*IconOptions)
 
 func DefaultIconOptions() IconOptions {
 	return IconOptions{
-		Modifier: EmptyModifier,
+		Modifier: ui.EmptyModifier,
 		Color:    graphics.ColorUnspecified,
 	}
 }
 
-func WithModifier(m Modifier) IconOption {
+func WithModifier(m ui.Modifier) IconOption {
 	return func(o *IconOptions) {
 		o.Modifier = m
 	}

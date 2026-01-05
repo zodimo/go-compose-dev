@@ -1,6 +1,7 @@
 package layoutnode
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-maybe"
 )
 
@@ -16,8 +17,8 @@ type LayoutNode interface {
 
 	WithChildren(children []LayoutNode) LayoutNode
 
-	Modifier(func(modifier Modifier) Modifier)
-	UnwrapModifier() Modifier
+	Modifier(func(modifier ui.Modifier) ui.Modifier)
+	UnwrapModifier() ui.Modifier
 
 	WithSlotsAssoc(k string, v any) LayoutNode // this can be better
 	FindSlot(k string) maybe.Maybe[any]

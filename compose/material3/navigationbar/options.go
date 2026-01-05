@@ -1,13 +1,14 @@
 package navigationbar
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
 // NavigationBarOptions configuration
 type NavigationBarOptions struct {
-	Modifier       Modifier
+	Modifier       ui.Modifier
 	ContainerColor graphics.Color
 	ContentColor   graphics.Color
 	TonalElevation unit.Dp
@@ -20,7 +21,7 @@ type NavigationBarOption func(*NavigationBarOptions)
 // DefaultNavigationBarOptions returns the default options.
 func DefaultNavigationBarOptions(c Composer) NavigationBarOptions {
 	return NavigationBarOptions{
-		Modifier:       EmptyModifier,
+		Modifier:       ui.EmptyModifier,
 		ContainerColor: NavigationBarDefaults.Colors(c).ContainerColor,
 		ContentColor:   NavigationBarDefaults.Colors(c).ContentColor,
 		TonalElevation: NavigationBarDefaults.ContainerElevation(),
@@ -28,7 +29,7 @@ func DefaultNavigationBarOptions(c Composer) NavigationBarOptions {
 	}
 }
 
-func WithModifier(m Modifier) NavigationBarOption {
+func WithModifier(m ui.Modifier) NavigationBarOption {
 	return func(o *NavigationBarOptions) {
 		o.Modifier = m
 	}

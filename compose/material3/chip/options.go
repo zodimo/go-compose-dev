@@ -2,16 +2,16 @@ package chip
 
 import (
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"github.com/zodimo/go-compose/compose/ui/unit"
 )
 
 type ChipOptions struct {
-	Modifier     modifier.Modifier
+	Modifier     ui.Modifier
 	Shape        shape.Shape
 	Color        graphics.Color
 	BorderColor  graphics.Color
@@ -28,12 +28,11 @@ type ChipOption func(*ChipOptions)
 
 type Composable = api.Composable
 type Composer = api.Composer
-type Modifier = modifier.Modifier
 
 func DefaultChipOptions(c Composer) ChipOptions {
 	theme := material3.Theme(c)
 	return ChipOptions{
-		Modifier:    modifier.EmptyModifier,
+		Modifier:    ui.EmptyModifier,
 		Shape:       &shape.RoundedCornerShape{Radius: unit.Dp(8)}, // Material 3 small rounding usually
 		Color:       theme.ColorScheme().Surface,                   //theme.ColorHelper.ColorSelector().SurfaceRoles.Surface, // Default to Surface
 		BorderWidth: unit.Dp(1),
@@ -44,7 +43,7 @@ func DefaultChipOptions(c Composer) ChipOptions {
 	}
 }
 
-func WithModifier(m Modifier) ChipOption {
+func WithModifier(m ui.Modifier) ChipOption {
 	return func(o *ChipOptions) {
 		o.Modifier = m
 	}

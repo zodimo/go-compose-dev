@@ -5,8 +5,8 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	fText "github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/compose/material3/text"
+	"github.com/zodimo/go-compose/compose/ui"
 	uiText "github.com/zodimo/go-compose/compose/ui/text"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
@@ -46,7 +46,7 @@ func DropdownMenuItem(
 						// Fix alignment manually via Box around icon if Padding modifier acts weird.
 						// But let's try Padding(NotSet, NotSet, 12, NotSet) for End padding.
 						// Padding(start, top, end, bottom).
-						leadingIconMod := modifier.Modifier(padding.Padding(padding.NotSet, padding.NotSet, 12, padding.NotSet))
+						leadingIconMod := ui.Modifier(padding.Padding(padding.NotSet, padding.NotSet, 12, padding.NotSet))
 
 						if opts.LeadingIcon != nil {
 							box.Box(
@@ -74,7 +74,7 @@ func DropdownMenuItem(
 							// Spacer? Or just padding?
 							// Use Box with weight if we want space between.
 							// For now just layout next to it.
-							trailingIconMod := modifier.Modifier(padding.Padding(12, padding.NotSet, padding.NotSet, padding.NotSet))
+							trailingIconMod := ui.Modifier(padding.Padding(12, padding.NotSet, padding.NotSet, padding.NotSet))
 							box.Box(
 								opts.TrailingIcon,
 								box.WithModifier(trailingIconMod),

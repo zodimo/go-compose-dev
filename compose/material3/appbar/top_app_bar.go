@@ -8,6 +8,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
@@ -20,7 +21,7 @@ import (
 // SingleRowTopAppBar is an internal component to layout the TopAppBar content in a single row.
 // It is used by SmallTopAppBar and CenterAlignedTopAppBar.
 func SingleRowTopAppBar(
-	modifier Modifier,
+	modifier ui.Modifier,
 	title Composable,
 	navigationIcon Composable,
 	actions []Composable,
@@ -189,7 +190,7 @@ func CenterAlignedTopAppBar(
 
 // TwoRowsTopAppBar is an internal component to layout Medium and Large TopAppBars.
 func TwoRowsTopAppBar(
-	modifier Modifier,
+	modifier ui.Modifier,
 	title Composable,
 	titleBottomPadding int,
 	maxHeight int,
@@ -203,7 +204,7 @@ func TwoRowsTopAppBar(
 				c.Sequence(
 					// Top Row: Nav Icon + Actions (No Title)
 					SingleRowTopAppBar(
-						EmptyModifier,
+						ui.EmptyModifier,
 						nil, // No title in top row for expanded state
 						navigationIcon,
 						actions,

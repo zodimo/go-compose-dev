@@ -8,6 +8,7 @@ import (
 	// "github.com/zodimo/go-compose/internal/modifier" is still needed for Modifier type.
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -15,7 +16,7 @@ import (
 )
 
 type SurfaceOptions struct {
-	Modifier        Modifier
+	Modifier        ui.Modifier
 	Shape           Shape
 	Color           graphics.Color
 	ContentColor    graphics.Color
@@ -42,7 +43,7 @@ func DefaultSurfaceOptions() SurfaceOptions {
 	}
 }
 
-func WithModifier(m Modifier) SurfaceOption {
+func WithModifier(m ui.Modifier) SurfaceOption {
 	return func(o *SurfaceOptions) {
 		o.Modifier = m
 	}

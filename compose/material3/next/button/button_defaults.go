@@ -5,6 +5,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation"
 	"github.com/zodimo/go-compose/compose/foundation/layout"
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/compose/ui/unit"
@@ -12,7 +13,7 @@ import (
 
 func DefaultButtonOptions() ButtonOptions {
 	return ButtonOptions{
-		Modifier:  EmptyModifier,
+		Modifier:  ui.EmptyModifier,
 		Colors:    ButtonColorsUnspecified,
 		Enabled:   true,
 		Shape:     shape.ShapeUnspecified,

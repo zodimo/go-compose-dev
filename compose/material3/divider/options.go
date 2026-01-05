@@ -1,18 +1,19 @@
 package divider
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 )
 
 type DividerOptions struct {
-	Modifier  Modifier
+	Modifier  ui.Modifier
 	Thickness float64
 	Color     graphics.Color
 }
 
 type DividerOption func(*DividerOptions)
 
-func WithModifier(m Modifier) DividerOption {
+func WithModifier(m ui.Modifier) DividerOption {
 	return func(o *DividerOptions) {
 		o.Modifier = m
 	}

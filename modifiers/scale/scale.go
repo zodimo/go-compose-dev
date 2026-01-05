@@ -1,6 +1,7 @@
 package scale
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
@@ -9,7 +10,7 @@ type ScaleData struct {
 	ScaleY float32
 }
 
-func Scale(scale float32) modifier.Modifier {
+func Scale(scale float32) ui.Modifier {
 	return modifier.NewModifier(
 		&ScaleElement{
 			data: ScaleData{
@@ -20,7 +21,7 @@ func Scale(scale float32) modifier.Modifier {
 	)
 }
 
-func ScaleXY(x, y float32) modifier.Modifier {
+func ScaleXY(x, y float32) ui.Modifier {
 	return modifier.NewModifier(
 		&ScaleElement{
 			data: ScaleData{

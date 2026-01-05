@@ -1,17 +1,12 @@
 package card
 
 import (
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/state"
 
 	"gioui.org/widget"
 	"git.sr.ht/~schnwalter/gio-mw/widget/card"
 )
-
-type Modifier = modifier.Modifier
-
-var EmptyModifier = modifier.EmptyModifier
 
 type Composable = api.Composable
 type Composer = api.Composer

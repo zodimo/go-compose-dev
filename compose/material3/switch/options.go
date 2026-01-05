@@ -1,18 +1,20 @@
 package mswitch
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 type SwitchOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 }
 
 type SwitchOption func(*SwitchOptions)
 
 func DefaultSwitchOptions() SwitchOptions {
 	return SwitchOptions{
-		Modifier: EmptyModifier,
+		Modifier: ui.EmptyModifier,
 	}
 }
 
-func WithModifier(m Modifier) SwitchOption {
+func WithModifier(m ui.Modifier) SwitchOption {
 	return func(o *SwitchOptions) {
 		o.Modifier = m
 	}

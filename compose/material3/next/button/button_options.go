@@ -4,11 +4,12 @@ import (
 	"git.sr.ht/~schnwalter/gio-mw/widget/button"
 	"github.com/zodimo/go-compose/compose/foundation"
 	"github.com/zodimo/go-compose/compose/foundation/layout"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 )
 
 type ButtonOptions struct {
-	Modifier       Modifier
+	Modifier       ui.Modifier
 	Button         *button.Button
 	Enabled        bool
 	Shape          shape.Shape   // Single shape (legacy/simple API)
@@ -21,7 +22,7 @@ type ButtonOptions struct {
 
 type ButtonOption func(o *ButtonOptions)
 
-func WithModifier(m Modifier) ButtonOption {
+func WithModifier(m ui.Modifier) ButtonOption {
 	return func(o *ButtonOptions) {
 		o.Modifier = m
 	}

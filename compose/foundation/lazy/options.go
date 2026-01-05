@@ -1,13 +1,14 @@
 package lazy
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type LazyListOption func(*LazyListOptions)
 
 type LazyListOptions struct {
-	Modifier modifier.Modifier
+	Modifier ui.Modifier
 	State    *LazyListState
 }
 
@@ -18,7 +19,7 @@ func DefaultLazyListOptions() LazyListOptions {
 	}
 }
 
-func WithModifier(m modifier.Modifier) LazyListOption {
+func WithModifier(m ui.Modifier) LazyListOption {
 	return func(o *LazyListOptions) {
 		o.Modifier = m
 	}

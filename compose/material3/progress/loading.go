@@ -14,6 +14,7 @@ import (
 
 	"git.sr.ht/~schnwalter/gio-mw/wdk"
 	"git.sr.ht/~schnwalter/gio-mw/widget/indicator"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	gioUnit "gioui.org/unit"
@@ -40,7 +41,7 @@ func LoadingIndicator(options ...IndicatorOption) Composable {
 		}).Get().(*loadingState)
 
 		c.StartBlock("LoadingIndicator")
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 

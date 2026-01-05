@@ -1,9 +1,12 @@
 package dialog
 
-import "git.sr.ht/~schnwalter/gio-mw/wdk"
+import (
+	"git.sr.ht/~schnwalter/gio-mw/wdk"
+	"github.com/zodimo/go-compose/compose/ui"
+)
 
 type DialogOptions struct {
-	Modifier     Modifier
+	Modifier     ui.Modifier
 	Title        string
 	Text         string
 	DismissLabel string
@@ -15,11 +18,11 @@ type DialogOption func(*DialogOptions)
 
 func DefaultDialogOptions() DialogOptions {
 	return DialogOptions{
-		Modifier: EmptyModifier,
+		Modifier: ui.EmptyModifier,
 	}
 }
 
-func WithModifier(m Modifier) DialogOption {
+func WithModifier(m ui.Modifier) DialogOption {
 	return func(o *DialogOptions) {
 		o.Modifier = m
 	}

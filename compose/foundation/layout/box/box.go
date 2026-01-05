@@ -1,6 +1,7 @@
 package box
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"gioui.org/layout"
@@ -16,7 +17,7 @@ func Box(content Composable, options ...BoxOption) Composable {
 	}
 	return func(c Composer) Composer {
 		c.StartBlock("Box")
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.WithComposable(content)

@@ -1,6 +1,9 @@
 package clickable
 
-import "github.com/zodimo/go-compose/internal/modifier"
+import (
+	"github.com/zodimo/go-compose/compose/ui"
+	"github.com/zodimo/go-compose/internal/modifier"
+)
 
 type ClickableOptions struct {
 	Clickable *GioClickable
@@ -20,7 +23,7 @@ func DefaultClickableOptions() ClickableOptions {
 	}
 }
 
-func OnClick(onClick func(), options ...ClickableOption) Modifier {
+func OnClick(onClick func(), options ...ClickableOption) ui.Modifier {
 
 	opt := DefaultClickableOptions()
 	for _, option := range options {

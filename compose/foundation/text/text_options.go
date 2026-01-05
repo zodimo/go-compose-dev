@@ -1,6 +1,7 @@
 package text
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-compose/compose/ui/text/style"
@@ -11,7 +12,7 @@ import (
 )
 
 type TextOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 
 	TextStyle *text.TextStyle
 
@@ -36,7 +37,7 @@ type TextOptions struct {
 
 type TextOption func(*TextOptions)
 
-func WithModifier(m Modifier) TextOption {
+func WithModifier(m ui.Modifier) TextOption {
 	return func(o *TextOptions) {
 		o.Modifier = m
 	}

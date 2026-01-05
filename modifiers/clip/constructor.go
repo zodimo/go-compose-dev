@@ -1,10 +1,11 @@
 package clip
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
-func Clip(shape Shape) Modifier {
+func Clip(shape Shape) ui.Modifier {
 
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
@@ -23,7 +24,7 @@ func Clip(shape Shape) Modifier {
 	)
 }
 
-func ClipToBounds() Modifier {
+func ClipToBounds() ui.Modifier {
 
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(

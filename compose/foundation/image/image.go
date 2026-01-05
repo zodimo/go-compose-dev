@@ -1,15 +1,14 @@
 package image
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 
 type Composable = api.Composable
 type Composer = api.Composer
-type Modifier = modifier.Modifier
 
 type ImageResource = graphics.ImageResource
 
@@ -24,10 +23,8 @@ func Image(imageResource ImageResource, options ...ImageOption) Composable {
 
 	return func(c Composer) Composer {
 		c.StartBlock("Image")
-		// Correct way to apply modifier in internal composer:
-		// We cast modifier.Modifier (internal) to match what C.Modifier expects (internal).
-		// Since we imported internal/modifier as modifier, it matches.
-		c.Modifier(func(m modifier.Modifier) modifier.Modifier {
+
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			return m.Then(opts.Modifier)
 		})
 

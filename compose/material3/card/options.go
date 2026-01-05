@@ -1,12 +1,14 @@
 package card
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 type CardOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 }
 
 type CardOption func(o *CardOptions)
 
-func WithModifier(m Modifier) CardOption {
+func WithModifier(m ui.Modifier) CardOption {
 	return func(o *CardOptions) {
 		o.Modifier = m
 	}

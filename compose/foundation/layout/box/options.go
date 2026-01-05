@@ -1,7 +1,9 @@
 package box
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 type BoxOptions struct {
-	Modifier  Modifier
+	Modifier  ui.Modifier
 	Alignment Direction
 }
 
@@ -9,12 +11,12 @@ type BoxOption func(*BoxOptions)
 
 func DefaultBoxOptions() BoxOptions {
 	return BoxOptions{
-		Modifier:  EmptyModifier,
+		Modifier:  ui.EmptyModifier,
 		Alignment: NW,
 	}
 }
 
-func WithModifier(m Modifier) BoxOption {
+func WithModifier(m ui.Modifier) BoxOption {
 	return func(o *BoxOptions) {
 		o.Modifier = m
 	}

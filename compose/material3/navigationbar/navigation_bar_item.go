@@ -8,6 +8,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/clickable"
@@ -81,7 +82,7 @@ func NavigationBarItem(
 						)),
 						surface.WithShape(&shape.RoundedCornerShape{Radius: unit.Dp(16)}),
 						surface.WithModifier(
-							EmptyModifier.
+							ui.EmptyModifier.
 								Then(size.Width(64)).
 								Then(size.Height(32)).
 								Then(clip.Clip(&shape.RoundedCornerShape{Radius: unit.Dp(16)})),

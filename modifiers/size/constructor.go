@@ -1,6 +1,7 @@
 package size
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
@@ -22,7 +23,7 @@ func SizeRequired() SizeOption {
 
 type SizeOption func(options *SizeOptions)
 
-func Size(width, height int, options ...SizeOption) Modifier {
+func Size(width, height int, options ...SizeOption) ui.Modifier {
 
 	opt := DefaultSizeOptions()
 	for _, option := range options {
@@ -53,7 +54,7 @@ func Size(width, height int, options ...SizeOption) Modifier {
 	)
 }
 
-func FillMax() Modifier {
+func FillMax() ui.Modifier {
 
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
@@ -74,7 +75,7 @@ func FillMax() Modifier {
 	)
 }
 
-func FillMaxWidth() Modifier {
+func FillMaxWidth() ui.Modifier {
 
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
@@ -95,7 +96,7 @@ func FillMaxWidth() Modifier {
 	)
 }
 
-func FillMaxHeight() Modifier {
+func FillMaxHeight() ui.Modifier {
 
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
@@ -116,7 +117,7 @@ func FillMaxHeight() Modifier {
 	)
 }
 
-func WrapContentSize(align ...Alignment) Modifier {
+func WrapContentSize(align ...Alignment) ui.Modifier {
 	var a Alignment = Center
 	if len(align) > 0 {
 		a = align[0]
@@ -145,7 +146,7 @@ func WrapContentSize(align ...Alignment) Modifier {
 	)
 }
 
-func WrapContentWidth(align ...Alignment) Modifier {
+func WrapContentWidth(align ...Alignment) ui.Modifier {
 	var a Alignment = Center
 	if len(align) > 0 {
 		a = align[0]
@@ -174,7 +175,7 @@ func WrapContentWidth(align ...Alignment) Modifier {
 	)
 }
 
-func WrapContentHeight(align ...Alignment) Modifier {
+func WrapContentHeight(align ...Alignment) ui.Modifier {
 	var a Alignment = Center
 	if len(align) > 0 {
 		a = align[0]
@@ -203,7 +204,7 @@ func WrapContentHeight(align ...Alignment) Modifier {
 	)
 }
 
-func Width(width int, options ...SizeOption) Modifier {
+func Width(width int, options ...SizeOption) ui.Modifier {
 
 	opt := DefaultSizeOptions()
 	for _, option := range options {
@@ -233,7 +234,7 @@ func Width(width int, options ...SizeOption) Modifier {
 	)
 }
 
-func Height(height int, options ...SizeOption) Modifier {
+func Height(height int, options ...SizeOption) ui.Modifier {
 
 	opt := DefaultSizeOptions()
 	for _, option := range options {

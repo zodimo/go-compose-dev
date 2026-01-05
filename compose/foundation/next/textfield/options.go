@@ -2,13 +2,14 @@ package textfield
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/next/text/input"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/next/text"
 )
 
 // TextFieldOptions configures a BasicTextField.
 type TextFieldOptions struct {
 	// Modifier to apply to the text field.
-	Modifier Modifier
+	Modifier ui.Modifier
 
 	// Enabled controls the enabled state. When false, the field is not editable
 	// or focusable, and input is not selectable.
@@ -49,7 +50,7 @@ type TextFieldOptions struct {
 type TextFieldOption func(*TextFieldOptions)
 
 // WithModifier sets the modifier for the text field.
-func WithModifier(m Modifier) TextFieldOption {
+func WithModifier(m ui.Modifier) TextFieldOption {
 	return func(o *TextFieldOptions) {
 		o.Modifier = m
 	}

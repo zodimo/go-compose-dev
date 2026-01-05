@@ -3,6 +3,7 @@ package checkbox
 import (
 	"fmt"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"git.sr.ht/~schnwalter/gio-mw/widget/checkbox"
@@ -90,7 +91,7 @@ func Checkbox(
 		// Wait, looking at `checkbox.go` step 196: `onChange func([]T)` is exported field of struct `Checkboxes`.
 
 		c.StartBlock(Material3CheckboxNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(checkboxWidgetConstructor(cb))

@@ -1,6 +1,7 @@
 package animation
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/animation"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
@@ -27,7 +28,7 @@ func (e AnimatedHeightElement) Equals(other Element) bool {
 
 // AnimatedHeight animates the height of the content based on the VisibilityAnimation.
 // It clips the content as it grows/shrinks.
-func AnimatedHeight(anim *animation.VisibilityAnimation, maxHeight int) Modifier {
+func AnimatedHeight(anim *animation.VisibilityAnimation, maxHeight int) ui.Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
 			AnimatedHeightElement{

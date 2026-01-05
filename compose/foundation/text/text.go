@@ -6,6 +6,7 @@ import (
 
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/text/selection"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/platform"
 	"github.com/zodimo/go-compose/compose/ui/text"
@@ -67,7 +68,7 @@ func Text(value string, options ...TextOption) Composable {
 		}
 
 		c.StartBlock(BasicTextNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(textWidgetConstructor(constructorArgs))

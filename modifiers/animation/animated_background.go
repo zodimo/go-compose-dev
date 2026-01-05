@@ -1,6 +1,7 @@
 package animation
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/animation"
@@ -32,7 +33,7 @@ func (e AnimatedBackgroundElement) Equals(other Element) bool {
 }
 
 // AnimatedBackground creates a modifier that paints a background with alpha scaled by animation.
-func AnimatedBackground(anim *animation.VisibilityAnimation, color graphics.Color, shape background.Shape) Modifier {
+func AnimatedBackground(anim *animation.VisibilityAnimation, color graphics.Color, shape background.Shape) ui.Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
 			AnimatedBackgroundElement{

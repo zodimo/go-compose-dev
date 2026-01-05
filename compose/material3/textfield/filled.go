@@ -6,6 +6,7 @@ import (
 	"image/color"
 	"time"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
@@ -92,7 +93,7 @@ func Filled(
 		w.SetError(opts.IsError, opts.SupportingText)
 
 		c.StartBlock(Material3FilledTextFieldNodeID)
-		c.Modifier(func(m Modifier) Modifier {
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			return m.Then(opts.Modifier)
 		})
 

@@ -1,6 +1,7 @@
 package background
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
@@ -24,7 +25,7 @@ func WithShape(shape Shape) BackgroundOption {
 	}
 }
 
-func Background(col graphics.Color, options ...BackgroundOption) Modifier {
+func Background(col graphics.Color, options ...BackgroundOption) ui.Modifier {
 
 	opt := DefaultBackgroundOptions()
 	for _, option := range options {

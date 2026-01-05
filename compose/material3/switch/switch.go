@@ -3,6 +3,7 @@ package mswitch
 import (
 	"fmt"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"git.sr.ht/~schnwalter/gio-mw/widget/toggle"
@@ -74,7 +75,7 @@ func Switch(
 		// Note: We don't need to manually update onChange if we used the wrapper pattern correctly above.
 
 		c.StartBlock(Material3SwitchNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(switchWidgetConstructor(t))

@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
@@ -98,7 +99,7 @@ func Outlined(
 		outWidget.SetError(opts.IsError, opts.SupportingText) // Use SupportingText as error message if Error is true
 
 		c.StartBlock(Material3OutlinedTextFieldNodeID)
-		c.Modifier(func(m Modifier) Modifier {
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			return m.Then(opts.Modifier)
 		})
 

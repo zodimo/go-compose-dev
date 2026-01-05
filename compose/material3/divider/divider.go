@@ -4,6 +4,7 @@ import (
 	"image"
 
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
@@ -29,7 +30,7 @@ func Divider(options ...DividerOption) Composable {
 		opts.Color = opts.Color.TakeOrElse(theme.ColorScheme().OutlineVariant)
 
 		c.StartBlock(Material3DivideNodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(widgetConstructor(opts))

@@ -2,12 +2,13 @@ package textfield
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/next/text/input"
+	"github.com/zodimo/go-compose/compose/ui"
 )
 
 // DefaultTextFieldOptions returns the default options for BasicTextField.
 func DefaultTextFieldOptions() TextFieldOptions {
 	return TextFieldOptions{
-		Modifier:              EmptyModifier,
+		Modifier:              ui.EmptyModifier,
 		Enabled:               true,
 		ReadOnly:              false,
 		TextStyle:             nil,

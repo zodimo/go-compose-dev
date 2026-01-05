@@ -11,7 +11,6 @@ import (
 	"github.com/zodimo/go-compose/modifiers/helpers"
 )
 
-type Modifier = modifier.Modifier
 type Element = modifier.Element
 type InspectableModifier = modifier.InspectableModifier
 type ModifierInspectorInfo = modifier.InspectorInfo

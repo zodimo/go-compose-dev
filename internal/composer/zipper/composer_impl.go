@@ -3,6 +3,7 @@ package zipper
 import (
 	"fmt"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 )
@@ -111,11 +112,11 @@ func (c *composer) GetPath() NodePath {
 	return node.NewNodePath(nodeIds)
 
 }
-func (c *composer) Modifier(apply func(modifier Modifier) Modifier) {
+func (c *composer) Modifier(apply func(modifier ui.Modifier) ui.Modifier) {
 	c.focus.Modifier(apply)
 }
-func (c *composer) ModifierThen(modifier Modifier) Composer {
-	c.Modifier(func(modifier Modifier) Modifier {
+func (c *composer) ModifierThen(modifier ui.Modifier) Composer {
+	c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 		return modifier.Then(modifier)
 	})
 	return c

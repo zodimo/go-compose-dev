@@ -2,12 +2,13 @@ package scaffold
 
 import (
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
 type ScaffoldOptions struct {
-	Modifier                     Modifier
+	Modifier                     ui.Modifier
 	TopBar                       Composable
 	BottomBar                    Composable
 	SnackbarHost                 Composable
@@ -35,7 +36,7 @@ func DefaultScaffoldOptions(c Composer) ScaffoldOptions {
 }
 
 // WithModifier sets the modifier for the Scaffold.
-func WithModifier(m Modifier) ScaffoldOption {
+func WithModifier(m ui.Modifier) ScaffoldOption {
 	return func(o *ScaffoldOptions) {
 		if o.Modifier == nil {
 			o.Modifier = m

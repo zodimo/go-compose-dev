@@ -1,16 +1,19 @@
 package navigationdrawer
 
-import "github.com/zodimo/go-compose/internal/modifier"
+import (
+	"github.com/zodimo/go-compose/compose/ui"
+	"github.com/zodimo/go-compose/internal/modifier"
+)
 
 type ModalNavigationDrawerOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 	IsOpen   bool
 	OnClose  func()
 }
 
 type ModalNavigationDrawerOption func(*ModalNavigationDrawerOptions)
 
-func WithModifier(m Modifier) ModalNavigationDrawerOption {
+func WithModifier(m ui.Modifier) ModalNavigationDrawerOption {
 	return func(o *ModalNavigationDrawerOptions) {
 		o.Modifier = m
 	}

@@ -1,6 +1,7 @@
 package border
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -34,7 +35,7 @@ func (e *BorderElement) Equals(other Element) bool {
 	return false
 }
 
-func Border(width Dp, col graphics.Color, shape Shape) Modifier {
+func Border(width Dp, col graphics.Color, shape Shape) ui.Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
 			&BorderElement{
@@ -59,6 +60,6 @@ func Border(width Dp, col graphics.Color, shape Shape) Modifier {
 // Border with defaults usually needs width and color at least?
 // For Shape, default to Rectangle if nil? Or caller handles it.
 // Default to Rectangle if nil.
-func Simple(width Dp, col graphics.Color) Modifier {
+func Simple(width Dp, col graphics.Color) ui.Modifier {
 	return Border(width, col, shape.ShapeRectangle)
 }

@@ -1,6 +1,7 @@
 package animation
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/animation"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
@@ -24,7 +25,7 @@ func (e AnimatedWidthElement) Equals(other Element) bool {
 	return ok && o.Anim == e.Anim && o.MaxWidth == e.MaxWidth
 }
 
-func AnimatedWidth(anim *animation.VisibilityAnimation, maxWidth int) Modifier {
+func AnimatedWidth(anim *animation.VisibilityAnimation, maxWidth int) ui.Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(
 			AnimatedWidthElement{

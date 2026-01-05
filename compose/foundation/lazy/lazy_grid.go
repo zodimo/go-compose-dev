@@ -5,8 +5,8 @@ import (
 	"image"
 
 	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifier"
 
 	"gioui.org/layout"
 )
@@ -47,7 +47,7 @@ func lazyGrid(axis layout.Axis, cells GridCells, content func(LazyGridScope), op
 		}
 
 		c.StartBlock("LazyGrid")
-		c.Modifier(func(m modifier.Modifier) modifier.Modifier {
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			return m.Then(opts.Modifier)
 		})
 

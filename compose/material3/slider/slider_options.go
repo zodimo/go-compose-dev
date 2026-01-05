@@ -1,11 +1,13 @@
 package slider
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 // SliderOption defines the functional option pattern for Slider.
 type SliderOption func(*SliderOptions)
 
 // SliderOptions holds all optional parameters for the Slider.
 type SliderOptions struct {
-	Modifier              Modifier
+	Modifier              ui.Modifier
 	Enabled               bool
 	ValueRange            struct{ Min, Max float32 }
 	Steps                 int
@@ -16,7 +18,7 @@ type SliderOptions struct {
 // DefaultSliderOptions returns the default options.
 func DefaultSliderOptions() SliderOptions {
 	return SliderOptions{
-		Modifier:              EmptyModifier,
+		Modifier:              ui.EmptyModifier,
 		Enabled:               true,
 		ValueRange:            struct{ Min, Max float32 }{Min: 0, Max: 1},
 		Steps:                 0,
@@ -26,7 +28,7 @@ func DefaultSliderOptions() SliderOptions {
 }
 
 // WithModifier applies a modifier to the slider.
-func WithModifier(m Modifier) SliderOption {
+func WithModifier(m ui.Modifier) SliderOption {
 	return func(o *SliderOptions) {
 		o.Modifier = m
 	}

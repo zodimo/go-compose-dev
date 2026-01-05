@@ -5,7 +5,7 @@ import (
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/material3/surface"
-	"github.com/zodimo/go-compose/internal/modifier"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/modifiers/clickable"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
@@ -73,7 +73,7 @@ func SurfaceWithThemeDefaults(
 	fabClickable *widget.Clickable,
 	elevation token.ElevationLevel,
 	opts FloatingActionButtonOptions,
-	fabModifier modifier.Modifier,
+	fabModifier ui.Modifier,
 	content api.Composable,
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
@@ -114,7 +114,7 @@ func ElevationToDp(level token.ElevationLevel) unit.Dp {
 }
 
 // GetSizeModifier returns the size modifier for the FAB based on the FabSize option.
-func GetSizeModifier(fabSize FabSize) modifier.Modifier {
+func GetSizeModifier(fabSize FabSize) ui.Modifier {
 	switch fabSize {
 	case FabSizeSmall:
 		return size.Size(40, 40)

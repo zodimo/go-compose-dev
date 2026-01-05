@@ -3,6 +3,7 @@ package text
 import (
 	"math"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/next/text/style"
 )
@@ -10,7 +11,7 @@ import (
 func DefaultTextOptions() TextOptions {
 
 	return TextOptions{
-		Modifier:      EmptyModifier,
+		Modifier:      ui.EmptyModifier,
 		TextStyle:     nil,
 		OnTextLayout:  nil,
 		OverFlow:      style.OverFlowClip,

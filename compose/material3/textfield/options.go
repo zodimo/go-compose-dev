@@ -2,12 +2,13 @@ package textfield
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/next/text"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/pkg/sentinel"
 )
 
 type TextFieldOptions struct {
-	Modifier       Modifier
+	Modifier       ui.Modifier
 	Enabled        bool
 	ReadOnly       bool
 	TextStyle      *text.TextStyle
@@ -59,7 +60,7 @@ type TextFieldOptions struct {
 
 func DefaultTextFieldOptions() TextFieldOptions {
 	return TextFieldOptions{
-		Modifier:       EmptyModifier,
+		Modifier:       ui.EmptyModifier,
 		Enabled:        true,
 		ReadOnly:       false,
 		TextStyle:      nil,
@@ -81,7 +82,7 @@ func DefaultTextFieldOptions() TextFieldOptions {
 
 type TextFieldOption func(*TextFieldOptions)
 
-func WithModifier(m Modifier) TextFieldOption {
+func WithModifier(m ui.Modifier) TextFieldOption {
 	return func(o *TextFieldOptions) {
 		o.Modifier = m
 	}

@@ -1,16 +1,19 @@
 package button
 
-import "git.sr.ht/~schnwalter/gio-mw/widget/button"
+import (
+	"git.sr.ht/~schnwalter/gio-mw/widget/button"
+	"github.com/zodimo/go-compose/compose/ui"
+)
 
 type ButtonOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 	Button   *button.Button
 	Enabled  bool
 }
 
 type ButtonOption func(o *ButtonOptions)
 
-func WithModifier(m Modifier) ButtonOption {
+func WithModifier(m ui.Modifier) ButtonOption {
 	return func(o *ButtonOptions) {
 		o.Modifier = m
 	}

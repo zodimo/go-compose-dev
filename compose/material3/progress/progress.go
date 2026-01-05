@@ -3,6 +3,7 @@ package progress
 import (
 	"fmt"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
 	"git.sr.ht/~schnwalter/gio-mw/widget/indicator"
@@ -46,7 +47,7 @@ func indicatorComposable(defaultIndicator *indicator.Indicator, progress float32
 		opts.Indicator.Progress = progress
 
 		c.StartBlock(nodeID)
-		c.Modifier(func(modifier Modifier) Modifier {
+		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 			return modifier.Then(opts.Modifier)
 		})
 		c.SetWidgetConstructor(indicatorWidgetConstructor(opts.Indicator))

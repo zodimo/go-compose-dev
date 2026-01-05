@@ -6,6 +6,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/clickable"
@@ -33,7 +34,7 @@ func NavigationRailItem(
 	onClick func(),
 	icon Composable,
 	label Composable,
-	modifier Modifier,
+	modifier ui.Modifier,
 	// colors, enabled, interactionSource... omitted for brevity
 ) Composable {
 	return func(c Composer) Composer {

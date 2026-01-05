@@ -13,6 +13,7 @@ import (
 
 	gioUnit "gioui.org/unit"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 )
@@ -53,7 +54,7 @@ func RadioButton(
 		clickable := clickableState.Get().(*widget.Clickable)
 
 		c.StartBlock(Material3RadioButtonNodeID)
-		c.Modifier(func(m Modifier) Modifier {
+		c.Modifier(func(m ui.Modifier) ui.Modifier {
 			// Apply user modifier
 			return m.Then(opts.Modifier)
 		})

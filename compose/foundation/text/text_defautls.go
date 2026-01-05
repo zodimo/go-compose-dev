@@ -3,6 +3,7 @@ package text
 import (
 	"math"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/text"
 	"github.com/zodimo/go-maybe"
@@ -11,7 +12,7 @@ import (
 func DefaultTextOptions() TextOptions {
 
 	return TextOptions{
-		Modifier:  EmptyModifier,
+		Modifier:  ui.EmptyModifier,
 		TextStyle: text.TextStyleUnspecified,
 		MaxLines:  math.MaxInt32,
 

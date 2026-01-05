@@ -3,6 +3,7 @@ package navigationrail
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/material3"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/modifiers/size"
 
@@ -16,7 +17,7 @@ import (
 // - Width: 80dp
 // - Container Layout: Centered horizontally, Top or Center vertically (usually).
 func NavigationRail(
-	modifier Modifier,
+	modifier ui.Modifier,
 	header Composable,
 	content Composable,
 ) Composable {

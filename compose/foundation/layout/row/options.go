@@ -1,7 +1,9 @@
 package row
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 type RowOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 
 	// Spacing controls the distribution of space left after
 	// layout.
@@ -12,7 +14,7 @@ type RowOptions struct {
 
 type RowOption func(o *RowOptions)
 
-func WithModifier(modifier Modifier) RowOption {
+func WithModifier(modifier ui.Modifier) RowOption {
 	return func(o *RowOptions) {
 		o.Modifier = o.Modifier.Then(modifier)
 	}

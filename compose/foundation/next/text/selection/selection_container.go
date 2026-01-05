@@ -2,6 +2,7 @@ package selection
 
 import (
 	"github.com/zodimo/go-compose/compose"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
@@ -9,11 +10,11 @@ import (
 type Composable = compose.Composable
 
 type SectionContainerOptions struct {
-	Modifier modifier.Modifier
+	Modifier ui.Modifier
 }
 type SectionContainerOption func(*SectionContainerOptions)
 
-func WithModifier(modifier modifier.Modifier) SectionContainerOption {
+func WithModifier(modifier ui.Modifier) SectionContainerOption {
 	return func(options *SectionContainerOptions) {
 		options.Modifier = modifier
 	}
@@ -62,7 +63,7 @@ func SelectionContainer(content Composable, options ...SectionContainerOption) C
 // It paints the selection area with start and end handles.
 func internalSelectionContainer(
 	c compose.Composer,
-	mod modifier.Modifier,
+	mod ui.Modifier,
 	selection *Selection,
 	onSelectionChange func(*Selection),
 	children Composable,
@@ -82,7 +83,7 @@ func internalSelectionContainer(
 	// manager.TextToolbar = LocalTextToolbar.current
 
 	// Apply modifier
-	c.Modifier(func(m modifier.Modifier) modifier.Modifier {
+	c.Modifier(func(m ui.Modifier) ui.Modifier {
 		return m.Then(mod).Then(manager.Modifier())
 	})
 

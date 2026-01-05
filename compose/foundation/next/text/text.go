@@ -10,6 +10,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/next/text/input"
 	"github.com/zodimo/go-compose/compose/foundation/next/text/modifiers"
 	"github.com/zodimo/go-compose/compose/foundation/next/text/selection"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/geometry"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/next/platform"
@@ -65,7 +66,7 @@ func BasicText(
 
 		if !hasInlineContent && !hasLinks {
 
-			c.Modifier(func(modifier modifier.Modifier) modifier.Modifier {
+			c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 				return modifier.
 					Then(
 						textModifier().
@@ -94,7 +95,7 @@ func BasicText(
 			}))
 
 		} else {
-			c.Modifier(func(modifier modifier.Modifier) modifier.Modifier {
+			c.Modifier(func(modifier ui.Modifier) ui.Modifier {
 				return modifier.
 					Then(
 						textModifier().
@@ -226,6 +227,6 @@ func validateMinMaxLines(minLines int, maxLines int) {
 	}
 }
 
-func textModifier() modifier.Modifier {
+func textModifier() ui.Modifier {
 	return modifier.EmptyModifier
 }

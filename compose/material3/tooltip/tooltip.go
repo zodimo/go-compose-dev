@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"image"
 
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/layoutnode"
-	"github.com/zodimo/go-compose/internal/modifier"
 	"github.com/zodimo/go-compose/pkg/api"
 
 	"gioui.org/io/event"
@@ -20,13 +20,13 @@ import (
 func Tooltip(
 	text string,
 	content api.Composable,
-	modifiers ...modifier.Modifier,
+	modifiers ...ui.Modifier,
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
 		c.StartBlock("Tooltip")
 
 		for _, m := range modifiers {
-			c.Modifier(func(old modifier.Modifier) modifier.Modifier {
+			c.Modifier(func(old ui.Modifier) ui.Modifier {
 				return old.Then(m)
 			})
 		}

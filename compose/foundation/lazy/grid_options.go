@@ -1,6 +1,7 @@
 package lazy
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 )
 
@@ -9,7 +10,7 @@ type LazyGridOption func(*LazyGridOptions)
 
 // LazyGridOptions holds configuration for a lazy grid.
 type LazyGridOptions struct {
-	Modifier modifier.Modifier
+	Modifier ui.Modifier
 	State    *LazyGridState
 }
 
@@ -22,7 +23,7 @@ func DefaultLazyGridOptions() LazyGridOptions {
 }
 
 // WithGridModifier applies a modifier to the grid.
-func WithGridModifier(m modifier.Modifier) LazyGridOption {
+func WithGridModifier(m ui.Modifier) LazyGridOption {
 	return func(o *LazyGridOptions) {
 		o.Modifier = m
 	}

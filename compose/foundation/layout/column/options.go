@@ -1,7 +1,9 @@
 package column
 
+import "github.com/zodimo/go-compose/compose/ui"
+
 type ColumnOptions struct {
-	Modifier Modifier
+	Modifier ui.Modifier
 
 	// Spacing controls the distribution of space left after
 	// layout.
@@ -12,7 +14,7 @@ type ColumnOptions struct {
 
 type ColumnOption func(o *ColumnOptions)
 
-func WithModifier(modifier Modifier) ColumnOption {
+func WithModifier(modifier ui.Modifier) ColumnOption {
 	return func(o *ColumnOptions) {
 		o.Modifier = o.Modifier.Then(modifier)
 	}

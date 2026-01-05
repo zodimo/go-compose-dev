@@ -1,6 +1,7 @@
 package box
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/internal/modifier"
@@ -54,7 +55,7 @@ func NewMatchParentSizeNode() node.ChainNode {
 
 // --- Public API ---
 
-func MatchParentSize() modifier.Modifier {
+func MatchParentSize() ui.Modifier {
 	return modifier.NewInspectableModifier(
 		modifier.NewModifier(&matchParentSizeElement{}),
 		modifier.NewInspectorInfo("MatchParentSize", nil),

@@ -1,6 +1,7 @@
 package layoutnode
 
 import (
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/internal/modifier"
 
 	"gioui.org/op"
@@ -31,7 +32,7 @@ func (nc *nodeCoordinator) WrapChildren() {
 func (nc *nodeCoordinator) Expand() {
 
 	modifierChain := nc.LayoutNode.UnwrapModifier().AsChain()
-	*nc = *modifier.FoldIn(modifierChain, nc, func(nc *nodeCoordinator, mod Modifier) *nodeCoordinator {
+	*nc = *modifier.FoldIn(modifierChain, nc, func(nc *nodeCoordinator, mod ui.Modifier) *nodeCoordinator {
 
 		if inspectable, ok := mod.(InspectableModifier); ok {
 			mod = inspectable.Unwrap()

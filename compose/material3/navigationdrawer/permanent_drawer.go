@@ -5,6 +5,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/surface"
+	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	"github.com/zodimo/go-compose/modifiers/size"
 
@@ -17,7 +18,7 @@ import (
 func PermanentNavigationDrawer(
 	drawerContent Composable,
 	content Composable,
-	modifier Modifier,
+	modifier ui.Modifier,
 ) Composable {
 	return func(c Composer) Composer {
 		theme := material3.Theme(c)
