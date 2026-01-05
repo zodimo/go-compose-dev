@@ -9,6 +9,7 @@ import (
 
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 	"github.com/zodimo/go-compose/pkg/sentinel"
 
 	"gioui.org/f32"
@@ -540,7 +541,7 @@ func (in *OutlinedTextFieldWidget) update(gtx layout.Context, th *gioMaterial.Th
 		helperColorError = helperColorDisabled
 	}
 
-	in.label.TextSize = gioUnit.Sp(lerp(float32(textSmall), float32(textNormal), 1.0-in.anim.Progress()))
+	in.label.TextSize = gioUnit.Sp(lerp.Between32(float32(textSmall), float32(textNormal), 1.0-in.anim.Progress()))
 	switch in.state {
 	case inactive:
 		in.border.Thickness = borderThickness
@@ -582,17 +583,7 @@ func (in *OutlinedTextFieldWidget) update(gtx layout.Context, th *gioMaterial.Th
 	topInsetDP := gioUnit.Dp(labelTopInsetNormal / gtx.Metric.PxPerDp)
 	topInsetActiveDP := (topInsetDP / 2 * -1) - gioUnit.Dp(in.border.Thickness)
 	in.label.Inset = layout.Inset{
-		Top:  gioUnit.Dp(lerp(float32(topInsetDP), float32(topInsetActiveDP), in.anim.Progress())),
+		Top:  gioUnit.Dp(lerp.Between32(float32(topInsetDP), float32(topInsetActiveDP), in.anim.Progress())),
 		Left: gioUnit.Dp(10),
 	}
-}
-
-// interpolate linearly between two values based on progress.
-//
-// Progress is expected to be [0, 1]. Values greater than 1 will therefore be
-// become a coeficient.
-//
-// For example, 2.5 is 250% progress.
-func lerp(start, end, progress float32) float32 {
-	return start + (end-start)*progress
 }

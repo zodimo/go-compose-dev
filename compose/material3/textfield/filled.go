@@ -8,6 +8,7 @@ import (
 
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/pkg/floatutils/lerp"
 	"github.com/zodimo/go-compose/pkg/sentinel"
 
 	"gioui.org/gesture"
@@ -385,12 +386,12 @@ func (in *FilledTextFieldWidget) update(gtx layout.Context, th *gioMaterial.Them
 
 	textNormal := th.TextSize
 	textSmall := th.TextSize * 0.75
-	in.label.TextSize = gioUnit.Sp(lerp(float32(textNormal), float32(textSmall), in.anim.Progress()))
+	in.label.TextSize = gioUnit.Sp(lerp.Between32(float32(textNormal), float32(textSmall), in.anim.Progress()))
 
 	startTop := float32(gtx.Dp(16))
 	endTop := float32(gtx.Dp(8))
 	in.label.Inset = layout.Inset{
-		Top:  gioUnit.Dp(lerp(startTop, endTop, in.anim.Progress())),
+		Top:  gioUnit.Dp(lerp.Between32(startTop, endTop, in.anim.Progress())),
 		Left: gioUnit.Dp(16),
 	}
 }
