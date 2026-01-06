@@ -20,6 +20,7 @@ import (
 
 // Global state flow for demonstration
 var counterFlow = flow.NewMutableStateFlow(0)
+var counterFlow2 = flow.NewMutableStateFlow(0)
 
 func init() {
 	// Start a background ticker to update the flow
@@ -27,6 +28,15 @@ func init() {
 		for {
 			time.Sleep(1 * time.Second)
 			counterFlow.Update(func(current int) int {
+				return current + 1
+			})
+		}
+	}()
+
+	go func() {
+		for {
+			time.Sleep(500 * time.Millisecond)
+			counterFlow2.Update(func(current int) int {
 				return current + 1
 			})
 		}
@@ -41,10 +51,13 @@ func UI(c api.Composer) api.Composer {
 			countState := flow.CollectStateFlowAsState(c, counterFlow)
 			count := countState.Get()
 
+			countState2 := flow.CollectStateFlowAsState(c, counterFlow2)
+			count2 := countState2.Get()
+
 			return column.Column(
 				c.Sequence(
 					m3text.TextWithStyle("StateFlow Integration Demo", m3text.TypestyleHeadlineMedium),
-					m3text.TextWithStyle(fmt.Sprintf("Current Count (from flow): %d", count), m3text.TypestyleBodyLarge),
+					m3text.TextWithStyle(fmt.Sprintf("Current Count (from flow: 1s interval): %d", count), m3text.TypestyleBodyLarge),
 					row.Row(
 						c.Sequence(
 							button.Filled(func() {
@@ -53,6 +66,20 @@ func UI(c api.Composer) api.Composer {
 							spacer.Width(5),
 							button.Filled(func() {
 								counterFlow.Update(func(curr int) int { return curr + 5 })
+							}, "Add 5"),
+						),
+						row.WithModifier(padding.Vertical(20, 0)),
+					),
+					spacer.Height(20),
+					m3text.TextWithStyle(fmt.Sprintf("Current Count (from flow2: 500ms interval): %d", count2), m3text.TypestyleBodyLarge),
+					row.Row(
+						c.Sequence(
+							button.Filled(func() {
+								counterFlow2.Emit(0)
+							}, "Reset"),
+							spacer.Width(5),
+							button.Filled(func() {
+								counterFlow2.Update(func(curr int) int { return curr + 5 })
 							}, "Add 5"),
 						),
 						row.WithModifier(padding.Vertical(20, 0)),

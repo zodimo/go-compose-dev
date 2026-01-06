@@ -47,7 +47,10 @@ func UI() api.Composable {
 					for _, item := range items {
 						navigationdrawer.NavigationDrawerItem(
 							selectedItem == item,
-							func() { setSelectedItem(item); setIsOpen(false) }, // Close drawer on selection for Modal
+							func() {
+								setSelectedItem(item)
+								// setIsOpen(false)
+							}, // Close drawer on selection for Modal
 							nil, // Icon
 							func(c api.Composer) api.Composer {
 								text.TextWithStyle(item, text.TypestyleBodyMedium)(c)
@@ -138,7 +141,9 @@ func UI() api.Composable {
 						drawerContent,
 						mainContent,
 						navigationdrawer.WithIsOpen(isOpen),
-						navigationdrawer.WithOnClose(func() { setIsOpen(false) }),
+						navigationdrawer.WithOnClose(func() {
+							//setIsOpen(false)
+						}),
 					)(c)
 				case "Permanent":
 					navigationdrawer.PermanentNavigationDrawer(

@@ -2,6 +2,7 @@ package flow
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/zodimo/go-compose/compose/effect"
 	"github.com/zodimo/go-compose/pkg/api"
@@ -12,8 +13,12 @@ import (
 // CollectAsState collects values from a Flow and represents it as a State.
 // The initial value is used until the first value is emitted by the flow.
 func CollectAsState[T any](c api.Composer, flow Flow[T], initial T) state.TypedValue[T] {
+
+	// uniqueness
+	key := c.GenerateID()
+
 	// 1. Create a state to hold the latest value
-	stateValue := store.StateUnsafe[T](c, "flow_state", func() T { return initial })
+	stateValue := store.StateUnsafe[T](c, fmt.Sprintf("flow_state_%s", key), func() T { return initial })
 
 	// 2. Launch a side-effect to collect the flow
 	// We use the flow itself as a key so if the flow instance changes, we resubscribe
