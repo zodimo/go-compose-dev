@@ -122,6 +122,9 @@ func filledTextFieldWidgetConstructor(
 ) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
+			if !opts.Enabled {
+				gtx = gtx.Disabled()
+			}
 			// Map children to slots (Must be done here, after WrapChildren)
 			children := node.Children()
 			childIdx := 0

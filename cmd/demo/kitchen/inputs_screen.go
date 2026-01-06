@@ -34,6 +34,16 @@ func InputsScreen(c api.Composer) api.Composable {
 
 				spacer.Height(24),
 
+				textfield.Filled(
+					filledText.Get().(string),
+					func(s string) { filledText.Set(s) },
+					textfield.WithLabel("Filled Text disabled"),
+					textfield.WithSingleLine(true),
+					textfield.WithEnabled(false),
+				),
+
+				spacer.Height(24),
+
 				SectionTitle("Text Field Outlined"),
 				spacer.Height(8),
 				textfield.Outlined(
@@ -41,6 +51,14 @@ func InputsScreen(c api.Composer) api.Composable {
 					func(s string) { outlinedText.Set(s) },
 					textfield.WithLabel("Outlined Text Field"),
 					textfield.WithSingleLine(true),
+				),
+				spacer.Height(24),
+				textfield.Outlined(
+					outlinedText.Get().(string),
+					func(s string) { outlinedText.Set(s) },
+					textfield.WithLabel("Outlined Text disabled"),
+					textfield.WithSingleLine(true),
+					textfield.WithEnabled(false),
 				),
 				spacer.Height(24),
 				SectionTitle("Card"),
