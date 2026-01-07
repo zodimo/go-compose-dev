@@ -2,6 +2,7 @@ package zipper
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/zodimo/go-compose/compose/ui"
 	node "github.com/zodimo/go-compose/internal/Node"
@@ -23,6 +24,7 @@ type composer struct {
 	state          PersistentState
 	idManager      IdentityManager
 	overrideID     *Identifier // single override ID for c.Key (one Key affects one component)
+	idPrefixStack  []string    // stack of ID prefixes for scoped identity (used by c.Key)
 	locals         map[interface{}]interface{}
 	providersStack []map[interface{}]interface{}
 }
@@ -99,7 +101,17 @@ func (c *composer) GenerateID() Identifier {
 		c.overrideID = nil
 		return id
 	}
-	return c.idManager.GenerateID()
+
+	// Generate base ID
+	baseID := c.idManager.GenerateID()
+
+	// If we have a prefix stack, create a scoped ID
+	if len(c.idPrefixStack) > 0 {
+		prefix := strings.Join(c.idPrefixStack, "/")
+		return c.idManager.CreateID(prefix + "/" + baseID.String())
+	}
+
+	return baseID
 }
 func (c *composer) GetID() Identifier {
 	return c.focus.GetID()
@@ -125,18 +137,32 @@ func (c *composer) ModifierThen(modifier ui.Modifier) Composer {
 // Remember caches a value for the current composition run.
 // The cache lives in Composer.memo and is discarded on recompose.
 func (c *composer) Remember(key string, calc func() any) any {
-	if v, ok := c.memo.Find(key); ok {
+	// Apply prefix stack to the key for proper scoping
+	scopedKey := c.scopeKey(key)
+	if v, ok := c.memo.Find(scopedKey); ok {
 		return v
 	}
 	v := calc()
-	c.memo = c.memo.Assoc(key, v)
+	c.memo = c.memo.Assoc(scopedKey, v)
 	return v
 }
 
 // State creates a MutableValue from the persistent state.
 // In a real runtime this would be a Snapshot with observers.
 func (c *composer) State(key string, initial func() any) MutableValue {
-	return c.state.GetState(key, initial)
+	// Apply prefix stack to the key for proper scoping
+	scopedKey := c.scopeKey(key)
+	return c.state.GetState(scopedKey, initial)
+}
+
+// scopeKey prefixes the given key with the current ID prefix stack.
+// This ensures state isolation when using c.Key or c.If.
+func (c *composer) scopeKey(key string) string {
+	if len(c.idPrefixStack) == 0 {
+		return key
+	}
+	prefix := strings.Join(c.idPrefixStack, "/")
+	return prefix + "/" + key
 }
 
 func (c *composer) WithComposable(composable Composable) Composer {
@@ -148,29 +174,25 @@ func (c *composer) SetWidgetConstructor(constructor layoutnode.LayoutNodeWidgetC
 }
 
 func (c *composer) If(condition bool, ifTrue Composable, ifFalse Composable) Composable {
-	idTrue := c.GenerateID()
-	idFalse := c.GenerateID()
+	// Use stable string keys for branches - the prefix stack handles scoping
 	if condition {
-		return c.Key(idTrue, ifTrue)
+		return c.Key("if_true", ifTrue)
 	}
-	return c.Key(idFalse, ifFalse)
+	return c.Key("if_false", ifFalse)
 }
 
 func (c *composer) When(condition bool, ifTrue Composable) Composable {
-	idTrue := c.GenerateID()
-	idFalse := c.GenerateID()
 	if condition {
-		return c.Key(idTrue, ifTrue)
+		return c.Key("when_true", ifTrue)
 	}
-	return c.Key(idFalse, emptyComposable())
+	return c.Key("when_false", emptyComposable())
 }
+
 func (c *composer) Else(condition bool, ifFalse Composable) Composable {
-	idTrue := c.GenerateID()
-	idFalse := c.GenerateID()
 	if condition {
-		return c.Key(idTrue, emptyComposable())
+		return c.Key("else_true", emptyComposable())
 	}
-	return c.Key(idFalse, ifFalse)
+	return c.Key("else_false", ifFalse)
 }
 
 func (c *composer) Sequence(contents ...Composable) Composable {
@@ -178,16 +200,22 @@ func (c *composer) Sequence(contents ...Composable) Composable {
 }
 
 func (c *composer) Key(key any, content Composable) Composable {
-	// Create a stable ID from the key
+	// Create a stable ID prefix from the key
 	stringKey := fmt.Sprint(key)
 	return func(comp Composer) Composer {
-		// Create keyed ID at composition time, not definition time
 		composerImpl := comp.(*composer)
-		identity := composerImpl.idManager.CreateID(stringKey)
-		// Set the override ID - will be consumed by the next GenerateID call
-		composerImpl.overrideID = &identity
-		// Compose content directly - no wrapper node
-		return content(comp)
+
+		// Push the key onto the prefix stack - all GenerateID calls within
+		// this scope will be prefixed with this key
+		composerImpl.idPrefixStack = append(composerImpl.idPrefixStack, stringKey)
+
+		// Compose content with the new prefix scope
+		result := content(comp)
+
+		// Pop the prefix from the stack
+		composerImpl.idPrefixStack = composerImpl.idPrefixStack[:len(composerImpl.idPrefixStack)-1]
+
+		return result
 	}
 }
 
