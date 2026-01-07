@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -26,7 +27,7 @@ import (
 func main() {
 	go func() {
 		w := new(app.Window)
-		w.Option(app.Title("Navigation Demo"))
+		w.Option(app.Title("Navigation Demo with Arguments"))
 		w.Option(app.Size(unit.Dp(800), unit.Dp(600)))
 
 		if err := Run(w); err != nil {
@@ -76,10 +77,19 @@ func DemoUI() api.Composable {
 		return scaffold.Scaffold(
 			func(c api.Composer) api.Composer {
 				// Content
-				return navigation.NavHost(navController, "home", func(b *navigation.NavGraphBuilder) {
-					b.Composable("home", HomeScreen(navController))
-					b.Composable("details", DetailsScreen(navController))
-				})(c)
+				return navigation.NavHost(
+					navController,
+					"home",
+					func(b *navigation.NavGraphBuilder) {
+						// Home screen without arguments
+						b.Composable("home", HomeScreen(navController))
+
+						// Details screen with required path argument {itemId}
+						b.ComposableWithArgs("details/{itemId}", func(entry *navigation.BackStackEntry) api.Composable {
+							return DetailsScreen(navController, entry)
+						})
+					},
+				)(c)
 			},
 		)(c)
 	}
@@ -89,12 +99,27 @@ func HomeScreen(navController *navigation.NavController) api.Composable {
 	return func(c api.Composer) api.Composer {
 		return column.Column(
 			c.Sequence(
-				text.TextWithStyle("Home Screen", text.TypestyleBodyLarge),
+				text.TextWithStyle("Home Screen", text.TypestyleTitleLarge),
+				text.TextWithStyle("Select an item to view details:", text.TypestyleBodyLarge),
+
+				// Navigate to different items with different IDs
 				button.Filled(
 					func() {
-						navController.Navigate("details")
+						navController.Navigate("details/101")
 					},
-					"Go to Details",
+					"View Item 101",
+				),
+				button.Filled(
+					func() {
+						navController.Navigate("details/202")
+					},
+					"View Item 202",
+				),
+				button.Filled(
+					func() {
+						navController.Navigate("details/303")
+					},
+					"View Item 303",
 				),
 			),
 			column.WithSpacing(layout.SpaceAround),
@@ -103,11 +128,22 @@ func HomeScreen(navController *navigation.NavController) api.Composable {
 	}
 }
 
-func DetailsScreen(navController *navigation.NavController) api.Composable {
+func DetailsScreen(navController *navigation.NavController, entry *navigation.BackStackEntry) api.Composable {
 	return func(c api.Composer) api.Composer {
+		// Extract itemId from arguments
+		itemId := "unknown"
+		if entry.Arguments.IsSome() {
+			args := entry.Arguments.UnwrapUnsafe()
+			if id, ok := args.GetString("itemId"); ok {
+				itemId = id
+			}
+		}
+
 		return column.Column(
 			c.Sequence(
-				text.TextWithStyle("Details Screen", text.TypestyleBodyLarge),
+				text.TextWithStyle("Details Screen", text.TypestyleTitleLarge),
+				text.TextWithStyle(fmt.Sprintf("Viewing Item: %s", itemId), text.TypestyleHeadlineMedium),
+				text.TextWithStyle(fmt.Sprintf("This is the detail view for item ID: %s", itemId), text.TypestyleBodyLarge),
 				button.Filled(
 					func() {
 						navController.PopBackStack()

@@ -2,6 +2,7 @@ package navigation
 
 import (
 	"fmt"
+
 	"github.com/zodimo/go-compose/pkg/api"
 )
 
@@ -14,16 +15,16 @@ func NavHost(
 		graphBuilder := NewNavGraphBuilder()
 		builder(graphBuilder)
 
-		stack := navController.backStack.Get().([]BackStackEntry)
+		stack := navController.backStack.Get()
 		if len(stack) == 0 {
 			// Initialize with startDestination
-            // We use Navigate, but we must be careful about side effects during composition.
-            // Since this only happens when stack is empty (initial state), it should be safe enough
-            // provided the framework handles state updates.
-            // The update will trigger a recompose.
+			// We use Navigate, but we must be careful about side effects during composition.
+			// Since this only happens when stack is empty (initial state), it should be safe enough
+			// provided the framework handles state updates.
+			// The update will trigger a recompose.
 			navController.Navigate(startDestination)
-            // Re-fetch stack after update to ensure we render the frame correctly if synchronous
-            stack = navController.backStack.Get().([]BackStackEntry)
+			// Re-fetch stack after update to ensure we render the frame correctly if synchronous
+			stack = navController.backStack.Get()
 		}
 
 		currentEntry := navController.CurrentEntry()
@@ -31,16 +32,20 @@ func NavHost(
 			return c
 		}
 
-		destination, ok := graphBuilder.destinations[currentEntry.Route]
+		// Find matching destination and extract arguments
+		composableWithArgs, args, ok := graphBuilder.findDestination(currentEntry.Route)
 		if !ok {
-            // Log warning or handle error?
-            // For now, print to stdout as we don't have a logger
-            fmt.Printf("Warning: Destination not found for route: %s\n", currentEntry.Route)
+			// Log warning or handle error?
+			// For now, print to stdout as we don't have a logger
+			fmt.Printf("Warning: Destination not found for route: %s\n", currentEntry.Route)
 			return c
 		}
 
-		// We invoke the destination composable.
-        // It modifies the current composer.
-		return destination(c)
+		// Create entry with extracted arguments
+		entryWithArgs := NewBackStackEntry(currentEntry.Route, WithArguments(args))
+		entryWithArgs.ID = currentEntry.ID // Preserve original ID
+
+		// We invoke the destination composable with the entry containing arguments.
+		return composableWithArgs(&entryWithArgs)(c)
 	}
 }
