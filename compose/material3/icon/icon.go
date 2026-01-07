@@ -17,7 +17,7 @@ import (
 )
 
 // iconCacheKey is the key used to store the GlobalIconCache in the Composer's state.
-var iconCacheKey = "icon_global_cache"
+var iconCacheKey = "material3_icon_global_cache"
 
 const Material3IconNodeID = "Material3Icon"
 
