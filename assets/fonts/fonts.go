@@ -14,6 +14,9 @@ import (
 //go:embed NotoColorEmoji.ttf
 var emojiFont embed.FS
 
+//go:embed MaterialSymbolsOutlined.ttf
+var materialSymbolsFont embed.FS
+
 var (
 	cachedCollection []font.FontFace
 	collectionOnce   sync.Once
@@ -29,19 +32,23 @@ func Collection() []font.FontFace {
 
 		// Load and add the emoji font
 		emojiData, err := emojiFont.ReadFile("NotoColorEmoji.ttf")
-		if err != nil {
-			// If emoji font fails to load, keep just the Go fonts
-			return
+		if err == nil {
+			// ParseCollection returns []font.FontFace directly
+			emojiFaces, err := opentype.ParseCollection(emojiData)
+			if err == nil {
+				// Append emoji faces to the collection
+				cachedCollection = append(cachedCollection, emojiFaces...)
+			}
 		}
 
-		// ParseCollection returns []font.FontFace directly
-		emojiFaces, err := opentype.ParseCollection(emojiData)
-		if err != nil {
-			return
+		// Load and add the Material Symbols font
+		symbolsData, err := materialSymbolsFont.ReadFile("MaterialSymbolsOutlined.ttf")
+		if err == nil {
+			symbolsFaces, err := opentype.ParseCollection(symbolsData)
+			if err == nil {
+				cachedCollection = append(cachedCollection, symbolsFaces...)
+			}
 		}
-
-		// Append emoji faces to the collection
-		cachedCollection = append(cachedCollection, emojiFaces...)
 	})
 
 	return cachedCollection

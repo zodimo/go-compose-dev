@@ -1,14 +1,15 @@
 package theme
 
 import (
-	"gioui.org/font/gofont"
+	"github.com/zodimo/go-compose/assets/fonts"
+
 	"gioui.org/text"
 	"gioui.org/widget/material"
 )
 
 func defaultMaterialTheme() *material.Theme {
 	materialTheme := material.NewTheme()
-	materialTheme.Shaper = text.NewShaper(text.WithCollection(gofont.Collection()))
+	materialTheme.Shaper = text.NewShaper(text.WithCollection(fonts.Collection()))
 
 	return materialTheme
 }
