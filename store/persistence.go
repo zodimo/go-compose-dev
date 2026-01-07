@@ -109,7 +109,7 @@ func WrapMutableValue[T any](mv *MutableValue) (TypedMutableValueInterface[T], e
 	_, ok := mv.cell.(T)
 	if !ok {
 		var zero T
-		return nil, fmt.Errorf("cell is not of type %T", zero)
+		return nil, fmt.Errorf("cell is not of type %T, got %T", zero, mv.cell)
 	}
 
 	return &MutableValueTypedWrapper[T]{
