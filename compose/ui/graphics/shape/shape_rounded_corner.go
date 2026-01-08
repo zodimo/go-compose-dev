@@ -38,21 +38,33 @@ type RoundedCornerShape struct {
 func (r *RoundedCornerShape) CreateOutline(size image.Point, metric gioUnit.Metric) Outline {
 	rValid := coalesceRoundedCornerShape(r, RoundedCornerShapeUnspecified)
 
-	// Determine if per-corner radius is being used
-	hasPerCorner := rValid.TopStart.IsSpecified() || rValid.TopEnd.IsSpecified() || rValid.BottomEnd.IsSpecified() || rValid.BottomStart.IsSpecified()
-
 	var nw, ne, se, sw int
-	if hasPerCorner {
-		nw = metric.Dp(unit.DpToGioUnit(rValid.TopStart.TakeOrElse(unit.Dp(0))))
-		ne = metric.Dp(unit.DpToGioUnit(rValid.TopEnd.TakeOrElse(unit.Dp(0))))
-		se = metric.Dp(unit.DpToGioUnit(rValid.BottomEnd.TakeOrElse(unit.Dp(0))))
-		sw = metric.Dp(unit.DpToGioUnit(rValid.BottomStart.TakeOrElse(unit.Dp(0))))
-	} else {
-		radius := metric.Dp(unit.DpToGioUnit(rValid.Radius.TakeOrElse(unit.Dp(0))))
-		if radius == 0 {
-			return rectOutline{clip.Rect{Max: size}}
-		}
+
+	// Check if uniform Radius is specified first (this is the most common case)
+	// Note: Dp(0) is technically "specified" but means no rounding, which is correct.
+	// The uniform Radius field takes precedence when set.
+	if rValid.Radius.IsSpecified() {
+		radius := metric.Dp(unit.DpToGioUnit(rValid.Radius))
 		nw, ne, se, sw = radius, radius, radius, radius
+	} else {
+		// Fall back to per-corner values if uniform Radius is not set or is 0
+		// Per-corner values are only used if at least one is > 0
+		topStart := rValid.TopStart.TakeOrElse(unit.Dp(0))
+		topEnd := rValid.TopEnd.TakeOrElse(unit.Dp(0))
+		bottomEnd := rValid.BottomEnd.TakeOrElse(unit.Dp(0))
+		bottomStart := rValid.BottomStart.TakeOrElse(unit.Dp(0))
+
+		if topStart > 0 || topEnd > 0 || bottomEnd > 0 || bottomStart > 0 {
+			nw = metric.Dp(unit.DpToGioUnit(topStart))
+			ne = metric.Dp(unit.DpToGioUnit(topEnd))
+			se = metric.Dp(unit.DpToGioUnit(bottomEnd))
+			sw = metric.Dp(unit.DpToGioUnit(bottomStart))
+		}
+	}
+
+	// If all corners are 0, use a simple rectangle
+	if nw == 0 && ne == 0 && se == 0 && sw == 0 {
+		return rectOutline{clip.Rect{Max: size}}
 	}
 
 	return rrectOutline{clip.RRect{

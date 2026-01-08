@@ -106,7 +106,7 @@ func (d Dp) IsSpecified() bool {
 
 // IsUnspecified checks if the Dp is unspecified (NaN).
 func (d Dp) IsUnspecified() bool {
-	return floatutils.IsSpecified(d)
+	return floatutils.IsUnspecified(d)
 }
 
 // IsFinite returns true when it is finite.
