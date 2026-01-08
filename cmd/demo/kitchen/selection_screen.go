@@ -86,7 +86,8 @@ func SelectionScreen(c api.Composer) api.Composable {
 			SectionTitle("Segmented Button"),
 			spacer.Height(8),
 			func(c api.Composer) api.Composer {
-				selectedIndex := c.State("seg_index", func() any { return 0 }).Get().(int)
+				selectedIndexState := c.State("seg_index", func() any { return 0 })
+				selectedIndex := selectedIndexState.Get().(int)
 				options := []string{"Day", "Week", "Month"}
 				checkIcon := icon.Icon(mdicons.NavigationCheck)
 
@@ -96,7 +97,7 @@ func SelectionScreen(c api.Composer) api.Composable {
 							selectedIndex == i,
 							func(checked bool) {
 								if checked {
-									c.State("seg_index", nil).Set(i)
+									selectedIndexState.Set(i)
 								}
 							},
 							options[i],
