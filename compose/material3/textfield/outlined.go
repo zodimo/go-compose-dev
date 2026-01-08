@@ -218,6 +218,8 @@ type OutlinedTextFieldWidget struct {
 	helper helper
 	anim   *Progress
 
+	editorInset layout.Inset
+
 	errored bool
 }
 
@@ -381,10 +383,7 @@ func (in *OutlinedTextFieldWidget) Layout(gtx layout.Context, th *gioMaterial.Th
 								}),
 								// Prefix would go here
 								layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-									return layout.Inset{
-										Top:    gioUnit.Dp(12),
-										Bottom: gioUnit.Dp(12),
-									}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+									return in.editorInset.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 										// Resolve editor colors
 										textColor := graphics.ColorToNRGBA(in.Colors.TextColor)
 										if !gtx.Enabled() {
@@ -518,53 +517,32 @@ func (in *OutlinedTextFieldWidget) update(gtx layout.Context, th *gioMaterial.Th
 	}
 	in.anim.Update(gtx.Now)
 
-	var (
-		textNormal = th.TextSize
-		textSmall  = th.TextSize * 0.8
+	// Colors
+	in.border.Color = graphics.ColorToNRGBA(in.Colors.UnfocusedIndicatorColor)
+	in.helper.Color = graphics.ColorToNRGBA(in.Colors.SupportingTextColor)
+	in.border.Thickness = gioUnit.Dp(1)
 
-		borderColor         = graphics.ColorToNRGBA(in.Colors.UnfocusedIndicatorColor)
-		borderColorHovered  = graphics.ColorToNRGBA(in.Colors.HoveredIndicatorColor)
-		borderColorActive   = graphics.ColorToNRGBA(in.Colors.FocusedIndicatorColor)
-		borderColorError    = graphics.ColorToNRGBA(in.Colors.ErrorIndicatorColor)
-		borderColorDisabled = graphics.ColorToNRGBA(in.Colors.DisabledIndicatorColor)
-
-		borderThickness       = gioUnit.Dp(1)
-		borderThicknessActive = gioUnit.Dp(2)
-
-		helperColor         = graphics.ColorToNRGBA(in.Colors.SupportingTextColor)
-		helperColorError    = graphics.ColorToNRGBA(in.Colors.ErrorSupportingTextColor)
-		helperColorDisabled = graphics.ColorToNRGBA(in.Colors.DisabledSupportingTextColor)
-	)
-
-	if disabled {
-		borderColor = borderColorDisabled
-		borderColorHovered = borderColorDisabled
-		borderColorActive = borderColorDisabled
-		borderColorError = borderColorDisabled
-		helperColor = helperColorDisabled
-		helperColorError = helperColorDisabled
+	if in.state == hovered {
+		in.border.Color = graphics.ColorToNRGBA(in.Colors.HoveredIndicatorColor)
+	} else if in.state == focused {
+		in.border.Color = graphics.ColorToNRGBA(in.Colors.FocusedIndicatorColor)
+		in.border.Thickness = gioUnit.Dp(2)
 	}
 
-	in.label.TextSize = gioUnit.Sp(lerp.Between32(float32(textSmall), float32(textNormal), 1.0-in.anim.Progress()))
-	switch in.state {
-	case inactive:
-		in.border.Thickness = borderThickness
-		in.border.Color = borderColor
-		in.helper.Color = helperColor
-	case hovered, activated:
-		in.border.Thickness = borderThickness
-		in.border.Color = borderColorHovered
-		in.helper.Color = helperColor
-	case focused:
-		in.border.Thickness = borderThicknessActive
-		in.border.Color = borderColorActive
-		in.helper.Color = helperColor
+	if disabled {
+		in.border.Color = graphics.ColorToNRGBA(in.Colors.DisabledIndicatorColor)
+		in.helper.Color = graphics.ColorToNRGBA(in.Colors.DisabledSupportingTextColor)
 	}
 
 	if in.IsErrored() {
-		in.border.Color = borderColorError
-		in.helper.Color = helperColorError
+		in.border.Color = graphics.ColorToNRGBA(in.Colors.ErrorIndicatorColor)
+		in.helper.Color = graphics.ColorToNRGBA(in.Colors.ErrorSupportingTextColor)
 	}
+
+	// Label Logic
+	textNormal := th.TextSize
+	textSmall := th.TextSize * 0.8
+	in.label.TextSize = gioUnit.Sp(lerp.Between32(float32(textSmall), float32(textNormal), 1.0-in.anim.Progress()))
 
 	// Calculate smallest label for cutout
 	gtx.Constraints.Min.X = 0
@@ -583,11 +561,20 @@ func (in *OutlinedTextFieldWidget) update(gtx layout.Context, th *gioMaterial.Th
 	})
 	macro.Stop()
 
-	labelTopInsetNormal := float32(in.label.Smallest.Size.Y) - float32(in.label.Smallest.Size.Y/4)
-	topInsetDP := gioUnit.Dp(labelTopInsetNormal / gtx.Metric.PxPerDp)
-	topInsetActiveDP := (topInsetDP / 2 * -1) - gioUnit.Dp(in.border.Thickness)
+	// Calculate label position
+	// Inactive: 16dp (matches text padding)
+	// Active: -Height/2 (sits on border)
+	startTop := float32(gtx.Dp(16))
+	endTop := float32(in.label.Smallest.Size.Y) / -2.0
+
 	in.label.Inset = layout.Inset{
-		Top:  gioUnit.Dp(lerp.Between32(float32(topInsetDP), float32(topInsetActiveDP), in.anim.Progress())),
-		Left: gioUnit.Dp(10),
+		Top:  gioUnit.Dp(lerp.Between32(startTop, endTop, in.anim.Progress())),
+		Left: gioUnit.Dp(12),
+	}
+
+	// Editor Inset
+	in.editorInset = layout.Inset{
+		Top:    gioUnit.Dp(16),
+		Bottom: gioUnit.Dp(16),
 	}
 }

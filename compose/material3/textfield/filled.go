@@ -205,6 +205,8 @@ type FilledTextFieldWidget struct {
 	helper helper
 	anim   *Progress
 
+	editorInset layout.Inset
+
 	errored bool
 }
 
@@ -267,10 +269,7 @@ func (in *FilledTextFieldWidget) Layout(gtx layout.Context, th *gioMaterial.Them
 									return layout.Dimensions{}
 								}),
 								layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
-									return layout.Inset{
-										Top:    gioUnit.Dp(16),
-										Bottom: gioUnit.Dp(16),
-									}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+									return in.editorInset.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 										textColor := graphics.ColorToNRGBA(in.Colors.TextColor)
 										if !gtx.Enabled() {
 											textColor = graphics.ColorToNRGBA(in.Colors.DisabledTextColor)
@@ -397,6 +396,16 @@ func (in *FilledTextFieldWidget) update(gtx layout.Context, th *gioMaterial.Them
 	in.label.Inset = layout.Inset{
 		Top:  gioUnit.Dp(lerp.Between32(startTop, endTop, in.anim.Progress())),
 		Left: gioUnit.Dp(16),
+	}
+
+	startEditorTop := float32(gtx.Dp(16))
+	endEditorTop := float32(gtx.Dp(24))
+	startEditorBottom := float32(gtx.Dp(16))
+	endEditorBottom := float32(gtx.Dp(8))
+
+	in.editorInset = layout.Inset{
+		Top:    gioUnit.Dp(lerp.Between32(startEditorTop, endEditorTop, in.anim.Progress())),
+		Bottom: gioUnit.Dp(lerp.Between32(startEditorBottom, endEditorBottom, in.anim.Progress())),
 	}
 }
 
