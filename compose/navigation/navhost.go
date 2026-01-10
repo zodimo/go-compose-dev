@@ -46,6 +46,6 @@ func NavHost(
 		entryWithArgs.ID = currentEntry.ID // Preserve original ID
 
 		// We invoke the destination composable with the entry containing arguments.
-		return composableWithArgs(&entryWithArgs)(c)
+		return c.Key(entryWithArgs.Route, composableWithArgs(&entryWithArgs))(c)
 	}
 }
