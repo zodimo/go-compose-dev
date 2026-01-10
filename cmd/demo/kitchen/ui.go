@@ -50,57 +50,56 @@ func UI(c api.Composer) api.LayoutNode {
 	}
 
 	c = c.Sequence(
-		func(c api.Composer) api.Composer {
-			// Scaffold with navigation
-			scaffold.Scaffold(
-				// Content area based on selected category
-				lazy.LazyColumn(
-					func(scope lazy.LazyListScope) {
-						scope.Item(nil, func(c api.Composer) api.Composer {
-							return c.Sequence(
-								c.When(currentCategory == CategoryActions, ActionsScreen(c)),
-								c.When(currentCategory == CategorySelection, SelectionScreen(c)),
-								c.When(currentCategory == CategoryFeedback, FeedbackScreen(c, showDialog, snackbarHostState)),
-								c.When(currentCategory == CategoryInputs, InputsScreen(c)),
-								c.When(currentCategory == CategoryTypography, TypographyScreen(c)),
+		// Scaffold with navigation
+		scaffold.Scaffold(
+			// Content area based on selected category
+			lazy.LazyColumn(
+				func(scope lazy.LazyListScope) {
+					scope.Item(nil, func(c api.Composer) api.Composer {
+						return c.Sequence(
+							c.When(currentCategory == CategoryActions, ActionsScreen(c)),
+							c.When(currentCategory == CategorySelection, SelectionScreen(c)),
+							c.When(currentCategory == CategoryFeedback, FeedbackScreen(c, showDialog, snackbarHostState)),
+							c.When(currentCategory == CategoryInputs, InputsScreen(c)),
+							c.When(currentCategory == CategoryTypography, TypographyScreen(c)),
+						)(c)
+					})
+				},
+				lazy.WithModifier(weight.Weight(1).Then(size.FillMaxWidth())),
+			),
+			scaffold.WithTopBar(
+				appbar.TopAppBar(
+					m3text.TextWithStyle(
+						"Component Showcase",
+						m3text.TypestyleTitleLarge,
+					),
+				),
+			),
+			scaffold.WithBottomBar(
+				navigationbar.NavigationBar(
+					func(c api.Composer) api.Composer {
+						for i, item := range navItems {
+							idx := i
+							navigationbar.NavigationBarItem(
+								currentCategory == idx,
+								func() { selectedCategory.Set(idx) },
+								func(c api.Composer) api.Composer {
+									return icon.Icon(item.Icon)(c)
+								},
+								func(c api.Composer) api.Composer {
+									return m3text.TextWithStyle(item.Label, m3text.TypestyleLabelMedium)(c)
+								},
 							)(c)
-						})
+						}
+						return c
 					},
-					lazy.WithModifier(weight.Weight(1).Then(size.FillMaxWidth())),
 				),
-				scaffold.WithTopBar(
-					appbar.TopAppBar(
-						m3text.TextWithStyle(
-							"Component Showcase",
-							m3text.TypestyleTitleLarge,
-						),
-					),
-				),
-				scaffold.WithBottomBar(
-					navigationbar.NavigationBar(
-						func(c api.Composer) api.Composer {
-							for i, item := range navItems {
-								idx := i
-								navigationbar.NavigationBarItem(
-									currentCategory == idx,
-									func() { selectedCategory.Set(idx) },
-									func(c api.Composer) api.Composer {
-										return icon.Icon(item.Icon)(c)
-									},
-									func(c api.Composer) api.Composer {
-										return m3text.TextWithStyle(item.Label, m3text.TypestyleLabelMedium)(c)
-									},
-								)(c)
-							}
-							return c
-						},
-					),
-				),
-				scaffold.WithModifier(size.FillMax()),
-			)(c)
-
-			// Dialog overlay
-			c.When(showDialog.Get().(bool), overlay.Overlay(
+			),
+			scaffold.WithModifier(size.FillMax()),
+		),
+		// Dialog overlay
+		c.When(showDialog.Get().(bool),
+			overlay.Overlay(
 				dialog.AlertDialog(
 					func() { showDialog.Set(false) },
 					func() { showDialog.Set(false) },
@@ -114,13 +113,10 @@ func UI(c api.Composer) api.LayoutNode {
 				overlay.WithOnDismiss(func() {
 					showDialog.Set(false)
 				}),
-			))(c)
-
-			// Snackbar host overlay
-			snackbar.SnackbarHost(snackbarHostState)(c)
-
-			return c
-		},
+			),
+		),
+		// Snackbar host overlay
+		snackbar.SnackbarHost(snackbarHostState),
 	)(c)
 
 	return c.Build()
