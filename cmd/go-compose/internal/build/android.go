@@ -157,11 +157,12 @@ func buildAndroid(tmpDir string, bi *BuildInfo, outputFile string) error {
 }
 
 func compileAndroid(tmpDir string, tools *androidTools, bi *BuildInfo) error {
-	androidHome := os.Getenv("ANDROID_HOME")
-	ndkRoot, err := findNDK(androidHome)
-	if err != nil {
-		return err
+
+	ndkRoot := os.Getenv("ANDROID_NDK_HOME")
+	if ndkRoot == "" {
+		return errors.New("please set ANDROID_NDK_HOME to the Android NDK path")
 	}
+
 	minSDK := bi.MinSDK
 	if minSDK < 17 {
 		minSDK = 17
@@ -431,14 +432,6 @@ func latestTools(sdk string) (string, error) {
 		return "", errors.New("no build-tools found")
 	}
 	return tools[len(tools)-1], nil
-}
-
-func findNDK(sdk string) (string, error) {
-	ndks, _ := filepath.Glob(filepath.Join(sdk, "ndk", "*"))
-	if len(ndks) > 0 {
-		return ndks[len(ndks)-1], nil
-	}
-	return "", errors.New("no NDK found")
 }
 
 func archNDK() string {
