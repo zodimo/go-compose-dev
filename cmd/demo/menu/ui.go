@@ -14,12 +14,9 @@ import (
 	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/modifiers/padding"
 	"github.com/zodimo/go-compose/pkg/api"
-	"github.com/zodimo/go-compose/theme"
 
 	mdicons "golang.org/x/exp/shiny/materialdesign/icons"
 )
-
-var colorHelper = theme.ColorHelper
 
 func UI() api.Composable {
 	return func(c api.Composer) api.Composer {
@@ -77,7 +74,7 @@ func UI() api.Composable {
 									},
 									// Options
 									menu.WithModifier(ui.EmptyModifier),
-									menu.WithOffset(unit.Dp(0), unit.Dp(0)),
+									menu.WithOffset(unit.Dp(0), unit.Dp(40)), // Position below button
 								)(c)
 								return c
 							},
@@ -133,7 +130,7 @@ func UI() api.Composable {
 										return c
 									},
 									// Options
-									menu.WithOffset(unit.Dp(10), unit.Dp(10)), // Offset example
+									menu.WithOffset(unit.Dp(0), unit.Dp(48)), // Position below button
 								)(c)
 								return c
 							},

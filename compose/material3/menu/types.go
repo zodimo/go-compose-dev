@@ -35,3 +35,27 @@ func DefaultDropdownMenuItemColors(c Composer) DropdownMenuItemColors {
 		DisabledTrailingIconColor: graphics.SetOpacity(material3.Theme(c).ColorScheme().OnSurface, 0.38), // theme.ColorHelper.ColorSelector().SurfaceRoles.OnSurface.SetOpacity(0.38), //m3.Scheme.Surface.OnColor.SetOpacity(0.38),
 	}
 }
+
+// TextColorFor returns the text color based on enabled state.
+func (c DropdownMenuItemColors) TextColorFor(enabled bool) graphics.Color {
+	if enabled {
+		return c.TextColor
+	}
+	return c.DisabledTextColor
+}
+
+// LeadingIconColorFor returns the leading icon color based on enabled state.
+func (c DropdownMenuItemColors) LeadingIconColorFor(enabled bool) graphics.Color {
+	if enabled {
+		return c.LeadingIconColor
+	}
+	return c.DisabledLeadingIconColor
+}
+
+// TrailingIconColorFor returns the trailing icon color based on enabled state.
+func (c DropdownMenuItemColors) TrailingIconColorFor(enabled bool) graphics.Color {
+	if enabled {
+		return c.TrailingIconColor
+	}
+	return c.DisabledTrailingIconColor
+}

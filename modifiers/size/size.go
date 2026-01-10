@@ -6,6 +6,12 @@ type SizeData struct {
 	Width  int
 	Height int
 
+	// Min/Max constraints
+	MinWidth  int
+	MaxWidth  int
+	MinHeight int
+	MaxHeight int
+
 	FillMaxWidth  bool
 	FillMaxHeight bool
 	FillMax       bool

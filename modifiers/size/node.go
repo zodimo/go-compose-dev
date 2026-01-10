@@ -169,6 +169,38 @@ func ApplySizeDataToConstraints(constraints layout.Constraints, sizeData SizeDat
 		}
 	}
 
+	// Apply Min/Max Width constraints
+	if sizeData.MinWidth != 0 {
+		if sizeData.MinWidth > c.Min.X {
+			c.Min.X = sizeData.MinWidth
+		}
+	}
+	if sizeData.MaxWidth != 0 {
+		if sizeData.MaxWidth < c.Max.X {
+			c.Max.X = sizeData.MaxWidth
+		}
+		// Ensure min doesn't exceed max
+		if c.Min.X > c.Max.X {
+			c.Min.X = c.Max.X
+		}
+	}
+
+	// Apply Min/Max Height constraints
+	if sizeData.MinHeight != 0 {
+		if sizeData.MinHeight > c.Min.Y {
+			c.Min.Y = sizeData.MinHeight
+		}
+	}
+	if sizeData.MaxHeight != 0 {
+		if sizeData.MaxHeight < c.Max.Y {
+			c.Max.Y = sizeData.MaxHeight
+		}
+		// Ensure min doesn't exceed max
+		if c.Min.Y > c.Max.Y {
+			c.Min.Y = c.Max.Y
+		}
+	}
+
 	// Fill Logic
 	if sizeData.FillMaxWidth {
 		c.Min.X = c.Max.X

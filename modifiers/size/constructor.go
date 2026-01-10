@@ -263,3 +263,87 @@ func Height(height int, options ...SizeOption) ui.Modifier {
 		),
 	)
 }
+
+// MinWidth sets the minimum width constraint for the element.
+func MinWidth(minWidth int) ui.Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			&SizeElement{
+				size: SizeData{
+					Width:    NotSet,
+					Height:   NotSet,
+					MinWidth: minWidth,
+				},
+			},
+		),
+		modifier.NewInspectorInfo(
+			"minWidth",
+			map[string]any{
+				"minWidth": minWidth,
+			},
+		),
+	)
+}
+
+// MaxWidth sets the maximum width constraint for the element.
+func MaxWidth(maxWidth int) ui.Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			&SizeElement{
+				size: SizeData{
+					Width:    NotSet,
+					Height:   NotSet,
+					MaxWidth: maxWidth,
+				},
+			},
+		),
+		modifier.NewInspectorInfo(
+			"maxWidth",
+			map[string]any{
+				"maxWidth": maxWidth,
+			},
+		),
+	)
+}
+
+// MinHeight sets the minimum height constraint for the element.
+func MinHeight(minHeight int) ui.Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			&SizeElement{
+				size: SizeData{
+					Width:     NotSet,
+					Height:    NotSet,
+					MinHeight: minHeight,
+				},
+			},
+		),
+		modifier.NewInspectorInfo(
+			"minHeight",
+			map[string]any{
+				"minHeight": minHeight,
+			},
+		),
+	)
+}
+
+// MaxHeight sets the maximum height constraint for the element.
+func MaxHeight(maxHeight int) ui.Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			&SizeElement{
+				size: SizeData{
+					Width:     NotSet,
+					Height:    NotSet,
+					MaxHeight: maxHeight,
+				},
+			},
+		),
+		modifier.NewInspectorInfo(
+			"maxHeight",
+			map[string]any{
+				"maxHeight": maxHeight,
+			},
+		),
+	)
+}

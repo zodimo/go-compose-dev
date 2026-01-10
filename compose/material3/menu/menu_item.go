@@ -28,37 +28,30 @@ func DropdownMenuItem(
 			option(&opts)
 		}
 
-		colors := DefaultDropdownMenuItemColors(c)
+		colors := MenuDefaults.ItemColors(c)
 
-		// Determine colors based on enabled state
-		textColor := colors.TextColor
-		if !opts.Enabled {
-			textColor = colors.DisabledTextColor
-		}
+		// Determine colors based on enabled state using helper methods
+		textColor := colors.TextColorFor(opts.Enabled)
 
-		// TODO: Apply ripple info in Clickable when available
+		// TODO: Apply ripple indicator in Clickable when available
 
 		return box.Box(
 			func(c Composer) Composer {
 				return row.Row(
 					func(c Composer) Composer {
 						// Leading Icon
-						// Fix alignment manually via Box around icon if Padding modifier acts weird.
-						// But let's try Padding(NotSet, NotSet, 12, NotSet) for End padding.
-						// Padding(start, top, end, bottom).
-						leadingIconMod := ui.Modifier(padding.Padding(padding.NotSet, padding.NotSet, 12, padding.NotSet))
-
 						if opts.LeadingIcon != nil {
+							leadingIconMod := ui.Modifier(padding.Padding(
+								padding.NotSet, padding.NotSet,
+								int(DropdownMenuItemHorizontalPadding), padding.NotSet,
+							))
 							box.Box(
 								opts.LeadingIcon,
 								box.WithModifier(leadingIconMod),
 							)(c)
 						}
 
-						// Text
-						// M3 spec: Label Large
-						// We wrap text in Box to allow weight/grow if needed, but Row handles simple layout well.
-						// Text
+						// Text - M3 spec: Label Large
 						text.LabelLarge(
 							textStr,
 							fText.WithTextStyleOptions(
@@ -66,15 +59,12 @@ func DropdownMenuItem(
 							),
 						)(c)
 
-						// Spacer to push trailing icon?
-						// Usually MenuItem fills width, so we might want Weight(1) on Text.
-						// But Row here aligns Middle.
-
+						// Trailing Icon
 						if opts.TrailingIcon != nil {
-							// Spacer? Or just padding?
-							// Use Box with weight if we want space between.
-							// For now just layout next to it.
-							trailingIconMod := ui.Modifier(padding.Padding(12, padding.NotSet, padding.NotSet, padding.NotSet))
+							trailingIconMod := ui.Modifier(padding.Padding(
+								int(DropdownMenuItemHorizontalPadding), padding.NotSet,
+								padding.NotSet, padding.NotSet,
+							))
 							box.Box(
 								opts.TrailingIcon,
 								box.WithModifier(trailingIconMod),
@@ -86,10 +76,14 @@ func DropdownMenuItem(
 				)(c)
 			},
 			box.WithModifier(
-				size.FillMaxWidth().
-					Then(size.Height(48)).
+				size.WrapContentWidth().
+					Then(size.MinWidth(int(DropdownMenuItemDefaultMinWidth))).
+					Then(size.Height(int(MenuListItemContainerHeight))).
 					Then(clickable.OnClick(onClick)).
-					Then(padding.Horizontal(12, 12)).
+					Then(padding.Horizontal(
+						int(DropdownMenuItemHorizontalPadding),
+						int(DropdownMenuItemHorizontalPadding),
+					)).
 					Then(opts.Modifier),
 			),
 			box.WithAlignment(box.W), // Align Content to Center Start (West)
