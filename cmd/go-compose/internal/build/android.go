@@ -158,9 +158,9 @@ func buildAndroid(tmpDir string, bi *BuildInfo, outputFile string) error {
 
 func compileAndroid(tmpDir string, tools *androidTools, bi *BuildInfo) error {
 
-	ndkRoot := os.Getenv("ANDROID_NDK_HOME")
+	ndkRoot := os.Getenv("ANDROID_NDK_ROOT")
 	if ndkRoot == "" {
-		return errors.New("please set ANDROID_NDK_HOME to the Android NDK path")
+		return errors.New("please set ANDROID_NDK_ROOT to the Android NDK path")
 	}
 
 	minSDK := bi.MinSDK
@@ -366,7 +366,17 @@ func createUnsignedAPK(unsignedAPK, linkAPK, dexDir, tmpDir string, bi *BuildInf
 	defer r.Close()
 
 	for _, file := range r.File {
-		fw, _ := w.Create(file.Name)
+		// For Android R+ (API 30+), resources.arsc must be stored uncompressed
+		var fw io.Writer
+		if file.Name == "resources.arsc" {
+			header := &zip.FileHeader{
+				Name:   file.Name,
+				Method: zip.Store, // Store uncompressed
+			}
+			fw, _ = w.CreateHeader(header)
+		} else {
+			fw, _ = w.Create(file.Name)
+		}
 		fr, _ := file.Open()
 		io.Copy(fw, fr)
 		fr.Close()
