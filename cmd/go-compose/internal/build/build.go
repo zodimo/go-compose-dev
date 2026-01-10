@@ -8,8 +8,10 @@ import (
 func Run(args []string) error {
 	fs := flag.NewFlagSet("build", flag.ExitOnError)
 	var (
-		target = fs.String("target", "desktop", "Target platform (android, js, desktop)")
-		output = fs.String("o", "", "Output file or directory")
+		target     = fs.String("target", "desktop", "Target platform (android, js, desktop)")
+		output     = fs.String("o", "", "Output file or directory")
+		androidAPI = fs.Int("api", 35, "Android API version (e.g., 35)")
+		ndkVersion = fs.String("ndk", "", "NDK version (e.g., 27.2.12479018)")
 	)
 
 	if err := fs.Parse(args); err != nil {
@@ -31,7 +33,7 @@ func Run(args []string) error {
 		if *output == "" {
 			// output is optional in BuildAndroid logic, handled there
 		}
-		return BuildAndroid(*output, []string{pkgPath})
+		return BuildAndroid(*output, []string{pkgPath}, *androidAPI, *ndkVersion)
 	case "desktop":
 		return BuildDesktop(*output, pkgPath)
 	default:

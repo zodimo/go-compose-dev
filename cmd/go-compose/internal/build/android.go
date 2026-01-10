@@ -64,7 +64,7 @@ var (
 	}
 )
 
-func BuildAndroid(output string, args []string) error {
+func BuildAndroid(output string, args []string, androidAPI int, ndkVersion string) error {
 	if len(args) == 0 {
 		return fmt.Errorf("package path required")
 	}
@@ -76,7 +76,7 @@ func BuildAndroid(output string, args []string) error {
 		AppID:     "org.gioui.experiment", // default
 		Version:   Semver{Major: 1, Minor: 0, Patch: 0, VersionCode: 1},
 		MinSDK:    21, // Good default
-		TargetSDK: 33,
+		TargetSDK: androidAPI,
 		Name:      "GioApp", // default
 		PkgPath:   pkgPath,
 		Archs:     []string{"arm64", "amd64"}, // Common archs
@@ -89,18 +89,26 @@ func BuildAndroid(output string, args []string) error {
 	}
 	defer os.RemoveAll(tmpDir)
 
-	return buildAndroid(tmpDir, bi, output)
+	return buildAndroid(tmpDir, bi, output, androidAPI, ndkVersion)
 }
 
-func buildAndroid(tmpDir string, bi *BuildInfo, outputFile string) error {
+func buildAndroid(tmpDir string, bi *BuildInfo, outputFile string, androidAPI int, ndkVersion string) error {
+	// Derive SDK base from ANDROID_HOME or default to ~/Android/Sdk
 	sdk := os.Getenv("ANDROID_HOME")
 	if sdk == "" {
-		return errors.New("please set ANDROID_HOME to the Android SDK path")
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return fmt.Errorf("failed to get user home directory: %w", err)
+		}
+		sdk = filepath.Join(homeDir, "Android", "Sdk")
 	}
-	platform, err := latestPlatform(sdk)
-	if err != nil {
-		return err
+
+	// Derive platform path from androidAPI: ~/Android/Sdk/platforms/android-{api}
+	platform := filepath.Join(sdk, "platforms", fmt.Sprintf("android-%d", androidAPI))
+	if _, err := os.Stat(platform); os.IsNotExist(err) {
+		return fmt.Errorf("platform not found: %s (install android-%d via SDK Manager)", platform, androidAPI)
 	}
+
 	buildtools, err := latestTools(sdk)
 	if err != nil {
 		return err
@@ -138,7 +146,7 @@ func buildAndroid(tmpDir string, bi *BuildInfo, outputFile string) error {
 	}
 	visitPkg(pkgs[0])
 
-	if err := compileAndroid(tmpDir, tools, bi); err != nil {
+	if err := compileAndroid(tmpDir, tools, bi, ndkVersion); err != nil {
 		return err
 	}
 
@@ -156,11 +164,25 @@ func buildAndroid(tmpDir string, bi *BuildInfo, outputFile string) error {
 	return signAPK(tmpDir, outputFile, tools, bi)
 }
 
-func compileAndroid(tmpDir string, tools *androidTools, bi *BuildInfo) error {
+func compileAndroid(tmpDir string, tools *androidTools, bi *BuildInfo, ndkVersion string) error {
+	// Derive NDK root from ndkVersion: ~/Android/Sdk/ndk/{version}
+	var ndkRoot string
+	if ndkVersion != "" {
+		homeDir, err := os.UserHomeDir()
+		if err != nil {
+			return fmt.Errorf("failed to get user home directory: %w", err)
+		}
+		ndkRoot = filepath.Join(homeDir, "Android", "Sdk", "ndk", ndkVersion)
+	} else {
+		// Fallback to ANDROID_NDK_ROOT env var
+		ndkRoot = os.Getenv("ANDROID_NDK_ROOT")
+		if ndkRoot == "" {
+			return errors.New("please provide -ndk version flag or set ANDROID_NDK_ROOT")
+		}
+	}
 
-	ndkRoot := os.Getenv("ANDROID_NDK_ROOT")
-	if ndkRoot == "" {
-		return errors.New("please set ANDROID_NDK_ROOT to the Android NDK path")
+	if _, err := os.Stat(ndkRoot); os.IsNotExist(err) {
+		return fmt.Errorf("NDK not found: %s (install via SDK Manager or correct -ndk flag)", ndkRoot)
 	}
 
 	minSDK := bi.MinSDK
@@ -186,7 +208,7 @@ func compileAndroid(tmpDir string, tools *androidTools, bi *BuildInfo) error {
 		cmd := exec.Command(
 			"go",
 			"build",
-			"-ldflags=-w -s -extldflags \"-Wl,-z,max-page-size=65536\"",
+			"-ldflags=-w -s -extldflags \"-Wl,-z,max-page-size=16384,-z,common-page-size=4096\"",
 			"-buildmode=c-shared",
 			"-tags", bi.Tags,
 			"-o", libFile,
