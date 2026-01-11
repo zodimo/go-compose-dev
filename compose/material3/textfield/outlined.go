@@ -48,6 +48,7 @@ func Outlined(
 
 		opts.Colors = ResolveTextFieldColors(c, opts.Colors)
 		opts.SupportingText = sentinel.TakeOrElseString(opts.SupportingText, "")
+		opts.Label = sentinel.TakeOrElseString(opts.Label, "")
 
 		key := c.GenerateID()
 		path := c.GetPath()
