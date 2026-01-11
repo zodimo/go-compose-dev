@@ -5,6 +5,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/overlay"
 	"github.com/zodimo/go-compose/compose/foundation/lazy"
 	"github.com/zodimo/go-compose/compose/material3/appbar"
+	"github.com/zodimo/go-compose/compose/material3/button"
 	"github.com/zodimo/go-compose/compose/material3/dialog"
 	"github.com/zodimo/go-compose/compose/material3/navigationbar"
 	"github.com/zodimo/go-compose/compose/material3/scaffold"
@@ -102,13 +103,10 @@ func UI(c api.Composer) api.LayoutNode {
 			overlay.Overlay(
 				dialog.AlertDialog(
 					func() { showDialog.Set(false) },
-					func() { showDialog.Set(false) },
-					"Confirm",
-					dialog.WithTitle("Example Dialog"),
-					dialog.WithText("This is an example AlertDialog demonstrating the Feedback category."),
-					dialog.WithDismissButton("Cancel", func() {
-						showDialog.Set(false)
-					}),
+					button.Text(func() { showDialog.Set(false) }, "Confirm"),
+					dialog.WithTitleText("Example Dialog"),
+					dialog.WithTextContent("This is an example AlertDialog demonstrating the Feedback category."),
+					dialog.WithDismissButton(button.Text(func() { showDialog.Set(false) }, "Cancel")),
 				),
 				overlay.WithOnDismiss(func() {
 					showDialog.Set(false)

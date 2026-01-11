@@ -347,3 +347,26 @@ func MaxHeight(maxHeight int) ui.Modifier {
 		),
 	)
 }
+
+// WidthIn sets both minimum and maximum width constraints for the element.
+func WidthIn(minWidth, maxWidth int) ui.Modifier {
+	return modifier.NewInspectableModifier(
+		modifier.NewModifier(
+			&SizeElement{
+				size: SizeData{
+					Width:    NotSet,
+					Height:   NotSet,
+					MinWidth: minWidth,
+					MaxWidth: maxWidth,
+				},
+			},
+		),
+		modifier.NewInspectorInfo(
+			"widthIn",
+			map[string]any{
+				"minWidth": minWidth,
+				"maxWidth": maxWidth,
+			},
+		),
+	)
+}
