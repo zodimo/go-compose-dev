@@ -24,7 +24,7 @@ import (
 func DialogContent(
 	icon api.Composable,
 	title api.Composable,
-	text api.Composable,
+	content api.Composable,
 	buttons api.Composable,
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
@@ -65,17 +65,17 @@ func DialogContent(
 			contentItems = append(contentItems, titleItem)
 		}
 
-		// Text slot (optional)
-		if text != nil {
-			textItem := box.Box(
+		// Content slot (optional)
+		if content != nil {
+			contentItem := box.Box(
 				compose.CompositionLocalProvider(
 					[]api.ProvidedValue{material3.LocalContentColor.Provides(colorScheme.OnSurfaceVariant)},
-					text,
+					content,
 				),
 				box.WithAlignment(box.NW),
 				box.WithModifier(padding.Padding(0, 0, 0, int(DialogPadding.TextBottom))),
 			)
-			contentItems = append(contentItems, textItem)
+			contentItems = append(contentItems, contentItem)
 		}
 
 		// Buttons slot (end-aligned in row)

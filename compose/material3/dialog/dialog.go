@@ -32,6 +32,7 @@ import (
 func AlertDialog(
 	onDismissRequest func(),
 	confirmButton api.Composable,
+	content api.Composable,
 	options ...DialogOption,
 ) Composable {
 	opts := DefaultDialogOptions()
@@ -57,7 +58,7 @@ func AlertDialog(
 	return DialogContent(
 		opts.Icon,
 		opts.Title,
-		opts.Text,
+		content,
 		buttons,
 	)
 }

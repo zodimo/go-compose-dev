@@ -104,8 +104,8 @@ func UI(c api.Composer) api.LayoutNode {
 				dialog.AlertDialog(
 					func() { showDialog.Set(false) },
 					button.Text(func() { showDialog.Set(false) }, "Confirm"),
+					dialog.TextContent("This is an example AlertDialog demonstrating the Feedback category."),
 					dialog.WithTitleText("Example Dialog"),
-					dialog.WithTextContent("This is an example AlertDialog demonstrating the Feedback category."),
 					dialog.WithDismissButton(button.Text(func() { showDialog.Set(false) }, "Cancel")),
 				),
 				overlay.WithOnDismiss(func() {
