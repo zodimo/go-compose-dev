@@ -189,13 +189,14 @@ func outlinedTextFieldWidgetConstructor(
 			// do not update state - revert editor to external value.
 			currentText := w.Editor.Text()
 			if currentText != value {
+
+				// Revert to external value when no handler is provided
+				start, end := w.Editor.Selection()
+				w.Editor.SetText(value)
+				w.Editor.SetCaret(start, end)
+
 				if handler.Func != nil {
 					handler.Func(currentText)
-				} else {
-					// Revert to external value when no handler is provided
-					start, end := w.Editor.Selection()
-					w.Editor.SetText(value)
-					w.Editor.SetCaret(start, end)
 				}
 			}
 
