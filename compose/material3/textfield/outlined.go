@@ -160,11 +160,24 @@ func outlinedTextFieldWidgetConstructor(
 				childIdx++
 			}
 
-			// 1. Sync External Change
-			// 1. Sync External Change
+			// 1. Sync external value changes
 			if value != tracker.LastValue {
 				if w.Editor.Text() != value {
 					w.Editor.SetText(value)
+					// Use pending caret position if available, otherwise keep current
+					if tracker.HasPendingCaret {
+						// Clamp to valid range
+						maxPos := len(value)
+						start, end := tracker.CaretStart, tracker.CaretEnd
+						if start > maxPos {
+							start = maxPos
+						}
+						if end > maxPos {
+							end = maxPos
+						}
+						w.Editor.SetCaret(start, end)
+						tracker.HasPendingCaret = false
+					}
 				}
 				tracker.LastValue = value
 			}
@@ -185,19 +198,34 @@ func outlinedTextFieldWidgetConstructor(
 			}
 
 			// Check for text changes
-			// Following Jetpack Compose semantics: if onValueChange is nil,
-			// do not update state - revert editor to external value.
+			// Following Jetpack Compose semantics: the text field's internal state
+			// should only reflect what the external value shows.
+			// Fire the callback if provided, then always revert to external value.
+			// If the callback updates state, tracker will sync the new value next frame.
 			currentText := w.Editor.Text()
 			if currentText != value {
-
-				// Revert to external value when no handler is provided
+				// Save intended caret position before reverting
 				start, end := w.Editor.Selection()
-				w.Editor.SetText(value)
-				w.Editor.SetCaret(start, end)
+				tracker.CaretStart = start
+				tracker.CaretEnd = end
+				tracker.HasPendingCaret = true
 
+				// Fire callback to notify of the change attempt
 				if handler.Func != nil {
 					handler.Func(currentText)
 				}
+				// Always revert to external value - proper state updates will
+				// sync back through the tracker when 'value' changes
+				w.Editor.SetText(value)
+				// Clamp caret for immediate display
+				maxPos := len(value)
+				if start > maxPos {
+					start = maxPos
+				}
+				if end > maxPos {
+					end = maxPos
+				}
+				w.Editor.SetCaret(start, end)
 			}
 
 			w.Colors = opts.Colors

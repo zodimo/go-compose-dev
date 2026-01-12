@@ -18,6 +18,11 @@ type OnSubmitWrapper struct {
 
 type TextFieldStateTracker struct {
 	LastValue string
+	// Pending caret position - stored when we need to preserve
+	// the intended position across frame boundaries
+	CaretStart      int
+	CaretEnd        int
+	HasPendingCaret bool
 }
 
 // TextField implements a Material Design 3 text field.

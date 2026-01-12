@@ -6,8 +6,9 @@ import (
 	"gioui.org/unit"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/material3/text"
 	m3text "github.com/zodimo/go-compose/compose/material3/text"
-	"github.com/zodimo/go-compose/compose/material3/textfield"
+	m3TextField "github.com/zodimo/go-compose/compose/material3/textfield"
 	"github.com/zodimo/go-compose/pkg/api"
 )
 
@@ -17,21 +18,66 @@ func UI(c api.Composer) api.LayoutNode {
 
 	root := column.Column(
 		c.Sequence(
+
+			text.TitleLarge("Material3 Text Fields"),
+
 			// Filled
-			textfield.Filled(
+			m3TextField.Filled(
 				filledText.Get().(string),
 				func(s string) { filledText.Set(s) },
-				textfield.WithLabel("Filled Text Field"),
-				textfield.WithSingleLine(true),
+				m3TextField.WithLabel("Filled Text Field"),
+				m3TextField.WithSingleLine(true),
 			),
 			spacer.Height(int(unit.Dp(16))),
+			m3TextField.Filled(
+				filledText.Get().(string),
+				func(s string) { filledText.Set(s) },
+				m3TextField.WithSingleLine(true),
+			),
+			spacer.Height(int(unit.Dp(16))),
+			m3TextField.Filled(
+				filledText.Get().(string),
+				nil,
+				m3TextField.WithSingleLine(true),
+				m3TextField.WithPlaceholder("no label, not state"),
+			),
+			spacer.Height(int(unit.Dp(16))),
+			m3TextField.Filled(
+				outlinedText.Get().(string),
+				func(_ string) {},
+				m3TextField.WithSingleLine(true),
+				m3TextField.WithLabel("Filled Text Field with noop onchange"),
+			),
+
+			spacer.Height(int(unit.Dp(16))),
 			// Outlined
-			textfield.Outlined(
+			m3TextField.Outlined(
 				outlinedText.Get().(string),
 				func(s string) { outlinedText.Set(s) },
-				textfield.WithLabel("Outlined Text Field"),
-				textfield.WithSingleLine(true),
+				m3TextField.WithLabel("Outlined Text Field"),
+				m3TextField.WithSingleLine(true),
 			),
+			spacer.Height(int(unit.Dp(16))),
+			m3TextField.Outlined(
+				outlinedText.Get().(string),
+				func(s string) { outlinedText.Set(s) },
+				m3TextField.WithSingleLine(true),
+			),
+			spacer.Height(int(unit.Dp(16))),
+			m3TextField.Outlined(
+				outlinedText.Get().(string),
+				nil,
+				m3TextField.WithSingleLine(true),
+				m3TextField.WithPlaceholder("no label, not state"),
+			),
+			spacer.Height(int(unit.Dp(16))),
+			m3TextField.Outlined(
+				outlinedText.Get().(string),
+				func(_ string) {},
+				m3TextField.WithSingleLine(true),
+				m3TextField.WithLabel("Outlined Text Field with noop onchange"),
+			),
+
 			spacer.Height(int(unit.Dp(16))),
 			// Display values
 			m3text.TextWithStyle(fmt.Sprintf("Filled value: %s", filledText.Get().(string)), m3text.TypestyleBodyLarge),

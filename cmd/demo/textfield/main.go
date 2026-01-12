@@ -20,7 +20,7 @@ func main() {
 	go func() {
 		w := new(app.Window)
 		w.Option(app.Title("TextField Demo"))
-		w.Option(app.Size(unit.Dp(800), unit.Dp(600)))
+		w.Option(app.Size(unit.Dp(1024), unit.Dp(768)))
 
 		if err := Run(w); err != nil {
 			log.Fatal(err)
