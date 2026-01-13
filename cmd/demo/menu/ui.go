@@ -5,6 +5,7 @@ import (
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/button"
 	"github.com/zodimo/go-compose/compose/material3/icon"
@@ -29,8 +30,7 @@ func UI() api.Composable {
 		return scaffold.Scaffold(
 			func(c api.Composer) api.Composer {
 				return column.Column(
-					func(c api.Composer) api.Composer {
-
+					c.Sequence(
 						// Demo 1: Simple Dropdown
 						box.Box(
 							func(c api.Composer) api.Composer {
@@ -78,11 +78,8 @@ func UI() api.Composable {
 								)(c)
 								return c
 							},
-						)(c)
-
-						// Spacer
-						box.Box(func(c api.Composer) api.Composer { return c }, box.WithModifier(padding.Vertical(32, 32)))(c)
-
+						),
+						spacer.Height(32),
 						// Demo 2: Leading/Trailing Icons
 						box.Box(
 							func(c api.Composer) api.Composer {
@@ -134,10 +131,8 @@ func UI() api.Composable {
 								)(c)
 								return c
 							},
-						)(c)
-
-						return c
-					},
+						),
+					),
 					column.WithModifier(padding.All(32)),
 				)(c)
 			},

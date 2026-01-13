@@ -7,8 +7,12 @@ import (
 	"github.com/zodimo/go-compose/internal/layoutnode"
 	"github.com/zodimo/go-compose/pkg/api"
 
+	"gioui.org/gesture"
+	"gioui.org/io/event"
+	"gioui.org/io/pointer"
 	"gioui.org/layout"
 	"gioui.org/op"
+	"gioui.org/op/clip"
 )
 
 // PopupAlignment determines how the popup is aligned relative to its anchor point.
@@ -45,34 +49,51 @@ func Popup(
 func popupWidgetConstructor(opts PopupOptions) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
+			// Persistent click gesture for blocking pointer events from passing through
+			popupClick := node.State("popupClick", func() any { return &gesture.Click{} }).Get().(*gesture.Click)
+
 			// 1. Record the content layout
 			macro := op.Record(gtx.Ops)
 
 			// 2. Prepare context for popup content
-			// We give it the same constraints but reset Min to 0 because popup content
-			// typically sizes itself.
-			// TODO: Consider if we should pass unbounded Max constraints?
-			// Usually Popups are constrained by the window size, but here we are constrained
-			// by the parent *unless* we were truly global.
-			// Since we act as an overlay in-place, we inherit parent max constraints.
 			pGtx := gtx
 			pGtx.Constraints.Min = image.Point{}
 
 			// Apply offset if needed
-			// Converting DpOffset to pixels requires metric, but unit.DpOffset doesn't have a conversion method directly in older gio?
-			// Let's check unit.DpOffset usage. It's usually X, Y unit.Dp.
 			xPx := pGtx.Dp(unit.DpToGioUnit(opts.OffsetX))
 			yPx := pGtx.Dp(unit.DpToGioUnit(opts.OffsetY))
 
 			op.Offset(image.Pt(xPx, yPx)).Add(pGtx.Ops)
 
-			// Layout children
-			// We expect usually one child for Popup, but we handle all.
-			// We don't use stack/flex here, we just layout them on top of each other (z-stack)
-			// effectively.
+			// Layout children and track content size
+			var contentSize image.Point
 			for _, child := range node.Children() {
 				childLayoutNode := child.(layoutnode.NodeCoordinator)
-				_ = childLayoutNode.Layout(pGtx)
+				dims := childLayoutNode.Layout(pGtx)
+				if dims.Size.X > contentSize.X {
+					contentSize.X = dims.Size.X
+				}
+				if dims.Size.Y > contentSize.Y {
+					contentSize.Y = dims.Size.Y
+				}
+			}
+
+			// Add blocking handler at the popup content area
+			// This handler catches clicks and prevents them from passing through to
+			// elements below the popup. Since it's registered AFTER content handlers
+			// (added during child layout), the content handlers take priority.
+			// We use PassOp so this doesn't block the content handlers we just added.
+			if contentSize.X > 0 && contentSize.Y > 0 {
+				// Push PassOp - handlers added in this scope won't block siblings
+				passStack := pointer.PassOp{}.Push(pGtx.Ops)
+
+				// Add blocking click handler covering content area
+				stack := clip.Rect{Max: contentSize}.Push(pGtx.Ops)
+				popupClick.Add(pGtx.Ops)
+				event.Op(pGtx.Ops, node)
+				stack.Pop()
+
+				passStack.Pop()
 			}
 
 			// 3. Stop recording
@@ -81,7 +102,7 @@ func popupWidgetConstructor(opts PopupOptions) layoutnode.LayoutNodeWidgetConstr
 			// 4. Defer the execution
 			op.Defer(gtx.Ops, call)
 
-			// 5. Return empty dimensions because the popup doesn't effectively take space in the flow
+			// 5. Return empty dimensions
 			return layout.Dimensions{}
 		}
 	})

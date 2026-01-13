@@ -1,14 +1,19 @@
 package overlay
 
 import (
+	"image"
+
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
+	"gioui.org/gesture"
+	"gioui.org/io/event"
 	"gioui.org/layout"
+	"gioui.org/op"
+	"gioui.org/op/clip"
 	"gioui.org/op/paint"
-	"gioui.org/widget"
 )
 
 func Overlay(content Composable, options ...OverlayOption) Composable {
@@ -38,41 +43,112 @@ func Overlay(content Composable, options ...OverlayOption) Composable {
 func overlayWidgetConstructor(options OverlayOptions) layoutnode.LayoutNodeWidgetConstructor {
 	return layoutnode.NewLayoutNodeWidgetConstructor(func(node layoutnode.LayoutNode) layoutnode.GioLayoutWidget {
 		return func(gtx layoutnode.LayoutContext) layoutnode.LayoutDimensions {
-			// Persistent clickable for the scrim
-			scrimClickable := node.State("scrimClickable", func() any { return &widget.Clickable{} }).Get().(*widget.Clickable)
+			// Persistent gesture for scrim click detection
+			scrimClick := node.State("scrimClick", func() any { return &gesture.Click{} }).Get().(*gesture.Click)
 
-			// Handle scrim clicks
-			if options.OnDismiss != nil {
-				if scrimClickable.Clicked(gtx) {
-					options.OnDismiss()
-				}
-			}
+			// Track content dimensions for positioning scrim click areas
+			var contentDims layout.Dimensions
+			var contentOffset image.Point
 
 			// Resolve ScrimColor to NRGBA
 			scrimColor := graphics.ColorToNRGBA(options.ScrimColor)
 
-			// 1. Draw Scrim
-			// We use a Stack to draw scrim behind content
-			return layout.Stack{Alignment: layout.Center}.Layout(gtx,
-				layout.Stacked(func(gtx layout.Context) layout.Dimensions {
-					// Fill the screen/parent with scrim
-					// We use a Clickable to capture clicks, and paint the color
-					return scrimClickable.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-						paint.Fill(gtx.Ops, scrimColor)
-						return layout.Dimensions{Size: gtx.Constraints.Max}
-					})
+			parentSize := gtx.Constraints.Max
+
+			// Layout with Stack - center content
+			dims := layout.Stack{Alignment: layout.Center}.Layout(gtx,
+				// Layer 1: Scrim background (drawn first, behind content)
+				layout.Expanded(func(gtx layout.Context) layout.Dimensions {
+					paint.Fill(gtx.Ops, scrimColor)
+					return layout.Dimensions{Size: gtx.Constraints.Max}
 				}),
+				// Layer 2: Content (drawn on top)
 				layout.Stacked(func(gtx layout.Context) layout.Dimensions {
-					// 2. Draw Content
-					// We assume only one child content for Overlay
 					children := node.Children()
 					if len(children) > 0 {
 						child := children[0].(layoutnode.NodeCoordinator)
-						return child.Layout(gtx)
+						contentDims = child.Layout(gtx)
+						// Calculate content offset (centered in parent)
+						contentOffset = image.Point{
+							X: (parentSize.X - contentDims.Size.X) / 2,
+							Y: (parentSize.Y - contentDims.Size.Y) / 2,
+						}
+						return contentDims
 					}
 					return layout.Dimensions{}
 				}),
 			)
+
+			// Handle scrim clicks ONLY for the scrim area (not content area)
+			// We create click handler areas around the content using 4 rectangles
+			if options.OnDismiss != nil {
+				// Process any pending click events from scrim areas
+				for {
+					e, ok := scrimClick.Update(gtx.Source)
+					if !ok {
+						break
+					}
+					if e.Kind == gesture.KindClick {
+						options.OnDismiss()
+					}
+				}
+
+				// Register click handlers for the 4 scrim areas around content
+				// This avoids covering the content area, so content handlers work normally
+
+				// Top region
+				if contentOffset.Y > 0 {
+					topRect := clip.Rect{Max: image.Point{X: parentSize.X, Y: contentOffset.Y}}
+					func() {
+						defer topRect.Push(gtx.Ops).Pop()
+						scrimClick.Add(gtx.Ops)
+						event.Op(gtx.Ops, scrimClick)
+					}()
+				}
+
+				// Bottom region
+				contentBottom := contentOffset.Y + contentDims.Size.Y
+				if contentBottom < parentSize.Y {
+					op.Offset(image.Point{X: 0, Y: contentBottom}).Add(gtx.Ops)
+					bottomMacro := op.Record(gtx.Ops)
+					bottomRect := clip.Rect{Max: image.Point{X: parentSize.X, Y: parentSize.Y - contentBottom}}
+					func() {
+						defer bottomRect.Push(gtx.Ops).Pop()
+						scrimClick.Add(gtx.Ops)
+						event.Op(gtx.Ops, scrimClick)
+					}()
+					bottomMacro.Stop()
+				}
+
+				// Left region (only the strip between top and bottom)
+				if contentOffset.X > 0 {
+					leftMacro := op.Record(gtx.Ops)
+					op.Offset(image.Point{X: 0, Y: contentOffset.Y}).Add(gtx.Ops)
+					leftRect := clip.Rect{Max: image.Point{X: contentOffset.X, Y: contentDims.Size.Y}}
+					func() {
+						defer leftRect.Push(gtx.Ops).Pop()
+						scrimClick.Add(gtx.Ops)
+						event.Op(gtx.Ops, scrimClick)
+					}()
+					leftMacro.Stop()
+				}
+
+				// Right region (only the strip between top and bottom)
+				contentRight := contentOffset.X + contentDims.Size.X
+				if contentRight < parentSize.X {
+					rightMacro := op.Record(gtx.Ops)
+					op.Offset(image.Point{X: contentRight, Y: contentOffset.Y}).Add(gtx.Ops)
+					rightRect := clip.Rect{Max: image.Point{X: parentSize.X - contentRight, Y: contentDims.Size.Y}}
+					func() {
+						defer rightRect.Push(gtx.Ops).Pop()
+						scrimClick.Add(gtx.Ops)
+						event.Op(gtx.Ops, scrimClick)
+					}()
+					rightMacro.Stop()
+				}
+			}
+
+			return dims
 		}
 	})
 }
