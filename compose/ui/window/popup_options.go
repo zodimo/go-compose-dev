@@ -5,16 +5,24 @@ import (
 )
 
 type PopupOptions struct {
-	Alignment PopupAlignment
-	OffsetX   unit.Dp
-	OffsetY   unit.Dp
+	Alignment        PopupAlignment
+	OffsetX          unit.Dp
+	OffsetY          unit.Dp
+	OnDismissRequest func() // Called when clicking outside the popup content
 }
 
 func DefaultPopupOptions() PopupOptions {
 	return PopupOptions{
-		Alignment: AlignTopLeft,
-		OffsetX:   0,
-		OffsetY:   0,
+		Alignment:        AlignTopLeft,
+		OffsetX:          0,
+		OffsetY:          0,
+		OnDismissRequest: nil,
+	}
+}
+
+func WithOnDismissRequest(onDismiss func()) PopupOption {
+	return func(opts *PopupOptions) {
+		opts.OnDismissRequest = onDismiss
 	}
 }
 

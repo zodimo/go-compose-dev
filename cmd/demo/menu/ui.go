@@ -44,7 +44,7 @@ func UI() api.Composable {
 								menu.DropdownMenu(
 									expanded1.Get().(bool),
 									func() { expanded1.Set(false) },
-									func(c api.Composer) api.Composer {
+									menu.MenuItems(
 										menu.DropdownMenuItem(
 											"Item 1 (Selected)",
 											func() {
@@ -57,21 +57,21 @@ func UI() api.Composable {
 													icon.WithColor(theme.ColorScheme().Primary),
 												)(c)
 											}),
-										)(c)
+										),
 										menu.DropdownMenuItem(
 											"Item 2 (Disabled)",
 											func() {},
 											menu.WithEnabled(false),
-										)(c)
+										),
 										menu.DropdownMenuItem(
 											"Item 3",
 											func() {
 												fmt.Println("Item 3 Clicked")
 												expanded1.Set(false)
 											},
-										)(c)
-										return c
-									},
+										),
+									),
+
 									// Options
 									menu.WithModifier(ui.EmptyModifier),
 									menu.WithOffset(unit.Dp(0), unit.Dp(40)), // Position below button
@@ -93,7 +93,7 @@ func UI() api.Composable {
 								menu.DropdownMenu(
 									expanded2.Get().(bool),
 									func() { expanded2.Set(false) },
-									func(c api.Composer) api.Composer {
+									menu.MenuItems(
 										menu.DropdownMenuItem(
 											"Edit",
 											func() { expanded2.Set(false) },
@@ -103,7 +103,7 @@ func UI() api.Composable {
 													icon.WithColor(theme.ColorScheme().OnSurface),
 												)(c)
 											}),
-										)(c)
+										),
 										menu.DropdownMenuItem(
 											"Settings",
 											func() { expanded2.Set(false) },
@@ -113,7 +113,7 @@ func UI() api.Composable {
 													icon.WithColor(theme.ColorScheme().OnSurface),
 												)(c)
 											}),
-										)(c)
+										),
 										menu.DropdownMenuItem(
 											"Share",
 											func() { expanded2.Set(false) },
@@ -123,9 +123,8 @@ func UI() api.Composable {
 													icon.WithColor(theme.ColorScheme().OnSurface),
 												)(c)
 											}),
-										)(c)
-										return c
-									},
+										),
+									),
 									// Options
 									menu.WithOffset(unit.Dp(0), unit.Dp(48)), // Position below button
 								)(c)

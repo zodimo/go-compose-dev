@@ -9,12 +9,16 @@ import (
 	"github.com/zodimo/go-compose/pkg/api"
 )
 
+func MenuItems(items ...api.Composable) []api.Composable {
+	return items
+}
+
 // DropdownMenu Composable
 // Uses a Popup to display content on top of other content.
 func DropdownMenu(
 	expanded bool,
 	onDismissRequest func(),
-	content api.Composable,
+	menuItems []api.Composable,
 	options ...DropdownMenuOption,
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
@@ -32,17 +36,17 @@ func DropdownMenu(
 
 		return window.Popup(
 			surface.Surface(
-				func(c api.Composer) api.Composer {
-					return column.Column(
-						content,
-						column.WithModifier(
-							padding.Vertical(
-								int(DropdownMenuVerticalPadding),
-								int(DropdownMenuVerticalPadding),
-							),
+				column.Column(
+					c.Sequence(
+						menuItems...,
+					),
+					column.WithModifier(
+						padding.Vertical(
+							int(DropdownMenuVerticalPadding),
+							int(DropdownMenuVerticalPadding),
 						),
-					)(c)
-				},
+					),
+				),
 				// M3 Menu Spec: Shape Extra Small (4dp)
 				surface.WithShape(MenuDefaults.Shape()),
 				// Container Color: Surface (default)
@@ -60,6 +64,7 @@ func DropdownMenu(
 				),
 			),
 			window.WithOffset(opts.OffsetX, opts.OffsetY),
+			window.WithOnDismissRequest(onDismissRequest),
 		)(c)
 	}
 }
