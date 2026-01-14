@@ -1,12 +1,47 @@
-package store
+package state
 
 import (
+	"reflect"
+	"sync"
 	"testing"
 )
 
+// Mock MutableValue for testing since we can't import store
+type mockMutableValue struct {
+	cell     any
+	version  int64
+	mutex    sync.Mutex
+	callback func(any)
+}
+
+func newMockMutableValue(initial any) *mockMutableValue {
+	return &mockMutableValue{cell: initial}
+}
+
+func (m *mockMutableValue) Get() any {
+	NotifyRead(m)
+	return m.cell
+}
+
+func (m *mockMutableValue) Set(v any) {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
+	if !reflect.DeepEqual(m.cell, v) {
+		m.cell = v
+		m.version++
+		if m.callback != nil {
+			m.callback(v)
+		}
+	}
+}
+
+func (m *mockMutableValue) Version() int64 {
+	return m.version
+}
+
 func TestDerivedState_BasicCalculation(t *testing.T) {
-	mv1 := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
-	mv2 := NewMutableValue(20, nil, func(a, b any) bool { return a == b })
+	mv1 := newMockMutableValue(10)
+	mv2 := newMockMutableValue(20)
 
 	calculatedCalls := 0
 	derived := DerivedStateOf(func() int {
@@ -44,9 +79,9 @@ func TestDerivedState_BasicCalculation(t *testing.T) {
 
 func TestDerivedState_DependencySwitching(t *testing.T) {
 	// Setup: A -> B or C
-	toggle := NewMutableValue(true, nil, func(a, b any) bool { return a == b })
-	valB := NewMutableValue("B", nil, func(a, b any) bool { return a == b })
-	valC := NewMutableValue("C", nil, func(a, b any) bool { return a == b })
+	toggle := newMockMutableValue(true)
+	valB := newMockMutableValue("B")
+	valC := newMockMutableValue("C")
 
 	calculatedCalls := 0
 	derived := DerivedStateOf(func() string {
@@ -96,7 +131,7 @@ func TestDerivedState_DependencySwitching(t *testing.T) {
 func TestDerivedState_DiamondDependency(t *testing.T) {
 	// Root -> A, Root -> B
 	// Derived -> A + B
-	root := NewMutableValue(1, nil, func(a, b any) bool { return a == b })
+	root := newMockMutableValue(1)
 
 	derivedA := DerivedStateOf(func() int {
 		return root.Get().(int) * 2
@@ -128,21 +163,13 @@ func TestDerivedState_DiamondDependency(t *testing.T) {
 	if got := derivedFinal.Get(); got != 10 {
 		t.Errorf("Expected 10, got %v", got)
 	}
-	// Depending on implementation, might calculate more than once if not optimized, but should be at least correct.
-	// Since we haven't implemented eager invalidation, this relies on pull-based lazy evaluation.
-	// derivedFinal.Get() -> checks derivedA.Version() and derivedB.Version()
-	// derivedA.Version() -> checks root.Version(), sees change, recalculates -> returns new version
-	// derivedB.Version() -> checks root.Version(), sees change, recalculates -> returns new version
-	// derivedFinal sees change in A and B versions -> recalculates
-
-	// So it should work correctly now that DerivedState implements Versionable.
 }
 
 func TestDerivedState_NestedCaching(t *testing.T) {
 	// A -> Derived B -> Derived C
 	// If A changes but B ends up same value, C should NOT recalculate!
 
-	valA := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
+	valA := newMockMutableValue(10)
 
 	calcB := 0
 	derivedB := DerivedStateOf(func() int {
@@ -177,10 +204,6 @@ func TestDerivedState_NestedCaching(t *testing.T) {
 	if got := derivedC.Get(); got != 101 {
 		t.Errorf("Got %d", got)
 	}
-
-	// derivedC.Get() calls derivedB.Version()
-	// derivedB.Version() checks valA -> recalc B. B is still 1. Version should NOT change?
-	// If derivedB version doesn't change, derivedC doesn't recalc.
 
 	if calcB != 2 {
 		t.Errorf("B should have recalculated, got %d", calcB)

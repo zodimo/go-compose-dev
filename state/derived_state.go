@@ -1,9 +1,7 @@
-package store
+package state
 
 import (
 	"reflect"
-
-	"github.com/zodimo/go-compose/state"
 )
 
 type Versionable interface {
@@ -42,7 +40,7 @@ func (ds *DerivedState[T]) Get() any {
 		ds.recalculate()
 	}
 
-	state.NotifyRead(ds)
+	NotifyRead(ds)
 	return ds.value
 }
 
@@ -61,7 +59,7 @@ func (ds *DerivedState[T]) recalculate() {
 	newDeps := make(map[any]int64)
 
 	var newValue T
-	state.WithReadObserver(func(source any) {
+	WithReadObserver(func(source any) {
 		if v, ok := source.(Versionable); ok {
 			newDeps[source] = v.Version()
 		}
