@@ -23,6 +23,7 @@ type MutableValue struct {
 	changeNotifier func(any)
 	mutex          sync.Mutex
 	compare        func(any, any) bool
+	version        int64
 }
 
 func NewMutableValue(initial any, changeNotifier func(any), compare func(any, any) bool) *MutableValue {
@@ -30,10 +31,12 @@ func NewMutableValue(initial any, changeNotifier func(any), compare func(any, an
 		cell:           initial,
 		changeNotifier: changeNotifier,
 		compare:        compare,
+		version:        0,
 	}
 }
 
 func (mv *MutableValue) Get() any {
+	state.NotifyRead(mv)
 	return mv.cell
 }
 
@@ -43,10 +46,15 @@ func (mv *MutableValue) Set(value any) {
 		mv.mutex.Lock()
 		defer mv.mutex.Unlock()
 		mv.cell = value
+		mv.version++
 		if mv.changeNotifier != nil {
 			mv.changeNotifier(value)
 		}
 	}
+}
+
+func (mv *MutableValue) Version() int64 {
+	return mv.version
 }
 
 type PersistentState struct {
