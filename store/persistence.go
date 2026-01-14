@@ -105,6 +105,7 @@ type MutableValueTypedWrapper[T any] struct {
 }
 
 func (w *MutableValueTypedWrapper[T]) Get() T {
+	state.NotifyRead(w.mv)
 	return w.mv.cell.(T)
 }
 
