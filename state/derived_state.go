@@ -8,6 +8,8 @@ type Versionable interface {
 	Version() int64
 }
 
+var _ TypedValue[any] = (*DerivedState[any])(nil)
+
 type DerivedState[T any] struct {
 	calculation func() T
 	value       T
