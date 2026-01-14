@@ -36,7 +36,7 @@ func DerivedStateOfCustom[T any](calculation func() T, compare func(T, T) bool) 
 	}
 }
 
-func (ds *DerivedState[T]) Get() any {
+func (ds *DerivedState[T]) Get() T {
 	// Check if we need to recalculate
 	if !ds.initialized || ds.isStale() {
 		ds.recalculate()

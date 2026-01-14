@@ -144,7 +144,7 @@ func TestDerivedState_DiamondDependency(t *testing.T) {
 	calculatedCalls := 0
 	derivedFinal := DerivedStateOf(func() int {
 		calculatedCalls++
-		return derivedA.Get().(int) + derivedB.Get().(int)
+		return derivedA.Get() + derivedB.Get()
 	})
 
 	// Initial: (1*2) + (1*3) = 5
@@ -184,7 +184,7 @@ func TestDerivedState_NestedCaching(t *testing.T) {
 	calcC := 0
 	derivedC := DerivedStateOf(func() int {
 		calcC++
-		return derivedB.Get().(int) + 100
+		return derivedB.Get() + 100
 	})
 
 	// Initial: A=10 -> B=1 -> C=101
