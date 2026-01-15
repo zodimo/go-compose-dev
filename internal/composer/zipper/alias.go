@@ -30,6 +30,8 @@ type NodePath = node.NodePath
 
 type Element = modifier.Element
 type MutableValue = state.MutableValue
+type StateOption = state.StateOption
+type StateOptions = state.StateOptions
 type RootNode = node.TreeNode
 
 type Composable = api.Composable

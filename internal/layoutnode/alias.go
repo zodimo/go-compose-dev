@@ -41,5 +41,7 @@ type SupportState = state.SupportState
 type Memo = state.Memo
 type PersistentState = state.PersistentState
 type MutableValue = state.MutableValue
+type StateOption = state.StateOption
+type StateOptions = state.StateOptions
 
 type Slots = immap.ImmutableMap[any]

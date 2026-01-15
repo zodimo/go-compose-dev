@@ -1,43 +1,9 @@
 package state
 
 import (
-	"reflect"
 	"sync"
 	"testing"
 )
-
-// Mock MutableValue for testing since we can't import store
-type mockMutableValue struct {
-	cell     any
-	version  int64
-	mutex    sync.Mutex
-	callback func(any)
-}
-
-func newMockMutableValue(initial any) *mockMutableValue {
-	return &mockMutableValue{cell: initial}
-}
-
-func (m *mockMutableValue) Get() any {
-	NotifyRead(m)
-	return m.cell
-}
-
-func (m *mockMutableValue) Set(v any) {
-	m.mutex.Lock()
-	defer m.mutex.Unlock()
-	if !reflect.DeepEqual(m.cell, v) {
-		m.cell = v
-		m.version++
-		if m.callback != nil {
-			m.callback(v)
-		}
-	}
-}
-
-func (m *mockMutableValue) Version() int64 {
-	return m.version
-}
 
 func TestDerivedState_BasicCalculation(t *testing.T) {
 	mv1 := newMockMutableValue(10)
@@ -68,7 +34,7 @@ func TestDerivedState_BasicCalculation(t *testing.T) {
 	// Update dependency
 	mv1.Set(15)
 
-	// Third get, should recalculate
+	// Third get, should recalculate (push invalidation triggered by Set)
 	if got := derived.Get(); got != 35 {
 		t.Errorf("Expected 35, got %v", got)
 	}
@@ -167,7 +133,10 @@ func TestDerivedState_DiamondDependency(t *testing.T) {
 
 func TestDerivedState_NestedCaching(t *testing.T) {
 	// A -> Derived B -> Derived C
-	// If A changes but B ends up same value, C should NOT recalculate!
+	// When A changes but B's computed value stays the same:
+	// - B must recalculate to determine its new value
+	// - C must also recalculate (since it was invalidated by B)
+	// - BUT C's subscribers should NOT be notified if C's value didn't change
 
 	valA := newMockMutableValue(10)
 
@@ -187,6 +156,12 @@ func TestDerivedState_NestedCaching(t *testing.T) {
 		return derivedB.Get() + 100
 	})
 
+	// Track if C's subscribers are notified
+	cNotified := false
+	derivedC.Subscribe(func() {
+		cNotified = true
+	})
+
 	// Initial: A=10 -> B=1 -> C=101
 	if got := derivedC.Get(); got != 101 {
 		t.Errorf("Got %d", got)
@@ -198,7 +173,10 @@ func TestDerivedState_NestedCaching(t *testing.T) {
 		t.Errorf("C calc %d", calcC)
 	}
 
-	// Update A to 20. B is still 1. C should NOT recalculate.
+	// Update A to 20. B will recalculate but still return 1.
+	// C will also recalculate (due to invalidation chain), but its value stays 101.
+	// C's subscribers should NOT be notified since C's value didn't change.
+	cNotified = false
 	valA.Set(20)
 
 	if got := derivedC.Get(); got != 101 {
@@ -208,7 +186,198 @@ func TestDerivedState_NestedCaching(t *testing.T) {
 	if calcB != 2 {
 		t.Errorf("B should have recalculated, got %d", calcB)
 	}
-	if calcC != 1 {
-		t.Errorf("C shouldn't have recalculated, got %d", calcC)
+	// With push-based invalidation, C also recalculates to check if its value changed
+	if calcC != 2 {
+		t.Errorf("C should have recalculated to verify its value, got %d", calcC)
+	}
+	// The key optimization: C's subscribers were NOT notified because C's value didn't change
+	if cNotified {
+		t.Error("C's subscribers should NOT be notified when C's value didn't change")
+	}
+}
+
+// New tests for subscription pattern
+
+func TestDerivedState_PushInvalidation(t *testing.T) {
+	mv := newMockMutableValue(1)
+
+	derived := DerivedStateOf(func() int {
+		return mv.Get().(int) * 2
+	})
+
+	// Initial get to establish subscription
+	if got := derived.Get(); got != 2 {
+		t.Errorf("Expected 2, got %v", got)
+	}
+
+	// After initial get, should not be invalid
+	if derived.IsInvalid() {
+		t.Error("Expected derived to be valid after Get()")
+	}
+
+	// Change the dependency - should push invalidation
+	mv.Set(5)
+
+	// Should now be invalid (push happened)
+	if !derived.IsInvalid() {
+		t.Error("Expected derived to be invalid after dependency changed")
+	}
+
+	// Get should recalculate
+	if got := derived.Get(); got != 10 {
+		t.Errorf("Expected 10, got %v", got)
+	}
+
+	// Should be valid again
+	if derived.IsInvalid() {
+		t.Error("Expected derived to be valid after Get()")
+	}
+}
+
+func TestDerivedState_SubscriptionCleanup(t *testing.T) {
+	mvA := newMockMutableValue("A")
+	mvB := newMockMutableValue("B")
+	toggle := newMockMutableValue(true)
+
+	derived := DerivedStateOf(func() string {
+		if toggle.Get().(bool) {
+			return mvA.Get().(string)
+		}
+		return mvB.Get().(string)
+	})
+
+	// Initial: depends on toggle and mvA
+	_ = derived.Get()
+
+	// Check subscription count on mvA
+	if mvA.subscribers.Count() != 1 {
+		t.Errorf("Expected 1 subscriber on mvA, got %d", mvA.subscribers.Count())
+	}
+	if mvB.subscribers.Count() != 0 {
+		t.Errorf("Expected 0 subscribers on mvB, got %d", mvB.subscribers.Count())
+	}
+
+	// Toggle to false: should unsubscribe from mvA, subscribe to mvB
+	toggle.Set(false)
+	_ = derived.Get()
+
+	if mvA.subscribers.Count() != 0 {
+		t.Errorf("Expected 0 subscribers on mvA after toggle, got %d", mvA.subscribers.Count())
+	}
+	if mvB.subscribers.Count() != 1 {
+		t.Errorf("Expected 1 subscriber on mvB after toggle, got %d", mvB.subscribers.Count())
+	}
+}
+
+func TestDerivedState_ChainedInvalidation(t *testing.T) {
+	// Test that invalidation propagates through a chain: A -> B -> C
+	root := newMockMutableValue(1)
+
+	derivedB := DerivedStateOf(func() int {
+		return root.Get().(int) + 10
+	})
+
+	derivedC := DerivedStateOf(func() int {
+		return derivedB.Get() + 100
+	})
+
+	// Initial calculation
+	if got := derivedC.Get(); got != 111 {
+		t.Errorf("Expected 111, got %v", got)
+	}
+
+	// Track if C gets invalidated (use SubscribeForInvalidation for invalidation chain)
+	invalidated := false
+	derivedC.SubscribeForInvalidation(func() {
+		invalidated = true
+	})
+
+	// Change root - should trigger chain invalidation
+	root.Set(2)
+
+	if !invalidated {
+		t.Error("Expected derivedC to be invalidated via chain")
+	}
+
+	if got := derivedC.Get(); got != 112 {
+		t.Errorf("Expected 112, got %v", got)
+	}
+}
+
+func TestSubscriptionManager_MultipleSubscribers(t *testing.T) {
+	sm := NewSubscriptionManager()
+
+	called1 := false
+	called2 := false
+
+	sub1 := sm.Subscribe(func() { called1 = true })
+	sub2 := sm.Subscribe(func() { called2 = true })
+
+	sm.NotifyAll()
+
+	if !called1 || !called2 {
+		t.Error("Expected both callbacks to be called")
+	}
+
+	// Unsubscribe one
+	called1 = false
+	called2 = false
+	sub1.Unsubscribe()
+
+	sm.NotifyAll()
+
+	if called1 {
+		t.Error("Expected callback1 to NOT be called after unsubscribe")
+	}
+	if !called2 {
+		t.Error("Expected callback2 to still be called")
+	}
+
+	// Unsubscribe again (should be idempotent)
+	sub1.Unsubscribe()
+	sub2.Unsubscribe()
+
+	if sm.Count() != 0 {
+		t.Errorf("Expected 0 subscribers, got %d", sm.Count())
+	}
+}
+
+func TestDerivedState_ConcurrentAccess(t *testing.T) {
+	mv := newMockMutableValue(0)
+
+	derived := DerivedStateOf(func() int {
+		return mv.Get().(int) * 2
+	})
+
+	var wg sync.WaitGroup
+	iterations := 100
+
+	// Multiple readers
+	for i := 0; i < 5; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < iterations; j++ {
+				_ = derived.Get()
+			}
+		}()
+	}
+
+	// Writer
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for j := 0; j < iterations; j++ {
+			mv.Set(j)
+		}
+	}()
+
+	wg.Wait()
+
+	// Should complete without race or panic
+	// Final value should be (iterations-1) * 2
+	expected := (iterations - 1) * 2
+	if got := derived.Get(); got != expected {
+		t.Errorf("Expected %d, got %d", expected, got)
 	}
 }

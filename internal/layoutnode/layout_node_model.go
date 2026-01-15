@@ -93,8 +93,8 @@ func (c *layoutNode) Remember(key string, calc func() any) any {
 
 // State creates a MutableValue from the persistent state.
 // In a real runtime this would be a Snapshot with observers.
-func (c *layoutNode) State(key string, initial func() any) MutableValue {
-	return c.state.GetState(key, initial)
+func (c *layoutNode) State(key string, initial func() any, options ...StateOption) MutableValue {
+	return c.state.GetState(key, initial, options...)
 }
 
 func (n *layoutNode) GetWidget() GioLayoutWidget {

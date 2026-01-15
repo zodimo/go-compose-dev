@@ -149,10 +149,10 @@ func (c *composer) Remember(key string, calc func() any) any {
 
 // State creates a MutableValue from the persistent state.
 // In a real runtime this would be a Snapshot with observers.
-func (c *composer) State(key string, initial func() any) MutableValue {
+func (c *composer) State(key string, initial func() any, options ...StateOption) MutableValue {
 	// Apply prefix stack to the key for proper scoping
 	scopedKey := c.scopeKey(key)
-	return c.state.GetState(scopedKey, initial)
+	return c.state.GetState(scopedKey, initial, options...)
 }
 
 // scopeKey prefixes the given key with the current ID prefix stack.
