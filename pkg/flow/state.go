@@ -4,6 +4,8 @@ import (
 	"context"
 	"sync"
 	"sync/atomic"
+
+	"github.com/zodimo/go-compose/state"
 )
 
 // StateFlow defines the read-only behavior
@@ -12,29 +14,38 @@ type StateFlow[T any] interface {
 	Flow[T]
 }
 
+// Compile-time check that MutableStateFlow implements state.StateChangeNotifier
+var _ state.StateChangeNotifier = (*MutableStateFlow[any])(nil)
+
 // MutableStateFlow is the hot, stateful producer
 type MutableStateFlow[T any] struct {
 	mu          sync.RWMutex
 	value       atomic.Value
 	subscribers []chan T
+
+	// Subscription manager for state change notifications (push-based invalidation)
+	stateSubscribers *state.SubscriptionManager
 }
 
 func NewMutableStateFlow[T any](initial T) *MutableStateFlow[T] {
 	flow := &MutableStateFlow[T]{
-		subscribers: make([]chan T, 0),
+		subscribers:      make([]chan T, 0),
+		stateSubscribers: state.NewSubscriptionManager(),
 	}
 	flow.value.Store(initial)
 	return flow
 }
 
 // Value returns the current state (Thread-safe)
+// Also notifies the read observer to enable derived state dependency tracking.
 func (s *MutableStateFlow[T]) Value() T {
+	state.NotifyRead(s)
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 	return s.value.Load().(T)
 }
 
-// Emit updates the value and notifies all collectors
+// Emit updates the value and notifies all collectors and state subscribers.
 func (s *MutableStateFlow[T]) Emit(value T) {
 	s.mu.Lock()
 	s.value.Store(value)
@@ -42,7 +53,7 @@ func (s *MutableStateFlow[T]) Emit(value T) {
 	copy(subs, s.subscribers)
 	s.mu.Unlock()
 	s.notifySubscribers(value, subs)
-
+	s.stateSubscribers.NotifyAll()
 }
 
 func (s *MutableStateFlow[T]) notifySubscribers(value T, subscribers []chan T) {
@@ -106,8 +117,16 @@ func (s *MutableStateFlow[T]) Update(f func(current T) T) {
 	copy(subs, s.subscribers)
 	s.mu.Unlock()
 	s.notifySubscribers(value, subs)
+	s.stateSubscribers.NotifyAll()
 }
 
 func (s *MutableStateFlow[T]) AsStateFlow() StateFlow[T] {
 	return s
+}
+
+// Subscribe registers a callback to be invoked when the flow's value changes.
+// This implements state.StateChangeNotifier, enabling MutableStateFlow to be
+// used as a dependency for DerivedState.
+func (s *MutableStateFlow[T]) Subscribe(callback func()) state.Subscription {
+	return s.stateSubscribers.Subscribe(callback)
 }
