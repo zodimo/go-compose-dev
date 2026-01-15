@@ -1,11 +1,13 @@
 package flow_test
 
 import (
+	"reflect"
 	"sync"
 	"testing"
 
 	"github.com/zodimo/go-compose/pkg/flow"
 	"github.com/zodimo/go-compose/state"
+	"github.com/zodimo/go-compose/store"
 )
 
 // TestFlowAsStateSource verifies that MutableStateFlow can be used as a
@@ -342,7 +344,7 @@ func TestFlowAsStateSource_NestedCaching(t *testing.T) {
 }
 
 // TestFlowAsStateSource_Subscribe verifies direct subscription to flow value changes.
-func TestFlowAsStateSource_Subscribe(t *testing.T) {
+func TestFlowCollectedAsState_Subscribe(t *testing.T) {
 	flowValue := flow.NewMutableStateFlow(1)
 
 	notifyCount := 0
@@ -374,5 +376,165 @@ func TestFlowAsStateSource_Subscribe(t *testing.T) {
 	flowValue.Emit(100)
 	if notifyCount != 2 {
 		t.Errorf("Expected 2 notifications after unsubscribe, got %d", notifyCount)
+	}
+}
+
+// End-to-end tests simulating CollectStateFlowAsState.
+// These tests use actual MutableStateFlow and simulate the collection into MutableValue.
+
+// collectFlowToState simulates what CollectStateFlowAsState does:
+// subscribes to a flow and updates a MutableValue when the flow emits.
+func collectFlowToState[T any](flowValue *flow.MutableStateFlow[T], initialValue T) *store.MutableValue {
+	mv := store.NewMutableValue(initialValue, nil, func(a, b any) bool {
+		return reflect.DeepEqual(a, b)
+	})
+
+	// Subscribe to flow changes and update the mutable value
+	flowValue.Subscribe(func() {
+		mv.Set(flowValue.Value())
+	})
+
+	return mv
+}
+
+// TestFlowToCollectedState_EndToEnd tests the actual flow -> collected state -> derived chain.
+func TestFlowToCollectedState_EndToEnd(t *testing.T) {
+	// Create an actual MutableStateFlow
+	flowValue := flow.NewMutableStateFlow(10)
+
+	// Simulate CollectStateFlowAsState: collect flow into mutable value
+	collectedState := collectFlowToState(flowValue, flowValue.Value())
+
+	// Create derived state that reads from the collected state
+	calculatedCalls := 0
+	derived := state.DerivedStateOf(func() int {
+		calculatedCalls++
+		return collectedState.Get().(int) * 2
+	})
+
+	// Initial calculation
+	if got := derived.Get(); got != 20 {
+		t.Errorf("Expected 20, got %d", got)
+	}
+	if calculatedCalls != 1 {
+		t.Errorf("Expected 1 calculation, got %d", calculatedCalls)
+	}
+
+	// Cached
+	if got := derived.Get(); got != 20 {
+		t.Errorf("Expected 20 (cached), got %d", got)
+	}
+	if calculatedCalls != 1 {
+		t.Errorf("Expected 1 calculation (cached), got %d", calculatedCalls)
+	}
+
+	// Emit from flow - this should update the collected state and invalidate derived
+	flowValue.Emit(15)
+
+	// Derived should recalculate
+	if got := derived.Get(); got != 30 {
+		t.Errorf("Expected 30, got %d", got)
+	}
+	if calculatedCalls != 2 {
+		t.Errorf("Expected 2 calculations, got %d", calculatedCalls)
+	}
+}
+
+// TestFlowToCollectedState_MultipleFlows tests multiple flows collected into states.
+func TestFlowToCollectedState_MultipleFlows(t *testing.T) {
+	flowA := flow.NewMutableStateFlow(10)
+	flowB := flow.NewMutableStateFlow(20)
+
+	stateA := collectFlowToState(flowA, flowA.Value())
+	stateB := collectFlowToState(flowB, flowB.Value())
+
+	calculatedCalls := 0
+	derived := state.DerivedStateOf(func() int {
+		calculatedCalls++
+		return stateA.Get().(int) + stateB.Get().(int)
+	})
+
+	// Initial: 10 + 20 = 30
+	if got := derived.Get(); got != 30 {
+		t.Errorf("Expected 30, got %d", got)
+	}
+	if calculatedCalls != 1 {
+		t.Errorf("Expected 1 calculation, got %d", calculatedCalls)
+	}
+
+	// Flow A emits
+	flowA.Emit(15)
+	if got := derived.Get(); got != 35 {
+		t.Errorf("Expected 35, got %d", got)
+	}
+	if calculatedCalls != 2 {
+		t.Errorf("Expected 2 calculations, got %d", calculatedCalls)
+	}
+
+	// Flow B emits
+	flowB.Emit(30)
+	if got := derived.Get(); got != 45 {
+		t.Errorf("Expected 45, got %d", got)
+	}
+	if calculatedCalls != 3 {
+		t.Errorf("Expected 3 calculations, got %d", calculatedCalls)
+	}
+}
+
+// TestFlowToCollectedState_ChainedDerived tests flow -> state -> derived -> derived.
+func TestFlowToCollectedState_ChainedDerived(t *testing.T) {
+	flowValue := flow.NewMutableStateFlow(1)
+	collectedState := collectFlowToState(flowValue, flowValue.Value())
+
+	derivedA := state.DerivedStateOf(func() int {
+		return collectedState.Get().(int) + 10
+	})
+
+	derivedB := state.DerivedStateOf(func() int {
+		return derivedA.Get() + 100
+	})
+
+	// Initial: (1 + 10) + 100 = 111
+	if got := derivedB.Get(); got != 111 {
+		t.Errorf("Expected 111, got %d", got)
+	}
+
+	// Flow emits
+	flowValue.Emit(2)
+
+	// Should propagate: (2 + 10) + 100 = 112
+	if got := derivedB.Get(); got != 112 {
+		t.Errorf("Expected 112, got %d", got)
+	}
+}
+
+// TestFlowToCollectedState_Update tests flow.Update() triggering derived recalculation.
+func TestFlowToCollectedState_Update(t *testing.T) {
+	flowValue := flow.NewMutableStateFlow(5)
+	collectedState := collectFlowToState(flowValue, flowValue.Value())
+
+	calculatedCalls := 0
+	derived := state.DerivedStateOf(func() int {
+		calculatedCalls++
+		return collectedState.Get().(int) * 10
+	})
+
+	// Initial
+	if got := derived.Get(); got != 50 {
+		t.Errorf("Expected 50, got %d", got)
+	}
+	if calculatedCalls != 1 {
+		t.Errorf("Expected 1 calculation, got %d", calculatedCalls)
+	}
+
+	// Use Update (not Emit)
+	flowValue.Update(func(v int) int { return v + 5 })
+
+	// Should recalculate
+	if got := derived.Get(); got != 100 {
+		t.Errorf("Expected 100, got %d", got)
+	}
+	if calculatedCalls != 2 {
+		t.Errorf("Expected 2 calculations, got %d", calculatedCalls)
 	}
 }
