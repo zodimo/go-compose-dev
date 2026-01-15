@@ -4,24 +4,27 @@ import "fmt"
 
 type StringValue = string
 
-// 1. Sentinel - StringUnspecified
+// 1. Sentinel - StringValueUnspecified
 // StringValue is the type for sentinel string pattern.
 // The sentinel "\x00unspecified" is used when empty string is meaningful.
-var StringUnspecified StringValue = "\x00unspecified"
+const StringValueUnspecified StringValue = "\x00unspecified"
+
+// Deprecated: Use StringValueUnspecified instead
+const StringUnspecified StringValue = StringValueUnspecified
 
 // 2. IsSpecified - predicate (package-level function)
 func IsSpecifiedString(s StringValue) bool {
-	return s != StringUnspecified
+	return s != StringValueUnspecified
 }
 
 // IsUnspecifiedString - convenience predicate
 func IsUnspecifiedString(s StringValue) bool {
-	return s == StringUnspecified
+	return s == StringValueUnspecified
 }
 
 // 3. TakeOrElse - 2-param fallback (package-level function)
 func TakeOrElseString(a, b StringValue) StringValue {
-	if a != StringUnspecified {
+	if a != StringValueUnspecified {
 		return a
 	}
 	return b
@@ -30,7 +33,7 @@ func TakeOrElseString(a, b StringValue) StringValue {
 // 4. Merge - composition merge (package-level function)
 // Prefers incoming specified values over current values
 func MergeString(a, b StringValue) StringValue {
-	if b != StringUnspecified {
+	if b != StringValueUnspecified {
 		return b
 	}
 	return a
@@ -38,7 +41,7 @@ func MergeString(a, b StringValue) StringValue {
 
 // 5. String - stringification (package-level function)
 func StringString(s StringValue) string {
-	if s == StringUnspecified {
+	if s == StringValueUnspecified {
 		return "StringValue{Unspecified}"
 	}
 	return fmt.Sprintf("StringValue{%q}", s)
