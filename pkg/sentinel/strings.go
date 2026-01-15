@@ -4,9 +4,10 @@ import "fmt"
 
 type StringValue = string
 
+// 1. Sentinel - StringUnspecified
 // StringValue is the type for sentinel string pattern.
 // The sentinel "\x00unspecified" is used when empty string is meaningful.
-var StringUnspecified = "\x00unspecified"
+var StringUnspecified StringValue = "\x00unspecified"
 
 // 2. IsSpecified - predicate (package-level function)
 func IsSpecifiedString(s StringValue) bool {
