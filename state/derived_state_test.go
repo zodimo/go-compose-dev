@@ -381,3 +381,51 @@ func TestDerivedState_ConcurrentAccess(t *testing.T) {
 		t.Errorf("Expected %d, got %d", expected, got)
 	}
 }
+func TestDerivedState_EagerSubscription(t *testing.T) {
+	// 1. Setup dependencies using internal mock to avoid import cycle
+	root := newMockMutableValue(10)
+
+	calcCount := 0
+	derived := DerivedStateOf(func() int {
+		calcCount++
+		return root.Get().(int) * 2
+	})
+
+	// 2. Initial Get to register dependencies
+	if got := derived.Get(); got != 20 {
+		t.Errorf("Initial Get: expected 20, got %d", got)
+	}
+	if calcCount != 1 {
+		t.Errorf("Initial Calc: expected 1, got %d", calcCount)
+	}
+
+	// 3. Subscribe
+	notifyCount := 0
+	sub := derived.Subscribe(func() {
+		notifyCount++
+	})
+	defer sub.Unsubscribe()
+
+	// 4. Update dependency
+	// This should trigger invalidation -> check subscribers -> eager recalculate -> notify subscribers
+	root.Set(20)
+
+	// 5. Verify notification happened without calling Get()
+	if notifyCount != 1 {
+		t.Errorf("Expected 1 notification, got %d", notifyCount)
+	}
+
+	// Verify calculation happened
+	if calcCount != 2 {
+		t.Errorf("Expected 2 calculations, got %d", calcCount)
+	}
+
+	// Verify value is correct
+	if got := derived.Get(); got != 40 {
+		t.Errorf("Expected 40, got %d", got)
+	}
+	// Calling Get should NOT trigger another calc since it was eagerly calculated
+	if calcCount != 2 {
+		t.Errorf("Expected 2 calculations (cached), got %d", calcCount)
+	}
+}

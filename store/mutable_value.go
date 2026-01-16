@@ -1,10 +1,20 @@
 package store
 
 import (
+	"fmt"
+	"reflect"
 	"sync"
 
 	"github.com/zodimo/go-compose/state"
 )
+
+type MutableValueInterface = state.MutableValue
+
+var _ MutableValueInterface = &MutableValue{}
+var _ state.StateChangeNotifier = &MutableValue{}
+
+var _ MutableValueInterface = &MutableValueWrapper[any]{}
+var _ state.StateChangeNotifier = &MutableValueWrapper[any]{}
 
 // MutableValue is a state container that notifies subscribers when its value changes.
 type MutableValue struct {
@@ -18,6 +28,17 @@ type MutableValue struct {
 }
 
 func NewMutableValue(initial any, changeNotifier func(any), compare func(any, any) bool) *MutableValue {
+
+	if changeNotifier == nil {
+		changeNotifier = func(any) {}
+	}
+
+	if compare == nil {
+		compare = func(v1, v2 any) bool {
+			return reflect.DeepEqual(v1, v2)
+		}
+	}
+
 	return &MutableValue{
 		cell:           initial,
 		changeNotifier: changeNotifier,
@@ -58,4 +79,34 @@ func (mv *MutableValue) Set(value any) {
 // Returns a Subscription that can be used to stop receiving notifications.
 func (mv *MutableValue) Subscribe(callback func()) state.Subscription {
 	return mv.subscribers.Subscribe(callback)
+}
+
+// Wrapper
+
+type MutableValueWrapper[T any] struct {
+	mv *MutableValueTyped[T]
+}
+
+func MutableValueTypedToUntyped[T any](mv *MutableValueTyped[T]) MutableValueInterface {
+
+	return &MutableValueWrapper[T]{
+		mv: mv,
+	}
+}
+
+func (w *MutableValueWrapper[T]) Get() any {
+	return w.mv.Get()
+}
+
+func (w *MutableValueWrapper[T]) Set(value any) {
+	tVal, ok := value.(T)
+	if !ok {
+		var zero T
+		panic(fmt.Sprintf("MutableValueWrapper: Set expected value of type %T, got %T", zero, value))
+	}
+	w.mv.Set(tVal)
+}
+
+func (w *MutableValueWrapper[T]) Subscribe(callback func()) state.Subscription {
+	return w.mv.Subscribe(callback)
 }

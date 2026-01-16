@@ -67,7 +67,7 @@ func State[T any](c state.SupportState, key string, initial func() T, options ..
 	if !ok {
 		return nil, fmt.Errorf("mutable value is not of type %T", MutableValue{})
 	}
-	return WrapMutableValue[T](anyMv)
+	return MutableValueToTyped[T](anyMv)
 }
 
 func StateUnsafe[T any](c state.SupportState, key string, initial func() T, options ...StateOption[T]) TypedMutableValueInterface[T] {

@@ -43,6 +43,8 @@ type ResolvedTypeface struct {
 	FontStyle  FontStyle
 }
 
+var _ state.Value = (*immutableValue)(nil)
+
 // immutableValue is a simple state.Value implementation.
 type immutableValue struct {
 	value any
@@ -50,4 +52,8 @@ type immutableValue struct {
 
 func (v *immutableValue) Get() any {
 	return v.value
+}
+
+func (v *immutableValue) Subscribe(callback func()) state.Subscription {
+	return state.NewNoOpSubscription()
 }

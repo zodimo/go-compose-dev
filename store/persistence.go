@@ -6,17 +6,7 @@ import (
 	"github.com/zodimo/go-compose/state"
 )
 
-type MutableValueInterface = state.MutableValue
 type PersistentStateInterface = state.PersistentState
-type TypedMutableValueInterface[T any] = state.TypedMutableValue[T]
-
-var _ MutableValueInterface = &MutableValue{}
-var _ MutableValueInterface = &MutableValueTypedWrapper[any]{}
-
-var _ state.StateChangeNotifier = &MutableValue{}
-var _ state.StateChangeNotifier = &MutableValueTypedWrapper[any]{}
-
-var _ TypedMutableValueInterface[any] = &MutableValueTypedWrapper[any]{}
 
 type PersistentState struct {
 	scopes        map[string]MutableValueInterface

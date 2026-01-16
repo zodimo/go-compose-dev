@@ -102,6 +102,13 @@ func (ds *DerivedState[T]) invalidate() {
 	if ds.invalid.CompareAndSwap(false, true) {
 		// Propagate invalidation to downstream derived states only
 		ds.invalidationSubs.NotifyAll()
+
+		// If there are direct subscribers to this derived state, they expect
+		// value change notifications. We must eagerly recalculate to determine
+		// if the value actually changed and notify them.
+		if ds.subscribers.Count() > 0 {
+			ds.recalculate()
+		}
 	}
 }
 

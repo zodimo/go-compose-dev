@@ -53,6 +53,10 @@ func NewSubscription(unsubscribe func()) Subscription {
 	return &subscription{unsubscribe: unsubscribe}
 }
 
+func NewNoOpSubscription() Subscription {
+	return &subscription{unsubscribe: func() {}}
+}
+
 // SubscriptionManager manages a list of subscriber callbacks with thread-safe
 // subscription and notification.
 type SubscriptionManager struct {

@@ -4,45 +4,16 @@ import (
 	"testing"
 
 	"github.com/zodimo/go-compose/pkg/api"
-	"github.com/zodimo/go-compose/state"
+	"github.com/zodimo/go-compose/store"
 )
 
-var _ state.MutableValue = (*mockMutableValue)(nil)
-
-type mockMutableValue struct {
-	value interface{}
-}
-
-func (m *mockMutableValue) Get() interface{} {
-	return m.value
-}
-
-func (m *mockMutableValue) Set(value interface{}) {
-	m.value = value
-}
-
-var _ state.TypedMutableValue[any] = (*mockTypedMutableValue[any])(nil)
-
-// Mock MutableValue for testing
-type mockTypedMutableValue[T any] struct {
-	value T
-}
-
-func (m *mockTypedMutableValue[T]) Get() T {
-	return m.value
-}
-
-func (m *mockTypedMutableValue[T]) Set(value T) {
-	m.value = value
-}
-
-func (m *mockTypedMutableValue[T]) Unwrap() state.MutableValue {
-	return &mockMutableValue{value: m.value}
+func newMockTypedMutableValue[T any](value T) *store.MutableValueTyped[T] {
+	return store.NewMutableValueTyped(value, nil, nil)
 }
 
 func TestNavController(t *testing.T) {
 	// Initialize NavController with empty stack
-	backStack := &mockTypedMutableValue[[]BackStackEntry]{value: []BackStackEntry{}}
+	backStack := newMockTypedMutableValue([]BackStackEntry{})
 	nc := NewNavController(backStack)
 
 	// Test Initial State

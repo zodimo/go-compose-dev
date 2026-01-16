@@ -124,7 +124,7 @@ func TestMutableValue_WithDerivedState_MultipleDependencies(t *testing.T) {
 func TestTypedMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 	// Setup: MutableValueTypedWrapper -> DerivedState
 	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
-	typed, err := WrapMutableValue[int](mv)
+	typed, err := MutableValueToTyped[int](mv)
 	if err != nil {
 		t.Fatalf("Failed to wrap: %v", err)
 	}
@@ -158,7 +158,7 @@ func TestTypedMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 func TestTypedMutableValue_WithDerivedState_ChainedDerivedStates(t *testing.T) {
 	// Test chain: TypedMutableValue -> DerivedA -> DerivedB
 	mv := NewMutableValue(1, nil, func(a, b any) bool { return a == b })
-	typed, _ := WrapMutableValue[int](mv)
+	typed, _ := MutableValueToTyped[int](mv)
 
 	derivedA := state.DerivedStateOf(func() int {
 		return typed.Get() + 10
@@ -224,7 +224,7 @@ func TestMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 
 func TestTypedMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 	mv := NewMutableValue(0, nil, func(a, b any) bool { return a == b })
-	typed, _ := WrapMutableValue[int](mv)
+	typed, _ := MutableValueToTyped[int](mv)
 
 	derived := state.DerivedStateOf(func() int {
 		return typed.Get() * 2
