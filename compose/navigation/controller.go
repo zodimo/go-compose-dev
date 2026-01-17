@@ -6,7 +6,6 @@ import (
 
 	"github.com/zodimo/go-compose/pkg/api"
 	"github.com/zodimo/go-compose/state"
-	"github.com/zodimo/go-compose/store"
 	"github.com/zodimo/go-maybe"
 )
 
@@ -40,15 +39,15 @@ func NewBackStackEntry(route string, opts ...BackStackEntryOption) BackStackEntr
 }
 
 type NavController struct {
-	backStack state.TypedMutableValue[[]BackStackEntry]
+	backStack state.MutableValueTyped[[]BackStackEntry]
 }
 
-func NewNavController(backStack state.TypedMutableValue[[]BackStackEntry]) *NavController {
+func NewNavController(backStack state.MutableValueTyped[[]BackStackEntry]) *NavController {
 	return &NavController{backStack: backStack}
 }
 
 func RememberNavController(c api.Composer) *NavController {
-	backStack := store.MustState(c, "nav_backstack", func() []BackStackEntry {
+	backStack := state.MustState(c, "nav_backstack", func() []BackStackEntry {
 		return []BackStackEntry{}
 	})
 

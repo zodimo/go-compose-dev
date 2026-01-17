@@ -4,11 +4,11 @@ import (
 	"testing"
 
 	"github.com/zodimo/go-compose/pkg/api"
-	"github.com/zodimo/go-compose/store"
+	"github.com/zodimo/go-compose/state"
 )
 
-func newMockTypedMutableValue[T any](value T) *store.MutableValueTyped[T] {
-	return store.NewMutableValueTyped(value, nil, nil)
+func newMockTypedMutableValue[T any](value T) state.MutableValueTyped[T] {
+	return state.NewMutableValueTyped(value, nil, nil)
 }
 
 func TestNavController(t *testing.T) {
