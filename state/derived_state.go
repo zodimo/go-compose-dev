@@ -1,7 +1,6 @@
 package state
 
 import (
-	"reflect"
 	"sync"
 	"sync/atomic"
 )
@@ -16,7 +15,7 @@ var _ InvalidationNotifier = (*DerivedState[any])(nil)
 type DerivedState[T any] struct {
 	calculation func() T
 	value       T
-	compare     func(T, T) bool
+	policy      MutationPolicy[T]
 
 	// Push-based invalidation
 	invalid       atomic.Bool
@@ -44,7 +43,7 @@ type DerivedState[T any] struct {
 func DerivedStateOf[T any](calculation func() T) *DerivedState[T] {
 	ds := &DerivedState[T]{
 		calculation:      calculation,
-		compare:          func(a, b T) bool { return reflect.DeepEqual(a, b) },
+		policy:           StructuralEqualityPolicy[T](),
 		invalidationSubs: NewSubscriptionManager(),
 		subscribers:      NewSubscriptionManager(),
 	}
@@ -56,7 +55,7 @@ func DerivedStateOf[T any](calculation func() T) *DerivedState[T] {
 func DerivedStateOfCustom[T any](calculation func() T, compare func(T, T) bool) *DerivedState[T] {
 	ds := &DerivedState[T]{
 		calculation:      calculation,
-		compare:          compare,
+		policy:           NewMutationPolicy(compare, nil),
 		invalidationSubs: NewSubscriptionManager(),
 		subscribers:      NewSubscriptionManager(),
 	}
@@ -65,8 +64,15 @@ func DerivedStateOfCustom[T any](calculation func() T, compare func(T, T) bool) 
 }
 
 // DerivedStateWithPolicy creates a new DerivedState with a custom EqualityPolicy.
-func DerivedStateWithPolicy[T any](calculation func() T, policy EqualityPolicy[T]) *DerivedState[T] {
-	return DerivedStateOfCustom(calculation, policy.Equivalent)
+func DerivedStateWithPolicy[T any](calculation func() T, policy MutationPolicy[T]) *DerivedState[T] {
+	ds := &DerivedState[T]{
+		calculation:      calculation,
+		policy:           policy,
+		invalidationSubs: NewSubscriptionManager(),
+		subscribers:      NewSubscriptionManager(),
+	}
+	ds.invalid.Store(true)
+	return ds
 }
 
 // Get returns the cached value, recalculating if invalid.
@@ -164,7 +170,7 @@ func (ds *DerivedState[T]) recalculate() {
 
 	// Compare and update value with lock protection
 	ds.valueMu.Lock()
-	valueChanged := !ds.initialized.Load() || !ds.compare(ds.value, newValue)
+	valueChanged := !ds.initialized.Load() || !ds.policy.Equivalent(ds.value, newValue)
 	if valueChanged {
 		ds.value = newValue
 	}

@@ -21,3 +21,11 @@ func State[T any](c state.SupportState, key string, initial func() T, options ..
 func MustState[T any](c state.SupportState, key string, initial func() T, options ...state.StateTypedOption[T]) state.MutableValueTyped[T] {
 	return state.MustState[T](c, key, initial, options...)
 }
+
+func DerivedStateOf[T any](calculation func() T) *state.DerivedState[T] {
+	return state.DerivedStateOf(calculation)
+}
+
+func DerivedStateWithPolicy[T any](calculation func() T, policy state.MutationPolicy[T]) *state.DerivedState[T] {
+	return state.DerivedStateWithPolicy(calculation, policy)
+}

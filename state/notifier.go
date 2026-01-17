@@ -27,13 +27,6 @@ type InvalidationNotifier interface {
 	SubscribeForInvalidation(callback func()) Subscription
 }
 
-// EqualityPolicy determines if two values should be considered equivalent.
-// Used by DerivedState to skip unnecessary updates when the computed value
-// hasn't meaningfully changed.
-type EqualityPolicy[T any] interface {
-	Equivalent(a, b T) bool
-}
-
 // subscription is the default implementation of Subscription
 type subscription struct {
 	unsubscribe func()
