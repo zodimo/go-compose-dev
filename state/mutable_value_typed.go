@@ -5,13 +5,11 @@ import (
 	"sync"
 )
 
-type TypedMutableValueInterface[T any] = MutableValueTyped[T]
-
-var _ TypedMutableValueInterface[any] = &MutableValueTypedWrapper[any]{}
+var _ MutableValueTyped[any] = &MutableValueTypedWrapper[any]{}
 var _ MutableValue = &MutableValueTypedWrapper[any]{}
 var _ StateChangeNotifier = &MutableValueTypedWrapper[any]{}
 
-var _ TypedMutableValueInterface[any] = &mutableValueTyped[any]{}
+var _ MutableValueTyped[any] = &mutableValueTyped[any]{}
 var _ MutableValue = &mutableValueTyped[any]{}
 var _ StateChangeNotifier = &mutableValueTyped[any]{}
 

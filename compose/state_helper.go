@@ -13,11 +13,11 @@ func MustRemember[T any](c state.SupportState, key string, calc func() T) T {
 }
 
 // local alias for state.State
-func State[T any](c state.SupportState, key string, initial func() T, options ...state.StateTypedOption[T]) (state.TypedMutableValueInterface[T], error) {
+func State[T any](c state.SupportState, key string, initial func() T, options ...state.StateTypedOption[T]) (state.MutableValueTyped[T], error) {
 	return state.State[T](c, key, initial, options...)
 }
 
 // local alias for state.MustState
-func MustState[T any](c state.SupportState, key string, initial func() T, options ...state.StateTypedOption[T]) state.TypedMutableValueInterface[T] {
+func MustState[T any](c state.SupportState, key string, initial func() T, options ...state.StateTypedOption[T]) state.MutableValueTyped[T] {
 	return state.MustState[T](c, key, initial, options...)
 }
