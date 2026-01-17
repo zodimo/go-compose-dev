@@ -67,6 +67,14 @@ func NewLayoutNodeWidgetConstructor(makeFunc func(node LayoutNode) GioLayoutWidg
 	}
 }
 
+func NewDummyLayoutNodeWidgetConstructor() LayoutNodeWidgetConstructor {
+	return NewLayoutNodeWidgetConstructor(func(node LayoutNode) GioLayoutWidget {
+		return func(gtx LayoutContext) LayoutDimensions {
+			return LayoutDimensions{}
+		}
+	})
+}
+
 func (c layoutNodeWidgetConstructor) Make(node LayoutNode) GioLayoutWidget {
 	return c.MakeFunc(node)
 }
