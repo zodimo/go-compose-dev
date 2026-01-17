@@ -10,19 +10,29 @@ import (
 
 // StateFlow defines the read-only behavior
 type StateFlow[T any] interface {
+	SharedFlow[T]
 	Value() T
-	Flow[T]
 }
 
 // Compile-time check that MutableStateFlow implements state.StateChangeNotifier
 var _ state.StateChangeNotifier = (*MutableStateFlow[any])(nil)
+var _ MutableSharedFlow[any] = (*MutableStateFlow[any])(nil)
 
 // StateFlowOption configures a MutableStateFlow
 type StateFlowOption[T any] func(*stateFlowConfig[T])
 
 // stateFlowConfig holds configuration for MutableStateFlow
 type stateFlowConfig[T any] struct {
-	policy state.MutationPolicy[T]
+	policy                   state.MutationPolicy[T]
+	withoutSubscriptionCount bool
+}
+
+// WithoutSubscriptionCount disables internal subscription counting for this flow.
+// This is primarily used to prevent infinite recursion when creating the subscription count flow itself.
+func WithoutSubscriptionCount[T any]() StateFlowOption[T] {
+	return func(c *stateFlowConfig[T]) {
+		c.withoutSubscriptionCount = true
+	}
 }
 
 // WithPolicy sets a custom mutation policy for the StateFlow.
@@ -46,6 +56,9 @@ type MutableStateFlow[T any] struct {
 
 	// Subscription manager for state change notifications (push-based invalidation)
 	stateSubscribers *state.SubscriptionManager
+
+	// subscriptionCount tracks the number of active subscribers
+	subscriptionCount *MutableStateFlow[int]
 }
 
 // NewMutableStateFlow creates a new MutableStateFlow with the given initial value.
@@ -65,6 +78,11 @@ func NewMutableStateFlow[T any](initial T, opts ...StateFlowOption[T]) *MutableS
 		policy:           config.policy,
 	}
 	flow.value.Store(initial)
+
+	if !config.withoutSubscriptionCount {
+		flow.subscriptionCount = NewMutableStateFlow(0, WithoutSubscriptionCount[int]())
+	}
+
 	return flow
 }
 
@@ -155,7 +173,12 @@ func (s *MutableStateFlow[T]) Collect(ctx context.Context, collector func(T)) er
 	// Capture the value AND register the channel in one atomic step
 	current := s.value.Load().(T)
 	s.subscribers = append(s.subscribers, ch)
+	newCount := len(s.subscribers)
 	s.mu.Unlock()
+
+	if s.subscriptionCount != nil {
+		s.subscriptionCount.Emit(newCount)
+	}
 
 	collector(current)
 
@@ -167,7 +190,13 @@ func (s *MutableStateFlow[T]) Collect(ctx context.Context, collector func(T)) er
 				break
 			}
 		}
+		newCount := len(s.subscribers)
 		s.mu.Unlock()
+
+		if s.subscriptionCount != nil {
+			s.subscriptionCount.Emit(newCount)
+		}
+
 		close(ch)
 	}()
 
@@ -230,4 +259,32 @@ func (s *MutableStateFlow[T]) AsStateFlow() StateFlow[T] {
 // used as a dependency for DerivedState.
 func (s *MutableStateFlow[T]) Subscribe(callback func()) state.Subscription {
 	return s.stateSubscribers.Subscribe(callback)
+}
+
+// ReplayCache returns the current value in a slice (replay=1).
+func (s *MutableStateFlow[T]) ReplayCache() []T {
+	return []T{s.Value()}
+}
+
+// SubscriptionCount returns a StateFlow that tracks the number of active subscribers.
+func (s *MutableStateFlow[T]) SubscriptionCount() StateFlow[int] {
+	if s.subscriptionCount == nil {
+		// If tracking is disabled, return a static flow with 0.
+		// We create a new one to avoid global state issues, but it's lightweight.
+		return NewMutableStateFlow(0, WithoutSubscriptionCount[int]())
+	}
+	return s.subscriptionCount
+}
+
+// TryEmit attempts to emit a value. For StateFlow, this always succeeds (with conflation).
+func (s *MutableStateFlow[T]) TryEmit(value T) bool {
+	s.Emit(value)
+	return true
+}
+
+// ResetReplayCache is not supported for StateFlow as it must always have a value.
+func (s *MutableStateFlow[T]) ResetReplayCache() {
+	// No-op or panic? Kotlin docs say "throws UnsupportedOperationException".
+	// We'll panic to be explicit about misuse.
+	panic("ResetReplayCache is not supported for StateFlow")
 }
