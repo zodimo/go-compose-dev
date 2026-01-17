@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 )
 
-var _ TypedValue[any] = (*DerivedState[any])(nil)
+var _ ValueTyped[any] = (*DerivedState[any])(nil)
 var _ StateChangeNotifier = (*DerivedState[any])(nil)
 var _ InvalidationNotifier = (*DerivedState[any])(nil)
 

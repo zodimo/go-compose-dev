@@ -1,10 +1,8 @@
-package store
+package state
 
 import (
 	"sync"
 	"testing"
-
-	"github.com/zodimo/go-compose/state"
 )
 
 // Integration tests to verify MutableValue and TypedMutableValue
@@ -15,7 +13,7 @@ func TestMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
 
 	calculatedCalls := 0
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		calculatedCalls++
 		return mv.Get().(int) * 2
 	})
@@ -51,7 +49,7 @@ func TestMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 func TestMutableValue_WithDerivedState_PushInvalidation(t *testing.T) {
 	mv := NewMutableValue(1, nil, func(a, b any) bool { return a == b })
 
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		return mv.Get().(int) * 2
 	})
 
@@ -89,7 +87,7 @@ func TestMutableValue_WithDerivedState_MultipleDependencies(t *testing.T) {
 	mv2 := NewMutableValue(20, nil, func(a, b any) bool { return a == b })
 
 	calculatedCalls := 0
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		calculatedCalls++
 		return mv1.Get().(int) + mv2.Get().(int)
 	})
@@ -130,7 +128,7 @@ func TestTypedMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 	}
 
 	calculatedCalls := 0
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		calculatedCalls++
 		return typed.Get() * 2
 	})
@@ -160,11 +158,11 @@ func TestTypedMutableValue_WithDerivedState_ChainedDerivedStates(t *testing.T) {
 	mv := NewMutableValue(1, nil, func(a, b any) bool { return a == b })
 	typed, _ := MutableValueToTyped[int](mv)
 
-	derivedA := state.DerivedStateOf(func() int {
+	derivedA := DerivedStateOf(func() int {
 		return typed.Get() + 10
 	})
 
-	derivedB := state.DerivedStateOf(func() int {
+	derivedB := DerivedStateOf(func() int {
 		return derivedA.Get() + 100
 	})
 
@@ -185,7 +183,7 @@ func TestTypedMutableValue_WithDerivedState_ChainedDerivedStates(t *testing.T) {
 func TestMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 	mv := NewMutableValue(0, nil, func(a, b any) bool { return a == b })
 
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		return mv.Get().(int) * 2
 	})
 
@@ -226,7 +224,7 @@ func TestTypedMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 	mv := NewMutableValue(0, nil, func(a, b any) bool { return a == b })
 	typed, _ := MutableValueToTyped[int](mv)
 
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		return typed.Get() * 2
 	})
 
@@ -265,7 +263,7 @@ func TestTypedMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 func TestMutableValue_WithDerivedState_SubscriberNotification(t *testing.T) {
 	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
 
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		return mv.Get().(int) * 2
 	})
 
@@ -294,7 +292,7 @@ func TestMutableValue_WithDerivedState_NoNotificationIfValueSame(t *testing.T) {
 	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
 
 	// Derived state that always returns a constant when input > 5
-	derived := state.DerivedStateOf(func() int {
+	derived := DerivedStateOf(func() int {
 		val := mv.Get().(int)
 		if val > 5 {
 			return 1 // Returns 1 for any value > 5

@@ -9,11 +9,11 @@ import (
 type PersistentStateInterface = state.PersistentState
 
 type PersistentState struct {
-	scopes        map[string]MutableValueInterface
+	scopes        map[string]state.MutableValue
 	onStateChange func()
 }
 
-func NewPersistentState(scopes map[string]MutableValueInterface) PersistentStateInterface {
+func NewPersistentState(scopes map[string]state.MutableValue) PersistentStateInterface {
 	return &PersistentState{scopes: scopes}
 }
 
@@ -21,7 +21,7 @@ func (ps *PersistentState) SetOnStateChange(callback func()) {
 	ps.onStateChange = callback
 }
 
-func (ps *PersistentState) GetState(id string, initial func() any, options ...state.StateOption) MutableValueInterface {
+func (ps *PersistentState) GetState(id string, initial func() any, options ...state.StateOption) state.MutableValue {
 
 	opts := state.StateOptions{
 		Compare: reflect.DeepEqual,
@@ -33,15 +33,11 @@ func (ps *PersistentState) GetState(id string, initial func() any, options ...st
 	if v, ok := ps.scopes[id]; ok {
 		return v
 	}
-	ps.scopes[id] = &MutableValue{
-		cell: initial(),
-		changeNotifier: func(any) {
-			if ps.onStateChange != nil {
-				ps.onStateChange()
-			}
-		},
-		compare:     opts.Compare,
-		subscribers: state.NewSubscriptionManager(),
-	}
+
+	ps.scopes[id] = state.NewMutableValue(initial(), func(any) {
+		if ps.onStateChange != nil {
+			ps.onStateChange()
+		}
+	}, opts.Compare)
 	return ps.scopes[id]
 }
