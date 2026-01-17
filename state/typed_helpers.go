@@ -33,7 +33,7 @@ func MustRemember[T any](c SupportState, key string, calc func() T) T {
 	return RememberUnsafe[T](c, key, calc)
 }
 
-func State[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) (TypedMutableValueInterface[T], error) {
+func State[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) (MutableValueTyped[T], error) {
 	opts := StateTypedOptions[T]{
 		Compare: func(t1, t2 T) bool {
 			return reflect.DeepEqual(t1, t2)
@@ -53,7 +53,7 @@ func State[T any](c SupportState, key string, initial func() T, options ...State
 	return MutableValueToTyped[T](anyMv)
 }
 
-func StateUnsafe[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) TypedMutableValueInterface[T] {
+func StateUnsafe[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) MutableValueTyped[T] {
 	mv, err := State[T](c, key, initial, options...)
 	if err != nil {
 		panic(err)
@@ -61,6 +61,6 @@ func StateUnsafe[T any](c SupportState, key string, initial func() T, options ..
 	return mv
 }
 
-func MustState[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) TypedMutableValueInterface[T] {
+func MustState[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) MutableValueTyped[T] {
 	return StateUnsafe[T](c, key, initial, options...)
 }
