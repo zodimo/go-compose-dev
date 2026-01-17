@@ -5,6 +5,11 @@ import (
 	"testing"
 )
 
+func newMockMutableValue[T any](value T) *mutableValue {
+	mv := NewMutableValue(value, nil, nil)
+	return mv.(*mutableValue)
+}
+
 func TestDerivedState_BasicCalculation(t *testing.T) {
 	mv1 := newMockMutableValue(10)
 	mv2 := newMockMutableValue(20)

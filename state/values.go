@@ -5,7 +5,7 @@ type Value interface {
 	Subscribe(callback func()) Subscription
 }
 
-type TypedValue[T any] interface {
+type ValueTyped[T any] interface {
 	Get() T
 	Subscribe(callback func()) Subscription
 }
@@ -15,8 +15,8 @@ type MutableValue interface {
 	Set(value any)
 }
 
-type TypedMutableValue[T any] interface {
-	TypedValue[T]
+type MutableValueTyped[T any] interface {
+	ValueTyped[T]
 	Set(value T)
 
 	Unwrap() MutableValue
