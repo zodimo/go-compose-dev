@@ -95,6 +95,68 @@ func (mv *mutableValueTyped[T]) Set(value T) {
 	}
 }
 
+func (mv *mutableValueTyped[T]) CompareAndSet(expect, update T) bool {
+	mv.mu.Lock()
+	current := mv.cell
+
+	// Check if current matches expected
+	if !mv.policy.Equivalent(current, expect) {
+		mv.mu.Unlock()
+		return false
+	}
+
+	// Check if update is same as current (no change needed)
+	if mv.policy.Equivalent(current, update) {
+		mv.mu.Unlock()
+		return true // CAS succeeded but no notification needed
+	}
+
+	// Perform the update
+	mv.cell = update
+	changeNotifier := mv.changeNotifier
+	mv.mu.Unlock()
+
+	// Notify legacy change notifier
+	if changeNotifier != nil {
+		changeNotifier(update)
+	}
+	// Notify all subscribers
+	mv.subscribers.NotifyAll()
+	return true
+}
+
+func (mv *mutableValueTyped[T]) Update(f func(T) T) {
+	for {
+		current := mv.Get()
+		newValue := f(current)
+		if mv.CompareAndSet(current, newValue) {
+			return
+		}
+	}
+}
+
+// update then get, return new
+func (mv *mutableValueTyped[T]) UpdateAndGet(f func(T) T) T {
+	for {
+		current := mv.Get()
+		newValue := f(current)
+		if mv.CompareAndSet(current, newValue) {
+			return newValue
+		}
+	}
+}
+
+// get then update, return old
+func (mv *mutableValueTyped[T]) GetAndUpdate(f func(T) T) T {
+	for {
+		current := mv.Get()
+		newValue := f(current)
+		if mv.CompareAndSet(current, newValue) {
+			return current
+		}
+	}
+}
+
 func (mv *mutableValueTyped[T]) Unwrap() MutableValue {
 	return MutableValueTypedToUntyped(mv)
 }
@@ -134,6 +196,30 @@ func (w *MutableValueTypedWrapper[T]) Get() T {
 
 func (w *MutableValueTypedWrapper[T]) Set(value T) {
 	w.mv.Set(value)
+}
+
+func (w *MutableValueTypedWrapper[T]) CompareAndSet(expect, update T) bool {
+	return w.mv.CompareAndSet(expect, update)
+}
+
+func (w *MutableValueTypedWrapper[T]) Update(f func(T) T) {
+	w.mv.Update(func(current any) any {
+		return f(current.(T))
+	})
+}
+
+func (w *MutableValueTypedWrapper[T]) UpdateAndGet(f func(T) T) T {
+	res := w.mv.UpdateAndGet(func(current any) any {
+		return f(current.(T))
+	})
+	return res.(T)
+}
+
+func (w *MutableValueTypedWrapper[T]) GetAndUpdate(f func(T) T) T {
+	res := w.mv.GetAndUpdate(func(current any) any {
+		return f(current.(T))
+	})
+	return res.(T)
 }
 
 func (w *MutableValueTypedWrapper[T]) Subscribe(callback func()) Subscription {
