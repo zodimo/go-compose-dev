@@ -8,7 +8,7 @@ import (
 )
 
 func newMockTypedMutableValue[T any](value T) state.MutableValueTyped[T] {
-	return state.NewMutableValueTyped(value, nil, nil)
+	return state.MutableStateOf(value)
 }
 
 func TestNavController(t *testing.T) {

@@ -33,21 +33,6 @@ func MustRemember[T any](c SupportState, key string, calc func() T) T {
 	return RememberUnsafe[T](c, key, calc)
 }
 
-type StateTypedOptions[T any] struct {
-	Compare func(T, T) bool
-}
-
-type StateTypedOption[T any] func(*StateTypedOptions[T])
-
-func WithTypedCompare[T any](compare func(T, T) bool) StateTypedOption[T] {
-	if compare == nil {
-		panic("compare cannot be nil")
-	}
-	return func(o *StateTypedOptions[T]) {
-		o.Compare = compare
-	}
-}
-
 func State[T any](c SupportState, key string, initial func() T, options ...StateTypedOption[T]) (TypedMutableValueInterface[T], error) {
 	opts := StateTypedOptions[T]{
 		Compare: func(t1, t2 T) bool {

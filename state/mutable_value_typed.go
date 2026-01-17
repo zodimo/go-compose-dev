@@ -2,7 +2,6 @@ package state
 
 import (
 	"fmt"
-	"reflect"
 	"sync"
 )
 
@@ -16,32 +15,56 @@ var _ TypedMutableValueInterface[any] = &mutableValueTyped[any]{}
 var _ MutableValue = &mutableValueTyped[any]{}
 var _ StateChangeNotifier = &mutableValueTyped[any]{}
 
+// MutableValueTypedOption configures a mutableValueTyped
+type MutableValueTypedOption[T any] func(*mutableValueTypedConfig[T])
+
+// mutableValueTypedConfig holds configuration for mutableValueTyped
+type mutableValueTypedConfig[T any] struct {
+	changeNotifier func(T)
+	policy         MutationPolicy[T]
+}
+
+// WithChangeNotifier sets a callback to be invoked when the value changes.
+func WithChangeNotifier[T any](notifier func(T)) MutableValueTypedOption[T] {
+	return func(c *mutableValueTypedConfig[T]) {
+		c.changeNotifier = notifier
+	}
+}
+
+// WithPolicy sets a custom MutationPolicy for change detection.
+// If not set, StructuralEqualityPolicy is used by default.
+func WithPolicy[T any](policy MutationPolicy[T]) MutableValueTypedOption[T] {
+	return func(c *mutableValueTypedConfig[T]) {
+		c.policy = policy
+	}
+}
+
 // MutableValue is a state container that notifies subscribers when its value changes.
 type mutableValueTyped[T any] struct {
 	cell           T
 	changeNotifier func(T)
 	mu             sync.RWMutex // RWMutex for thread-safe access (following go-frp Behavior pattern)
-	compare        func(T, T) bool
+	policy         MutationPolicy[T]
 
 	// Subscription support for push-based invalidation
 	subscribers *SubscriptionManager
 }
 
-func NewMutableValueTyped[T any](initial T, changeNotifier func(T), compare func(T, T) bool) MutableValueTyped[T] {
-
-	if changeNotifier == nil {
-		changeNotifier = func(T) {}
+// NewMutableState creates a new typed mutable state with optional configuration.
+// This is the Kotlin-aligned API using MutationPolicy.
+func NewMutableState[T any](initial T, opts ...MutableValueTypedOption[T]) MutableValueTyped[T] {
+	config := &mutableValueTypedConfig[T]{
+		changeNotifier: func(T) {},
+		policy:         StructuralEqualityPolicy[T](),
+	}
+	for _, opt := range opts {
+		opt(config)
 	}
 
-	if compare == nil {
-		compare = func(t1, t2 T) bool {
-			return reflect.DeepEqual(t1, t2)
-		}
-	}
 	return &mutableValueTyped[T]{
 		cell:           initial,
-		changeNotifier: changeNotifier,
-		compare:        compare,
+		changeNotifier: config.changeNotifier,
+		policy:         config.policy,
 		subscribers:    NewSubscriptionManager(),
 	}
 }
@@ -56,7 +79,7 @@ func (mv *mutableValueTyped[T]) Get() T {
 
 func (mv *mutableValueTyped[T]) Set(value T) {
 	mv.mu.Lock()
-	changed := !mv.compare(mv.cell, value)
+	changed := !mv.policy.Equivalent(mv.cell, value)
 	if changed {
 		mv.cell = value
 	}
@@ -121,4 +144,19 @@ func (w *MutableValueTypedWrapper[T]) Subscribe(callback func()) Subscription {
 
 func (w *MutableValueTypedWrapper[T]) Unwrap() MutableValue {
 	return w.mv
+}
+
+// --- Convenience constructors matching Kotlin patterns ---
+
+// MutableStateOf creates a new MutableValueTyped with the given initial value.
+// Uses StructuralEqualityPolicy by default.
+// This matches Kotlin's mutableStateOf function.
+func MutableStateOf[T any](value T) MutableValueTyped[T] {
+	return NewMutableState(value)
+}
+
+// MutableStateWithPolicy creates a new MutableValueTyped with a custom policy.
+// This matches Kotlin's mutableStateOf(value, policy) overload.
+func MutableStateWithPolicy[T any](value T, policy MutationPolicy[T]) MutableValueTyped[T] {
+	return NewMutableState(value, WithPolicy(policy))
 }
