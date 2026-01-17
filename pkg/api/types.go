@@ -63,7 +63,9 @@ type TreeBuilderComposer interface {
 	Build() LayoutNode
 }
 
+// UI Specific awareness
 type GioLayoutNodeAwareComposer interface {
+	//Should this not just emit the constructor to a known key in the slottble?
 	SetWidgetConstructor(constructor layoutnode.LayoutNodeWidgetConstructor)
 }
 
