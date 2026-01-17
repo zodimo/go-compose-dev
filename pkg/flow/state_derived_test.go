@@ -7,7 +7,6 @@ import (
 
 	"github.com/zodimo/go-compose/pkg/flow"
 	"github.com/zodimo/go-compose/state"
-	"github.com/zodimo/go-compose/store"
 )
 
 // TestFlowAsStateSource verifies that MutableStateFlow can be used as a
@@ -384,8 +383,8 @@ func TestFlowCollectedAsState_Subscribe(t *testing.T) {
 
 // collectFlowToState simulates what CollectStateFlowAsState does:
 // subscribes to a flow and updates a MutableValue when the flow emits.
-func collectFlowToState[T any](flowValue *flow.MutableStateFlow[T], initialValue T) *store.MutableValue {
-	mv := store.NewMutableValue(initialValue, nil, func(a, b any) bool {
+func collectFlowToState[T any](flowValue *flow.MutableStateFlow[T], initialValue T) state.MutableValue {
+	mv := state.NewMutableValue(initialValue, nil, func(a, b any) bool {
 		return reflect.DeepEqual(a, b)
 	})
 
