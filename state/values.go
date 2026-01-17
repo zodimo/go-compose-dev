@@ -2,10 +2,12 @@ package state
 
 type Value interface {
 	Get() any
+	Subscribe(callback func()) Subscription
 }
 
 type TypedValue[T any] interface {
 	Get() T
+	Subscribe(callback func()) Subscription
 }
 
 type MutableValue interface {

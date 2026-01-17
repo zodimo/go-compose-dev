@@ -12,13 +12,13 @@ import (
 
 // CollectAsState collects values from a Flow and represents it as a State.
 // The initial value is used until the first value is emitted by the flow.
-func CollectAsState[T any](c api.Composer, flow Flow[T], initial T, options ...store.StateOption[T]) state.TypedValue[T] {
+func CollectAsState[T any](c api.Composer, key string, flow Flow[T], initial T, options ...store.StateOption[T]) state.TypedValue[T] {
 
 	// uniqueness
-	key := c.GenerateID()
+	genID := c.GenerateID()
 
 	// 1. Create a state to hold the latest value
-	stateValue := store.StateUnsafe[T](c, fmt.Sprintf("flow_state_%s", key), func() T { return initial }, options...)
+	stateValue := store.StateUnsafe[T](c, fmt.Sprintf("flow_state_%s_%s", genID, key), func() T { return initial }, options...)
 
 	// 2. Launch a side-effect to collect the flow
 	// We use the flow itself as a key so if the flow instance changes, we resubscribe
@@ -33,6 +33,6 @@ func CollectAsState[T any](c api.Composer, flow Flow[T], initial T, options ...s
 
 // CollectStateFlowAsState collects values from a StateFlow.
 // It uses `flow.Value()` as the initial value.
-func CollectStateFlowAsState[T any](c api.Composer, flow StateFlow[T], options ...store.StateOption[T]) state.TypedValue[T] {
-	return CollectAsState(c, flow, flow.Value(), options...)
+func CollectStateFlowAsState[T any](c api.Composer, key string, flow StateFlow[T], options ...store.StateOption[T]) state.TypedValue[T] {
+	return CollectAsState(c, key, flow, flow.Value(), options...)
 }

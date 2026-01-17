@@ -48,10 +48,10 @@ func UI(c api.Composer) api.Composer {
 		func(c api.Composer) api.Composer {
 			// Collect the flow as state inside the layout context (Box)
 			// This ensures the LaunchedEffect node is a child of Box, not the Root.
-			countState := flow.CollectStateFlowAsState(c, counterFlow)
+			countState := flow.CollectStateFlowAsState(c, "counter1", counterFlow)
 			count := countState.Get()
 
-			countState2 := flow.CollectStateFlowAsState(c, counterFlow2)
+			countState2 := flow.CollectStateFlowAsState(c, "counter2", counterFlow2)
 			count2 := countState2.Get()
 
 			return column.Column(
