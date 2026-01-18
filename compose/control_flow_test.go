@@ -18,7 +18,7 @@ func MockComposable(called *bool) compose.Composable {
 
 func TestConditionalComposables(t *testing.T) {
 	// Setup composer
-	mockStore := store.NewPersistentState(map[string]state.MutableValue{})
+	mockStore := store.NewPersistentState(map[string]state.ScopedValue{})
 	c := compose.NewComposer(mockStore)
 
 	t.Run("If", func(t *testing.T) {

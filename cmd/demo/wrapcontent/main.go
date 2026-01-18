@@ -39,7 +39,7 @@ func Run(window *app.Window) error {
 
 	var ops op.Ops
 
-	store := store.NewPersistentState(map[string]state.MutableValue{})
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
 	runtime := runtime.NewRuntime()
 
 	themeManager := theme.GetThemeManager()

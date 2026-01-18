@@ -43,8 +43,8 @@ func Run(window *app.Window) error {
 	enLocale := system.Locale{Language: "en", Direction: system.LTR}
 	var ops op.Ops
 
-	store := store.NewPersistentState(map[string]state.MutableValue{})
-	store.SetOnStateChange(func() {
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
+	store.Subscribe(func() {
 		window.Invalidate()
 	})
 	runtime := runtime.NewRuntime()

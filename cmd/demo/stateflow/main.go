@@ -32,8 +32,8 @@ func main() {
 
 func Run(window *app.Window) error {
 	var ops op.Ops
-	store := store.NewPersistentState(map[string]state.MutableValue{})
-	store.SetOnStateChange(func() {
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
+	store.Subscribe(func() {
 		window.Invalidate()
 	})
 

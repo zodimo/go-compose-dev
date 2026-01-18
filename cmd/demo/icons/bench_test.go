@@ -17,7 +17,7 @@ import (
 )
 
 func BenchmarkUI_Composition(b *testing.B) {
-	store := store.NewPersistentState(map[string]state.MutableValue{})
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
 	composer := compose.NewComposer(store)
 
 	b.ResetTimer()
@@ -28,7 +28,7 @@ func BenchmarkUI_Composition(b *testing.B) {
 
 func BenchmarkUI_Layout(b *testing.B) {
 	// Setup
-	store := store.NewPersistentState(map[string]state.MutableValue{})
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
 	composer := compose.NewComposer(store)
 	rt := runtime.NewRuntime()
 	themeManager := theme.GetThemeManager()

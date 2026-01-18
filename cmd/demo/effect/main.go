@@ -42,7 +42,7 @@ func main() {
 
 func Run(window *app.Window) error {
 	var ops op.Ops
-	store := store.NewPersistentState(map[string]state.MutableValue{})
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
 	rt := runtime.NewRuntime()
 	themeManager := theme.GetThemeManager()
 

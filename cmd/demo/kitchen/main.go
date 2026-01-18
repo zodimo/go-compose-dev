@@ -41,8 +41,8 @@ func Run(window *app.Window) error {
 
 	var ops op.Ops
 
-	store := store.NewPersistentState(map[string]state.MutableValue{})
-	store.SetOnStateChange(func() {
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
+	store.Subscribe(func() {
 		window.Invalidate()
 	})
 	runtime := runtime.NewRuntime()
@@ -60,11 +60,17 @@ func Run(window *app.Window) error {
 			// M3 Widget Requirement
 			gtx = themeManager.Material3ThemeInit(gtx)
 
-			composer := compose.NewComposer(store)
-			layoutNode := UI(composer)
+			state.WithFrame(
+				store,
+				func() {
+					composer := compose.NewComposer(store)
+					layoutNode := UI(composer)
 
-			callOp := runtime.Run(gtx, layoutNode)
-			callOp.Add(gtx.Ops)
+					callOp := runtime.Run(gtx, layoutNode)
+					callOp.Add(gtx.Ops)
+				},
+			)
+
 			frameEvent.Frame(gtx.Ops)
 
 		}

@@ -14,20 +14,15 @@ var _ StateChangeNotifier = &MutableValueWrapper[any]{}
 
 // MutableValue is a state container that notifies subscribers when its value changes.
 type mutableValue struct {
-	cell           any
-	changeNotifier func(any)
-	mu             sync.RWMutex // RWMutex for thread-safe access (following go-frp Behavior pattern)
-	compare        func(any, any) bool
+	cell    any
+	mu      sync.RWMutex // RWMutex for thread-safe access (following go-frp Behavior pattern)
+	compare func(any, any) bool
 
 	// Subscription support for push-based invalidation
 	subscribers *SubscriptionManager
 }
 
-func NewMutableValue(initial any, changeNotifier func(any), compare func(any, any) bool) MutableValue {
-
-	if changeNotifier == nil {
-		changeNotifier = func(any) {}
-	}
+func NewMutableValue(initial any, compare func(any, any) bool) MutableValue {
 
 	if compare == nil {
 		compare = func(v1, v2 any) bool {
@@ -36,10 +31,9 @@ func NewMutableValue(initial any, changeNotifier func(any), compare func(any, an
 	}
 
 	return &mutableValue{
-		cell:           initial,
-		changeNotifier: changeNotifier,
-		compare:        compare,
-		subscribers:    NewSubscriptionManager(),
+		cell:        initial,
+		compare:     compare,
+		subscribers: NewSubscriptionManager(),
 	}
 }
 
@@ -57,15 +51,9 @@ func (mv *mutableValue) Set(value any) {
 	if changed {
 		mv.cell = value
 	}
-	changeNotifier := mv.changeNotifier
 	mv.mu.Unlock()
 
 	if changed {
-		// Notify legacy change notifier
-		if changeNotifier != nil {
-			changeNotifier(value)
-		}
-
 		// Notify all subscribers (push invalidation to derived states)
 		mv.subscribers.NotifyAll()
 	}
@@ -89,13 +77,8 @@ func (mv *mutableValue) CompareAndSet(expect, update any) bool {
 
 	// Perform the update
 	mv.cell = update
-	changeNotifier := mv.changeNotifier
 	mv.mu.Unlock()
 
-	// Notify legacy change notifier
-	if changeNotifier != nil {
-		changeNotifier(update)
-	}
 	// Notify all subscribers
 	mv.subscribers.NotifyAll()
 	return true

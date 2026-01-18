@@ -1,6 +1,6 @@
 package zipper
 
-func NewComposer(state PersistentState) Composer {
+func NewComposer(store PersistentState) Composer {
 
 	idManager := GetScopedIdentityManager("composer")
 	idManager.ResetKeyCounter()
@@ -9,7 +9,7 @@ func NewComposer(state PersistentState) Composer {
 		focus:          nil,
 		path:           []pathItem{},
 		memo:           EmptyMemo,
-		state:          state,
+		store:          store,
 		idManager:      idManager,
 		locals:         make(map[interface{}]interface{}),
 		providersStack: []map[interface{}]interface{}{},

@@ -42,10 +42,10 @@ func (ln *layoutNode) debugString(sb *strings.Builder, depth int) {
 	}
 
 	// Add slots info if present
-	if len(ln.slots) > 0 {
+	if len(ln.slots.AsMap()) > 0 {
 		sb.WriteString(fmt.Sprintf("%s  Slots: {", indent))
 		first := true
-		for k, v := range ln.slots {
+		for k, v := range ln.slots.AsMap() {
 			if !first {
 				sb.WriteString(", ")
 			}

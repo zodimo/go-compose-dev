@@ -39,8 +39,8 @@ func Run(window *app.Window) error {
 
 	var ops op.Ops
 
-	store := store.NewPersistentState(map[string]state.MutableValue{})
-	store.SetOnStateChange(func() {
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
+	store.Subscribe(func() {
 		window.Invalidate()
 	})
 	runtime := runtime.NewRuntime()
@@ -60,10 +60,15 @@ func Run(window *app.Window) error {
 			gtx = themeManager.Material3ThemeInit(gtx)
 
 			composer := compose.NewComposer(store)
-			layoutNode := UI(composer)
 
-			callOp := runtime.Run(gtx, layoutNode)
-			callOp.Add(gtx.Ops)
+			state.WithFrame(
+				store,
+				func() {
+					callOp := runtime.Run(gtx, UI(composer))
+					callOp.Add(gtx.Ops)
+				},
+			)
+
 			frameEvent.Frame(gtx.Ops)
 
 		}

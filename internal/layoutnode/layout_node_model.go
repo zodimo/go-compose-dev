@@ -2,17 +2,23 @@ package layoutnode
 
 import (
 	"github.com/zodimo/go-compose/compose/ui"
+	"github.com/zodimo/go-compose/state"
 	"github.com/zodimo/go-maybe"
 )
 
 var _ LayoutNode = (*layoutNode)(nil)
 
+// type Slots = immap.ImmutableMap[any]
+
 type layoutNode struct {
-	id                     NodeID
-	key                    string
-	slots                  Slots
-	memo                   Memo
-	state                  PersistentState
+	id  NodeID
+	key string
+
+	//State
+	slots state.NodeSlotsState[any]
+	memo  state.MemoState[any]
+	store PersistentState
+
 	children               []LayoutNode
 	modifier               ui.Modifier
 	innerWidgetConstructor LayoutNodeWidgetConstructor
@@ -60,16 +66,12 @@ func (ln *layoutNode) WithChildren(children []LayoutNode) LayoutNode {
 }
 
 func (n *layoutNode) WithSlotsAssoc(k string, v any) LayoutNode {
-	n.slots = n.slots.Assoc(k, v)
+	n.slots = n.slots.Set(k, v)
 	return n
 }
 
 func (n *layoutNode) FindSlot(key string) maybe.Maybe[any] {
-	slot, ok := n.slots.Find(key)
-	if !ok {
-		return maybe.None[any]()
-	}
-	return maybe.Some(slot)
+	return n.slots.Get(key)
 }
 
 func (c *layoutNode) GenerateID() Identifier {
@@ -83,18 +85,19 @@ func (c *layoutNode) ResetIdentifierKeyCounter() {
 // Remember caches a value for the current composition run.
 // The cache lives in Composer.memo and is discarded on recompose.
 func (c *layoutNode) Remember(key string, calc func() any) any {
-	if v, ok := c.memo.Find(key); ok {
-		return v
+	valueOption := c.memo.Get(key)
+	if valueOption.IsSome() {
+		return valueOption.UnwrapUnsafe()
 	}
 	v := calc()
-	c.memo = c.memo.Assoc(key, v)
+	c.memo = c.memo.Set(key, v)
 	return v
 }
 
 // State creates a MutableValue from the persistent state.
 // In a real runtime this would be a Snapshot with observers.
 func (c *layoutNode) State(key string, initial func() any, options ...StateOption) MutableValue {
-	return c.state.GetState(key, initial, options...)
+	return c.store.State(key, initial, options...)
 }
 
 func (n *layoutNode) GetWidget() GioLayoutWidget {

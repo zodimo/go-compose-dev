@@ -4,12 +4,18 @@ import (
 	"image"
 
 	"github.com/zodimo/go-compose/compose/ui"
-	"github.com/zodimo/go-compose/internal/immap"
+	"github.com/zodimo/go-compose/state"
 
 	"github.com/zodimo/go-maybe"
 )
 
-func NewLayoutNode(id NodeID, key string, slotStore immap.ImmutableMap[any], memo Memo, persistentState PersistentState) LayoutNode {
+func NewLayoutNode(
+	id NodeID,
+	key string,
+	slotStore state.NodeSlotsState[any],
+	memo state.MemoState[any],
+	persistentState PersistentState,
+) LayoutNode {
 	return &layoutNode{
 		id:           id,
 		key:          key,
@@ -17,7 +23,7 @@ func NewLayoutNode(id NodeID, key string, slotStore immap.ImmutableMap[any], mem
 		modifier:     ui.EmptyModifier,
 		slots:        slotStore,
 		memo:         memo,
-		state:        persistentState,
+		store:        persistentState,
 		layoutResult: maybe.None[LayoutResult](),
 		idManager:    GetScopedIdentityManager("layout_nodes"),
 	}

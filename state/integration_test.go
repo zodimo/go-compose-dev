@@ -10,7 +10,7 @@ import (
 
 func TestMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 	// Setup: MutableValue -> DerivedState
-	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(10, func(a, b any) bool { return a == b })
 
 	calculatedCalls := 0
 	derived := DerivedStateOf(func() int {
@@ -47,7 +47,7 @@ func TestMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 }
 
 func TestMutableValue_WithDerivedState_PushInvalidation(t *testing.T) {
-	mv := NewMutableValue(1, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(1, func(a, b any) bool { return a == b })
 
 	derived := DerivedStateOf(func() int {
 		return mv.Get().(int) * 2
@@ -83,8 +83,8 @@ func TestMutableValue_WithDerivedState_PushInvalidation(t *testing.T) {
 }
 
 func TestMutableValue_WithDerivedState_MultipleDependencies(t *testing.T) {
-	mv1 := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
-	mv2 := NewMutableValue(20, nil, func(a, b any) bool { return a == b })
+	mv1 := NewMutableValue(10, func(a, b any) bool { return a == b })
+	mv2 := NewMutableValue(20, func(a, b any) bool { return a == b })
 
 	calculatedCalls := 0
 	derived := DerivedStateOf(func() int {
@@ -121,7 +121,7 @@ func TestMutableValue_WithDerivedState_MultipleDependencies(t *testing.T) {
 
 func TestTypedMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 	// Setup: MutableValueTypedWrapper -> DerivedState
-	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(10, func(a, b any) bool { return a == b })
 	typed, err := MutableValueToTyped[int](mv)
 	if err != nil {
 		t.Fatalf("Failed to wrap: %v", err)
@@ -155,7 +155,7 @@ func TestTypedMutableValue_WithDerivedState_BasicCalculation(t *testing.T) {
 
 func TestTypedMutableValue_WithDerivedState_ChainedDerivedStates(t *testing.T) {
 	// Test chain: TypedMutableValue -> DerivedA -> DerivedB
-	mv := NewMutableValue(1, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(1, func(a, b any) bool { return a == b })
 	typed, _ := MutableValueToTyped[int](mv)
 
 	derivedA := DerivedStateOf(func() int {
@@ -181,7 +181,7 @@ func TestTypedMutableValue_WithDerivedState_ChainedDerivedStates(t *testing.T) {
 }
 
 func TestMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
-	mv := NewMutableValue(0, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(0, func(a, b any) bool { return a == b })
 
 	derived := DerivedStateOf(func() int {
 		return mv.Get().(int) * 2
@@ -221,7 +221,7 @@ func TestMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 }
 
 func TestTypedMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
-	mv := NewMutableValue(0, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(0, func(a, b any) bool { return a == b })
 	typed, _ := MutableValueToTyped[int](mv)
 
 	derived := DerivedStateOf(func() int {
@@ -261,7 +261,7 @@ func TestTypedMutableValue_WithDerivedState_ConcurrentAccess(t *testing.T) {
 }
 
 func TestMutableValue_WithDerivedState_SubscriberNotification(t *testing.T) {
-	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(10, func(a, b any) bool { return a == b })
 
 	derived := DerivedStateOf(func() int {
 		return mv.Get().(int) * 2
@@ -289,7 +289,7 @@ func TestMutableValue_WithDerivedState_SubscriberNotification(t *testing.T) {
 }
 
 func TestMutableValue_WithDerivedState_NoNotificationIfValueSame(t *testing.T) {
-	mv := NewMutableValue(10, nil, func(a, b any) bool { return a == b })
+	mv := NewMutableValue(10, func(a, b any) bool { return a == b })
 
 	// Derived state that always returns a constant when input > 5
 	derived := DerivedStateOf(func() int {

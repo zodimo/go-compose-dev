@@ -6,6 +6,7 @@ package modifiers
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/next/text/selection"
+	"github.com/zodimo/go-compose/compose/runtime"
 	"github.com/zodimo/go-compose/compose/ui/geometry"
 	"github.com/zodimo/go-compose/compose/ui/layout"
 	"github.com/zodimo/go-compose/compose/ui/next/text"
@@ -162,17 +163,8 @@ func (d *MultiWidgetSelectionDelegate) GetLineHeight(offset int) float32 {
 // Verify MultiWidgetSelectionDelegate implements Selectable at compile time.
 var _ selection.Selectable = (*MultiWidgetSelectionDelegate)(nil)
 
-// RememberObserver is an interface for objects that need lifecycle callbacks
-// when remembered in composition.
+// RememberObserver is an alias to runtime.RememberObserver for backward compatibility.
+// Use compose/runtime.RememberObserver for new code.
 //
-// https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:compose/runtime/runtime/src/commonMain/kotlin/androidx/compose/runtime/RememberObserver.kt
-type RememberObserver interface {
-	// OnRemembered is called when the object is successfully stored by remember.
-	OnRemembered()
-
-	// OnForgotten is called when the object is no longer being remembered.
-	OnForgotten()
-
-	// OnAbandoned is called when the remember call was not committed to the composition.
-	OnAbandoned()
-}
+// Deprecated: Import RememberObserver from compose/runtime instead.
+type RememberObserver = runtime.RememberObserver

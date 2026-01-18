@@ -21,7 +21,7 @@ type composer struct {
 	focus          LayoutNode // group we are currently inside
 	path           []pathItem // how to climb back to root
 	memo           Memo       // remember cache for this composition run
-	state          PersistentState
+	store          PersistentState
 	idManager      IdentityManager
 	overrideID     *Identifier // single override ID for c.Key (one Key affects one component)
 	idPrefixStack  []string    // stack of ID prefixes for scoped identity (used by c.Key)
@@ -32,7 +32,7 @@ type composer struct {
 // Tree Builder operations
 func (c *composer) StartBlock(key string) Composer {
 
-	newNode := layoutnode.NewLayoutNode(c.GenerateID(), key, EmptyMemo, EmptyMemo, c.state)
+	newNode := layoutnode.NewLayoutNode(c.GenerateID(), key, EmptySlots, EmptyMemo, c.store)
 
 	if c.focus == nil {
 		//The Root Node
@@ -139,11 +139,12 @@ func (c *composer) ModifierThen(modifier ui.Modifier) Composer {
 func (c *composer) Remember(key string, calc func() any) any {
 	// Apply prefix stack to the key for proper scoping
 	scopedKey := c.scopeKey(key)
-	if v, ok := c.memo.Find(scopedKey); ok {
-		return v
+	valueOption := c.memo.Get(scopedKey)
+	if valueOption.IsSome() {
+		return valueOption.UnwrapUnsafe()
 	}
 	v := calc()
-	c.memo = c.memo.Assoc(scopedKey, v)
+	c.memo = c.memo.Set(scopedKey, v)
 	return v
 }
 
@@ -152,7 +153,7 @@ func (c *composer) Remember(key string, calc func() any) any {
 func (c *composer) State(key string, initial func() any, options ...StateOption) MutableValue {
 	// Apply prefix stack to the key for proper scoping
 	scopedKey := c.scopeKey(key)
-	return c.state.GetState(scopedKey, initial, options...)
+	return c.store.State(scopedKey, initial, options...)
 }
 
 // scopeKey prefixes the given key with the current ID prefix stack.

@@ -384,7 +384,7 @@ func TestFlowCollectedAsState_Subscribe(t *testing.T) {
 // collectFlowToState simulates what CollectStateFlowAsState does:
 // subscribes to a flow and updates a MutableValue when the flow emits.
 func collectFlowToState[T any](flowValue *flow.MutableStateFlow[T], initialValue T) state.MutableValue {
-	mv := state.NewMutableValue(initialValue, nil, func(a, b any) bool {
+	mv := state.NewMutableValue(initialValue, func(a, b any) bool {
 		return reflect.DeepEqual(a, b)
 	})
 

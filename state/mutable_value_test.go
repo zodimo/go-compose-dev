@@ -6,7 +6,7 @@ import (
 )
 
 func TestMutableValue_AtomicUpdates(t *testing.T) {
-	mv := NewMutableValue(10, nil, nil)
+	mv := NewMutableValue(10, nil)
 
 	// CompareAndSet
 	if !mv.CompareAndSet(10, 20) {
@@ -131,7 +131,7 @@ func TestWrappers(t *testing.T) {
 
 	// 2. Untyped -> Typed (Wrapper)
 	// Create untyped
-	baseUntyped := NewMutableValue(100, nil, nil)
+	baseUntyped := NewMutableValue(100, nil)
 	// Wrap as typed
 	wrappedTyped, err := MutableValueToTyped[int](baseUntyped)
 	if err != nil {

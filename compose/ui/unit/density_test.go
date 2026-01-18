@@ -114,10 +114,9 @@ func TestDpSizeUnspecifiedToSize(t *testing.T) {
 func TestSizeUnspecifiedToDpSize(t *testing.T) {
 	density := NewDensity(2.0, 3.0)
 	dpSize := density.SizeToDpSize(geometry.SizeUnspecified)
-	if dpSize.Width.IsUnspecified() || dpSize.Height.IsUnspecified() {
-		t.Errorf("Expected valid Unspecified parts, got %v", dpSize)
+	if !dpSize.IsUnspecified() {
+		t.Errorf("Expected DpSize.Unspecified, got %v", dpSize)
 	}
-	// Strict equality might be tricky with NaN, but IsUnspecified checks are sufficient.
 }
 
 func TestTextUnitToPx(t *testing.T) {

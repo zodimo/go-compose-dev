@@ -35,7 +35,7 @@ func Run(window *app.Window) error {
 	enLocale := system.Locale{Language: "en", Direction: system.LTR}
 	var ops op.Ops
 
-	store := store.NewPersistentState(map[string]state.MutableValue{})
+	store := store.NewPersistentState(map[string]state.ScopedValue{})
 	// runtime := runtime.NewRuntime() // Not used directly in this loop style often
 
 	themeManager := theme.GetThemeManager()

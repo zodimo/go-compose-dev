@@ -6,7 +6,7 @@ import (
 )
 
 func newMockMutableValue[T any](value T) *mutableValue {
-	mv := NewMutableValue(value, nil, nil)
+	mv := NewMutableValue(value, nil)
 	return mv.(*mutableValue)
 }
 
