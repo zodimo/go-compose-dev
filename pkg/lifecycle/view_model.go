@@ -19,4 +19,9 @@ type HasViewModelScope interface {
 	// SetViewModelScope provides a context that is cancelled when the ViewModel is cleared.
 	// This is analogous to viewModelScope in Kotlin, which is a CoroutineScope.
 	SetViewModelScope(ctx context.Context)
+
+	// use context passed via SetViewModelScope
+	// thus functions launched in a goroutine can listen for cancellation
+	// and clean up resources appropriately.
+	Launch(func())
 }
