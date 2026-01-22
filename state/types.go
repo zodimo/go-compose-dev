@@ -27,13 +27,13 @@ type SupportState interface {
 }
 
 type Value interface {
+	StateChangeNotifier
 	Get() any
-	Subscribe(callback func()) Subscription
 }
 
 type ValueTyped[T any] interface {
+	StateChangeNotifier
 	Get() T
-	Subscribe(callback func()) Subscription
 }
 
 type MutableValue interface {
