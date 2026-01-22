@@ -139,7 +139,7 @@ func (ps *PersistentState) initScopedValue(id string, initialValue any, compare 
 	scopedValue := state.NewScopedValue(
 		id,
 		mv,
-		ps.subscribers.Subscribe(func() {
+		mv.Subscribe(func() {
 			ps.subscribers.NotifyAll()
 		}),
 		scopedCancelFunc,
