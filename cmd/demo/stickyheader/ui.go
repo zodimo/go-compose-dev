@@ -30,8 +30,7 @@ func UI() api.Composable {
 									fmt.Sprintf("Sticky Header %d", headerIndex),
 									text.TypestyleHeadlineSmall,
 									ftext.WithModifier(
-										padding.All(16).
-											Then(background.Background(graphics.NewColorSrgb(200, 200, 200, 255))).
+										background.Background(graphics.NewColorSrgb(200, 200, 200, 255)).
 											Then(size.FillMaxWidth()),
 									),
 								)(c)
