@@ -3,6 +3,7 @@ package state
 import (
 	"sync"
 	"testing"
+	"time"
 )
 
 func TestMutableValue_AtomicUpdates(t *testing.T) {
@@ -143,5 +144,67 @@ func TestWrappers(t *testing.T) {
 	})
 	if baseUntyped.Get() != 150 {
 		t.Errorf("Wrappers: Typed wrapper Update failed to affect underlying untyped value")
+	}
+}
+
+// TestMutableValue_SubscriptionIsHot ensures that subscribers are notified
+// immediately when the value changes, without needing to call Get().
+func TestMutableValue_SubscriptionIsHot(t *testing.T) {
+	// 1. Create a MutableValue
+	mv := NewMutableValue(0, nil, nil)
+
+	// 2. Setup a channel to receive notifications
+	notifyCh := make(chan struct{}, 10)
+	sub := mv.Subscribe(func() {
+		notifyCh <- struct{}{}
+	})
+	defer sub.Unsubscribe()
+
+	// 3. Update the value
+	// This should trigger the subscription IMMEDIATELY (Hot)
+	// We are NOT calling mv.Get() here, which proves it's not lazy.
+	mv.Set(1)
+
+	// 4. Verify notification received
+	select {
+	case <-notifyCh:
+		// Success: Notification received
+	case <-time.After(100 * time.Millisecond):
+		t.Fatal("Timed out waiting for subscription notification. Subscription might be lazy (waiting for Get?) or broken.")
+	}
+
+	// Double check value
+	if val := mv.Get(); val != 1 {
+		t.Errorf("Expected value 1, got %v", val)
+	}
+
+	// 5. Update again ensuring repeated hot updates
+	mv.Set(2)
+	select {
+	case <-notifyCh:
+		// Success
+	case <-time.After(100 * time.Millisecond):
+		t.Fatal("Timed out waiting for second notification.")
+	}
+}
+
+// TestMutableValue_Subscription_DistinctUntilChanged ensures we don't get
+// notifications if the value hasn't actually changed (based on comparison policy),
+// which is a standard optimization, but distinct from "lazy".
+func TestMutableValue_Subscription_DistinctUntilChanged(t *testing.T) {
+	mv := NewMutableValue(10, nil, nil)
+	count := 0
+	mv.Subscribe(func() {
+		count++
+	})
+
+	mv.Set(10) // No change
+	if count != 0 {
+		t.Errorf("Received notification for unchanged value")
+	}
+
+	mv.Set(11) // Change
+	if count != 1 {
+		t.Errorf("Expected 1 notification, got %d", count)
 	}
 }
