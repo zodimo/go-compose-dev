@@ -434,3 +434,84 @@ func TestDerivedState_EagerSubscription(t *testing.T) {
 		t.Errorf("Expected 2 calculations (cached), got %d", calcCount)
 	}
 }
+
+func TestDerivedState_SubscribeActivates(t *testing.T) {
+	mv := newMockMutableValue(10)
+
+	calcCount := 0
+	derived := DerivedStateOf(func() int {
+		calcCount++
+		return mv.Get().(int) * 2
+	})
+
+	// Subscribe WITHOUT calling Get() first
+	// This should ideally trigger calculation to register dependencies
+	notifyCount := 0
+	derived.Subscribe(func() {
+		notifyCount++
+	})
+
+	// Before the fix, this would be 0. After fix, it should be 1 because Subscribe forces an initial calculation/validation
+	// to ensure dependencies are registered.
+	if calcCount == 0 {
+		t.Log("Subscribe did not trigger calculation - this means we aren't listening to deps!")
+	}
+
+	// Update dependency
+	mv.Set(20)
+
+	// Should be notified TWICE:
+	// 1. Initial activation (Subscribe -> Get -> Recalculate -> Notify)
+	// 2. Dependency change (Set -> Invalidate -> Recalculate -> Notify)
+	if notifyCount != 2 {
+		t.Errorf("Expected 2 notifications, got %d", notifyCount)
+	}
+
+	// 3rd update
+	mv.Set(30)
+	if notifyCount != 3 {
+		t.Errorf("Expected 3 notifications, got %d", notifyCount)
+	}
+}
+
+func TestDerivedState_ChainedActivation(t *testing.T) {
+	mv := newMockMutableValue(10)
+
+	// derived1 depends on mv
+	derived1 := DerivedStateOf(func() int {
+		return mv.Get().(int) * 2
+	})
+
+	// derived2 depends on derived1
+	derived2 := DerivedStateOf(func() int {
+		return derived1.Get() + 5
+	})
+
+	notifyCount := 0
+	// Subscribe to the outer derived state
+	// This should trigger activation of derived2, which calls derived1.Get(),
+	// which activates derived1, which calls mv.Get().
+	derived2.Subscribe(func() {
+		notifyCount++
+	})
+
+	// Should receive initial activation notification
+	if notifyCount != 1 {
+		t.Errorf("Expected initial activation notification, got %d", notifyCount)
+	}
+
+	// Update the bottom-most dependency
+	mv.Set(20)
+
+	// derived1 should invalidate -> derived2 should invalidate
+	// derived2 should recalculate -> derived1 should recalculate
+	// derived2 value changes (10*2+5=25 -> 20*2+5=45) -> notify subscriber
+	if notifyCount != 2 {
+		t.Errorf("Expected 2 notifications after update, got %d", notifyCount)
+	}
+
+	// Verify values
+	if got := derived2.Get(); got != 45 {
+		t.Errorf("Expected 45, got %v", got)
+	}
+}

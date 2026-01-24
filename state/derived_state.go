@@ -190,10 +190,26 @@ func (ds *DerivedState[T]) recalculate() {
 // Subscribe registers a callback to be invoked when this derived state's
 // computed value actually changes (not just when it's invalidated).
 // This is the user-facing subscription for value-change notifications.
+//
+// Subscribe registers a callback to be invoked when this derived state's
+// computed value actually changes (not just when it's invalidated).
+// This is the user-facing subscription for value-change notifications.
+//
+// Subscribe ensures the DerivedState is active (initialized and listening to dependencies).
 func (ds *DerivedState[T]) Subscribe(callback func()) Subscription {
 	// User callbacks go to subscribers (value-change notifications)
-	// NOT to invalidationSubs (internal invalidation propagation)
-	return ds.subscribers.Subscribe(callback)
+	sub := ds.subscribers.Subscribe(callback)
+
+	// Ensure the derived state is active (has dependencies registered).
+	// If the state is uninitialized or invalid, this will trigger a recalculation.
+	// Since we subscribed ABOVE, if this recalculation results in a change (or initialization),
+	// the callback WILL be invoked. This effectively gives "BehaviorSubject" semantics
+	// (initial value) if the derivation was stale/cold.
+	if !ds.initialized.Load() || ds.invalid.Load() {
+		ds.Get()
+	}
+
+	return sub
 }
 
 // SubscribeForInvalidation registers a callback to be invoked when this
