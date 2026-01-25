@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3/appbar"
 	"github.com/zodimo/go-compose/compose/material3/progress"
 	"github.com/zodimo/go-compose/compose/material3/scaffold"
@@ -14,11 +15,15 @@ func UI(c api.Composer) api.LayoutNode {
 	return scaffold.Scaffold(
 		func(c api.Composer) api.Composer {
 			return column.Column(
-				func(c api.Composer) api.Composer {
-					text.TextWithStyle("Default Loading Indicator", text.TypestyleBodyLarge)(c)
-					progress.LoadingIndicator()(c)
-					return c
-				},
+				c.Sequence(
+					text.TextWithStyle("Default Loading Indicator", text.TypestyleBodyLarge),
+					progress.LoadingIndicator(),
+					spacer.Height(16),
+					text.TextWithStyle("Loading Indicator with size 200x200", text.TypestyleBodyLarge),
+					progress.LoadingIndicator(
+						progress.WithModifier(size.Size(200, 200)),
+					),
+				),
 				column.WithModifier(size.FillMax()),
 				column.WithSpacing(column.SpaceEvenly),
 				column.WithAlignment(column.Middle),
