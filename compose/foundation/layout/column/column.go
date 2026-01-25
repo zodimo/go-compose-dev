@@ -50,6 +50,8 @@ func columnWidgetConstructor(options ColumnOptions) layoutnode.LayoutNodeWidgetC
 				maybeWeightElement := elementStore.GetElement(weight.WeightElementKey)
 				if maybeWeightElement.IsNone() {
 					flexedChildren = append(flexedChildren, layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						// Compose behavior: Cross axis constraints Min is 0
+						gtx.Constraints.Min.X = 0
 						return childLayoutNode.Layout(gtx)
 					}))
 				} else {

@@ -49,6 +49,8 @@ func rowWidgetConstructor(options RowOptions) layoutnode.LayoutNodeWidgetConstru
 				maybeWeightElement := elementStore.GetElement(weight.WeightElementKey)
 				if maybeWeightElement.IsNone() {
 					flexedChildren = append(flexedChildren, layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						// Compose behavior: Cross axis constraints Min is 0
+						gtx.Constraints.Min.Y = 0
 						return childLayoutNode.Layout(gtx)
 					}))
 				} else {
