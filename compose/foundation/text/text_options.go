@@ -111,9 +111,7 @@ func WithLineHeightScale(lineHeightScale float32) TextOption {
 }
 
 func WithColor(color graphics.Color) TextOption {
-	return func(o *TextOptions) {
-
-	}
+	return WithTextStyleOptions(text.WithColor(color))
 }
 
 // TextSelectable sets the text to be selectable.
