@@ -40,6 +40,9 @@ func boxWidgetConstructor(options BoxOptions) layoutnode.LayoutNodeWidgetConstru
 
 				if matchParent.IsSome() {
 					stackChildren = append(stackChildren, layout.Expanded(func(gtx LayoutContext) LayoutDimensions {
+						// MatchParentSize implies matching the size of the container, which is passed in Min constraints
+						// by the Stack layout for Expanded children.
+						gtx.Constraints.Max = gtx.Constraints.Min
 						return childLayoutNode.Layout(gtx)
 					}))
 				} else {
