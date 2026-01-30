@@ -4,11 +4,14 @@ import (
 	"github.com/zodimo/go-compose/compose"
 	"github.com/zodimo/go-compose/compose/foundation/layout/box"
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
+	"github.com/zodimo/go-compose/compose/foundation/layout/overlay"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/material3/surface"
+	mBox "github.com/zodimo/go-compose/modifiers/box"
 	"github.com/zodimo/go-compose/modifiers/padding"
+	"github.com/zodimo/go-compose/modifiers/pointer"
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/pkg/api"
 )
@@ -26,6 +29,7 @@ func DialogContent(
 	title api.Composable,
 	content api.Composable,
 	buttons api.Composable,
+	onDismiss func(),
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
 		theme := material3.Theme(c)
@@ -65,7 +69,6 @@ func DialogContent(
 			contentItems = append(contentItems, titleItem)
 		}
 
-		// Content slot (optional)
 		if content != nil {
 			contentItem := box.Box(
 				compose.CompositionLocalProvider(
@@ -91,19 +94,10 @@ func DialogContent(
 		// Create the content column and wrap in surface
 		content := column.Column(
 			compose.Sequence(contentItems...),
-			column.WithModifier(
-				padding.All(int(DialogPadding.All)).
-					Then(size.WidthIn(int(DialogDefaults.MinWidth), int(DialogDefaults.MaxWidth))),
-			),
 		)
 
 		// Wrap in surface with dialog styling
-		return surface.Surface(
-			content,
-			surface.WithShape(DialogDefaults.Shape),
-			surface.WithColor(colorScheme.SurfaceContainerHigh),
-			surface.WithShadowElevation(DialogDefaults.ShadowElevation),
-		)(c)
+		return DialogSurface(content, onDismiss)(c)
 	}
 }
 
@@ -135,22 +129,42 @@ func DialogButtonRow(buttons ...api.Composable) api.Composable {
 // DialogSurface wraps content in a dialog-styled surface with proper
 // Material3 styling (rounded corners, elevation, background color).
 // Used by BasicAlertDialog for custom dialog content.
-func DialogSurface(content api.Composable) api.Composable {
+func DialogSurface(content api.Composable, onDismiss func()) api.Composable {
 	return func(c api.Composer) api.Composer {
 		theme := material3.Theme(c)
 		colorScheme := theme.ColorScheme()
 
-		return surface.Surface(
-			box.Box(
-				content,
-				box.WithModifier(
-					padding.All(int(DialogPadding.All)).
-						Then(size.WidthIn(int(DialogDefaults.MinWidth), int(DialogDefaults.MaxWidth))),
+		return overlay.Overlay(
+			surface.Surface(
+				c.Sequence(
+					box.Box(
+						c.Sequence(
+							//box to block pointer events passing though the content
+							box.Box(
+								compose.Id(),
+								box.WithModifier(
+									mBox.MatchParentSize().Then(pointer.BlockPointer()),
+								),
+							),
+							//content with padding
+							box.Box(
+								content,
+								box.WithModifier(
+									padding.All(int(DialogPadding.All)).
+										Then(size.WidthIn(int(DialogDefaults.MinWidth), int(DialogDefaults.MaxWidth))),
+								),
+							),
+						),
+						box.WithModifier(
+							size.WrapContentSize(),
+						),
+					),
 				),
+				surface.WithShape(DialogDefaults.Shape),
+				surface.WithColor(colorScheme.SurfaceContainerHigh),
+				surface.WithShadowElevation(DialogDefaults.ShadowElevation),
 			),
-			surface.WithShape(DialogDefaults.Shape),
-			surface.WithColor(colorScheme.SurfaceContainerHigh),
-			surface.WithShadowElevation(DialogDefaults.ShadowElevation),
+			overlay.WithOnClick(onDismiss),
 		)(c)
 	}
 }

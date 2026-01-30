@@ -60,6 +60,7 @@ func AlertDialog(
 		opts.Title,
 		content,
 		buttons,
+		onDismissRequest,
 	)
 }
 
@@ -69,10 +70,10 @@ func AlertDialog(
 // Note: This dialog should be wrapped in an overlay.Overlay to display with
 // a scrim and handle click-outside-to-dismiss behavior.
 func BasicAlertDialog(
-	onDismissRequest func(),
+	onDismissRequest func(), // ??
 	content api.Composable,
 	options ...DialogOption,
 ) Composable {
 	// BasicAlertDialog just wraps content in the dialog surface styling
-	return DialogSurface(content)
+	return DialogSurface(content, onDismissRequest)
 }
