@@ -7,7 +7,7 @@ import (
 
 type OverlayOptions struct {
 	Modifier   ui.Modifier
-	OnDismiss  func()
+	OnClick    func()
 	ScrimColor graphics.Color
 }
 
@@ -26,9 +26,9 @@ func WithModifier(m ui.Modifier) OverlayOption {
 	}
 }
 
-func WithOnDismiss(f func()) OverlayOption {
+func WithOnClick(f func()) OverlayOption {
 	return func(o *OverlayOptions) {
-		o.OnDismiss = f
+		o.OnClick = f
 	}
 }
 
