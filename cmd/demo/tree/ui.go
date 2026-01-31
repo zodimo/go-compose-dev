@@ -4,6 +4,7 @@ import (
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
+	"github.com/zodimo/go-compose/compose/foundation/layout/tree"
 	ftext "github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/compose/material3/divider"
 	m3text "github.com/zodimo/go-compose/compose/material3/text"
@@ -13,7 +14,6 @@ import (
 	"github.com/zodimo/go-compose/modifiers/size"
 	"github.com/zodimo/go-compose/modifiers/weight"
 	"github.com/zodimo/go-compose/pkg/api"
-	"github.com/zodimo/go-compose/pkg/x/tree"
 )
 
 func UI() api.Composable {
