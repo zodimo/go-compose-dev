@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
 	"github.com/zodimo/go-compose/compose/foundation/layout/spacer"
@@ -90,6 +92,18 @@ func DeclarativeTreeDemo() api.Composable {
 				})
 				scope.Node("rootFile", m3text.BodyMedium("Root File.txt"))
 			},
+			tree.WithOnBranchOpened(func(id any) {
+				log.Printf("[Declarative] Branch opened: %v", id)
+			}),
+			tree.WithOnBranchClosed(func(id any) {
+				log.Printf("[Declarative] Branch closed: %v", id)
+			}),
+			tree.WithOnSelected(func(id any) {
+				log.Printf("[Declarative] Node selected: %v", id)
+			}),
+			tree.WithOnUnselected(func(id any) {
+				log.Printf("[Declarative] Node unselected: %v", id)
+			}),
 		)(c)
 	}
 }
@@ -156,6 +170,18 @@ func DataDrivenTreeDemo() api.Composable {
 					},
 				)
 			},
+			tree.WithOnBranchOpened(func(id any) {
+				log.Printf("[DataDriven] Branch opened: %v", id)
+			}),
+			tree.WithOnBranchClosed(func(id any) {
+				log.Printf("[DataDriven] Branch closed: %v", id)
+			}),
+			tree.WithOnSelected(func(id any) {
+				log.Printf("[DataDriven] Node selected: %v", id)
+			}),
+			tree.WithOnUnselected(func(id any) {
+				log.Printf("[DataDriven] Node unselected: %v", id)
+			}),
 		)(c)
 	}
 }

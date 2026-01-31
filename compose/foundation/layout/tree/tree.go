@@ -28,18 +28,30 @@ type TreeScope interface {
 func Tree(
 	state *TreeState,
 	content func(TreeScope),
-	options ...lazy.LazyListOption,
+	options ...TreeOption,
 ) api.Composable {
+	opts := DefaultTreeOptions()
+	for _, opt := range options {
+		opt(&opts)
+	}
+
+	// Convert TreeOption modifier to lazy option if present
+	lazyOpts := make([]lazy.LazyListOption, 0)
+	if opts.Modifier != nil {
+		lazyOpts = append(lazyOpts, lazy.WithModifier(opts.Modifier))
+	}
+
 	return lazy.LazyColumn(
 		func(scope lazy.LazyListScope) {
 			tScope := &treeScopeImpl{
 				listScope: scope,
 				state:     state,
 				depth:     0,
+				options:   &opts,
 			}
 			content(tScope)
 		},
-		options...,
+		lazyOpts...,
 	)
 }
 
@@ -47,36 +59,52 @@ type treeScopeImpl struct {
 	listScope lazy.LazyListScope
 	state     *TreeState
 	depth     int
+	options   *TreeOptions
 }
 
 func (s *treeScopeImpl) Node(key any, content api.Composable) {
+	indentSize := s.options.IndentSize
+	opts := s.options
+	state := s.state
+
 	s.listScope.Item(key, func(c api.Composer) api.Composer {
 		return row.Row(
 			func(c api.Composer) api.Composer {
 				// Indentation
-				spacer.Width(s.depth * 24)(c)
+				spacer.Width(s.depth * indentSize)(c)
 
 				// Spacer for the expander icon alignment
-				spacer.Width(24)(c)
+				spacer.Width(indentSize)(c)
 
 				// Node content
 				content(c)
 				return c
 			},
-			row.WithModifier(size.FillMaxWidth().Then(padding.All(4))),
+			row.WithModifier(
+				size.FillMaxWidth().
+					Then(padding.All(4)).
+					Then(clickable.OnClick(func() {
+						SelectNodeWithCallback(state, key, opts)
+					})),
+			),
 		)(c)
 	})
 }
 
 func (s *treeScopeImpl) Branch(key any, header api.Composable, children func(TreeScope)) {
 	isExpanded := s.state.IsExpanded(key)
+	indentSize := s.options.IndentSize
+
+	// Capture state and options for closure
+	state := s.state
+	opts := s.options
 
 	// Branch Header
 	s.listScope.Item(key, func(c api.Composer) api.Composer {
 		return row.Row(
 			func(c api.Composer) api.Composer {
 				// Indentation
-				spacer.Width(s.depth * 24)(c)
+				spacer.Width(s.depth * indentSize)(c)
 
 				// Expander Icon
 				icon := "▶" // Right pointer
@@ -84,15 +112,14 @@ func (s *treeScopeImpl) Branch(key any, header api.Composable, children func(Tre
 					icon = "▼" // Down pointer
 				}
 
-				// Toggle Button
-				// We wrap it in a clickable modifier
+				// Toggle Button - only toggles expand/collapse
 				m3Text.TextWithStyle(
 					icon,
 					m3Text.TypestyleBodyMedium,
 					fText.WithModifier(
 						clickable.OnClick(func() {
-							s.state.Toggle(key)
-						}).Then(size.Width(24)),
+							toggleBranchWithCallback(state, key, opts)
+						}).Then(size.Width(indentSize)),
 					),
 				)(c)
 
@@ -104,7 +131,9 @@ func (s *treeScopeImpl) Branch(key any, header api.Composable, children func(Tre
 				size.FillMaxWidth().
 					Then(padding.All(4)).
 					Then(clickable.OnClick(func() {
-						s.state.Toggle(key)
+						// Select the branch node and toggle it
+						SelectNodeWithCallback(state, key, opts)
+						toggleBranchWithCallback(state, key, opts)
 					})),
 			),
 		)(c)
@@ -116,8 +145,27 @@ func (s *treeScopeImpl) Branch(key any, header api.Composable, children func(Tre
 			listScope: s.listScope,
 			state:     s.state,
 			depth:     s.depth + 1,
+			options:   s.options,
 		}
 		children(childScope)
+	}
+}
+
+// toggleBranchWithCallback toggles the branch and invokes appropriate callbacks.
+func toggleBranchWithCallback(state *TreeState, key any, opts *TreeOptions) {
+	wasExpanded := state.IsExpanded(key)
+	state.Toggle(key)
+
+	if wasExpanded {
+		// Branch was closed
+		if opts.OnBranchClosed != nil {
+			opts.OnBranchClosed(key)
+		}
+	} else {
+		// Branch was opened
+		if opts.OnBranchOpened != nil {
+			opts.OnBranchOpened(key)
+		}
 	}
 }
 
@@ -132,7 +180,7 @@ func TreeFromData(
 	childUIDs func(any) []any,
 	isBranch func(any) bool,
 	createNode func(any) api.Composable,
-	options ...lazy.LazyListOption,
+	options ...TreeOption,
 ) api.Composable {
 	return Tree(state, func(scope TreeScope) {
 		var traverse func(s TreeScope, ids []any)
@@ -147,15 +195,39 @@ func TreeFromData(
 				}
 
 				if isB {
-					s.Branch(id, createNode(id), func(innerS TreeScope) {
+					scope.Branch(id, createNode(id), func(innerS TreeScope) {
 						traverse(innerS, childUIDs(id))
 					})
 				} else {
-					s.Node(id, createNode(id))
+					scope.Node(id, createNode(id))
 				}
 			}
 		}
 
 		traverse(scope, roots)
 	}, options...)
+}
+
+// SelectNodeWithCallback selects a node and invokes the appropriate callbacks.
+// This is a helper function for use in node click handlers.
+func SelectNodeWithCallback(state *TreeState, id any, opts *TreeOptions) {
+	// Get previously selected items for callback
+	previouslySelected := state.GetSelectedItems()
+
+	// Select the new item (single selection mode)
+	state.Select(id, true)
+
+	// Call OnUnselected for previously selected items
+	if opts != nil && opts.OnUnselected != nil {
+		for _, prevID := range previouslySelected {
+			if prevID != id {
+				opts.OnUnselected(prevID)
+			}
+		}
+	}
+
+	// Call OnSelected for newly selected item
+	if opts != nil && opts.OnSelected != nil {
+		opts.OnSelected(id)
+	}
 }

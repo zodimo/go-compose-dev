@@ -128,3 +128,74 @@ func (s *TreeState) Unselect(id any) {
 func (s *TreeState) ClearSelection() {
 	s.selectedItems.Set(make(map[any]bool))
 }
+
+// GetSelectedItems returns a slice of all selected item IDs.
+func (s *TreeState) GetSelectedItems() []any {
+	selected := s.selectedItems.Get()
+	result := make([]any, 0, len(selected))
+	for id := range selected {
+		result = append(result, id)
+	}
+	return result
+}
+
+// GetFirstSelected returns the first selected item ID, or nil if none selected.
+// Useful for single-selection mode.
+func (s *TreeState) GetFirstSelected() any {
+	selected := s.selectedItems.Get()
+	for id := range selected {
+		return id
+	}
+	return nil
+}
+
+// OpenAllBranches expands all branches in the tree.
+// roots: the root node IDs.
+// childUIDs: function to get children IDs for a given ID.
+// isBranch: function to check if a node is a branch (optional, if nil, checks children > 0).
+func (s *TreeState) OpenAllBranches(roots []any, childUIDs func(any) []any, isBranch func(any) bool) {
+	newExpanded := make(map[any]bool)
+
+	var walk func(ids []any)
+	walk = func(ids []any) {
+		for _, id := range ids {
+			isB := false
+			if isBranch != nil {
+				isB = isBranch(id)
+			} else {
+				children := childUIDs(id)
+				isB = len(children) > 0
+			}
+
+			if isB {
+				newExpanded[id] = true
+				walk(childUIDs(id))
+			}
+		}
+	}
+
+	walk(roots)
+	s.expandedItems.Set(newExpanded)
+}
+
+// CloseAllBranches collapses all branches in the tree.
+func (s *TreeState) CloseAllBranches() {
+	s.expandedItems.Set(make(map[any]bool))
+}
+
+// ExpandToNode opens all ancestors of the given node to make it visible.
+// parentLookup: function to get the parent ID for a given ID, returns nil if no parent.
+func (s *TreeState) ExpandToNode(id any, parentLookup func(any) any) {
+	// Collect all ancestors
+	ancestors := make([]any, 0)
+	current := parentLookup(id)
+	for current != nil {
+		ancestors = append(ancestors, current)
+		current = parentLookup(current)
+	}
+
+	// Expand all ancestors
+	for _, ancestorID := range ancestors {
+		s.Expand(ancestorID)
+	}
+}
