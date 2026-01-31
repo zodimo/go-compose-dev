@@ -6,10 +6,16 @@ import (
 	"image/color"
 	"sync"
 
+	"github.com/zodimo/go-compose/compose/foundation/layout/box"
+	"github.com/zodimo/go-compose/compose/foundation/text"
 	"github.com/zodimo/go-compose/compose/material3"
 	"github.com/zodimo/go-compose/compose/ui"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
+	uitext "github.com/zodimo/go-compose/compose/ui/text"
+	"github.com/zodimo/go-compose/compose/ui/text/font"
+	"github.com/zodimo/go-compose/compose/ui/unit"
 	"github.com/zodimo/go-compose/internal/layoutnode"
+	"github.com/zodimo/go-compose/modifiers/size"
 
 	"gioui.org/layout"
 	"gioui.org/op"
@@ -21,8 +27,20 @@ var iconCacheKey = "material3_icon_global_cache"
 
 const Material3IconNodeID = "Material3Icon"
 
-// icons from golang.org/x/exp/shiny/materialdesign/icons
-func Icon(iconByte []byte, options ...IconOption) Composable {
+// MaterialSymbolsFontFamily is the font family for Material Symbols.
+// It assumes the font "Material Symbols Outlined" has been loaded into the shaper.
+var MaterialSymbolsFontFamily = font.NewGenericFontFamily("Material Symbols Outlined", "Material Symbols Outlined")
+
+// Icon renders an icon from an IconSource.
+// IconSource can be:
+//   - IconBytes: raw icon data from golang.org/x/exp/shiny/materialdesign/icons
+//   - SymbolName: a Material Symbol name (e.g. SymbolSearch, SymbolHome)
+//
+// Examples:
+//
+//	icon.Icon(icon.IconBytes(icons.ActionHome), icon.WithColor(color))
+//	icon.Icon(icon.SymbolSearch, icon.WithSymbolSize(unit.Sp(24)))
+func Icon(source IconSource, options ...IconOption) Composable {
 	opts := DefaultIconOptions()
 	for _, option := range options {
 		if option == nil {
@@ -31,6 +49,19 @@ func Icon(iconByte []byte, options ...IconOption) Composable {
 		option(&opts)
 	}
 
+	switch src := source.(type) {
+	case IconBytes:
+		return iconFromBytes([]byte(src), opts)
+	case SymbolName:
+		return iconFromSymbol(src, opts)
+	default:
+		// Fallback: if unknown type, return empty composable
+		return func(c Composer) Composer { return c }
+	}
+}
+
+// iconFromBytes renders an icon from raw byte data (SVG icons).
+func iconFromBytes(iconByte []byte, opts IconOptions) Composable {
 	return func(c Composer) Composer {
 		opts.Color = opts.Color.TakeOrElse(material3.LocalContentColor.Current(c))
 
@@ -46,7 +77,32 @@ func Icon(iconByte []byte, options ...IconOption) Composable {
 		c.SetWidgetConstructor(iconWidgetConstructor(opts, iconByte, cache))
 
 		return c.EndBlock()
+	}
+}
 
+// iconFromSymbol renders an icon using the Material Symbols font.
+func iconFromSymbol(name SymbolName, opts IconOptions) Composable {
+	return func(c Composer) Composer {
+		// Resolve color
+		contentColor := material3.LocalContentColor.Current(c)
+		iconColor := opts.Color.TakeOrElse(contentColor)
+
+		// Resolve size - Material Symbols usually default to 24dp
+		fontSize := opts.FontSize.TakeOrElse(unit.Sp(24))
+
+		return box.Box(text.Text(
+			string(name),
+			text.WithModifier(opts.Modifier),
+			text.WithTextStyle(
+				uitext.TextStyleFromOptions(
+					uitext.WithFontFamily(MaterialSymbolsFontFamily),
+					uitext.WithFontSize(fontSize),
+					uitext.WithColor(iconColor),
+				),
+			),
+		),
+			box.WithModifier(size.WrapContentSize()),
+		)(c)
 	}
 }
 

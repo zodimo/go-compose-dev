@@ -82,12 +82,12 @@ func UI() api.Composable {
 								c.If(
 									isSelected,
 									icon.Icon(
-										item.Icon,
+										icon.IconBytes(item.Icon),
 										icon.WithColor(theme.ColorScheme().OnSecondaryContainer),
 										icon.WithModifier(size.Size(24, 24)),
 									),
 									icon.Icon(
-										item.Icon,
+										icon.IconBytes(item.Icon),
 										icon.WithColor(theme.ColorScheme().OnSurfaceVariant),
 										icon.WithModifier(size.Size(24, 24)),
 									),
@@ -129,7 +129,7 @@ func UI() api.Composable {
 								return box.Box(
 									func(c api.Composer) api.Composer {
 										return icon.Icon(
-											icons.NavigationMenu,
+											icon.IconBytes(icons.NavigationMenu),
 											icon.WithColor(graphics.FromNRGBA(color.NRGBA{A: 255})),
 											icon.WithModifier(size.Size(24, 24)),
 										)(c)
@@ -166,12 +166,12 @@ func UI() api.Composable {
 										c.If(
 											isSelected,
 											icon.Icon(
-												item.Icon,
+												icon.IconBytes(item.Icon),
 												icon.WithColor(theme.ColorScheme().OnSecondaryContainer),
 												icon.WithModifier(size.Size(24, 24)),
 											),
 											icon.Icon(
-												item.Icon,
+												icon.IconBytes(item.Icon),
 												icon.WithColor(theme.ColorScheme().OnSurfaceVariant),
 												icon.WithModifier(size.Size(24, 24)),
 											),

@@ -1,10 +1,14 @@
-.PHONY: help tag-patch tag-minor tag-major
+.PHONY: help tag-patch tag-minor tag-major generate-icons
 
 help:
 	@echo "Available targets:"
-	@echo "  tag-patch   - Increment patch version (v0.0.X -> v0.0.X+1)"
-	@echo "  tag-minor   - Increment minor version (v0.X.0 -> v0.X+1.0)"
-	@echo "  tag-major   - Increment major version (vX.0.0 -> vX+1.0.0)"
+	@echo "  generate-icons - Regenerate Material Symbol icon constants"
+	@echo "  tag-patch      - Increment patch version (v0.0.X -> v0.0.X+1)"
+	@echo "  tag-minor      - Increment minor version (v0.X.0 -> v0.X+1.0)"
+	@echo "  tag-major      - Increment major version (vX.0.0 -> vX+1.0.0)"
+
+generate-icons:
+	go generate ./compose/material3/icon/...
 
 
 # Get the latest tag (globally) or default to v0.0.0

@@ -53,7 +53,7 @@ func UI() api.Composable {
 											},
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
-													mdicons.ActionDone,
+													icon.IconBytes(mdicons.ActionDone),
 													icon.WithColor(theme.ColorScheme().Primary),
 												)(c)
 											}),
@@ -99,7 +99,7 @@ func UI() api.Composable {
 											func() { expanded2.Set(false) },
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
-													mdicons.ContentCreate,
+													icon.IconBytes(mdicons.ContentCreate),
 													icon.WithColor(theme.ColorScheme().OnSurface),
 												)(c)
 											}),
@@ -109,7 +109,7 @@ func UI() api.Composable {
 											func() { expanded2.Set(false) },
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
-													mdicons.ActionSettings,
+													icon.IconBytes(mdicons.ActionSettings),
 													icon.WithColor(theme.ColorScheme().OnSurface),
 												)(c)
 											}),
@@ -119,7 +119,7 @@ func UI() api.Composable {
 											func() { expanded2.Set(false) },
 											menu.WithLeadingIcon(func(c api.Composer) api.Composer {
 												return icon.Icon(
-													mdicons.SocialShare,
+													icon.IconBytes(mdicons.SocialShare),
 													icon.WithColor(theme.ColorScheme().OnSurface),
 												)(c)
 											}),
