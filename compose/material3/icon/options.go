@@ -9,7 +9,8 @@ import (
 type IconOptions struct {
 	Modifier ui.Modifier
 	Color    graphics.Color
-	FontSize unit.TextUnit
+	Size     unit.Dp       // Unified size for both IconBytes and SymbolName
+	FontSize unit.TextUnit // Deprecated: Use Size instead
 }
 
 type IconOption func(*IconOptions)
@@ -18,6 +19,7 @@ func DefaultIconOptions() IconOptions {
 	return IconOptions{
 		Modifier: ui.EmptyModifier,
 		Color:    graphics.ColorUnspecified,
+		Size:     unit.DpUnspecified,
 		FontSize: unit.TextUnitUnspecified,
 	}
 }
@@ -34,6 +36,17 @@ func WithColor(col graphics.Color) IconOption {
 	}
 }
 
+// WithSize sets the icon size in Dp.
+// For IconBytes, this constrains the icon dimensions.
+// For SymbolName, this sets the font size (Dp is treated as Sp).
+func WithSize(size unit.Dp) IconOption {
+	return func(o *IconOptions) {
+		o.Size = size
+	}
+}
+
+// Deprecated: Use WithSize instead.
+// WithSymbolSize sets the font size for symbol icons.
 func WithSymbolSize(size unit.TextUnit) IconOption {
 	return func(o *IconOptions) {
 		o.FontSize = size

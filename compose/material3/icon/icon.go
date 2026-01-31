@@ -67,7 +67,13 @@ func iconFromBytes(iconByte []byte, opts IconOptions) Composable {
 
 		c.StartBlock(Material3IconNodeID)
 		c.Modifier(func(modifier ui.Modifier) ui.Modifier {
-			return modifier.Then(opts.Modifier)
+			baseModifier := modifier.Then(opts.Modifier)
+			// Apply size constraint if specified
+			if opts.Size.IsSpecified() {
+				sizeInt := int(opts.Size)
+				baseModifier = baseModifier.Then(size.Size(sizeInt, sizeInt))
+			}
+			return baseModifier
 		})
 
 		// Retrieve or initialize the global icon cache from the composer's persistent store
@@ -87,8 +93,14 @@ func iconFromSymbol(name SymbolName, opts IconOptions) Composable {
 		contentColor := material3.LocalContentColor.Current(c)
 		iconColor := opts.Color.TakeOrElse(contentColor)
 
-		// Resolve size - Material Symbols usually default to 24dp
-		fontSize := opts.FontSize.TakeOrElse(unit.Sp(24))
+		// Resolve size - prefer unified Size, fallback to FontSize, then default 24sp
+		var fontSize unit.TextUnit
+		if opts.Size.IsSpecified() {
+			// Convert Dp to Sp (treat them as equivalent for font sizing)
+			fontSize = unit.Sp(opts.Size.Value())
+		} else {
+			fontSize = opts.FontSize.TakeOrElse(unit.Sp(24))
+		}
 
 		return box.Box(text.Text(
 			string(name),
