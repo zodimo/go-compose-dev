@@ -28,6 +28,8 @@ func UI(c api.Composer) api.LayoutNode {
 				m3TextField.WithLabel("Filled Text Field"),
 				m3TextField.WithSingleLine(true),
 			),
+			text.BodySmall(fmt.Sprintf("count: %d", len(filledText.Get().(string)))),
+
 			spacer.Height(int(unit.Dp(16))),
 			m3TextField.Filled(
 				filledText.Get().(string),
@@ -43,7 +45,7 @@ func UI(c api.Composer) api.LayoutNode {
 			),
 			spacer.Height(int(unit.Dp(16))),
 			m3TextField.Filled(
-				outlinedText.Get().(string),
+				filledText.Get().(string),
 				func(_ string) {},
 				m3TextField.WithSingleLine(true),
 				m3TextField.WithLabel("Filled Text Field with noop onchange"),
@@ -57,6 +59,8 @@ func UI(c api.Composer) api.LayoutNode {
 				m3TextField.WithLabel("Outlined Text Field"),
 				m3TextField.WithSingleLine(true),
 			),
+			text.BodySmall(fmt.Sprintf("count: %d", len(outlinedText.Get().(string)))),
+
 			spacer.Height(int(unit.Dp(16))),
 			m3TextField.Outlined(
 				outlinedText.Get().(string),

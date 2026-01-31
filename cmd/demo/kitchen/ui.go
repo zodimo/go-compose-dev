@@ -1,8 +1,9 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/zodimo/go-compose/compose/foundation/icon"
-	"github.com/zodimo/go-compose/compose/foundation/layout/overlay"
 	"github.com/zodimo/go-compose/compose/foundation/lazy"
 	"github.com/zodimo/go-compose/compose/material3/appbar"
 	"github.com/zodimo/go-compose/compose/material3/button"
@@ -100,17 +101,22 @@ func UI(c api.Composer) api.LayoutNode {
 		),
 		// Dialog overlay
 		c.When(showDialog.Get().(bool),
-			overlay.Overlay(
-				dialog.AlertDialog(
-					func() { showDialog.Set(false) },
-					button.Text(func() { showDialog.Set(false) }, "Confirm"),
-					dialog.TextContent("This is an example AlertDialog demonstrating the Feedback category."),
-					dialog.WithTitleText("Example Dialog"),
-					dialog.WithDismissButton(button.Text(func() { showDialog.Set(false) }, "Cancel")),
-				),
-				overlay.WithOnDismiss(func() {
+			dialog.AlertDialog(
+				func() {
+					fmt.Println("Dialog Dismiss requested")
 					showDialog.Set(false)
-				}),
+				},
+				button.Text(func() {
+					fmt.Println("Dialog Confirm button clicked")
+					showDialog.Set(false)
+				}, "Confirm"),
+				dialog.TextContent("This is an example AlertDialog demonstrating the Feedback category."),
+				dialog.WithTitleText("Example Dialog"),
+				dialog.WithDismissButton(button.Text(
+					func() {
+						fmt.Println("Dialog Dismis button clicked")
+						showDialog.Set(false)
+					}, "Cancel")),
 			),
 		),
 		// Snackbar host overlay

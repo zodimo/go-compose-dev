@@ -70,15 +70,24 @@ func drawLoadingIndicator(gtx layout.Context, state *loadingState, opts Indicato
 	elapsed := gtx.Now.Sub(state.startTime)
 
 	// Default size matching gio-mw
-	diameter := gioUnit.Dp(48)
+	defaultDiameter := gtx.Dp(gioUnit.Dp(48))
+	diameter := calculateDiameter(gtx.Constraints, defaultDiameter)
+
+	// Calculate layout size respecting min constraints
+	layoutW := diameter
+	if minW := gtx.Constraints.Min.X; minW > layoutW {
+		layoutW = minW
+	}
+	layoutH := diameter
+	if minH := gtx.Constraints.Min.Y; minH > layoutH {
+		layoutH = minH
+	}
+
+	actualDiameter := float32(diameter)
 
 	// Get theme defaults using gio-mw's BuildTheme if possible, or fallback manually
 	th := indicator.BuildTheme(gtx)
-
 	col := th.EnabledActiveIndicatorColor.AsNRGBA()
-
-	gtx.Constraints.Max.Y = gtx.Dp(diameter)
-	actualDiameter := float32(gtx.Dp(diameter))
 
 	// Animation parameters (Material Design specs-ish)
 	// Cycle duration: ~1333ms is standard for Material
@@ -100,6 +109,12 @@ func drawLoadingIndicator(gtx layout.Context, state *loadingState, opts Indicato
 	sweepFactor = (sweepFactor + 1) / 2             // 0 to 1
 	sweepAngle := minSweep + float32(sweepFactor)*(maxSweep-minSweep)
 
+	// Center the indicator in the available space
+	xOffset := float32(layoutW-diameter) / 2
+	yOffset := float32(layoutH-diameter) / 2
+
+	defer op.Affine(f32.Affine2D{}.Offset(f32.Pt(xOffset, yOffset))).Push(gtx.Ops).Pop()
+
 	defer op.Affine(f32.Affine2D{}.Rotate(f32.Pt(actualDiameter/2, actualDiameter/2), rotation)).Push(gtx.Ops).Pop()
 
 	shape := wdk.Arc{
@@ -119,8 +134,28 @@ func drawLoadingIndicator(gtx layout.Context, state *loadingState, opts Indicato
 
 	return layout.Dimensions{
 		Size: image.Point{
-			X: gtx.Dp(diameter),
-			Y: gtx.Dp(diameter),
+			X: layoutW,
+			Y: layoutH,
 		},
 	}
+}
+func calculateDiameter(constraints layout.Constraints, defaultDiameter int) int {
+	diameter := defaultDiameter
+
+	// If Min constraints are larger than default, use them
+	if minW := constraints.Min.X; minW > diameter {
+		diameter = minW
+	}
+	if minH := constraints.Min.Y; minH > diameter {
+		diameter = minH
+	}
+
+	// Adjust diameter to fit within max constraints
+	if maxW := constraints.Max.X; maxW < diameter {
+		diameter = maxW
+	}
+	if maxH := constraints.Max.Y; maxH < diameter {
+		diameter = maxH
+	}
+	return diameter
 }
