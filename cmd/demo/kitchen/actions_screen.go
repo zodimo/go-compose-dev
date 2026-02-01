@@ -22,6 +22,10 @@ func ActionsScreen(c api.Composer) api.Composable {
 				SectionTitle("Buttons"),
 				spacer.Height(8),
 				row.Row(c.Sequence(
+					button.FilledTonal(func() { fmt.Println("Filled Tonal clicked") }, "Filled Tonal"),
+					spacer.Width(8),
+					button.FilledTonal(func() { fmt.Println("Filled Tonal clicked") }, "Filled Tonal", button.WithEnabled(false)),
+					spacer.Width(8),
 					button.Filled(func() { fmt.Println("Filled clicked") }, "Filled"),
 					spacer.Width(8),
 					button.Filled(func() { fmt.Println("Filled clicked") }, "Filled", button.WithEnabled(false)),
