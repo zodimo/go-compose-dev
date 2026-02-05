@@ -55,11 +55,13 @@ func AlertDialog(
 	buttons := DialogButtonRow(buttonItems...)
 
 	// Return the dialog content layout directly - no need for a custom block
-	return DialogContent(
-		opts.Icon,
-		opts.Title,
-		content,
-		buttons,
+	return DialogSurface(
+		DialogContent(
+			opts.Icon,
+			opts.Title,
+			content,
+			buttons,
+		),
 		onDismissRequest,
 	)
 }
@@ -70,9 +72,8 @@ func AlertDialog(
 // Note: This dialog should be wrapped in an overlay.Overlay to display with
 // a scrim and handle click-outside-to-dismiss behavior.
 func BasicAlertDialog(
-	onDismissRequest func(), // ??
+	onDismissRequest func(),
 	content api.Composable,
-	options ...DialogOption,
 ) Composable {
 	// BasicAlertDialog just wraps content in the dialog surface styling
 	return DialogSurface(content, onDismissRequest)

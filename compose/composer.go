@@ -17,6 +17,7 @@ func NewComposer(store state.PersistentState) Composer {
 // Use This Sequence When not inside of a composable but composing composables
 var Sequence = sequence.Sequence
 
+// Identity Composable
 func Id() Composable {
 	return func(c Composer) Composer {
 		return c

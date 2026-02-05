@@ -29,7 +29,6 @@ func DialogContent(
 	title api.Composable,
 	content api.Composable,
 	buttons api.Composable,
-	onDismiss func(),
 ) api.Composable {
 	return func(c api.Composer) api.Composer {
 		theme := material3.Theme(c)
@@ -92,12 +91,9 @@ func DialogContent(
 		}
 
 		// Create the content column and wrap in surface
-		content := column.Column(
+		return column.Column(
 			compose.Sequence(contentItems...),
-		)
-
-		// Wrap in surface with dialog styling
-		return DialogSurface(content, onDismiss)(c)
+		)(c)
 	}
 }
 
