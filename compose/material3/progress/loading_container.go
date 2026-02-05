@@ -24,6 +24,11 @@ func LoadingContainer(
 		}
 	}
 
+	indicator := opts.LoadingIndicator
+	if indicator == nil {
+		indicator = LoadingIndicator(opts.IndicatorOptions...)
+	}
+
 	return func(c Composer) Composer {
 		return box.Box(
 			c.Sequence(
@@ -40,27 +45,22 @@ func LoadingContainer(
 
 				c.When(
 					isLoading,
-					c.If(
-						opts.LoadingIndicator != nil,
-						box.Box(
-							opts.LoadingIndicator,
-							box.WithAlignment(box.Center),
-							box.WithModifier(boxModifier.MatchParentSize()),
-						),
-						LoadingIndicator(
-							WithModifier(boxModifier.MatchParentSize()),
-						),
+					box.Box(
+						indicator,
+						box.WithAlignment(box.Center),
+						box.WithModifier(boxModifier.MatchParentSize()),
 					),
 				),
 			),
-			box.WithModifier(size.WrapContentSize().
-				Then(
-					ternary.Ternary(
-						isLoading,
-						pointer.BlockPointer(),
-						ui.EmptyModifier,
+			box.WithModifier(
+				size.WrapContentSize().
+					Then(
+						ternary.Ternary(
+							isLoading,
+							pointer.BlockPointer(),
+							ui.EmptyModifier,
+						),
 					),
-				),
 			),
 		)(c)
 	}
