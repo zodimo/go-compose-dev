@@ -1,6 +1,7 @@
 package clip
 
 import (
+	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 	node "github.com/zodimo/go-compose/internal/Node"
 	"github.com/zodimo/go-compose/internal/layoutnode"
 
@@ -56,6 +57,6 @@ func NewClipNode(element ClipElement) ChainNode {
 	}
 }
 
-func ClipShape(shape Shape, gtx layout.Context, dimensions layoutnode.LayoutDimensions) clip.Stack {
+func ClipShape(shape shape.Shape, gtx layout.Context, dimensions layoutnode.LayoutDimensions) clip.Stack {
 	return shape.CreateOutline(dimensions.Size, gtx.Metric).Push(gtx.Ops)
 }

@@ -25,7 +25,5 @@ type LayoutWidget = layoutnode.LayoutWidget
 
 var ToNRGBA = helpers.ToNRGBA
 
-type Shape = shape.Shape
-
-var ShapeCircle = shape.ShapeCircle
+var ShapeCircle = shape.CircleShape
 var ShapeRectangle = shape.ShapeRectangle

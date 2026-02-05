@@ -1,7 +1,9 @@
 package clip
 
+import "github.com/zodimo/go-compose/compose/ui/graphics/shape"
+
 type ClipData struct {
-	Shape        Shape
+	Shape        shape.Shape
 	ClipToBounds bool
 }
 

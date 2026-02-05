@@ -2,16 +2,20 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/zodimo/go-compose/compose/foundation/layout/column"
 	"github.com/zodimo/go-compose/compose/foundation/layout/row"
+	"github.com/zodimo/go-compose/compose/material3"
 	m3Button "github.com/zodimo/go-compose/compose/material3/button"
 	m3Card "github.com/zodimo/go-compose/compose/material3/card"
 	m3Divider "github.com/zodimo/go-compose/compose/material3/divider"
+	"github.com/zodimo/go-compose/compose/material3/icon"
 	"github.com/zodimo/go-compose/compose/ui/graphics"
 	"github.com/zodimo/go-compose/compose/ui/graphics/shape"
 
 	uiText "github.com/zodimo/go-compose/compose/ui/text"
+	uiUnit "github.com/zodimo/go-compose/compose/ui/unit"
 
 	"image/color"
 
@@ -28,6 +32,8 @@ import (
 func UI(c api.Composer) api.LayoutNode {
 
 	counterCell := c.State("counter", func() any { return 0 })
+
+	theme := material3.Theme(c)
 
 	c = column.Column(
 		c.Sequence(
@@ -113,6 +119,15 @@ func UI(c api.Composer) api.LayoutNode {
 			m3Card.Filled(m3Card.CardContents(
 				m3Card.Content(text.Text("Filled")),
 			)),
+			icon.Icon(icon.SymbolRefresh,
+				icon.WithColor(theme.ColorScheme().OnSurfaceVariant),
+				icon.WithSize(uiUnit.Dp(32)),
+				icon.WithModifier(
+					clip.Clip(shape.CircleShape).Then(clickable.OnClick(func() {
+						log.Println("Re-deploy clicked")
+					})),
+				),
+			),
 		),
 		column.WithModifier(size.FillMax().
 			Then(background.Background(graphics.FromNRGBA(color.NRGBA{R: 200, G: 0, B: 0, A: 50}))),

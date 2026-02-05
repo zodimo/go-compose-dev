@@ -18,7 +18,14 @@ var CircleShape Shape = &circleShape{}
 type circleShape struct{}
 
 func (c *circleShape) CreateOutline(size image.Point, metric gioUnit.Metric) Outline {
-	return ellipseOutline{clip.Ellipse{Max: size}}
+	radius := min(size.X, size.Y) / 2
+	return rrectOutline{clip.RRect{
+		Rect: image.Rectangle{Max: size},
+		SE:   radius,
+		SW:   radius,
+		NW:   radius,
+		NE:   radius,
+	}}
 }
 
 // Sentinel Private methods
